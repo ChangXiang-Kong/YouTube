@@ -1,0 +1,147 @@
+<!--  原始内容 Start  -->
+<!--<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="using:AvaloniaUIRealWorld">-->
+<!--
+  Additional resources
+  Using Control Themes:
+  https://docs.avaloniaui.net/docs/basics/user-interface/styling/control-themes
+  Using Theme Variants:
+  https://docs.avaloniaui.net/docs/guides/styles-and-resources/how-to-use-theme-variants
+-->
+<!--
+
+  <Design.PreviewWith>
+    <StackPanel Width="400" Spacing="10">
+      <StackPanel Background="{DynamicResource SystemRegionBrush}">
+        <controls:IconButton />
+      </StackPanel>
+    </StackPanel>
+  </Design.PreviewWith>
+
+  <ControlTheme x:Key="{x:Type controls:IconButton}" TargetType="controls:IconButton">
+    <Setter Property="Template">
+      <ControlTemplate>
+        <TextBlock Text="Templated Control" />
+      </ControlTemplate>
+    </Setter>
+  </ControlTheme>
+</ResourceDictionary>-->
+<!--  原始内容 End  -->
+
+
+<!--
+  以下内容来源链接：https://github.com/AvaloniaUI/Avalonia/blob/master/src/Avalonia.Themes.Fluent/Controls/Button.xaml
+  视频链接：https://www.youtube.com/watch?v=M3CFj0x-tts&list=PLrW43fNmjaQWwIdZxjZrx5FSXcNzaucOO&index=7
+-->
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    x:ClassModifier="internal">
+  <Design.PreviewWith>
+    <Border Padding="20" Background="{DynamicResource PrimaryBackground}">
+      <StackPanel Spacing="20">
+        <IconButton IconText="&#xe7f2;" Height="100" Content="Click Me!" />
+        <IconButton IconText="&#xe7f2;" Content="Click Me!" />
+        <IconButton IconText="&#xe3e4;" Foreground="Red" Classes="accent" Content="Click Me!" />
+        <IconButton IconText="&#xe3e4;" Classes="outline" Content="Click Me!" />
+        <Button Content="Click Me!" />
+        <Button Classes="accent" Content="Click Me!" />
+      </StackPanel>
+    </Border>
+  </Design.PreviewWith>
+
+  <ControlTheme x:Key="{x:Type IconButton}" TargetType="IconButton">
+    <Setter Property="Background" Value="{DynamicResource ButtonBackground}" />
+    <Setter Property="Foreground" Value="{DynamicResource ButtonForeground}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrush}" />
+    <Setter Property="BorderThickness" Value="{DynamicResource ButtonBorderThemeThickness}" />
+    <Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
+    <Setter Property="Padding" Value="{DynamicResource ButtonPadding}" />
+    <Setter Property="HorizontalAlignment" Value="Left" />
+    <Setter Property="VerticalAlignment" Value="Center" />
+    <Setter Property="RenderTransform" Value="none" />
+    <Setter Property="Transitions">
+      <Transitions>
+        <TransformOperationsTransition Property="RenderTransform" Duration="0:0:.075" />
+      </Transitions>
+    </Setter>
+
+    <Setter Property="Template">
+      <ControlTemplate>
+        <ContentPresenter x:Name="PART_ContentPresenter"
+                          Padding="{TemplateBinding Padding}"
+                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                          Background="{TemplateBinding Background}"
+                          BorderBrush="{TemplateBinding BorderBrush}"
+                          BorderThickness="{TemplateBinding BorderThickness}"
+                          Content="{TemplateBinding Content}"
+                          CornerRadius="{TemplateBinding CornerRadius}"
+                          RecognizesAccessKey="True">
+          <ContentPresenter.ContentTemplate>
+            <DataTemplate DataType="x:Object">
+              <StackPanel Orientation="Horizontal">
+                <!-- 关于Button中的Label颜色不生效的原因与解决方式， -->
+                <!-- 参考视频：https://www.youtube.com/watch?v=aP7MPJQaxe4&list=PLrW43fNmjaQWwIdZxjZrx5FSXcNzaucOO&index=13  14:00 -->
+                <Label VerticalAlignment="Center" Foreground="{Binding $parent[IconButton].Foreground}" Classes="icon"
+                       Content="{Binding $parent[IconButton].IconText}" />
+                <!-- 可使用 ContentControl 或者 ContentPresenter -->
+                <ContentControl VerticalAlignment="Center" Foreground="{Binding $parent[IconButton].Foreground}"
+                                Content="{Binding $parent[IconButton].Content}"
+                                DataContext="{Binding $parent[IconButton].DataContext}" />
+              </StackPanel>
+            </DataTemplate>
+          </ContentPresenter.ContentTemplate>
+        </ContentPresenter>
+      </ControlTemplate>
+    </Setter>
+
+    <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="{DynamicResource ButtonBackgroundPointerOver}" />
+      <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrushPointerOver}" />
+      <Setter Property="Foreground" Value="{DynamicResource ButtonForegroundPointerOver}" />
+    </Style>
+
+    <Style Selector="^:pressed">
+      <Setter Property="RenderTransform" Value="scale(0.98)" />
+    </Style>
+
+    <Style Selector="^:pressed  /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="{DynamicResource ButtonBackgroundPressed}" />
+      <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrushPressed}" />
+      <Setter Property="Foreground" Value="{DynamicResource ButtonForegroundPressed}" />
+    </Style>
+
+    <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="{DynamicResource ButtonBackgroundDisabled}" />
+      <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrushDisabled}" />
+      <Setter Property="Foreground" Value="{DynamicResource ButtonForegroundDisabled}" />
+    </Style>
+
+    <Style Selector="^.accent">
+      <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource AccentButtonBackground}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource AccentButtonBorderBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource AccentButtonForeground}" />
+      </Style>
+
+      <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource AccentButtonBackgroundPointerOver}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource AccentButtonBorderBrushPointerOver}" />
+        <Setter Property="Foreground" Value="{DynamicResource AccentButtonForegroundPointerOver}" />
+      </Style>
+
+      <Style Selector="^:pressed  /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource AccentButtonBackgroundPressed}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource AccentButtonBorderBrushPressed}" />
+        <Setter Property="Foreground" Value="{DynamicResource AccentButtonForegroundPressed}" />
+      </Style>
+
+      <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource AccentButtonBackgroundDisabled}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource AccentButtonBorderBrushDisabled}" />
+        <Setter Property="Foreground" Value="{DynamicResource AccentButtonForegroundDisabled}" />
+      </Style>
+    </Style>
+  </ControlTheme>
+</ResourceDictionary>

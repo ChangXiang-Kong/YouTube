@@ -1,0 +1,47 @@
+<UserControl x:Class="AvaloniaUIRealWorld.Views.ActionsPageView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:AvaloniaUIRealWorld.ViewModels"
+             d:DesignHeight="900"
+             d:DesignWidth="1100"
+             Background="{DynamicResource PrimaryBackground}"
+             Foreground="{DynamicResource PrimaryForeground}"
+             x:DataType="vm:ActionsPageViewModel"
+             mc:Ignorable="d">
+  <Design.DataContext>
+    <vm:ActionsPageViewModel />
+  </Design.DataContext>
+
+  <Grid ColumnDefinitions="*" RowDefinitions="Auto, *">
+    <!-- Header -->
+    <Grid Name="HeaderGrid">
+      <StackPanel Height="100" ClipToBounds="True">
+        <Image Source="{SvgImage /Assets/Images/background-actions.svg}" Stretch="UniformToFill" />
+      </StackPanel>
+      <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+        <Label Classes="h1" HorizontalAlignment="Center" Content="Actions" />
+        <Label Classes="sub2" HorizontalAlignment="Center"
+               Content="Create and manage all actions that can be used in a process" />
+      </StackPanel>
+    </Grid>
+    
+    <!-- Main TabControl Content -->
+    <TabControl Grid.Row="1">
+      <TabItem Header="Tab1">
+        
+      </TabItem>
+      
+      <TabItem Header="Tab2">
+        
+      </TabItem>
+      
+      <TabItem Header="Tab3">
+        
+      </TabItem>
+      
+    </TabControl>
+
+  </Grid>
+</UserControl>

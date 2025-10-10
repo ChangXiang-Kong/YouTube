@@ -1,0 +1,38 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <Design.PreviewWith>
+    <Border Width="600" Padding="20" Background="{DynamicResource PrimaryBackgroundGradient}">
+      <!--  Add Controls for Previewer Here  -->
+      <Grid ColumnDefinitions="*, 20,*">
+        <StackPanel Spacing="15">
+          <IconButton HorizontalAlignment="Stretch" Content="Home" IconText="&#xe2c2;" />
+          <Button Classes="small" Content="small" />
+          <Button Classes="subtle" Content="subtle" />
+          <Button Classes="outline" Content="outline" />
+          <Button Classes="alert" Content="alert" />
+        </StackPanel>
+
+        <StackPanel Spacing="15" Grid.Column="2">
+          <CheckBox />
+          <CheckBox Content="Content CheckBox"/>
+        </StackPanel>
+      </Grid>
+    </Border>
+  </Design.PreviewWith>
+
+  <!--  Add Styles Here  -->
+  <Style Selector="Window">
+    <Setter Property="FontFamily" Value="{DynamicResource DefaultFontFamily}" />
+  </Style>
+
+  <Style Selector="Border">
+    <Setter Property="Transitions">
+      <Transitions>
+        <DoubleTransition Property="Width" Duration="0:0:0.2" />
+      </Transitions>
+    </Setter>
+  </Style>
+
+
+
+</Styles>

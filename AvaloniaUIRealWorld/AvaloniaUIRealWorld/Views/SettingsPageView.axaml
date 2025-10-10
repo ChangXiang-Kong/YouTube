@@ -1,0 +1,177 @@
+<UserControl x:Class="AvaloniaUIRealWorld.Views.SettingsPageView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:AvaloniaUIRealWorld.ViewModels"
+             d:DesignHeight="900" Loaded="Control_OnLoaded"
+             d:DesignWidth="1100"
+             x:DataType="vm:SettingsPageViewModel"
+             Background="{DynamicResource PrimaryBackground}"
+             Foreground="{DynamicResource PrimaryForeground}"
+             mc:Ignorable="d">
+  <Design.DataContext>
+    <vm:SettingsPageViewModel />
+  </Design.DataContext>
+
+  <Grid ColumnDefinitions="*,*" RowDefinitions="Auto, Auto,*">
+    <!--  Header  -->
+    <Grid Name="HeaderGrid" Grid.ColumnSpan="2">
+      <!--<Image Height="100" Source="{SvgImage /Assets/Images/background-settings.svg}" Stretch="UniformToFill" />-->
+      <!--  TODO: 以上方式存在缩放的问题  -->
+      <StackPanel Height="100" ClipToBounds="True">
+        <Image Source="{SvgImage /Assets/Images/background-settings.svg}" Stretch="UniformToFill" />
+      </StackPanel>
+      <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+        <Label HorizontalAlignment="Center" Classes="h1" Content="Settings" />
+        <Label HorizontalAlignment="Center" Classes="sub1" Content="Version 3.0.0.2 Beta" />
+        <Label HorizontalAlignment="Center" Classes="sub2" Content="Compiled Nov 28 2024  03:14" />
+      </StackPanel>
+    </Grid>
+
+    <!--  Left Side Content  -->
+    <StackPanel Grid.Row="1" Grid.Column="0" Margin="25" Spacing="15">
+      <!--  General  -->
+      <StackPanel>
+        <Label Classes="h2" Content="General" />
+        <Grid ColumnDefinitions="*, 20, Auto" RowDefinitions="Auto, 20, Auto, 20, Auto">
+
+          <!--  Release License  -->
+          <TextBlock
+            Text="Remove license of BatchProcess from this machine and release the license back to the server ready to be transferred to another machine."
+            TextWrapping="Wrap">
+          </TextBlock>
+          <IconButton Grid.Row="0" Grid.Column="2" HorizontalAlignment="Stretch"
+                      Classes="small" Content="Release License" IconText="&#xe2fe;" />
+
+          <!--  Skip Files  -->
+          <TextBlock Grid.Row="2" Grid.Column="0"
+                     Text="Skip files if only Open, Save (Optional) and Close are valid actions." TextWrapping="Wrap">
+          </TextBlock>
+          <CheckBox Grid.Row="2" Grid.Column="2" />
+          <!--<CheckBox Grid.Row="2" Grid.Column="2" IsChecked="{Binding SkipNoActionFiles}" />-->
+
+          <!--  Duplicate Entries  -->
+          <TextBlock Grid.Row="4" Grid.Column="0" Text="Allow duplicate entries of the same file in project list"
+                     TextWrapping="Wrap">
+          </TextBlock>
+          <CheckBox Grid.Row="4" Grid.Column="2" />
+          <!--<CheckBox Grid.Row="4" Grid.Column="2" IsChecked="{Binding AllowDuplicateEntries}" />-->
+        </Grid>
+      </StackPanel>
+
+      <!--  Locations  -->
+      <StackPanel>
+        <Label Classes="h2" Content="Locations" />
+        <Grid ColumnDefinitions="*, Auto">
+          <StackPanel>
+            <TextBlock
+              Text="Add or remove the locations to search for Reporter Templates,  Macros, Actions and other custom files or templates."
+              TextWrapping="Wrap" />
+            <TextBlock Classes="sub1" Text="* All sub-directories will be searched automatically" TextWrapping="Wrap" />
+          </StackPanel>
+
+          <Button Grid.Row="0" Grid.Column="1" Margin="10,0,0,0"
+                  HorizontalAlignment="Stretch" Classes="outline small" Content="+ Folder" />
+          <!--<Button Grid.Row="0" Grid.Column="1" Margin="10,0,0,0"
+                  HorizontalAlignment="Stretch" Classes="outline small"
+                  Command="{Binding AddLocationPathCommand}"
+                  Content="+ Folder" />-->
+        </Grid>
+
+      </StackPanel>
+
+    </StackPanel>
+
+    <ListBox Grid.Row="2" Grid.Column="0" Margin="25,0,25,25" ItemsSource="{Binding LocationPaths}">
+      <ListBox.ItemTemplate>
+        <DataTemplate x:DataType="x:String">
+          <Grid ColumnDefinitions="*, Auto">
+            <Label Grid.Column="0" VerticalAlignment="Center" Content="{Binding}" />
+            <Button Grid.Column="1" Margin="0,-4,-4,-6" VerticalAlignment="Center" Classes="smaller danger">
+              <Label Classes="icon-only icon-outline" Content="&#xe4a6;" />
+              <!--<Button Grid.Column="1" Margin="0,-4,-4,-6" VerticalAlignment="Center"
+                    Classes="smaller danger"
+                    Command="{Binding $parent[ListBox].((vm:SettingsPageViewModel)DataContext).DeleteLocationPathCommand}"
+                    CommandParameter="{Binding}"
+                    IsVisible="{Binding $parent[ListBoxItem].IsSelected}">
+              <Label Classes="icon-only icon-outline" Content="&#xe4a6;" />-->
+            </Button>
+          </Grid>
+        </DataTemplate>
+      </ListBox.ItemTemplate>
+    </ListBox>
+
+    <!--  Right Side Content  -->
+    <StackPanel Grid.Row="1" Grid.RowSpan="2" Grid.Column="1" Margin="25" Spacing="15">
+      <!--  SolidWorks Host  -->
+      <StackPanel>
+        <Label Classes="h2" Content="SolidWorks Host" />
+        <TextBlock TextWrapping="Wrap">
+          BatchProcess can work locally on the current machine, or on any machine accessible
+          over the network or even internet.<LineBreak /><LineBreak />
+          Enter the machines IP address, network name or localhost for this machine.
+        </TextBlock>
+        <ComboBox Width="200" ItemsSource="{Binding LocationPaths}" />
+        <!--<ComboBox Width="200" ItemsSource="{Binding SolidWorksHosts}" SelectedItem="{Binding SolidWorksHost}"/>-->
+        <Label Classes="sub1 success" Content="Connection established" />
+      </StackPanel>
+
+      <!--  PDM Enterprise  -->
+      <StackPanel>
+        <Label Classes="h2" Content="PDM Enterprise" />
+        <TextBlock
+          Text="If you are using PDM Enterprise enter the credentials below and test login. BatchProcess can then automatically handle checking in and out files from PDM Enterprise."
+          TextWrapping="Wrap">
+        </TextBlock>
+        <Grid Margin="0,10" ColumnDefinitions="*,*,*" RowDefinitions="Auto, Auto">
+          <Label Grid.Row="0" Grid.Column="0" Classes="sub2" Content="Vault Name" />
+          <ComboBox Grid.Row="1" Grid.Column="0" Margin="0,0,10,0" HorizontalAlignment="Stretch" />
+          <!--<ComboBox Grid.Row="1" Grid.Column="0" Margin="0,0,10,0"
+                    HorizontalAlignment="Stretch"
+                    ItemsSource="{Binding PdmeVaultNames}"
+                    SelectedItem="{Binding PdmeVaultName}" />-->
+          <Label Grid.Row="0" Grid.Column="1" Classes="sub2" Content="Username" />
+          <TextBox Grid.Row="1" Grid.Column="1" Margin="0,0,10,0" VerticalContentAlignment="Center"
+                   Text="Binding PdmeUsername}" />
+          <!--<TextBox Grid.Row="1" Grid.Column="1" Margin="0,0,10,0" VerticalContentAlignment="Center"  Text="{Binding PdmeUsername}" />-->
+          <Label Grid.Row="0" Grid.Column="2" Classes="sub2" Content="Password" />
+          <TextBox Grid.Row="1" Grid.Column="2" PasswordChar="*" VerticalContentAlignment="Center"
+                   Text="Binding PdmePassword}" />
+          <!--<TextBox Grid.Row="1" Grid.Column="2" PasswordChar="*"  VerticalContentAlignment="Center" Text="{Binding PdmePassword}" />-->
+        </Grid>
+        <StackPanel Orientation="Horizontal" Spacing="10">
+          <IconButton Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch"
+                      Classes="small" Content="Login" IconText="&#xe23e;" />
+          <!--<IconButton Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch"
+                      Classes="small"
+                      Command="{Binding PdmeLoginCommand}"
+                      Content="Login" IconText="&#xe23e;" />-->
+          <IconButton Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch"
+                      Classes="outline small" Content="Refresh Vault" IconText="&#xe094;" />
+        </StackPanel>
+        <Label Margin="0,0,0,0" Classes="sub1 success" Content="Connection Established" />
+      </StackPanel>
+
+      <!--  Settings Cache  -->
+      <StackPanel>
+        <Label Classes="h2" Content="Settings Cache" />
+        <TextBlock TextWrapping="Wrap">
+          Various settings are stored locally including Processes, Actions, Macros, Reports and History.<LineBreak />
+          <LineBreak />
+          If you are experiencing issues you can try clearing the cache (this won't remove the license).
+        </TextBlock>
+        <StackPanel Margin="0,10" Orientation="Horizontal" Spacing="10">
+          <IconButton Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch"
+                      Classes="alert small" Content="Clear Cache" IconText="&#xec54;" />
+          <IconButton Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch"
+                      Classes="small" Content="Export Cache" IconText="&#xe5de;" />
+          <IconButton Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch"
+                      Classes="outline small" Content="Import Cache" IconText="&#xe20c;" />
+        </StackPanel>
+      </StackPanel>
+    </StackPanel>
+
+
+  </Grid>
+</UserControl>
