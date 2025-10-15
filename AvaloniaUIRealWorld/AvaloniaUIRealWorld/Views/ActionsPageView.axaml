@@ -26,22 +26,37 @@
                Content="Create and manage all actions that can be used in a process" />
       </StackPanel>
     </Grid>
-    
+
     <!-- Main TabControl Content -->
-    <TabControl Grid.Row="1">
-      <TabItem Header="Tab1">
-        
-      </TabItem>
-      
-      <TabItem Header="Tab2">
-        
-      </TabItem>
-      
-      <TabItem Header="Tab3">
-        
-      </TabItem>
-      
-    </TabControl>
+    <Border Grid.Row="1" Padding="25">
+      <TabControl >
+        <TabItem Header="Print" IsSelected="True">
+          <!-- <local:ActionPrintView /> -->
+        </TabItem>
+        <TabItem Header="Custom Properties">
+          <!-- <local:ActionCustomPropertiesView /> -->
+        </TabItem>
+        <TabItem Header="File Info">
+          <!-- <local:ActionFileInfoView /> -->
+        </TabItem>
+        <TabItem Header="Save Model As">
+          <!-- <local:ActionSaveModelView /> -->
+        </TabItem>
+        <TabItem Header="Save Drawing As">
+          <!-- <local:ActionSaveDrawingView /> -->
+        </TabItem>
+        <TabItem Header="Import File">
+          <!-- <local:ActionImportFileView /> -->
+        </TabItem>
+        <TabItem Header="Drawing Templates">
+          <!-- <local:ActionDrawingTemplateView /> -->
+        </TabItem>
+        <TabItem Header="Macros">
+          <!-- <local:ActionMacrosView /> -->
+        </TabItem>
+      </TabControl>
+    </Border>
+
 
   </Grid>
 </UserControl>

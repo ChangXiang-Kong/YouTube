@@ -1,0 +1,109 @@
+<ResourceDictionary
+  xmlns="https://github.com/avaloniaui"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  x:ClassModifier="internal">
+  <Design.PreviewWith>
+    <Border Width="600" Padding="20" Background="{DynamicResource PrimaryBackgroundGradient}">
+      <WrapPanel>
+        <TabItem IsSelected="False" Header="Leaf"></TabItem>
+        <TabItem IsSelected="True" Header="Arch"></TabItem>
+        <TabItem Background="DodgerBlue" BorderBrush="DodgerBlue" Header="Background"></TabItem>
+        <TabItem IsEnabled="False" Header="Disabled"></TabItem>
+      </WrapPanel>
+    </Border>
+  </Design.PreviewWith>
+
+  <x:Double x:Key="TabStripItemMinHeight">48</x:Double>
+  <x:Double x:Key="TabStripItemPipeThickness">3</x:Double>
+
+  <ControlTheme x:Key="{x:Type TabItem}" TargetType="TabItem">
+    <Setter Property="FontSize" Value="20" />
+    <!-- <Setter Property="FontSize" Value="{DynamicResource TabItemHeaderFontSize}" /> -->
+    <Setter Property="FontWeight" Value="{DynamicResource TabItemHeaderThemeFontWeight}" />
+    <Setter Property="Background" Value="{DynamicResource TabItemHeaderBackgroundUnselected}" />
+    <Setter Property="Foreground" Value="{DynamicResource PrimaryForeground}" />
+    <Setter Property="Padding" Value="15 0" />
+    <Setter Property="Margin" Value="0" />
+    <Setter Property="MinHeight" Value="40" />
+    <!-- <Setter Property="MinHeight" Value="{DynamicResource TabStripItemMinHeight}" /> -->
+    <Setter Property="VerticalContentAlignment" Value="Center" />
+    <Setter Property="CornerRadius" Value="10 10 0 0" />
+    <Setter Property="BorderBrush" Value="{DynamicResource PrimaryHoverBackground}" />
+    <Setter Property="BorderThickness" Value="2" />
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Panel>
+          <Border
+            Name="PART_LayoutRoot"
+            BorderBrush="{TemplateBinding BorderBrush}"
+            Background="{TemplateBinding Background}"
+            Padding="{TemplateBinding Padding}"
+            BorderThickness="{TemplateBinding BorderThickness}"
+            CornerRadius="{TemplateBinding CornerRadius}">
+            <ContentPresenter
+              Name="PART_ContentPresenter"
+              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+              Content="{TemplateBinding Header}"
+              ContentTemplate="{TemplateBinding ContentTemplate}" />
+          </Border>
+          <Border Name="PART_SelectedPipe"
+                  Background="{DynamicResource TabItemHeaderSelectedPipeFill}"
+                  CornerRadius="{DynamicResource ControlCornerRadius}"
+                  Height="{DynamicResource TabStripItemPipeThickness}"
+                  IsVisible="False"
+                  Margin="0,0,0,0"
+                  VerticalAlignment="Bottom" />
+        </Panel>
+      </ControlTemplate>
+    </Setter>
+
+    <Style Selector="^">
+      <Setter Property="Foreground" Value="{DynamicResource PrimaryForeground}"></Setter>
+    </Style>
+
+    <!--  PointerOver state  -->
+    <Style Selector="^:pointerover">
+      <Setter Property="Background" Value="{DynamicResource DefaultGradient}" />
+    </Style>
+    <Style Selector="^:pointerover /template/ Border#PART_SelectedPipe">
+      <Setter Property="IsVisible" Value="True" />
+      <Setter Property="Background" Value="{DynamicResource HoverGradient}" />
+    </Style>
+
+    <!--  Selected state  -->
+    <!--  We don't use selector to PART_LayoutRoot, so developer can override selected item background with TabStripItem.Background  -->
+    <Style Selector="^:selected">
+      <Setter Property="Background" Value="{DynamicResource ActiveGradient}" />
+      <Setter Property="BorderBrush" Value="{DynamicResource ActiveGradient}" />
+    </Style>
+
+    <!--  Selected PointerOver state  -->
+    <!-- 
+    TODO：这里有一个BUG：
+      当在选中的Tab的Header文字上长按后移动鼠标到背景时，PART_SelectedPipe消失了，
+      当在选中的Tab的Header文背景上长按后移动鼠标到文字时，PART_SelectedPipe也会消失
+     -->
+    <Style Selector="^:selected:pointerover">
+      <Setter Property="Background" Value="{DynamicResource ActiveHoverGradient}" />
+      <Setter Property="BorderBrush" Value="{DynamicResource ActiveHoverGradient}" />
+    </Style>
+
+    <!--  Pressed state  -->
+    <Style Selector="^:pressed">
+      <Setter Property="Background" Value="{DynamicResource ActiveHoverGradient}" />
+      <Setter Property="BorderBrush" Value="{DynamicResource ActiveHoverGradient}" />
+    </Style>
+
+    <!--  Selected Pressed state  -->
+    <Style Selector="^:selected:pressed">
+      <!-- <Setter Property="FontWeight" Value="Bold" /> -->
+    </Style>
+
+    <!--  Disabled state  -->
+    <Style Selector="^:disabled">
+      <Setter Property="Background" Value="{DynamicResource DefaultGradient}" />
+      <Setter Property="Foreground" Value="{DynamicResource PrimaryBackground}" />
+    </Style>
+  </ControlTheme>
+</ResourceDictionary>

@@ -22,74 +22,77 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = AvaloniaUIRealWorld
-build_property.ProjectDir = D:\Desktop\AvaloniaUIRealWorld\AvaloniaUIRealWorld\
+build_property.ProjectDir = D:\Desktop\YouTube\AvaloniaUIRealWorld\AvaloniaUIRealWorld\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.EffectiveAnalysisLevelStyle = 9.0
 build_property.EnableCodeStyleSeverity = 
 
-[D:/Desktop/AvaloniaUIRealWorld/AvaloniaUIRealWorld/App.axaml]
+[D:/Desktop/YouTube/AvaloniaUIRealWorld/AvaloniaUIRealWorld/App.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[D:/Desktop/AvaloniaUIRealWorld/AvaloniaUIRealWorld/Controls/CheckBox.axaml]
+[D:/Desktop/YouTube/AvaloniaUIRealWorld/AvaloniaUIRealWorld/Controls/CheckBox.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[D:/Desktop/AvaloniaUIRealWorld/AvaloniaUIRealWorld/Controls/ComboBox.axaml]
+[D:/Desktop/YouTube/AvaloniaUIRealWorld/AvaloniaUIRealWorld/Controls/ComboBox.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[D:/Desktop/AvaloniaUIRealWorld/AvaloniaUIRealWorld/Controls/ComboBoxItem.axaml]
+[D:/Desktop/YouTube/AvaloniaUIRealWorld/AvaloniaUIRealWorld/Controls/ComboBoxItem.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[D:/Desktop/AvaloniaUIRealWorld/AvaloniaUIRealWorld/Controls/IconButton.axaml]
+[D:/Desktop/YouTube/AvaloniaUIRealWorld/AvaloniaUIRealWorld/Controls/IconButton.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[D:/Desktop/AvaloniaUIRealWorld/AvaloniaUIRealWorld/Controls/ListBoxItem.axaml]
+[D:/Desktop/YouTube/AvaloniaUIRealWorld/AvaloniaUIRealWorld/Controls/ListBoxItem.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[D:/Desktop/AvaloniaUIRealWorld/AvaloniaUIRealWorld/Controls/TabControl.axaml]
+[D:/Desktop/YouTube/AvaloniaUIRealWorld/AvaloniaUIRealWorld/Controls/TabControl.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[D:/Desktop/AvaloniaUIRealWorld/AvaloniaUIRealWorld/Styles/Buttons.axaml]
+[D:/Desktop/YouTube/AvaloniaUIRealWorld/AvaloniaUIRealWorld/Controls/TabItem.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[D:/Desktop/AvaloniaUIRealWorld/AvaloniaUIRealWorld/Styles/General.axaml]
+[D:/Desktop/YouTube/AvaloniaUIRealWorld/AvaloniaUIRealWorld/Styles/Buttons.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[D:/Desktop/AvaloniaUIRealWorld/AvaloniaUIRealWorld/Styles/Labels.axaml]
+[D:/Desktop/YouTube/AvaloniaUIRealWorld/AvaloniaUIRealWorld/Styles/General.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[D:/Desktop/AvaloniaUIRealWorld/AvaloniaUIRealWorld/Styles/ListBox.axaml]
+[D:/Desktop/YouTube/AvaloniaUIRealWorld/AvaloniaUIRealWorld/Styles/Labels.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[D:/Desktop/AvaloniaUIRealWorld/AvaloniaUIRealWorld/Styles/TextBlock.axaml]
+[D:/Desktop/YouTube/AvaloniaUIRealWorld/AvaloniaUIRealWorld/Styles/ListBox.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[D:/Desktop/AvaloniaUIRealWorld/AvaloniaUIRealWorld/Styles/TextBox.axaml]
+[D:/Desktop/YouTube/AvaloniaUIRealWorld/AvaloniaUIRealWorld/Styles/TextBlock.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[D:/Desktop/AvaloniaUIRealWorld/AvaloniaUIRealWorld/Views/ActionsPageView.axaml]
+[D:/Desktop/YouTube/AvaloniaUIRealWorld/AvaloniaUIRealWorld/Styles/TextBox.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[D:/Desktop/AvaloniaUIRealWorld/AvaloniaUIRealWorld/Views/ErrorPageView.axaml]
+[D:/Desktop/YouTube/AvaloniaUIRealWorld/AvaloniaUIRealWorld/Views/ActionsPageView.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[D:/Desktop/AvaloniaUIRealWorld/AvaloniaUIRealWorld/Views/HistoryPageView.axaml]
+[D:/Desktop/YouTube/AvaloniaUIRealWorld/AvaloniaUIRealWorld/Views/ErrorPageView.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[D:/Desktop/AvaloniaUIRealWorld/AvaloniaUIRealWorld/Views/HomePageView.axaml]
+[D:/Desktop/YouTube/AvaloniaUIRealWorld/AvaloniaUIRealWorld/Views/HistoryPageView.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[D:/Desktop/AvaloniaUIRealWorld/AvaloniaUIRealWorld/Views/MacrosPageView.axaml]
+[D:/Desktop/YouTube/AvaloniaUIRealWorld/AvaloniaUIRealWorld/Views/HomePageView.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[D:/Desktop/AvaloniaUIRealWorld/AvaloniaUIRealWorld/Views/MainView.axaml]
+[D:/Desktop/YouTube/AvaloniaUIRealWorld/AvaloniaUIRealWorld/Views/MacrosPageView.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[D:/Desktop/AvaloniaUIRealWorld/AvaloniaUIRealWorld/Views/ProcessPageView.axaml]
+[D:/Desktop/YouTube/AvaloniaUIRealWorld/AvaloniaUIRealWorld/Views/MainView.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[D:/Desktop/AvaloniaUIRealWorld/AvaloniaUIRealWorld/Views/ReporterPageView.axaml]
+[D:/Desktop/YouTube/AvaloniaUIRealWorld/AvaloniaUIRealWorld/Views/ProcessPageView.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[D:/Desktop/AvaloniaUIRealWorld/AvaloniaUIRealWorld/Views/SettingsPageView.axaml]
+[D:/Desktop/YouTube/AvaloniaUIRealWorld/AvaloniaUIRealWorld/Views/ReporterPageView.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[D:/Desktop/YouTube/AvaloniaUIRealWorld/AvaloniaUIRealWorld/Views/SettingsPageView.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml

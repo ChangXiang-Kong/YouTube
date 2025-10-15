@@ -31,6 +31,8 @@
         <MergeResourceInclude Source="/Controls/ComboBox.axaml" />
         <MergeResourceInclude Source="/Controls/ComboBoxItem.axaml" />
         <MergeResourceInclude Source="/Controls/ListBoxItem.axaml" />
+        <MergeResourceInclude Source="/Controls/TabControl.axaml" />
+        <MergeResourceInclude Source="/Controls/TabItem.axaml" />
       </ResourceDictionary.MergedDictionaries>
     </ResourceDictionary>
 
