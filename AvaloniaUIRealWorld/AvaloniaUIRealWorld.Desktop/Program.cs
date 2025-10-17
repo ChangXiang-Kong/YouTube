@@ -1,7 +1,7 @@
 ﻿using System;
 using Avalonia;
 
-namespace AvaloniaUIRealWorld
+namespace AvaloniaUIRealWorld.Desktop
 {
     internal class Program
     {

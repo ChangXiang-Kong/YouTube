@@ -58,10 +58,17 @@ namespace AvaloniaUIRealWorld
 
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
-                desktop.MainWindow = new MainView()
+                desktop.MainWindow = new MainWindow()
                 {
                     // DataContext = services.GetService<MainViewModel>()          // 参数 T 可为空，为空时不会报错
                     DataContext = services.GetRequiredService<MainViewModel>()  // 参数 T 为空时报错
+                };
+            }
+            else if (ApplicationLifetime is ISingleViewApplicationLifetime singleViewPlatform)
+            {
+                singleViewPlatform.MainView = new MainView()
+                {
+                    DataContext = new MainViewModel()
                 };
             }
 
