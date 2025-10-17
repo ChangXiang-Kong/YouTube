@@ -2,16 +2,12 @@
 # 此 .gitignore 文件已由 Microsoft(R) Visual Studio 自动创建。
 ################################################################################
 
+*.dll
 /AvaloniaUIRealWorld/.vs
 /AvaloniaUIRealWorld/.idea
-/AvaloniaUIRealWorld/AvaloniaUIRealWorld/bin
 /AvaloniaUIRealWorld/AvaloniaUIRealWorld/obj
-*.dll
+/AvaloniaUIRealWorld/AvaloniaUIRealWorld/bin
 /AvaloniaUIRealWorld/AvaloniaUIRealWorld.Browser/bin
 /AvaloniaUIRealWorld/AvaloniaUIRealWorld.Browser/obj
 /AvaloniaUIRealWorld/AvaloniaUIRealWorld.Desktop/obj
 /AvaloniaUIRealWorld/AvaloniaUIRealWorld.Desktop/bin
-/AvaloniaUIRealWorld/AvaloniaUIRealWorld/obj
-/AvaloniaUIRealWorld/AvaloniaUIRealWorld/obj
-/AvaloniaUIRealWorld/AvaloniaUIRealWorld/obj
-/AvaloniaUIRealWorld/AvaloniaUIRealWorld/bin
