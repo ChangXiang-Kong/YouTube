@@ -1,0 +1,234 @@
+// Git Command 参考视频：
+// Git & GitHub Tutorial | Visualized Git Course for Beginner & Professional Developers in 2024
+// https://www.youtube.com/watch?v=S7XpTAnSDL4
+
+// 前置步骤：
+// 1、在 Git 官网下载并安装 Git
+// 2、在桌面创建一个文件夹 learning-git
+// 3、使用 VS Code 打开 learning-git 文件夹
+// 4、在 VS Code 终端中执行以下命令
+
+// 查看 git 版本
+PS D:\Desktop\learning-git> git --version
+git version 2.51.0.windows.2
+
+// 设置用户名
+PS D:\Desktop\learning-git> git config --global user.name ‘Mike Leon’
+
+// 设置邮箱
+PS D:\Desktop\learning-git> git config --global user.email '382878471@qq.com'
+
+// 在当前目录初始化一个新的 Git 仓库
+PS D:\Desktop\learning-git> git init  
+Initialized empty Git repository in D:/Desktop/learning-git/.git/
+
+// 配置初始分支名称（master或main）
+PS D:\Desktop\learning-git> git config --global init.defaultBranch main
+
+// 添加文件 hello.js 与 readme.md
+// 查看当前目录的 Git 仓库状态
+PS D:\Desktop\learning-git> git status
+On branch main
+
+No commits yet
+
+Changes to be committed:
+  (use "git rm --cached <file>..." to unstage)
+        new file:   Git Command.json
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        hello.js
+        readme.md
+
+// 将文件添加到暂存区
+PS D:\Desktop\learning-git> git add readme.md
+
+// 提交更改并添加提交信息
+PS D:\Desktop\learning-git> git commit -m 'Add readme.md file'
+[main (root-commit) 7193cf7] Add readme.md file
+ 2 files changed, 27 insertions(+)
+ create mode 100644 Git Command.json
+ create mode 100644 readme.md
+
+// 查看当前目录的 Git 仓库状态
+PS D:\Desktop\learning-git> git status
+On branch main
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   Git Command.json
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        hello.js
+
+no changes added to commit (use "git add" and/or "git commit -a")
+
+// 添加文件 test.js
+// The command git add ./ is used to add all changes in the current directory (including new, modified, and deleted files) to the staging area in Git. 
+PS D:\Desktop\learning-git> git add ./
+
+// 提交更改并添加提交信息
+PS D:\Desktop\learning-git> git commit -m 'Add hello and test files'
+[main 11d083f] Add hello and test files
+ 2 files changed, 2 insertions(+)
+ create mode 100644 hello.js
+ create mode 100644 test.js
+
+// 查看所有提交的历史
+PS D:\Desktop\learning-git> git log
+commit 11d083fd1ce802a0fb950ef88652cee4124ab8ee (HEAD -> main)
+Author: Mike Leon <382878471@qq.com>
+Date:   Mon Oct 13 19:57:13 2025 +0800
+
+    Add hello and test files
+
+commit 5fe68ce0682010f65af56d82f09a9061715a8cac
+Author: Mike Leon <382878471@qq.com>
+Date:   Mon Oct 13 19:50:41 2025 +0800
+
+    Add readme.md file
+
+// 根据 commit码 恢复到指定的版本
+PS D:\Desktop\learning-git> git checkout 5fe68ce0682010f65af56d82f09a9061715a8cac
+Note: switching to '5fe68ce0682010f65af56d82f09a9061715a8cac'.
+
+You are in 'detached HEAD' state. You can look around, make experimental
+changes and commit them, and you can discard any commits you make in this
+state without impacting any branches by switching back to a branch.
+
+If you want to create a new branch to retain commits you create, you may
+do so (now or later) by using -c with the switch command. Example:
+
+  git switch -c <new-branch-name>
+
+Or undo this operation with:
+
+  git switch -
+
+Turn off this advice by setting config variable advice.detachedHead to false
+
+HEAD is now at 5fe68ce Add readme.md file
+
+// 回到主 main 分支
+PS D:\Desktop\learning-git> git checkout main
+Previous HEAD position was 5fe68ce Add readme.md file
+Switched to branch 'main'
+
+// 或者添加参数 -f（表示 force）
+PS D:\Desktop\learning-git> git checkout -f main
+Already on 'main'
+
+
+
+// ====================================================================
+
+// 新建一个文件夹 mastering-git
+// 在当前目录初始化一个新的 Git 仓库
+PS D:\Desktop\mastering-git> git init
+Initialized empty Git repository in D:/Desktop/mastering-git/.git/
+// 或者
+PS D:\Desktop\mastering-git> git branch -M main
+
+// 本地 Git 仓库与远程仓库关联，通常用于首次设置远程仓库。
+// 可以关联多个远程仓库，修改 origin 与 URL 即可
+PS D:\Desktop\mastering-git> git remote add origin https://github.com/ChangXiang-Kong/YouTube.git
+
+// 切换仓库链接
+PS D:\Desktop\mastering-git> git remote set-url origin https://github.com/ChangXiang-Kong/mastering_git.git
+
+// 将本地仓库的变更上传到远程仓库的命令，这个过程中可能会涉及到合并操作。
+// 命令的基本格式是 git push <远程主机名> <本地分支名>:<远程分支名>。
+// 如果本地分支名和远程分支名相同，可以省略冒号和远程分支名。
+PS D:\Desktop\mastering-git> git push -u origin main
+
+// 添加新的分支
+PS D:\Desktop\learning-git> git branch branch-name
+
+// 切换到新的分支
+PS D:\Desktop\learning-git> git checkout branch-name
+Switched to branch 'branch-name'
+
+// 回到主分支
+PS D:\Desktop\learning-git> git checkout main
+Switched to branch 'main'
+
+// 创建一个新分支并立即切换到该新分支，它将创建和切换分支的两个步骤合并为一个。
+PS D:\Desktop\learning-git> git checkout -b feature-branch
+Switched to a new branch 'feature-branch'
+
+// 切换分支（暂不使用）
+PS D:\Desktop\learning-git> git branch new-branch-name source-branch
+
+// 在 readme.md 中添加内容：- I'm add this from ‘’feature-branch
+// The command git add ./ is used to add all changes in the current directory (including new, modified, and deleted files) to the staging area in Git. 
+PS D:\Desktop\learning-git> git add ./
+
+// 提交更改并添加提交信息
+PS D:\Desktop\learning-git> git commit -m 'Modify readme.md'
+[feature-branch 5e67de8] Modify readme.md
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+// 将本地分支与远程分支关联。这一操作对于后续的代码提交和同步非常重要。
+PS D:\Desktop\learning-git> git push --set-upstream origin feature-branch
+Enumerating objects: 10, done.
+Counting objects: 100% (10/10), done.
+Delta compression using up to 12 threads
+Compressing objects: 100% (6/6), done.
+Writing objects: 100% (10/10), 897 bytes | 897.00 KiB/s, done.
+Total 10 (delta 0), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: 
+remote: Create a pull request for 'feature-branch' on GitHub by visiting:
+remote:      https://github.com/ChangXiang-Kong/mastering_git/pull/new/feature-branch
+remote:
+To https://github.com/ChangXiang-Kong/mastering_git.git
+ * [new branch]      feature-branch -> feature-branch
+branch 'feature-branch' set up to track 'origin/feature-branch'.
+
+// 将本地仓库的变更上传到远程仓库的命令，这个过程中可能会涉及到合并操作。
+// 命令的基本格式是 git push <远程主机名> <本地分支名>:<远程分支名>。
+// 如果本地分支名和远程分支名相同，可以省略冒号和远程分支名。
+PS D:\Desktop\learning-git> git push -u origin feature-branch
+branch 'feature-branch' set up to track 'origin/feature-branch'.
+Everything up-to-date
+
+// 推送
+PS D:\Desktop\learning-git> git push
+Everything up-to-date
+
+// 拉取
+PS D:\Desktop\learning-git> git pull
+Already up to date
+
+// 
+PS D:\Desktop\learning-git> git checkout main
+Switched to branch 'main'
+
+// 
+PS D:\Desktop\learning-git> git branch dev-jsm
+
+// 
+PS D:\Desktop\learning-git> git checkout -b dev-mikeLeon
+Switched to a new branch 'dev-mikeLeon'
+
+// 
+git reset --soft <commit-hash>
+// 
+git reset --hard <commit-hash>
+//
+git revert <commit-hash>
+//
+git stash
+// 
+git stash list
+//
+git stash apply stash@{0}
+
+
+
+
+
+
+
+

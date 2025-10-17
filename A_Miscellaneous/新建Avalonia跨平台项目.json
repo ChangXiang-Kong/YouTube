@@ -1,0 +1,28 @@
+// ==========  新建Avalonia跨平台项目  ==========
+// 参考视频：https://www.youtube.com/watch?v=hg3LH5-QExA&list=PLrW43fNmjaQWwIdZxjZrx5FSXcNzaucOO&index=16
+
+// 1、新建Avalonia跨平台项目，选择 Target Frameworks 为 net9.0
+// 2、最下方 AvaloniaVersion 为 11.3.7，完成创建
+// 跟随以下步骤进行设置：
+// 3、File -- Settings -- Tools -- Web Browsers and Preview -- Default Browser 选择 "First listed" -- Save
+// 4、点击 Run 按钮左侧的 项目列表 -- Edit Configuretions -- 向下翻找到 Open browser 选择 "Edge" -- OK
+
+// 删除 Android 与 IOS 项目，点击 编译
+// 会出现错误：Error NETSDK1004 : 找不到资产文件“D:\Desktop\AvaloniaApplication1\AvaloniaApplication1\obj\project.assets.json”。运行 NuGet 包还原以生成此文件。
+// 在 Terminal 中使用如下命令
+// 生成项目、解决方案或基于文件的应用及其所有依赖项，dotnet命令参考：https://learn.microsoft.com/zh-cn/dotnet/core/tools/dotnet-build
+PS D:\Desktop\AvaloniaApplication1> dotnet build
+
+// 列出已安装的工作负载
+PS D:\Desktop\AvaloniaApplication1> dotnet workload list
+
+// 参考链接：Can not load libSkiaSharp in WASM https://github.com/AvaloniaUI/Avalonia/discussions/19820
+// 使用命令之后在 xxx.Browser.csproj 中的 <PropertyGroup> 中添加 <WasmBuildNative>true</WasmBuildNative>
+PS D:\Desktop\AvaloniaApplication1> dotnet workload install wasm-tools  // 启动 Browser 项目会出现异常：The type initializer for 'SkiaSharp.SKImageInfo' threw an exception
+PS D:\Desktop\AvaloniaApplication1> dotnet workload install wasm-tools-net9     // 正常
+
+// 查看 .NET 信息
+PS D:\Desktop\AvaloniaApplication1> dotnet --info
+
+// 安装 Avalonia.Templates
+PS D:\Desktop\AvaloniaApplication1> dotnet new install Avalonia.Templates
