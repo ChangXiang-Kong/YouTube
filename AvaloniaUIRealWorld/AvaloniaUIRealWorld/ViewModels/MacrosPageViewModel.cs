@@ -8,12 +8,13 @@ using AvaloniaUIRealWorld.Data.EnumValues;
 
 namespace AvaloniaUIRealWorld.ViewModels
 {
-    public partial class MacrosPageViewModel : PageViewModel
+    public partial class MacrosPageViewModel() : PageViewModel(ApplicationPageNames.Macros)
     {
-        public MacrosPageViewModel()
-        {
-            PageName = ApplicationPageNames.Macros;
-        }
+        // 使用上面的方式替代以下方式构造函数
+        // public MacrosPageViewModel()
+        // {
+        //     PageName = ApplicationPageNames.Macros;
+        // }
 
         [ObservableProperty]
         private string _Test = "Test Macros";

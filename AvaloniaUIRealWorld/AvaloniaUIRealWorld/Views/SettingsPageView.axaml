@@ -4,11 +4,12 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:AvaloniaUIRealWorld.ViewModels"
-             d:DesignHeight="900" Loaded="Control_OnLoaded"
+             d:DesignHeight="900"
              d:DesignWidth="1100"
              x:DataType="vm:SettingsPageViewModel"
              Background="{DynamicResource PrimaryBackground}"
              Foreground="{DynamicResource PrimaryForeground}"
+             Loaded="Control_OnLoaded"
              mc:Ignorable="d">
   <Design.DataContext>
     <vm:SettingsPageViewModel />
@@ -37,24 +38,17 @@
         <Grid ColumnDefinitions="*, 20, Auto" RowDefinitions="Auto, 20, Auto, 20, Auto">
 
           <!--  Release License  -->
-          <TextBlock
-            Text="Remove license of BatchProcess from this machine and release the license back to the server ready to be transferred to another machine."
-            TextWrapping="Wrap">
-          </TextBlock>
+          <TextBlock Text="Remove license of BatchProcess from this machine and release the license back to the server ready to be transferred to another machine." TextWrapping="Wrap" />
           <IconButton Grid.Row="0" Grid.Column="2" HorizontalAlignment="Stretch"
                       Classes="small" Content="Release License" IconText="&#xe2fe;" />
 
           <!--  Skip Files  -->
-          <TextBlock Grid.Row="2" Grid.Column="0"
-                     Text="Skip files if only Open, Save (Optional) and Close are valid actions." TextWrapping="Wrap">
-          </TextBlock>
+          <TextBlock Grid.Row="2" Grid.Column="0" Text="Skip files if only Open, Save (Optional) and Close are valid actions." TextWrapping="Wrap" />
           <CheckBox Grid.Row="2" Grid.Column="2" />
           <!--<CheckBox Grid.Row="2" Grid.Column="2" IsChecked="{Binding SkipNoActionFiles}" />-->
 
           <!--  Duplicate Entries  -->
-          <TextBlock Grid.Row="4" Grid.Column="0" Text="Allow duplicate entries of the same file in project list"
-                     TextWrapping="Wrap">
-          </TextBlock>
+          <TextBlock Grid.Row="4" Grid.Column="0" Text="Allow duplicate entries of the same file in project list" TextWrapping="Wrap" />
           <CheckBox Grid.Row="4" Grid.Column="2" />
           <!--<CheckBox Grid.Row="4" Grid.Column="2" IsChecked="{Binding AllowDuplicateEntries}" />-->
         </Grid>
@@ -65,9 +59,7 @@
         <Label Classes="h2" Content="Locations" />
         <Grid ColumnDefinitions="*, Auto">
           <StackPanel>
-            <TextBlock
-              Text="Add or remove the locations to search for Reporter Templates,  Macros, Actions and other custom files or templates."
-              TextWrapping="Wrap" />
+            <TextBlock Text="Add or remove the locations to search for Reporter Templates,  Macros, Actions and other custom files or templates." TextWrapping="Wrap" />
             <TextBlock Classes="sub1" Text="* All sub-directories will be searched automatically" TextWrapping="Wrap" />
           </StackPanel>
 
@@ -110,8 +102,7 @@
         <TextBlock TextWrapping="Wrap">
           BatchProcess can work locally on the current machine, or on any machine accessible
           over the network or even internet.<LineBreak /><LineBreak />
-          Enter the machines IP address, network name or localhost for this machine.
-        </TextBlock>
+          Enter the machines IP address, network name or localhost for this machine.</TextBlock>
         <ComboBox Width="200" ItemsSource="{Binding LocationPaths}" />
         <!--<ComboBox Width="200" ItemsSource="{Binding SolidWorksHosts}" SelectedItem="{Binding SolidWorksHost}"/>-->
         <Label Classes="sub1 success" Content="Connection established" />
@@ -120,10 +111,7 @@
       <!--  PDM Enterprise  -->
       <StackPanel>
         <Label Classes="h2" Content="PDM Enterprise" />
-        <TextBlock
-          Text="If you are using PDM Enterprise enter the credentials below and test login. BatchProcess can then automatically handle checking in and out files from PDM Enterprise."
-          TextWrapping="Wrap">
-        </TextBlock>
+        <TextBlock Text="If you are using PDM Enterprise enter the credentials below and test login. BatchProcess can then automatically handle checking in and out files from PDM Enterprise." TextWrapping="Wrap" />
         <Grid Margin="0,10" ColumnDefinitions="*,*,*" RowDefinitions="Auto, Auto">
           <Label Grid.Row="0" Grid.Column="0" Classes="sub2" Content="Vault Name" />
           <ComboBox Grid.Row="1" Grid.Column="0" Margin="0,0,10,0" HorizontalAlignment="Stretch" />
@@ -132,12 +120,10 @@
                     ItemsSource="{Binding PdmeVaultNames}"
                     SelectedItem="{Binding PdmeVaultName}" />-->
           <Label Grid.Row="0" Grid.Column="1" Classes="sub2" Content="Username" />
-          <TextBox Grid.Row="1" Grid.Column="1" Margin="0,0,10,0" VerticalContentAlignment="Center"
-                   Text="Binding PdmeUsername}" />
+          <TextBox Grid.Row="1" Grid.Column="1" Margin="0,0,10,0" VerticalContentAlignment="Center" Text="Binding PdmeUsername}" />
           <!--<TextBox Grid.Row="1" Grid.Column="1" Margin="0,0,10,0" VerticalContentAlignment="Center"  Text="{Binding PdmeUsername}" />-->
           <Label Grid.Row="0" Grid.Column="2" Classes="sub2" Content="Password" />
-          <TextBox Grid.Row="1" Grid.Column="2" PasswordChar="*" VerticalContentAlignment="Center"
-                   Text="Binding PdmePassword}" />
+          <TextBox Grid.Row="1" Grid.Column="2" VerticalContentAlignment="Center" PasswordChar="*" Text="Binding PdmePassword}" />
           <!--<TextBox Grid.Row="1" Grid.Column="2" PasswordChar="*"  VerticalContentAlignment="Center" Text="{Binding PdmePassword}" />-->
         </Grid>
         <StackPanel Orientation="Horizontal" Spacing="10">
@@ -159,8 +145,7 @@
         <TextBlock TextWrapping="Wrap">
           Various settings are stored locally including Processes, Actions, Macros, Reports and History.<LineBreak />
           <LineBreak />
-          If you are experiencing issues you can try clearing the cache (this won't remove the license).
-        </TextBlock>
+          If you are experiencing issues you can try clearing the cache (this won't remove the license).</TextBlock>
         <StackPanel Margin="0,10" Orientation="Horizontal" Spacing="10">
           <IconButton Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch"
                       Classes="alert small" Content="Clear Cache" IconText="&#xec54;" />

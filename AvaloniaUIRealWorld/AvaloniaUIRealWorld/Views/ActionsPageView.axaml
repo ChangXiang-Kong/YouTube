@@ -1,62 +1,67 @@
 <UserControl x:Class="AvaloniaUIRealWorld.Views.ActionsPageView"
              xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:actions="clr-namespace:AvaloniaUIRealWorld.Views.Actions"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:AvaloniaUIRealWorld.ViewModels"
              d:DesignHeight="900"
              d:DesignWidth="1100"
+             x:DataType="vm:ActionsPageViewModel"
              Background="{DynamicResource PrimaryBackground}"
              Foreground="{DynamicResource PrimaryForeground}"
-             x:DataType="vm:ActionsPageViewModel"
              mc:Ignorable="d">
   <Design.DataContext>
     <vm:ActionsPageViewModel />
   </Design.DataContext>
 
   <Grid ColumnDefinitions="*" RowDefinitions="Auto, *">
-    <!-- Header -->
+    <!--  Header  -->
     <Grid Name="HeaderGrid">
       <StackPanel Height="100" ClipToBounds="True">
         <Image Source="{SvgImage /Assets/Images/background-actions.svg}" Stretch="UniformToFill" />
       </StackPanel>
       <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-        <Label Classes="h1" HorizontalAlignment="Center" Content="Actions" />
-        <Label Classes="sub2" HorizontalAlignment="Center"
-               Content="Create and manage all actions that can be used in a process" />
+        <Label HorizontalAlignment="Center" Classes="h1" Content="Actions" />
+        <Label HorizontalAlignment="Center" Classes="sub2" Content="Create and manage all actions that can be used in a process" />
       </StackPanel>
     </Grid>
 
-    <!-- Main TabControl Content -->
+    <!--  Main TabControl Content  -->
     <Border Grid.Row="1" Padding="25">
-      <TabControl >
+      <TabControl x:Name="TabControl_Actions" SelectionChanged="ActionsTab_OnSelectionChanged">
         <TabItem Header="Print" IsSelected="True">
-          <!-- <local:ActionPrintView /> -->
+          <actions:ActionsPrintView />
         </TabItem>
+
         <TabItem Header="Custom Properties">
-          <!-- <local:ActionCustomPropertiesView /> -->
+          <actions:ActionCustomPropertiesView />
         </TabItem>
+
         <TabItem Header="File Info">
-          <!-- <local:ActionFileInfoView /> -->
+          <actions:ActionFileInfoView />
         </TabItem>
+
         <TabItem Header="Save Model As">
-          <!-- <local:ActionSaveModelView /> -->
+          <actions:ActionSaveModelView />
         </TabItem>
+
         <TabItem Header="Save Drawing As">
-          <!-- <local:ActionSaveDrawingView /> -->
+          <actions:ActionSaveDrawingView />
         </TabItem>
+
         <TabItem Header="Import File">
-          <!-- <local:ActionImportFileView /> -->
+          <actions:ActionImportFileView />
         </TabItem>
+
         <TabItem Header="Drawing Templates">
-          <!-- <local:ActionDrawingTemplateView /> -->
+          <actions:ActionDrawingTemplateView />
         </TabItem>
+
         <TabItem Header="Macros">
-          <!-- <local:ActionMacrosView /> -->
+          <actions:ActionMacrosView />
         </TabItem>
       </TabControl>
     </Border>
-
-
   </Grid>
 </UserControl>

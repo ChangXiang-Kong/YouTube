@@ -9,9 +9,22 @@ using AvaloniaUIRealWorld.Data.EnumValues;
 
 namespace AvaloniaUIRealWorld.ViewModels
 {
-    public partial class PageViewModel : ViewModelBase
+    // 方式一：原始写法
+    // public partial class PageViewModel : ViewModelBase
+    // {
+    //     public PageViewModel(ApplicationPageNames pageName)
+    //     {
+    //         _pageName = pageName;
+    //     }
+    //     
+    //     [ObservableProperty]
+    //     private ApplicationPageNames _pageName;
+    // }
+    
+    // 方式二：简化写法
+    public partial class PageViewModel(ApplicationPageNames pageName) : ViewModelBase
     {
         [ObservableProperty]
-        private ApplicationPageNames _pageName;
+        private ApplicationPageNames _pageName = pageName;
     }
 }

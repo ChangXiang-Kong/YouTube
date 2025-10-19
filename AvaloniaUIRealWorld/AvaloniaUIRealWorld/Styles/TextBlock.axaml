@@ -2,7 +2,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <Design.PreviewWith>
     <Border Width="600" Padding="20" Background="{DynamicResource PrimaryBackgroundGradient}">
-      <!-- Add Controls for Previewer Here -->
+      <!--  Add Controls for Previewer Here  -->
       <StackPanel Spacing="10">
         <TextBlock>Some Text</TextBlock>
         <TextBlock Classes="sub1">Sub1 TextBLock</TextBlock>
@@ -10,17 +10,17 @@
     </Border>
   </Design.PreviewWith>
 
-  <!-- Add Styles Here -->
+  <!--  Add Styles Here  -->
   <Style Selector="TextBlock">
     <!-- <Setter Property="Foreground" Value="{DynamicResource PrimaryForeground}"></Setter> -->
   </Style>
-  
+
   <Style Selector="TextBlock.sub1">
-    <Setter Property="FontSize" Value="13"></Setter>
-    <Setter Property="FontWeight" Value="Bold"></Setter>
-    <Setter Property="Margin" Value="0 0 0 0"></Setter>
-    <Setter Property="Padding" Value="0"></Setter>
-    <Setter Property="Foreground" Value="{DynamicResource AlertGradient}"></Setter>
+    <Setter Property="FontSize" Value="13" />
+    <Setter Property="FontWeight" Value="Bold" />
+    <Setter Property="Margin" Value="0 0 0 0" />
+    <Setter Property="Padding" Value="0" />
+    <Setter Property="Foreground" Value="{DynamicResource AlertGradient}" />
   </Style>
-  
+
 </Styles>

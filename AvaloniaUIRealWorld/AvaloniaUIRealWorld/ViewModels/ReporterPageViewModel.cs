@@ -8,12 +8,13 @@ using AvaloniaUIRealWorld.Data.EnumValues;
 
 namespace AvaloniaUIRealWorld.ViewModels
 {
-    public partial class ReporterPageViewModel : PageViewModel
+    public partial class ReporterPageViewModel() : PageViewModel(ApplicationPageNames.Reporter)
     {
-        public ReporterPageViewModel()
-        {
-            PageName = ApplicationPageNames.Reporter;
-        }
+        // 使用上面的方式替代以下方式构造函数
+        // public ReporterPageViewModel()
+        // {
+        //     PageName = ApplicationPageNames.Reporter;
+        // }
 
         [ObservableProperty]
         private string _Test = "Test Reporter";

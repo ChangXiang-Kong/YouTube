@@ -2,14 +2,14 @@
              xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:iconPacks="https://github.com/MahApps/IconPacks.Avalonia"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:view="clr-namespace:AvaloniaUIRealWorld.Views"
              xmlns:vm="clr-namespace:AvaloniaUIRealWorld.ViewModels"
-             mc:Ignorable="d"
              d:DesignHeight="800"
              d:DesignWidth="1400"
-             x:DataType="vm:MainViewModel">
+             x:DataType="vm:MainViewModel"
+             mc:Ignorable="d">
 
   <Design.DataContext>
     <vm:MainViewModel />
@@ -20,45 +20,54 @@
       <Grid RowDefinitions="*, Auto">
         <StackPanel Spacing="10">
           <Image Width="220" IsVisible="False" PointerPressed="Image_PointerPressed" Source="{Binding SideMenuImage}" />
-          <Image Width="220" IsVisible="{Binding SideMenuExpanded}" PointerPressed="Image_PointerPressed"
-                 Source="{SvgImage /Assets/Images/logo.svg}" />
-          <Image Width="40" IsVisible="{Binding !SideMenuExpanded}" PointerPressed="Image_PointerPressed"
-                 Source="{SvgImage /Assets/Images/icon.svg}" />
+          <Image Width="220" IsVisible="{Binding SideMenuExpanded}" PointerPressed="Image_PointerPressed" Source="{SvgImage /Assets/Images/logo.svg}" />
+          <Image Width="40" IsVisible="{Binding !SideMenuExpanded}" PointerPressed="Image_PointerPressed" Source="{SvgImage /Assets/Images/icon.svg}" />
 
-          <IconButton Classes="subtle" HorizontalAlignment="Stretch" Classes.active="{Binding HomePageIsActive}"
-                      Command="{Binding GoToPageCommand}" CommandParameter="HomePage" IconText="&#xe2c2;">
+          <IconButton HorizontalAlignment="Stretch" Classes="subtle"
+                      Classes.active="{Binding HomePageIsActive}"
+                      Command="{Binding GoToPageCommand}"
+                      CommandParameter="HomePage" IconText="&#xe2c2;">
             <Label Content="Home" IsVisible="{Binding SideMenuExpanded}" />
           </IconButton>
 
-          <IconButton Classes="subtle" HorizontalAlignment="Stretch" Classes.active="{Binding ProcessPageIsActive}"
-                      Command="{Binding GoToPageCommand}" CommandParameter="ProcessPage" IconText="&#xe346;">
+          <IconButton HorizontalAlignment="Stretch" Classes="subtle"
+                      Classes.active="{Binding ProcessPageIsActive}"
+                      Command="{Binding GoToPageCommand}"
+                      CommandParameter="ProcessPage" IconText="&#xe346;">
             <Label Content="Process" IsVisible="{Binding SideMenuExpanded}" />
           </IconButton>
 
-          <IconButton Classes="subtle" HorizontalAlignment="Stretch" Classes.active="{Binding ActionsPageIsActive}"
-                      Command="{Binding GoToPageCommand}" CommandParameter="ActionsPage" IconText="&#xe7f2;">
+          <IconButton HorizontalAlignment="Stretch" Classes="subtle"
+                      Classes.active="{Binding ActionsPageIsActive}"
+                      Command="{Binding GoToPageCommand}"
+                      CommandParameter="ActionsPage" IconText="&#xe7f2;">
             <Label Content="Actions" IsVisible="{Binding SideMenuExpanded}" />
           </IconButton>
 
-          <IconButton Classes="subtle" HorizontalAlignment="Stretch" Classes.active="{Binding MacrosPageIsActive}"
-                      Command="{Binding GoToPageCommand}" CommandParameter="MacrosPage" IconText="&#xe3ee;">
+          <IconButton HorizontalAlignment="Stretch" Classes="subtle"
+                      Classes.active="{Binding MacrosPageIsActive}"
+                      Command="{Binding GoToPageCommand}"
+                      CommandParameter="MacrosPage" IconText="&#xe3ee;">
             <Label Content="Macros" IsVisible="{Binding SideMenuExpanded}" />
           </IconButton>
 
-          <IconButton Classes="subtle" HorizontalAlignment="Stretch" Classes.active="{Binding ReporterPageIsActive}"
-                      Command="{Binding GoToPageCommand}" CommandParameter="ReporterPage" IconText="&#xeb7a;">
+          <IconButton HorizontalAlignment="Stretch" Classes="subtle"
+                      Classes.active="{Binding ReporterPageIsActive}"
+                      Command="{Binding GoToPageCommand}"
+                      CommandParameter="ReporterPage" IconText="&#xeb7a;">
             <Label Content="Reporter" IsVisible="{Binding SideMenuExpanded}" />
           </IconButton>
 
-          <IconButton Classes="subtle" HorizontalAlignment="Stretch" Classes.active="{Binding HistoryPageIsActive}"
-                      Command="{Binding GoToPageCommand}" CommandParameter="HistoryPage" IconText="&#xe03a;">
+          <IconButton HorizontalAlignment="Stretch" Classes="subtle"
+                      Classes.active="{Binding HistoryPageIsActive}"
+                      Command="{Binding GoToPageCommand}"
+                      CommandParameter="HistoryPage" IconText="&#xe03a;">
             <Label Content="History" IsVisible="{Binding SideMenuExpanded}" />
           </IconButton>
         </StackPanel>
 
 
-        <Button Grid.Row="1" Classes="transparent subtle" Classes.active="{Binding SettingsPageIsActive}"
-                Command="{Binding GoToPageCommand}" CommandParameter="SettingsPage">
+        <Button Grid.Row="1" Classes="transparent subtle" Classes.active="{Binding SettingsPageIsActive}" Command="{Binding GoToPageCommand}" CommandParameter="SettingsPage">
           <Label Classes="icon-only" Content="&#xe272;" />
         </Button>
       </Grid>

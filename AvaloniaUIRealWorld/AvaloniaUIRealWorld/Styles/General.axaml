@@ -12,9 +12,9 @@
           <Button Classes="alert" Content="alert" />
         </StackPanel>
 
-        <StackPanel Spacing="15" Grid.Column="2">
+        <StackPanel Grid.Column="2" Spacing="15">
           <CheckBox />
-          <CheckBox Content="Content CheckBox"/>
+          <CheckBox Content="Content CheckBox" />
         </StackPanel>
       </Grid>
     </Border>

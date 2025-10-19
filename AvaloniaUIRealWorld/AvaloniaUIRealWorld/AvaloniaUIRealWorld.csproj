@@ -74,4 +74,8 @@
             <DependentUpon>ProcessPageView.axaml</DependentUpon>
         </Compile>
     </ItemGroup>
+
+    <ItemGroup>
+      <AdditionalFiles Include="Views\Actions\ActionsPrintView.axaml" />
+    </ItemGroup>
 </Project>

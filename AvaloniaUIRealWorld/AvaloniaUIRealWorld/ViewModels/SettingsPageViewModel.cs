@@ -11,18 +11,22 @@ namespace AvaloniaUIRealWorld.ViewModels
 {
     public partial class SettingsPageViewModel : PageViewModel
     {
-        public SettingsPageViewModel()
+        public SettingsPageViewModel() : base(ApplicationPageNames.Settings)
         {
-            PageName = ApplicationPageNames.Settings;
             LoadSettings();
         }
+        // 使用上面的方式替代以下方式构造函数
+        // public SettingsPageViewModel()
+        // {
+        //     PageName = ApplicationPageNames.Settings;
+        //     LoadSettings();
+        // }
 
         [ObservableProperty] private string _Test = "Test Settings";
 
         [ObservableProperty] private ObservableCollection<string> _locationPaths = [];
 
-
-        private void LoadSettings()
+        public void LoadSettings()
         {
             LocationPaths.Add(@"c:\\Dir\Test1.txt");
             LocationPaths.Add(@"c:\\Dir\Test2.txt");

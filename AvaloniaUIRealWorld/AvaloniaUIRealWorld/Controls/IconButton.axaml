@@ -1,35 +1,3 @@
-<!--  原始内容 Start  -->
-<!--<ResourceDictionary xmlns="https://github.com/avaloniaui"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:controls="using:AvaloniaUIRealWorld">-->
-<!--
-  Additional resources
-  Using Control Themes:
-  https://docs.avaloniaui.net/docs/basics/user-interface/styling/control-themes
-  Using Theme Variants:
-  https://docs.avaloniaui.net/docs/guides/styles-and-resources/how-to-use-theme-variants
--->
-<!--
-
-  <Design.PreviewWith>
-    <StackPanel Width="400" Spacing="10">
-      <StackPanel Background="{DynamicResource SystemRegionBrush}">
-        <controls:IconButton />
-      </StackPanel>
-    </StackPanel>
-  </Design.PreviewWith>
-
-  <ControlTheme x:Key="{x:Type controls:IconButton}" TargetType="controls:IconButton">
-    <Setter Property="Template">
-      <ControlTemplate>
-        <TextBlock Text="Templated Control" />
-      </ControlTemplate>
-    </Setter>
-  </ControlTheme>
-</ResourceDictionary>-->
-<!--  原始内容 End  -->
-
-
 <!--
   以下内容来源链接：https://github.com/AvaloniaUI/Avalonia/blob/master/src/Avalonia.Themes.Fluent/Controls/Button.xaml
   视频链接：https://www.youtube.com/watch?v=M3CFj0x-tts&list=PLrW43fNmjaQWwIdZxjZrx5FSXcNzaucOO&index=7
@@ -40,10 +8,10 @@
   <Design.PreviewWith>
     <Border Padding="20" Background="{DynamicResource PrimaryBackground}">
       <StackPanel Spacing="20">
-        <IconButton IconText="&#xe7f2;" Height="100" Content="Click Me!" />
-        <IconButton IconText="&#xe7f2;" Content="Click Me!" />
-        <IconButton IconText="&#xe3e4;" Foreground="Red" Classes="accent" Content="Click Me!" />
-        <IconButton IconText="&#xe3e4;" Classes="outline" Content="Click Me!" />
+        <IconButton Height="100" Content="Click Me!" IconText="&#xe7f2;" />
+        <IconButton Content="Click Me!" IconText="&#xe7f2;" />
+        <IconButton Classes="accent" Content="Click Me!" Foreground="Red" IconText="&#xe3e4;" />
+        <IconButton Classes="outline" Content="Click Me!" IconText="&#xe3e4;" />
         <Button Content="Click Me!" />
         <Button Classes="accent" Content="Click Me!" />
       </StackPanel>
@@ -81,14 +49,11 @@
           <ContentPresenter.ContentTemplate>
             <DataTemplate DataType="x:Object">
               <StackPanel Orientation="Horizontal">
-                <!-- 关于Button中的Label颜色不生效的原因与解决方式， -->
-                <!-- 参考视频：https://www.youtube.com/watch?v=aP7MPJQaxe4&list=PLrW43fNmjaQWwIdZxjZrx5FSXcNzaucOO&index=13  14:00 -->
-                <Label VerticalAlignment="Center" Foreground="{Binding $parent[IconButton].Foreground}" Classes="icon"
-                       Content="{Binding $parent[IconButton].IconText}" />
-                <!-- 可使用 ContentControl 或者 ContentPresenter -->
-                <ContentControl VerticalAlignment="Center" Foreground="{Binding $parent[IconButton].Foreground}"
-                                Content="{Binding $parent[IconButton].Content}"
-                                DataContext="{Binding $parent[IconButton].DataContext}" />
+                <!--  关于Button中的Label颜色不生效的原因与解决方式，  -->
+                <!--  参考视频：https://www.youtube.com/watch?v=aP7MPJQaxe4&list=PLrW43fNmjaQWwIdZxjZrx5FSXcNzaucOO&index=13  14:00  -->
+                <Label VerticalAlignment="Center" Classes="icon" Content="{Binding $parent[IconButton].IconText}" Foreground="{Binding $parent[IconButton].Foreground}" />
+                <!--  可使用 ContentControl 或者 ContentPresenter  -->
+                <ContentControl VerticalAlignment="Center" Content="{Binding $parent[IconButton].Content}" DataContext="{Binding $parent[IconButton].DataContext}" Foreground="{Binding $parent[IconButton].Foreground}" />
               </StackPanel>
             </DataTemplate>
           </ContentPresenter.ContentTemplate>

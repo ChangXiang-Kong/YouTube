@@ -4,6 +4,7 @@ using AvaloniaUIRealWorld.ViewModels;
 using AvaloniaUIRealWorld.Views;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -15,35 +16,34 @@ namespace AvaloniaUIRealWorld
     {
         public Control? Build(object? data)
         {
-            if (data == null)
+            if (data is null)
                 return null;
 
-            var viewName = data.GetType().FullName!.Replace("ViewModel", "View", StringComparison.InvariantCulture);
-            var viewType = Type.GetType(viewName);
-
-            if (viewType == null)
+            // 获取 ViewModel 对应 View 的完整类型名
+            if (App.Current.ViewModelMappings.TryGetValue(data.GetType(), out var viewType))
             {
-                // 获取当前应用程序的程序集
-                //var assembly = Assembly.GetExecutingAssembly();
-                ////var projName = assembly.FullName;
-                //var projName = assembly.GetName().Name;
-                // 或者
-                var projName = viewName.Split('.')[0];
+                // 根据 viewType 类型创建 View
+                var control = (Control)Activator.CreateInstance(viewType)!;
+                control.DataContext = data;
+                return control;
+            }
+            else
+            {
+                // 尝试查找 ErrorPageView
+                var assembly = Assembly.GetExecutingAssembly(); // 获取当前应用程序的程序集
+                var projName = assembly.GetName().Name; // 或者 var projName = assembly.FullName;
                 var errorViewName = $"{projName}.Views.ErrorPageView";
                 var type = Type.GetType(errorViewName);
-                if (type != null)
+                if (type is null)
                 {
-                    var errorControl = (Control)Activator.CreateInstance(type)!;
-                    errorControl!.DataContext = data;
-                    return errorControl;
+                    // 输出调试信息
+                    Debug.WriteLine($"找不到对应的 View: {errorViewName}");
+                    return null;
                 }
 
-                return null;
+                var control = (Control)Activator.CreateInstance(type)!;
+                return control;
             }
-
-            var control = (Control)Activator.CreateInstance(viewType)!;
-            control.DataContext = data;
-            return control;
         }
 
         public bool Match(object? data)

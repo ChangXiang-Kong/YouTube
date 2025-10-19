@@ -8,12 +8,13 @@ using AvaloniaUIRealWorld.Data.EnumValues;
 
 namespace AvaloniaUIRealWorld.ViewModels
 {
-    public partial class HistoryPageViewModel : PageViewModel
+    public partial class HistoryPageViewModel() : PageViewModel(ApplicationPageNames.History)
     {
-        public HistoryPageViewModel()
-        {
-            PageName = ApplicationPageNames.History;
-        }
+        // 使用上面的方式替代以下方式构造函数
+        // public HistoryPageViewModel()
+        // {
+        //     PageName = ApplicationPageNames.History;
+        // }
 
         [ObservableProperty]
         private string _Test = "Test History";

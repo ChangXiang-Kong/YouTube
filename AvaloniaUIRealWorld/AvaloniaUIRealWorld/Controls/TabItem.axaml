@@ -1,14 +1,13 @@
-<ResourceDictionary
-  xmlns="https://github.com/avaloniaui"
-  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-  x:ClassModifier="internal">
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    x:ClassModifier="internal">
   <Design.PreviewWith>
     <Border Width="600" Padding="20" Background="{DynamicResource PrimaryBackgroundGradient}">
       <WrapPanel>
-        <TabItem IsSelected="False" Header="Leaf"></TabItem>
-        <TabItem IsSelected="True" Header="Arch"></TabItem>
-        <TabItem Background="DodgerBlue" BorderBrush="DodgerBlue" Header="Background"></TabItem>
-        <TabItem IsEnabled="False" Header="Disabled"></TabItem>
+        <TabItem Header="Leaf" IsSelected="False" />
+        <TabItem Header="Arch" IsSelected="True" />
+        <TabItem Background="DodgerBlue" BorderBrush="DodgerBlue" Header="Background" />
+        <TabItem Header="Disabled" IsEnabled="False" />
       </WrapPanel>
     </Border>
   </Design.PreviewWith>
@@ -22,7 +21,7 @@
     <Setter Property="FontWeight" Value="{DynamicResource TabItemHeaderThemeFontWeight}" />
     <Setter Property="Background" Value="{DynamicResource TabItemHeaderBackgroundUnselected}" />
     <Setter Property="Foreground" Value="{DynamicResource PrimaryForeground}" />
-    <Setter Property="Padding" Value="15 0" />
+    <Setter Property="Padding" Value="10 0" />
     <Setter Property="Margin" Value="0" />
     <Setter Property="MinHeight" Value="40" />
     <!-- <Setter Property="MinHeight" Value="{DynamicResource TabStripItemMinHeight}" /> -->
@@ -33,33 +32,26 @@
     <Setter Property="Template">
       <ControlTemplate>
         <Panel>
-          <Border
-            Name="PART_LayoutRoot"
-            BorderBrush="{TemplateBinding BorderBrush}"
-            Background="{TemplateBinding Background}"
-            Padding="{TemplateBinding Padding}"
-            BorderThickness="{TemplateBinding BorderThickness}"
-            CornerRadius="{TemplateBinding CornerRadius}">
-            <ContentPresenter
-              Name="PART_ContentPresenter"
-              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-              Content="{TemplateBinding Header}"
-              ContentTemplate="{TemplateBinding ContentTemplate}" />
+          <Border Name="PART_LayoutRoot"
+                  Padding="{TemplateBinding Padding}"
+                  Background="{TemplateBinding Background}"
+                  BorderBrush="{TemplateBinding BorderBrush}"
+                  BorderThickness="{TemplateBinding BorderThickness}"
+                  CornerRadius="{TemplateBinding CornerRadius}">
+            <ContentPresenter Name="PART_ContentPresenter" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Content="{TemplateBinding Header}" ContentTemplate="{TemplateBinding ContentTemplate}" />
           </Border>
           <Border Name="PART_SelectedPipe"
+                  Height="{DynamicResource TabStripItemPipeThickness}"
+                  Margin="0,0,0,0" VerticalAlignment="Bottom"
                   Background="{DynamicResource TabItemHeaderSelectedPipeFill}"
                   CornerRadius="{DynamicResource ControlCornerRadius}"
-                  Height="{DynamicResource TabStripItemPipeThickness}"
-                  IsVisible="False"
-                  Margin="0,0,0,0"
-                  VerticalAlignment="Bottom" />
+                  IsVisible="False" />
         </Panel>
       </ControlTemplate>
     </Setter>
 
     <Style Selector="^">
-      <Setter Property="Foreground" Value="{DynamicResource PrimaryForeground}"></Setter>
+      <Setter Property="Foreground" Value="{DynamicResource PrimaryForeground}" />
     </Style>
 
     <!--  PointerOver state  -->
@@ -79,11 +71,11 @@
     </Style>
 
     <!--  Selected PointerOver state  -->
-    <!-- 
-    TODO：这里有一个BUG：
+    <!--
+      TODO：这里有一个BUG：
       当在选中的Tab的Header文字上长按后移动鼠标到背景时，PART_SelectedPipe消失了，
       当在选中的Tab的Header文背景上长按后移动鼠标到文字时，PART_SelectedPipe也会消失
-     -->
+    -->
     <Style Selector="^:selected:pointerover">
       <Setter Property="Background" Value="{DynamicResource ActiveHoverGradient}" />
       <Setter Property="BorderBrush" Value="{DynamicResource ActiveHoverGradient}" />

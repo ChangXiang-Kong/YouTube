@@ -41,7 +41,6 @@ namespace AvaloniaUIRealWorld.ViewModels
         public bool ReporterPageIsActive => CurrentPage.PageName == ApplicationPageNames.Reporter;
         public bool HistoryPageIsActive => CurrentPage.PageName == ApplicationPageNames.History;
         public bool SettingsPageIsActive => CurrentPage.PageName == ApplicationPageNames.Settings;
-        public bool ErrorPageIsActive => CurrentPage.PageName == ApplicationPageNames.Error;
 
         [ObservableProperty]
         private string _Test = "Test Main";
@@ -59,7 +58,6 @@ namespace AvaloniaUIRealWorld.ViewModels
         [NotifyPropertyChangedFor(nameof(ReporterPageIsActive))]     // 修改时通知目标属性进行更新
         [NotifyPropertyChangedFor(nameof(HistoryPageIsActive))]     // 修改时通知目标属性进行更新
         [NotifyPropertyChangedFor(nameof(SettingsPageIsActive))]     // 修改时通知目标属性进行更新
-        [NotifyPropertyChangedFor(nameof(ErrorPageIsActive))]     // 修改时通知目标属性进行更新
         private PageViewModel _CurrentPage;
 
 
@@ -84,8 +82,7 @@ namespace AvaloniaUIRealWorld.ViewModels
                 "ReporterPage" => _pageFactory.GetPageViewModel(ApplicationPageNames.Reporter),
                 "HistoryPage" => _pageFactory.GetPageViewModel(ApplicationPageNames.History),
                 "SettingsPage" => _pageFactory.GetPageViewModel(ApplicationPageNames.Settings),
-                "ErrorPage" => _pageFactory.GetPageViewModel(ApplicationPageNames.Error),
-                _ => _pageFactory.GetPageViewModel(ApplicationPageNames.Error),
+                // _ => _pageFactory.GetPageViewModel(ApplicationPageNames.Unknown),
             };
         }
 
