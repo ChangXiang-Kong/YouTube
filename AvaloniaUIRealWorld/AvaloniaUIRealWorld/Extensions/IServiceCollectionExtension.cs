@@ -13,6 +13,14 @@ public static class IServiceCollectionExtension
         // 检查是否已存在映射
         if (!App.Current.ViewModelMappings.TryAdd(viewModelType, viewType))
             throw new InvalidOperationException($"已经注册了 {viewType.Name} 与 {viewModelType.Name} 的映射");
+        /* ViewModelMappings 声明如下：
+            public new static App? Current => Application.Current as App;
+            
+            /// <summary>
+            /// View与ViewModel映射，[typeof(ViewModel), typeof(View)]
+            /// </summary>
+            public Dictionary<Type, Type> ViewModelMappings { get; } = new();
+         */
     }
 
     private static void AddViewModelMapping<TView, TViewModel>()

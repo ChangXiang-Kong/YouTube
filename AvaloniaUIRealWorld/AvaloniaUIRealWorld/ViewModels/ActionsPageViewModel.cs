@@ -32,7 +32,7 @@ namespace AvaloniaUIRealWorld.ViewModels
         }
 
         [RelayCommand]
-        public void FetchPrintList()
+        private void FetchPrintList()
         {
             // TODO: Fetch from a database/service provider
             PrintList =
@@ -42,5 +42,22 @@ namespace AvaloniaUIRealWorld.ViewModels
                 new ActionsPrintViewModel { Id = "3", JobName = "Print 3D Models A3" },
             ];
         }
+
+        [RelayCommand]
+        public void DeletePrintItem(string id)
+        {
+            // TODO: Pass this logic to a service that handles the database/storage/fetching
+            //       For now just do it direct in here
+
+            if (PrintList.Count(x => x.Id == id) != 1)
+                // TODO: Throw/Warn?
+                return;
+
+            // Remove item
+            PrintList.Remove(PrintList.First(x => x.Id == id));
+        }
+
+
+        protected override void OnDesignTimeConstructor() => FetchPrintList();
     }
 }

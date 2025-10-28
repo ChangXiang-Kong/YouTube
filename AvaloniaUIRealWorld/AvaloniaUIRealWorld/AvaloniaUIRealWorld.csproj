@@ -5,6 +5,12 @@
         <LangVersion>latest</LangVersion>
         <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
     </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+      <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+      <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    </PropertyGroup>
 
     <ItemGroup>
         <None Remove="Assets\Fonts\NotoSansJP.ttf"/>
@@ -77,5 +83,9 @@
 
     <ItemGroup>
       <AdditionalFiles Include="Views\Actions\ActionsPrintView.axaml" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="E:\Project\VisualStudio-main\Toolkit-new\Toolkit_Avalonia\Toolkit_Avalonia.csproj" />
     </ItemGroup>
 </Project>

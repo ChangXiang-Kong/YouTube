@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvaloniaUIRealWorld.Desktop
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvaloniaUIRealWorld.Browser", "AvaloniaUIRealWorld.Browser\AvaloniaUIRealWorld.Browser.csproj", "{6A5E5FE2-53F7-4ACF-BFD4-D24387237465}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Toolkit_Avalonia", "E:\Project\VisualStudio-main\Toolkit-new\Toolkit_Avalonia\Toolkit_Avalonia.csproj", "{8BF81204-B6FD-4809-945F-B985F52166D3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Toolkit_Shared", "E:\Project\VisualStudio-main\Toolkit-new\Toolkit_Shared\Toolkit_Shared.csproj", "{959577DF-5A3F-441F-B0CC-78D86A64F3AC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{6A5E5FE2-53F7-4ACF-BFD4-D24387237465}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6A5E5FE2-53F7-4ACF-BFD4-D24387237465}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6A5E5FE2-53F7-4ACF-BFD4-D24387237465}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8BF81204-B6FD-4809-945F-B985F52166D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8BF81204-B6FD-4809-945F-B985F52166D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8BF81204-B6FD-4809-945F-B985F52166D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8BF81204-B6FD-4809-945F-B985F52166D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{959577DF-5A3F-441F-B0CC-78D86A64F3AC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{959577DF-5A3F-441F-B0CC-78D86A64F3AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{959577DF-5A3F-441F-B0CC-78D86A64F3AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{959577DF-5A3F-441F-B0CC-78D86A64F3AC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
