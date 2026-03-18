@@ -1,0 +1,24 @@
+﻿<UserControl x:Class="BatchProcess3.Views.ErrorPageView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:BatchProcess3.ViewModels"
+             d:DesignHeight="450"
+             d:DesignWidth="800"
+             mc:Ignorable="d">
+
+  <Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#EFEFEF">
+    <StackPanel Orientation="Vertical" VerticalAlignment="Center" MaxWidth="600" Background="Transparent">
+      <Image Name="Image_SomeImage" MaxWidth="50" MaxHeight="300" />
+      <TextBlock Name="TextBlock_Title" HorizontalAlignment="Center" VerticalAlignment="Center"
+                 Text="404 Not Found"
+                 FontSize="40"
+                 Foreground="DodgerBlue" />
+      <TextBlock Name="TextBlock_Message" TextWrapping="WrapWithOverflow" HorizontalAlignment="Center"
+                 VerticalAlignment="Center" Text="未找到资源"
+                 FontSize="30"
+                 Foreground="Gray" />
+    </StackPanel>
+  </Border>
+</UserControl>

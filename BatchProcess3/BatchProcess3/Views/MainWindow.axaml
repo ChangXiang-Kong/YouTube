@@ -1,0 +1,21 @@
+<Window x:Class="BatchProcess3.Views.MainWindow"
+        xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:local="clr-namespace:BatchProcess3.Views"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:BatchProcess3.ViewModels"
+        Title="BatchProcess3" Icon="/Assets/Images/icon.ico"
+        Width="1400"
+        Height="800"
+        MinWidth="1400"
+        MinHeight="800"
+        d:DesignHeight="800"
+        d:DesignWidth="1400"
+        x:DataType="vm:MainViewModel"
+        WindowStartupLocation="CenterScreen"
+        mc:Ignorable="d">
+
+  <local:MainView />
+
+</Window>

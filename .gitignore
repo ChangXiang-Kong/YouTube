@@ -3,11 +3,11 @@
 ################################################################################
 
 *.dll
-/AvaloniaUIRealWorld/.vs
-/AvaloniaUIRealWorld/.idea
-/AvaloniaUIRealWorld/AvaloniaUIRealWorld/obj
-/AvaloniaUIRealWorld/AvaloniaUIRealWorld/bin
-/AvaloniaUIRealWorld/AvaloniaUIRealWorld.Browser/bin
-/AvaloniaUIRealWorld/AvaloniaUIRealWorld.Browser/obj
-/AvaloniaUIRealWorld/AvaloniaUIRealWorld.Desktop/obj
-/AvaloniaUIRealWorld/AvaloniaUIRealWorld.Desktop/bin
+/BatchProcess3/.vs
+/BatchProcess3/.idea
+/BatchProcess3/BatchProcess3/obj
+/BatchProcess3/BatchProcess3/bin
+/BatchProcess3/BatchProcess3.Browser/bin
+/BatchProcess3/BatchProcess3.Browser/obj
+/BatchProcess3/BatchProcess3.Desktop/obj
+/BatchProcess3/BatchProcess3.Desktop/bin
