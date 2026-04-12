@@ -44,12 +44,12 @@ namespace BatchProcess3.ViewModels
         public bool SettingsPageIsActive => CurrentPage.PageName == ApplicationPageName.Settings;
 
         [ObservableProperty]
-        private string _Test = "Test Main";
+        private string _test = "Test Main";
 
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(SideMenuImage))]           // 修改时通知目标属性进行更新
         [NotifyPropertyChangedFor(nameof(SomeWidth))]               // 修改时通知目标属性进行更新
-        private bool _SideMenuExpanded = true;
+        private bool _sideMenuExpanded = true;
 
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(HomePageIsActive))]        // 修改时通知目标属性进行更新
@@ -59,7 +59,7 @@ namespace BatchProcess3.ViewModels
         [NotifyPropertyChangedFor(nameof(ReporterPageIsActive))]     // 修改时通知目标属性进行更新
         [NotifyPropertyChangedFor(nameof(HistoryPageIsActive))]     // 修改时通知目标属性进行更新
         [NotifyPropertyChangedFor(nameof(SettingsPageIsActive))]     // 修改时通知目标属性进行更新
-        private PageViewModel _CurrentPage;
+        private PageViewModel _currentPage;
 
 
 

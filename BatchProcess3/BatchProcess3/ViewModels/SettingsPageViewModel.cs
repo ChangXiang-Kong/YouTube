@@ -22,9 +22,11 @@ namespace BatchProcess3.ViewModels
         //     LoadSettings();
         // }
 
-        [ObservableProperty] private string _Test = "Test Settings";
+        [ObservableProperty]
+        private string _test = "Test Settings";
 
-        [ObservableProperty] private ObservableCollection<string> _LocationPaths = [];
+        [ObservableProperty]
+        private ObservableCollection<string> _locationPaths = [];
 
         private void LoadSettings()
         {

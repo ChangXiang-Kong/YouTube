@@ -17,7 +17,7 @@ namespace BatchProcess3.ViewModels
         // }
 
         [ObservableProperty]
-        private string _Test = "Test History";
+        private string _test = "Test History";
 
 
 

@@ -41,13 +41,15 @@
         <MergeResourceInclude Source="/Controls/ListBoxItem.axaml" />
         <MergeResourceInclude Source="/Controls/TabControl.axaml" />
         <MergeResourceInclude Source="/Controls/TabItem.axaml" />
+        <MergeResourceInclude Source="/Controls/ToggleButton.axaml" />
+        <MergeResourceInclude Source="/Controls/ToggleSwitch.axaml" />
       </ResourceDictionary.MergedDictionaries>
     </ResourceDictionary>
 
     <Thickness x:Key="PrimaryBorderThickness_2">2</Thickness>
-    <CornerRadius x:Key="PrimaryCornerRadius_3">3</CornerRadius>
-    <CornerRadius x:Key="PrimaryCornerRadius_7">7</CornerRadius>
+    <CornerRadius x:Key="PrimaryCornerRadius_5">5</CornerRadius>
 
+    <SolidColorBrush x:Key="TransparentBackground">Transparent</SolidColorBrush>
     <SolidColorBrush x:Key="PrimaryBackground">#14172D</SolidColorBrush>
     <SolidColorBrush x:Key="PrimaryForeground">#CFCFCF</SolidColorBrush>
     <SolidColorBrush x:Key="PrimaryForegroundSubtle">#aaa</SolidColorBrush>

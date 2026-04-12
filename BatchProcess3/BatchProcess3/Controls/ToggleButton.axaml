@@ -1,11 +1,15 @@
-<ResourceDictionary xmlns="https://github.com/avaloniaui"
+﻿<!--  样式1 来自 https://www.youtube.com/watch?v=RGVbm41P3O8&list=PLrW43fNmjaQWwIdZxjZrx5FSXcNzaucOO&index=19  -->
+<!--<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     x:ClassModifier="internal">
   <Design.PreviewWith>
     <Border Width="600" Padding="20" Background="{DynamicResource PrimaryBackground}">
-      <Grid ColumnDefinitions="*, *">
+      <Grid ColumnDefinitions="*,*">
         <StackPanel Spacing="10">
-          <ToggleButton />
+          <StackPanel Orientation="Horizontal">
+            <ToggleButton />
+            <CheckBox Margin="-15,0,0,0" />
+          </StackPanel>
           <ToggleButton IsChecked="True" />
           <ToggleButton>Unchecked</ToggleButton>
           <ToggleButton IsChecked="True">Checked</ToggleButton>
@@ -15,276 +19,274 @@
 
         <StackPanel Grid.Column="1" Spacing="10">
           <ToggleButton IsEnabled="False" />
-          <ToggleButton IsEnabled="False" IsChecked="True" />
+          <ToggleButton IsChecked="True" IsEnabled="False" />
           <ToggleButton IsEnabled="False">Unchecked</ToggleButton>
-          <ToggleButton IsEnabled="False" IsChecked="True">Checked</ToggleButton>
-          <ToggleButton IsEnabled="False" IsChecked="{x:Null}" IsThreeState="True">Indeterminate</ToggleButton>
-          <ToggleButton IsEnabled="False" Width="120">Checkbox should wrap its text</ToggleButton>
+          <ToggleButton IsChecked="True" IsEnabled="False">Checked</ToggleButton>
+          <ToggleButton IsChecked="{x:Null}" IsEnabled="False" IsThreeState="True">Indeterminate</ToggleButton>
+          <ToggleButton Width="120" IsEnabled="False">Checkbox should wrap its text</ToggleButton>
         </StackPanel>
       </Grid>
     </Border>
   </Design.PreviewWith>
 
-  <ControlTheme x:Key="{x:Type CheckBox}" TargetType="CheckBox">
-    <Setter Property="Padding" Value="5,0,0,0" />
+  <ControlTheme x:Key="{x:Type ToggleButton}" TargetType="ToggleButton">
+    <Setter Property="FontSize" Value="16" />
+    <Setter Property="FontWeight" Value="Normal" />
     <Setter Property="HorizontalAlignment" Value="Left" />
-    <Setter Property="VerticalAlignment" Value="Center" />
-    <Setter Property="HorizontalContentAlignment" Value="Left" />
-    <Setter Property="VerticalContentAlignment" Value="Center" />
-    <Setter Property="CornerRadius" Value="{DynamicResource PrimaryCornerRadius_7}" />
-    <Setter Property="MinHeight" Value="30" />
-    <Setter Property="Foreground" Value="{DynamicResource PrimaryForeground}" />
-    <Setter Property="Background" Value="{DynamicResource CheckBoxBackgroundUnchecked}" />
-    <Setter Property="BorderBrush" Value="{DynamicResource ActiveGradient}" />
-    <!-- 问题：这里设置 FontSize 与 FontWeight 无效，只有在 ContentPresenter 中设置具体的值才生效 -->
-    <!-- <Setter Property="FontSize" Value="{DynamicResource FontSize_14}" /> -->
-    <!-- <Setter Property="FontWeight" Value="Normal" /> -->
+    <Setter Property="VerticalAlignment" Value="Top" />
+    <Setter Property="BorderThickness" Value="{DynamicResource PrimaryBorderThickness_2}" />
+    <Setter Property="CornerRadius" Value="{DynamicResource PrimaryCornerRadius_5}" />
+    <Setter Property="RenderTransform" Value="none" />
+    <Setter Property="Transitions">
+      <Transitions>
+        <TransformOperationsTransition Property="RenderTransform" Duration="0:0:.075" />
+      </Transitions>
+    </Setter>
+
     <Setter Property="Template">
       <ControlTemplate>
-        <Grid x:Name="RootGrid" ColumnDefinitions="30,*">
-          <Grid VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Background="Transparent">
-            <Border x:Name="NormalRectangle" Width="24" Height="24"
-                    Background="Transparent"
-                    BorderBrush="{TemplateBinding BorderBrush}"
-                    BorderThickness="2"
-                    CornerRadius="{TemplateBinding CornerRadius}"
-                    UseLayoutRounding="False" />
+        <Grid ColumnDefinitions="Auto, 7, *">
+          ~1~  Toggle Button  @1@
+          <Border x:Name="PART_ToggleButton" Margin="5" Padding="3"
+                  HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                  VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                  BorderBrush="{DynamicResource ActiveGradient}"
+                  BorderThickness="{TemplateBinding BorderThickness}"
+                  CornerRadius="{TemplateBinding CornerRadius}">
+            <Border.Transitions>
+              <Transitions>
+                <TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.075" />
+                <BrushTransition Property="BorderBrush" Duration="0:0:0.075" />
+                <BrushTransition Property="Background" Duration="0:0:0.075" />
+              </Transitions>
+            </Border.Transitions>
 
-            <Label x:Name="CheckGlyph" Margin="0,0,0,0" HorizontalAlignment="Center"
-                   VerticalAlignment="Center" Content="&#xeba6;"
-                   FontFamily="{DynamicResource PhosphorFill}"
-                   Foreground="{DynamicResource PrimaryBackground}"
-                   Opacity="0" />
-          </Grid>
-          <ContentPresenter x:Name="PART_ContentPresenter" Grid.Column="1"
-                            Padding="{TemplateBinding Padding}"
-                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                            Background="Transparent"
-                            Content="{TemplateBinding Content}"
-                            ContentTemplate="{TemplateBinding ContentTemplate}"
-                            FontSize="{DynamicResource FontSize_16}"
-                            FontWeight="Normal"
-                            Foreground="{TemplateBinding Foreground}"
-                            RecognizesAccessKey="True" TextWrapping="Wrap" />
-          <!-- 问题：这里设置 FontSize 与 FontWeight 为 TemplateBinding 时无效，只有在 ContentPresenter 中设置具体的值才生效 -->
-          <!-- FontSize="{TemplateBinding FontSize}" -->
-          <!-- FontWeight="{TemplateBinding FontWeight}" -->
+            ~1~  White Dot  @1@
+            <Border Width="12" Height="12" Margin="0,0,25,0"
+                    Background="{DynamicResource PrimaryForeground}"
+                    CornerRadius="6">
+              <Border.Transitions>
+                <Transitions>
+                  <ThicknessTransition Property="Margin" Duration="0:0:0.075" />
+                </Transitions>
+              </Border.Transitions>
+            </Border>
+          </Border>
+
+          <TextBlock Grid.Column="2" Margin="-5,0,0,0" VerticalAlignment="Center"
+                     Background="Transparent"
+                     FontSize="{TemplateBinding FontSize}"
+                     FontWeight="Normal"
+                     Foreground="{DynamicResource PrimaryForeground}"
+                     Text="{TemplateBinding Content}"
+                     TextWrapping="Wrap" />
         </Grid>
       </ControlTemplate>
     </Setter>
 
-    <!--  Unchecked PointerOver State  -->
-    <Style Selector="^:pointerover">
-      <Style Selector="^ /template/ Border#NormalRectangle">
-        <Setter Property="BorderBrush" Value="{DynamicResource HoverGradient}" />
-      </Style>
+    <Style Selector="^:pressed /template/ Border#PART_ToggleButton">
+      <Setter Property="RenderTransform" Value="scale(0.95)" />
     </Style>
-    <!-- Avalonia 选择器中 ^ 符号的核心作用详解
-    ^ 是父选择器（Parent Selector），核心作用是引用 “外层选择器匹配的控件”（也叫 “上下文控件”），实现 “基于父控件状态，修改其子控件 / 模板内控件样式” 的嵌套样式逻辑。
-    一、先理解代码上下文
-    这段代码的完整逻辑是：
-        当父控件（^ 指向的控件）处于 :pointerover（指针悬浮）状态时，修改该父控件模板内 ID 为 NormalRectangle 的 Border 控件的边框颜色。
-        ^ 是实现 “父状态 → 子模板控件样式联动” 的关键，下面拆解其具体用法。
-    二、^（父选择器）的核心规则
-    1. 基础定义
-        ^ 是 Avalonia 对 CSS 选择器的扩展（CSS 原生无父选择器），在嵌套 Style 中使用时：
-        · 外层 Style 的 Selector 匹配的控件 = ^ 指向的 “上下文父控件”；
-        · 内层 Style 的 Selector 中，^ 代表 “继承外层的上下文控件”，而非重新匹配全局控件。
-    2. 代码逐行解析
-        // 外层：匹配“处于 pointerover 状态的父控件”（^ 指向这个父控件）
-        <Style Selector="^:pointerover">
-        // 内层：基于父控件，匹配其模板内 ID 为 NormalRectangle 的 Border
-        <Style Selector="^ /template/ Border#NormalRectangle">
-            <Setter Property="BorderBrush" Value="{DynamicResource HoverGradient}" />
-        </Style>
-        </Style>
-    关键拆解：
-        · ^:pointerover：^ 作为 “占位符”，表示 “当前样式所属的控件”（比如这段样式如果是 Button 的样式，^ 就代表 Button），整体含义是 “当这个控件处于 pointerover 状态时”；
-        · ^ /template/ Border#NormalRectangle：
-        · ^：引用外层匹配的 “父控件”（处于 pointerover 状态的那个控件）；
-        · /template/：表示 “深入到该父控件的模板内部”（Avalonia 特有的模板遍历语法）；
-        · Border#NormalRectangle：匹配模板内 ID 为 NormalRectangle 的 Border 控件。
-    3. 对比 “无 ^” 的差异（为什么必须用 ^）
-    如果去掉 ^，代码会变成：
-        // 错误写法：无 ^，会匹配全局所有 pointerover 状态的控件
-        <Style Selector=":pointerover">
-        // 错误：匹配全局所有模板内的 NormalRectangle Border，而非父控件的
-        <Style Selector="/template/ Border#NormalRectangle">
-            ...
-        </Style>
-        </Style>
-        · 无 ^ 时，内层选择器会全局匹配所有模板内的 Border#NormalRectangle，而非 “当前父控件模板内” 的；
-        · 有 ^ 时，内层选择器会限定范围：仅匹配 “外层选中的父控件” 模板内的目标控件，实现精准样式控制。
-    三、^ 的常见使用场景
-    场景 1：控件模板内的状态联动（你的示例场景）
-        这是 ^ 最核心的用法：基于控件自身状态，修改其模板内子控件的样式。比如为自定义 Button 写样式：
-        // 为 Button 定义样式，^ 代表 Button 本身
-        <Style Selector="Button">
-        // 当 Button 悬浮时（^:pointerover）
-        <Style Selector="^:pointerover">
-            // 修改 Button 模板内的 NormalRectangle 边框
-            <Style Selector="^ /template/ Border#NormalRectangle">
-            <Setter Property="BorderBrush" Value="LightBlue" />
-            </Style>
-            // 同时修改 Button 模板内的 TextBlock 颜色
-            <Style Selector="^ /template/ TextBlock#ContentText">
-            <Setter Property="Foreground" Value="Blue" />
-            </Style>
-        </Style>
-        </Style>
-    场景 2：嵌套选择器的上下文继承
-        ^ 可多层嵌套，始终指向 “最外层的上下文控件”：
-        <Style Selector="CardControl">
-        // ^ = CardControl
-        <Style Selector="^:selected">
-            // ^ 仍 = CardControl，匹配选中状态的 CardControl 内的 TitleText
-            <Style Selector="^ .TitleText">
-            <Setter Property="FontWeight" Value="Bold" />
-            </Style>
-        </Style>
-        </Style>
-    场景 3：结合组合选择器限定范围
-        <Style Selector="StackPanel">
-        // ^ = StackPanel，匹配 StackPanel 内的 Button 悬浮时
-        <Style Selector="^ > Button:hover">
-            // ^ 仍 = StackPanel，修改 StackPanel 内的提示文本
-            <Style Selector="^ .TipText">
-            <Setter Property="Visibility" Value="Visible" />
-            </Style>
-        </Style>
-        </Style>
-    四、^ 的核心特性总结
-        特性	          说明
-        上下文指向性	   始终指向 “外层 Style Selector 匹配的控件”，而非全局控件
-        作用域限定	       内层选择器通过 ^ 限定在 “父控件” 范围内，避免全局匹配
-        嵌套继承性	       多层嵌套的 Style 中，^ 始终继承最外层的上下文（不会指向中间层）
-        模板遍历兼容性      可与 /template/ 结合，深入父控件的模板内部匹配子控件
-    五、补充：Avalonia 模板遍历语法 /template/
-        你的代码中 ^ /template/ Border#NormalRectangle 里的 /template/ 是配合 ^ 的关键，补充说明：
-        · /template/：表示 “进入到 ^ 指向的控件的控件模板（ControlTemplate） 内部”；
-        · 如果没有 /template/，^ Border#NormalRectangle 会匹配 ^ 控件的直接子控件（而非模板内的控件）；
-        · 模板内的控件必须通过 /template/ 才能被选择器匹配到。
-    总结
-    关键点回顾
-        · ^ 是 Avalonia 的父选择器，核心作用是引用 “外层选择器匹配的上下文控件”，限定内层选择器的作用域；
-        · 你的示例中，^:pointerover 表示 “当前控件处于悬浮状态”，^ /template/ Border#NormalRectangle 表示 “该控件模板内的 NormalRectangle Border”；
-        · 无 ^ 会导致内层选择器全局匹配，而 ^ 能精准限定到 “当前父控件” 的范围，是实现 “控件状态 → 模板内控件样式联动” 的核心。
-        简单来说，^ 就是 “把内层样式的作用域绑定到外层选中的控件上”，避免样式污染全局。
-    -->
 
-    <!--  Unchecked Pressed State  -->
-    <Style Selector="^:pressed">
-      <Style Selector="^ /template/ Border#NormalRectangle">
-        <Setter Property="Opacity" Value="0.5" />
-        <Setter Property="Background" Value="{DynamicResource HoverGradient}" />
+    ~1~  Default style  @1@
+    <Style Selector="^">
+    </Style>
+
+    ~1~  Unchecked style  @1@
+    <Style Selector="^:not(:checked) /template/ Border#PART_ToggleButton">
+      <Setter Property="Background" Value="Transparent" />
+      <Style Selector="^ Border">
+        <Setter Property="Opacity" Value="0.7">
+        </Setter>
       </Style>
 
-      <Style Selector="^ /template/ Label#CheckGlyph">
-        <Setter Property="Opacity" Value="1" />
+    </Style>
+
+    ~1~  IsChecked style  @1@
+    <Style Selector="^:checked /template/ Border#PART_ToggleButton">
+      <Setter Property="Background" Value="{DynamicResource ActiveGradient}" />
+      <Style Selector="^ Border">
+        <Setter Property="Margin" Value="25 0 0 0" />
       </Style>
     </Style>
 
-    <!--  Unchecked Disabled state  -->
+    ~1~  Indeterminant style  @1@
+    <Style Selector="^:indeterminate /template/ Border#PART_ToggleButton">
+      <Setter Property="Background" Value="{DynamicResource PrimaryHoverBackground}" />
+      <Style Selector="^ Border">
+        <Setter Property="Background" Value="{DynamicResource PrimaryBackground}" />
+        <Setter Property="Margin" Value="12.5 0 12.5 0" />
+      </Style>
+    </Style>
+
+    ~1~  On Hover style  @1@
+    <Style Selector="^:pointerover /template/ Border#PART_ToggleButton">
+      <Setter Property="BorderBrush" Value="{DynamicResource HoverGradient}" />
+    </Style>
+    <Style Selector="^:pointerover:checked /template/ Border#PART_ToggleButton">
+      <Setter Property="Background" Value="{DynamicResource HoverGradient}" />
+    </Style>
+    <Style Selector="^:pointerover:indeterminate /template/ Border#PART_ToggleButton">
+      <Setter Property="Background" Value="{DynamicResource HoverGradient}" />
+    </Style>
+
+    ~1~  Disabled style  @1@
     <Style Selector="^:disabled">
-      <Style Selector="^ /template/ Border#NormalRectangle">
+      <Style Selector="^ /template/ Border#PART_ToggleButton">
         <Setter Property="BorderBrush" Value="{DynamicResource PrimaryHoverBackground}" />
-      </Style>
-    </Style>
-
-    <Style Selector="^:checked">
-      <!--  Checked Normal State  -->
-      <Style Selector="^ /template/ Border#NormalRectangle">
-        <Setter Property="BorderBrush" Value="{DynamicResource ActiveGradient}" />
-        <Setter Property="Background" Value="{DynamicResource ActiveGradient}" />
-      </Style>
-
-      <Style Selector="^ /template/ Label#CheckGlyph">
-        <Setter Property="Opacity" Value="1" />
-      </Style>
-
-      <!--  Checked PointerOver State  -->
-      <Style Selector="^:pointerover">
-        <Style Selector="^ /template/ Border#NormalRectangle">
-          <Setter Property="BorderBrush" Value="{DynamicResource HoverGradient}" />
-          <Setter Property="Background" Value="{DynamicResource HoverGradient}" />
-        </Style>
-      </Style>
-
-      <!--  Checked Pressed State  -->
-      <Style Selector="^:pressed">
-        <Style Selector="^ /template/ Border#NormalRectangle">
-          <Setter Property="Background" Value="{DynamicResource HoverGradient}" />
-        </Style>
-
-        <Style Selector="^ /template/ Label#CheckGlyph">
-          <Setter Property="Opacity" Value="0" />
-        </Style>
-      </Style>
-
-      <!--  Checked Disabled State  -->
-      <Style Selector="^:disabled">
-        <Style Selector="^ /template/ Border#NormalRectangle">
-          <Setter Property="BorderBrush" Value="{DynamicResource PrimaryHoverBackground}" />
+        <Setter Property="Background" Value="Transparent" />
+        <Style Selector="^ Border">
           <Setter Property="Background" Value="{DynamicResource PrimaryHoverBackground}" />
         </Style>
       </Style>
+
+      <Style Selector="^ /template/ TextBlock">
+        <Setter Property="Foreground" Value="{DynamicResource PrimaryHoverBackground}" />
+        <Setter Property="FontWeight" Value="Bold" />
+      </Style>
     </Style>
 
-    <Style Selector="^:indeterminate">
-      <!--  Indeterminate Normal State  -->
-      <Style Selector="^ /template/ Border#NormalRectangle">
-        <Setter Property="BorderBrush" Value="{DynamicResource ActiveGradient}" />
+    <Style Selector="^:disabled:checked">
+      <Style Selector="^ /template/ Border#PART_ToggleButton">
+        <Setter Property="BorderBrush" Value="{DynamicResource PrimaryHoverBackground}" />
         <Setter Property="Background" Value="{DynamicResource PrimaryHoverBackground}" />
-      </Style>
-
-      <Style Selector="^ /template/ Label#CheckGlyph">
-        <Setter Property="Content" Value="&#xe1ec;" />
-        <Setter Property="Opacity" Value="1" />
-      </Style>
-
-      <!--  Indeterminate PointerOver State  -->
-      <Style Selector="^:pointerover">
-        <Style Selector="^ /template/ Border#NormalRectangle">
-          <Setter Property="Background" Value="{DynamicResource HoverGradient}" />
-          <Setter Property="BorderBrush" Value="{DynamicResource HoverGradient}" />
-        </Style>
-      </Style>
-
-      <!--  Indeterminate Pressed State  -->
-      <Style Selector="^:pressed">
-        <Style Selector="^ /template/ Border#NormalRectangle">
-          <Setter Property="Background" Value="{DynamicResource HoverGradient}" />
-        </Style>
-      </Style>
-
-      <!--  Indeterminate Disabled State  -->
-      <Style Selector="^:disabled">
-        <Style Selector="^ /template/ Border#NormalRectangle">
-          <Setter Property="BorderBrush" Value="{DynamicResource PrimaryHoverBackground}" />
-          <Setter Property="Background" Value="{DynamicResource PrimaryHoverBackground}" />
+        <Style Selector="^ Border">
+          <Setter Property="Background" Value="{DynamicResource PrimaryBackground}" />
         </Style>
       </Style>
     </Style>
+  </ControlTheme>
+</ResourceDictionary>-->
 
-    <!--  Disabled text  -->
-    <Style Selector="^:disabled">
-      <Setter Property="Foreground" Value="{DynamicResource PrimaryHoverBackground}" />
+<!--  样式2 来自 https://github.com/AvaloniaUI/Avalonia/blob/master/src/Avalonia.Themes.Fluent/Controls/ToggleButton.xaml  -->
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    x:ClassModifier="internal">
+  <Design.PreviewWith>
+    <Border Width="600" Padding="20" Background="{DynamicResource PrimaryBackground}">
+      <StackPanel Spacing="20">
+        <ToggleButton Content="Unchecked" />
+        <ToggleButton Content="Checked" IsChecked="True" />
+        <ToggleButton Content="Disabled Unchecked" IsEnabled="False" />
+        <ToggleButton Content="Disabled Checked" IsChecked="True" IsEnabled="False" />
+        <ToggleButton Content="Three state" IsThreeState="True" />
+      </StackPanel>
+    </Border>
+  </Design.PreviewWith>
+
+  <ControlTheme x:Key="{x:Type ToggleButton}" TargetType="ToggleButton">
+    <Setter Property="Padding" Value="{DynamicResource ButtonPadding}" />
+    <Setter Property="HorizontalAlignment" Value="Left" />
+    <Setter Property="VerticalAlignment" Value="Center" />
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="BorderBrush" Value="{DynamicResource ActiveGradient}" />
+    <Setter Property="Foreground" Value="{DynamicResource PrimaryForeground}" />
+    <Setter Property="BorderThickness" Value="{DynamicResource PrimaryBorderThickness_2}" />
+    <Setter Property="CornerRadius" Value="{DynamicResource PrimaryCornerRadius_5}" />
+    <Setter Property="FontSize" Value="{DynamicResource FontSize_16}" />
+    <Setter Property="RenderTransform" Value="none" />
+    <Setter Property="Transitions">
+      <Transitions>
+        <TransformOperationsTransition Property="RenderTransform" Duration="0:0:.075" />
+      </Transitions>
+    </Setter>
+
+    <Setter Property="Template">
+      <ControlTemplate>
+        <ContentPresenter x:Name="PART_ContentPresenter"
+                          Padding="{TemplateBinding Padding}"
+                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                          Background="{TemplateBinding Background}"
+                          BorderBrush="{TemplateBinding BorderBrush}"
+                          BorderThickness="{TemplateBinding BorderThickness}"
+                          Content="{TemplateBinding Content}"
+                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                          CornerRadius="{TemplateBinding CornerRadius}"
+                          FontSize="{TemplateBinding FontSize}"
+                          FontWeight="Normal"
+                          Foreground="{TemplateBinding Foreground}" />
+      </ControlTemplate>
+    </Setter>
+
+    <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="RecognizesAccessKey" Value="True" />
     </Style>
 
-    <!--  Three state checkbox pressed states  -->
-    <Style Selector="^[IsThreeState=True]:pressed">
-      <Style Selector="^:indeterminate /template/ Label#CheckGlyph">
-        <Setter Property="Opacity" Value="0" />
+    <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="BorderBrush" Value="{DynamicResource HoverGradient}" />
+      <Setter Property="Foreground" Value="{DynamicResource PrimaryForeground}" />
+    </Style>
+
+    <Style Selector="^:pressed">
+      <Setter Property="RenderTransform" Value="scale(0.95)" />
+    </Style>
+
+    <!--  必须保留，否则当按下时，若鼠标不在ContentPresenter上时没有颜色  -->
+    <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="BorderBrush" Value="{DynamicResource HoverGradient}" />
+      <Setter Property="Foreground" Value="{DynamicResource PrimaryForeground}" />
+    </Style>
+
+    <!--  disabled style  -->
+    <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="BorderBrush" Value="{DynamicResource PrimaryHoverBackground}" />
+      <Setter Property="Background" Value="{DynamicResource PrimaryHoverBackground}" />
+      <Setter Property="Foreground" Value="{DynamicResource PrimaryBackgrounds}" />
+    </Style>
+
+    <!--  indeterminate style 暂时不用  -->
+    <Style Selector="^:indeterminate">
+      <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource ToggleButtonBackgroundIndeterminate}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ToggleButtonBorderBrushIndeterminate}" />
+        <Setter Property="Foreground" Value="{DynamicResource ToggleButtonForegroundIndeterminate}" />
       </Style>
-      <Style Selector="^:checked /template/ Label#CheckGlyph">
-        <Setter Property="Content" Value="&#xe1ec;" />
-        <Setter Property="Opacity" Value="1" />
+
+      <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource ToggleButtonBackgroundIndeterminatePointerOver}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ToggleButtonBorderBrushIndeterminatePointerOver}" />
+        <Setter Property="Foreground" Value="{DynamicResource ToggleButtonForegroundIndeterminatePointerOver}" />
       </Style>
-      <Style Selector="^:unchecked /template/ Label#CheckGlyph">
-        <Setter Property="Content" Value="&#xeba6;" />
+
+      <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource ToggleButtonBackgroundIndeterminatePressed}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ToggleButtonBorderBrushIndeterminatePressed}" />
+        <Setter Property="Foreground" Value="{DynamicResource ToggleButtonForegroundIndeterminatePressed}" />
+      </Style>
+
+      <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource ToggleButtonBackgroundIndeterminateDisabled}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ToggleButtonBorderBrushIndeterminateDisabled}" />
+        <Setter Property="Foreground" Value="{DynamicResource ToggleButtonForegroundIndeterminateDisabled}" />
       </Style>
     </Style>
 
+    <!--  checked style  -->
+    <Style Selector="^:checked">
+      <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource ActiveGradient}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ActiveGradient}" />
+        <Setter Property="Foreground" Value="{DynamicResource PrimaryForeground}" />
+      </Style>
+
+      <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource HoverGradient}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource HoverGradient}" />
+        <Setter Property="Foreground" Value="{DynamicResource PrimaryForeground}" />
+      </Style>
+
+      <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource HoverGradient}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource HoverGradient}" />
+        <Setter Property="Foreground" Value="{DynamicResource PrimaryForeground}" />
+      </Style>
+
+      <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="BorderBrush" Value="{DynamicResource PrimaryHoverBackground}" />
+        <Setter Property="Background" Value="{DynamicResource PrimaryHoverBackground}" />
+        <Setter Property="Foreground" Value="{DynamicResource PrimaryForeground}" />
+      </Style>
+    </Style>
   </ControlTheme>
 </ResourceDictionary>

@@ -17,7 +17,7 @@ namespace BatchProcess3.ViewModels
         // }
 
         [ObservableProperty]
-        private string _Test = "Test Macros";
+        private string _test = "Test Macros";
 
 
 

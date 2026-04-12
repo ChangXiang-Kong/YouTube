@@ -15,7 +15,7 @@ namespace BatchProcess3.ViewModels
         // 参考视频：https://www.youtube.com/watch?v=qz6Xh7few9g&list=PLrW43fNmjaQWwIdZxjZrx5FSXcNzaucOO&index=17  3:55
         protected PageViewModel(ApplicationPageName pageName)
         {
-            _PageName = pageName;
+            _pageName = pageName;
 
             // Detect design time 
             if (Avalonia.Controls.Design.IsDesignMode)
@@ -23,7 +23,7 @@ namespace BatchProcess3.ViewModels
         }
 
         [ObservableProperty]
-        private ApplicationPageName _PageName;
+        private ApplicationPageName _pageName;
 
         protected virtual void OnDesignTimeConstructor()
         {

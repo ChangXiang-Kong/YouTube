@@ -31,24 +31,31 @@
     <Setter Property="VerticalAlignment" Value="Center" />
     <Setter Property="HorizontalContentAlignment" Value="Left" />
     <Setter Property="VerticalContentAlignment" Value="Center" />
-    <Setter Property="CornerRadius" Value="{DynamicResource PrimaryCornerRadius_7}" />
+    <Setter Property="CornerRadius" Value="{DynamicResource PrimaryCornerRadius_5}" />
     <Setter Property="MinHeight" Value="30" />
     <Setter Property="Foreground" Value="{DynamicResource PrimaryForeground}" />
     <Setter Property="Background" Value="{DynamicResource CheckBoxBackgroundUnchecked}" />
     <Setter Property="BorderBrush" Value="{DynamicResource ActiveGradient}" />
-    <!-- 问题：这里设置 FontSize 与 FontWeight 无效，只有在 ContentPresenter 中设置具体的值才生效 -->
+    <!--  问题：这里设置 FontSize 与 FontWeight 无效，只有在 ContentPresenter 中设置具体的值才生效  -->
     <!-- <Setter Property="FontSize" Value="{DynamicResource FontSize_14}" /> -->
     <!-- <Setter Property="FontWeight" Value="Normal" /> -->
     <Setter Property="Template">
       <ControlTemplate>
         <Grid x:Name="RootGrid" ColumnDefinitions="30,*">
           <Grid VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Background="Transparent">
-            <Border x:Name="NormalRectangle" Width="24" Height="24"
+            <Border x:Name="NormalRectangle" Width="22" Height="22"
                     Background="Transparent"
                     BorderBrush="{TemplateBinding BorderBrush}"
                     BorderThickness="2"
                     CornerRadius="{TemplateBinding CornerRadius}"
-                    UseLayoutRounding="False" />
+                    UseLayoutRounding="False">
+              <Border.Transitions>
+                <Transitions>
+                  <BrushTransition Property="BorderBrush" Duration="0:0:0.075" />
+                  <BrushTransition Property="Background" Duration="0:0:0.075" />
+                </Transitions>
+              </Border.Transitions>
+            </Border>
 
             <Label x:Name="CheckGlyph" Margin="0,0,0,0" HorizontalAlignment="Center"
                    VerticalAlignment="Center" Content="&#xeba6;"
@@ -67,9 +74,9 @@
                             FontWeight="Normal"
                             Foreground="{TemplateBinding Foreground}"
                             RecognizesAccessKey="True" TextWrapping="Wrap" />
-          <!-- 问题：这里设置 FontSize 与 FontWeight 为 TemplateBinding 时无效，只有在 ContentPresenter 中设置具体的值才生效 -->
-          <!-- FontSize="{TemplateBinding FontSize}" -->
-          <!-- FontWeight="{TemplateBinding FontWeight}" -->
+          <!--  问题：这里设置 FontSize 与 FontWeight 为 TemplateBinding 时无效，只有在 ContentPresenter 中设置具体的值才生效  -->
+          <!--  FontSize="{TemplateBinding FontSize}"  -->
+          <!--  FontWeight="{TemplateBinding FontWeight}"  -->
         </Grid>
       </ControlTemplate>
     </Setter>

@@ -19,11 +19,15 @@ namespace BatchProcess3.ViewModels
         //     PageName = ApplicationPageName.Actions;
         // }
 
-        [ObservableProperty] private string _Test = "Test Actions";
+        [ObservableProperty] 
+        private string _test = "Test Actions";
 
-        [ObservableProperty] private ObservableCollection<ActionsPrintViewModel> _printList;
+        // 使用 [] 进行初始化以消除警告，当误写 PrintList = null; 时会提示 Cannot convert null literal to non-nullable reference type
+        [ObservableProperty] 
+        private ObservableCollection<ActionsPrintViewModel> _printList = [];
 
-        [ObservableProperty] private ActionsPrintViewModel _selectedPrintListItem;
+        [ObservableProperty] 
+        private ActionsPrintViewModel? _selectedPrintListItem;
 
         [RelayCommand]
         public void RefreshActionsPage(ActionsPageName actionsPageName)
@@ -46,9 +50,11 @@ namespace BatchProcess3.ViewModels
                     JobName = "Print Only Orawings",
                     Description = "Prints only drawing files",
                     PrintDrawingRange = "0, 5, 7-8",
+                    DrawingExclusionIsWhiteList = true,
                     PrintModels = true,
                     PrintDrawings = true,
-                    DrawingExclusionList = $"Some item 1{Environment.NewLine}Some item 2{Environment.NewLine}Some item 3"
+                    DrawingExclusionList =
+                        $"Some item 1{Environment.NewLine}Some item 2{Environment.NewLine}Some item 3"
                 },
                 new ActionsPrintViewModel
                 {
@@ -69,8 +75,10 @@ namespace BatchProcess3.ViewModels
             ];
         }
 
+        protected override void OnDesignTimeConstructor() => FetchPrintList();
+
         [RelayCommand]
-        public void DeletePrintItem(string id)
+        private void DeletePrintItem(string id)
         {
             // TODO: Pass this logic to a service that handles the database/storage/fetching
             //       For now just do it direct in here
@@ -83,7 +91,19 @@ namespace BatchProcess3.ViewModels
             PrintList.Remove(PrintList.First(x => x.Id == id));
         }
 
-
-        protected override void OnDesignTimeConstructor() => FetchPrintList();
+        [RelayCommand]
+        private void AddNewPrintItem()
+        {
+            // Crate a new item
+            var newItem = new ActionsPrintViewModel
+            {
+                JobName = "New Print Item",
+                IsSelected = true,
+                IsNewItem = true,
+            };
+            
+            // Add to the print list
+            PrintList.Add(newItem);
+        }
     }
 }
