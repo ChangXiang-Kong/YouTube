@@ -25,12 +25,16 @@ namespace BatchProcess3.ViewModels
         // 获取依赖
         public MainViewModel(PageFactory pageFactory)
         {
+            // _pageFactory0 = pageFactory0;
+            // _pageFactory1 = pageFactory1;
             _pageFactory = pageFactory;
 
             // GoToPage1("HomePage");
             GoToPage(ApplicationPageName.Home);
         }
 
+        private PageFactory0 _pageFactory0;
+        private PageFactory1 _pageFactory1;
         private PageFactory _pageFactory;
 
         public SvgImage SideMenuImage => new SvgImage { Source = SvgSource.Load($"avares://{nameof(BatchProcess3)}/Assets/Images/{(SideMenuExpanded ? "logo" : "icon")}.svg") };
@@ -72,17 +76,32 @@ namespace BatchProcess3.ViewModels
         }
 
         [RelayCommand]
-        void GoToPage1(string pageName)
+        void GoToPage0(string pageName)
         {
             CurrentPage = pageName switch
             {
-                "HomePage" => _pageFactory.GetPageViewModel(ApplicationPageName.Home),
-                "ProcessPage" => _pageFactory.GetPageViewModel(ApplicationPageName.Process),
-                "ActionsPage" => _pageFactory.GetPageViewModel(ApplicationPageName.Actions),
-                "MacrosPage" => _pageFactory.GetPageViewModel(ApplicationPageName.Macros),
-                "ReporterPage" => _pageFactory.GetPageViewModel(ApplicationPageName.Reporter),
-                "HistoryPage" => _pageFactory.GetPageViewModel(ApplicationPageName.History),
-                "SettingsPage" => _pageFactory.GetPageViewModel(ApplicationPageName.Settings),
+                "HomePage" => _pageFactory0.GetPageViewModel(ApplicationPageName.Home),
+                "ProcessPage" => _pageFactory0.GetPageViewModel(ApplicationPageName.Process),
+                "ActionsPage" => _pageFactory0.GetPageViewModel(ApplicationPageName.Actions),
+                "MacrosPage" => _pageFactory0.GetPageViewModel(ApplicationPageName.Macros),
+                "ReporterPage" => _pageFactory0.GetPageViewModel(ApplicationPageName.Reporter),
+                "HistoryPage" => _pageFactory0.GetPageViewModel(ApplicationPageName.History),
+                "SettingsPage" => _pageFactory0.GetPageViewModel(ApplicationPageName.Settings),
+                // _ => _pageFactory.GetPageViewModel(ApplicationPageName.Unknown),
+            };
+        }
+        [RelayCommand]
+        void GoToPage1(ApplicationPageName pageName)
+        {
+            CurrentPage = pageName switch
+            {
+                ApplicationPageName.Home => _pageFactory1.GetPageViewModel(ApplicationPageName.Home),
+                ApplicationPageName.Process => _pageFactory1.GetPageViewModel(ApplicationPageName.Process),
+                ApplicationPageName.Actions => _pageFactory1.GetPageViewModel(ApplicationPageName.Actions),
+                ApplicationPageName.Macros => _pageFactory1.GetPageViewModel(ApplicationPageName.Macros),
+                ApplicationPageName.Reporter => _pageFactory1.GetPageViewModel(ApplicationPageName.Reporter),
+                ApplicationPageName.History => _pageFactory1.GetPageViewModel(ApplicationPageName.History),
+                ApplicationPageName.Settings => _pageFactory1.GetPageViewModel(ApplicationPageName.Settings),
                 // _ => _pageFactory.GetPageViewModel(ApplicationPageName.Unknown),
             };
         }
@@ -91,13 +110,14 @@ namespace BatchProcess3.ViewModels
         {
             CurrentPage = pageName switch
             {
-                ApplicationPageName.Home => _pageFactory.GetPageViewModel(ApplicationPageName.Home),
-                ApplicationPageName.Process => _pageFactory.GetPageViewModel(ApplicationPageName.Process),
-                ApplicationPageName.Actions => _pageFactory.GetPageViewModel(ApplicationPageName.Actions),
-                ApplicationPageName.Macros => _pageFactory.GetPageViewModel(ApplicationPageName.Macros),
-                ApplicationPageName.Reporter => _pageFactory.GetPageViewModel(ApplicationPageName.Reporter),
-                ApplicationPageName.History => _pageFactory.GetPageViewModel(ApplicationPageName.History),
-                ApplicationPageName.Settings => _pageFactory.GetPageViewModel(ApplicationPageName.Settings),
+                // 可传入参数
+                ApplicationPageName.Home => _pageFactory.GetPageViewModel<HomePageViewModel>(viewmodel => viewmodel.Test = "Test Home (Parameters can be passed in here)"),
+                ApplicationPageName.Process => _pageFactory.GetPageViewModel<ProcessPageViewModel>(),
+                ApplicationPageName.Actions => _pageFactory.GetPageViewModel<ActionsPageViewModel>(),
+                ApplicationPageName.Macros => _pageFactory.GetPageViewModel<MacrosPageViewModel>(),
+                ApplicationPageName.Reporter => _pageFactory.GetPageViewModel<ReporterPageViewModel>(),
+                ApplicationPageName.History => _pageFactory.GetPageViewModel<HistoryPageViewModel>(),
+                ApplicationPageName.Settings => _pageFactory.GetPageViewModel<SettingsPageViewModel>(),
                 // _ => _pageFactory.GetPageViewModel(ApplicationPageName.Unknown),
             };
         }

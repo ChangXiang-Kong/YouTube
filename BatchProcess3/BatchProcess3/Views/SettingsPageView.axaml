@@ -1,6 +1,7 @@
 ﻿<UserControl x:Class="BatchProcess3.Views.SettingsPageView"
              xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ava="clr-namespace:Avalonia.Controls;assembly=Avalonia.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:BatchProcess3.ViewModels"
@@ -80,7 +81,8 @@
         <DataTemplate x:DataType="x:String">
           <Grid ColumnDefinitions="*, Auto">
             <Label Grid.Column="0" VerticalAlignment="Center" Content="{Binding}" />
-            <Button Grid.Column="1" Margin="0,-4,-4,-6" VerticalAlignment="Center" Classes="smaller danger">
+            <Button Grid.Column="1" Margin="0,-4,-4,-6" Padding="0"
+                    VerticalAlignment="Center" ava:ToolTip.Tip="Delete" Classes="smaller danger">
               <Label Classes="icon-only icon-outline" Content="&#xe4a6;" />
               <!--<Button Grid.Column="1" Margin="0,-4,-4,-6" VerticalAlignment="Center"
                     Classes="smaller danger"

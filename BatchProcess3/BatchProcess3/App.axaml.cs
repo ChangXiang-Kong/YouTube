@@ -136,16 +136,31 @@ namespace BatchProcess3
         private void RegisterServices(IServiceCollection services)
         {
             services.AddSingleton<PageFactory>();
-            services.AddSingleton<Func<ApplicationPageName, PageViewModel>>(x => name => name switch
+            
+            // 使用 PageFactory0 或 PageFactory1 时的依赖注入写法
+            // services.AddSingleton<Func<ApplicationPageName, PageViewModel>>(x => name => name switch
+            // {
+            //     // Menu 相关
+            //     ApplicationPageName.Home => x.GetRequiredService<HomePageViewModel>(),
+            //     ApplicationPageName.Process => x.GetRequiredService<ProcessPageViewModel>(),
+            //     ApplicationPageName.Macros => x.GetRequiredService<MacrosPageViewModel>(),
+            //     ApplicationPageName.Actions => x.GetRequiredService<ActionsPageViewModel>(),
+            //     ApplicationPageName.Reporter => x.GetRequiredService<ReporterPageViewModel>(),
+            //     ApplicationPageName.History => x.GetRequiredService<HistoryPageViewModel>(),
+            //     ApplicationPageName.Settings => x.GetRequiredService<SettingsPageViewModel>(),
+            //     _ => throw new InvalidOperationException(),
+            // });
+            // 使用 PageFactory 时的依赖注入写法
+            services.AddSingleton<Func<Type, PageViewModel>>(x => type => type switch
             {
                 // Menu 相关
-                ApplicationPageName.Home => x.GetRequiredService<HomePageViewModel>(),
-                ApplicationPageName.Process => x.GetRequiredService<ProcessPageViewModel>(),
-                ApplicationPageName.Macros => x.GetRequiredService<MacrosPageViewModel>(),
-                ApplicationPageName.Actions => x.GetRequiredService<ActionsPageViewModel>(),
-                ApplicationPageName.Reporter => x.GetRequiredService<ReporterPageViewModel>(),
-                ApplicationPageName.History => x.GetRequiredService<HistoryPageViewModel>(),
-                ApplicationPageName.Settings => x.GetRequiredService<SettingsPageViewModel>(),
+                _ when type == typeof(HomePageViewModel) => x.GetRequiredService<HomePageViewModel>(),
+                _ when type == typeof(ProcessPageViewModel) => x.GetRequiredService<ProcessPageViewModel>(),
+                _ when type == typeof(MacrosPageViewModel) => x.GetRequiredService<MacrosPageViewModel>(),
+                _ when type == typeof(ActionsPageViewModel) => x.GetRequiredService<ActionsPageViewModel>(),
+                _ when type == typeof(ReporterPageViewModel) => x.GetRequiredService<ReporterPageViewModel>(),
+                _ when type == typeof(HistoryPageViewModel) => x.GetRequiredService<HistoryPageViewModel>(),
+                _ when type == typeof(SettingsPageViewModel) => x.GetRequiredService<SettingsPageViewModel>(),
                 _ => throw new InvalidOperationException(),
             });
         }
