@@ -42,7 +42,7 @@
 
   <!--  Button Styles  -->
   <Style Selector=":is(Button)">
-    <Setter Property="FontSize" Value="{DynamicResource FontSize_18}" />
+    <Setter Property="FontSize" Value="{DynamicResource FontSize_14}" />
     <Setter Property="CornerRadius" Value="{DynamicResource PrimaryCornerRadius_5}" />
     <Setter Property="FontWeight" Value="Bold" />
     <Setter Property="BorderThickness" Value="{DynamicResource PrimaryBorderThickness_2}" />
@@ -53,16 +53,16 @@
 
   <!--  Small Button Styles  -->
   <Style Selector=":is(Button).small">
-    <Setter Property="FontSize" Value="{DynamicResource FontSize_14}" />
+    <Setter Property="FontSize" Value="{DynamicResource FontSize_13}" />
     <Setter Property="CornerRadius" Value="{DynamicResource PrimaryCornerRadius_5}" />
-    <Setter Property="Padding" Value="6 2 6 2" />
+    <Setter Property="Padding" Value="6 3" />
   </Style>
 
   <!--  Smaller button  -->
   <Style Selector=":is(Button).smaller">
     <Setter Property="FontSize" Value="{DynamicResource FontSize_12}" />
-    <Setter Property="CornerRadius" Value="5" />
-    <Setter Property="Padding" Value="3 0 " />
+    <Setter Property="CornerRadius" Value="{DynamicResource PrimaryCornerRadius_5}" />
+    <Setter Property="Padding" Value="6 3 " />
   </Style>
 
   <!--  Normal Button  -->

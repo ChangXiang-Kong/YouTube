@@ -25,6 +25,7 @@ namespace BatchProcess3.ViewModels
         // TODO: Remove once we have database service
         private ActionsPrinterProfileViewModel _defaultPrinterProfile = new ActionsPrinterProfileViewModel
         {
+            Id = "0",
             Name  = "(Default)",
             Description = "Use all default settings",
             Copies = 1,

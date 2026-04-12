@@ -34,10 +34,18 @@ public partial class ActionsPrintView : UserControl
             对象?.成员	    对象不为 null 才访问成员
             对象?[索引]	    对象不为 null 才访问索引器
          */
-        if (e.AddedItems?[0] is ActionsPrintViewModel { IsNewItem: true })  // 等价于 if (e.AddedItems?[0] is ActionsPrintViewModel viewModel && viewModel.IsNewItem)
+        // if (e.AddedItems?[0] is ActionsPrintViewModel { IsNewItem: true } viewModel)  // 等价于 if (e.AddedItems?[0] is ActionsPrintViewModel viewModel && viewModel.IsNewItem)
+        if (e.AddedItems?[0] is ActionsPrintViewModel viewModel) // 等价于 if (e.AddedItems?[0] is ActionsPrintViewModel viewModel && viewModel.IsNewItem)
         {
-            TextBox_JobName.SelectAll();
-            TextBox_JobName.Focus();
+            // When a print view is selected
+            viewModel.SetSaveState();
+            
+            // When it is newly crated item
+            if (viewModel.IsNewItem)
+            {
+                TextBox_JobName.SelectAll();
+                TextBox_JobName.Focus();
+            }
         }
     }
 }

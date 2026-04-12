@@ -24,15 +24,14 @@
       <Grid RowDefinitions="*, Auto">
         <StackPanel Spacing="10">
           <Image Width="220" IsVisible="False" PointerPressed="Image_PointerPressed" Source="{Binding SideMenuImage}" />
-          <Image Width="220" IsVisible="{Binding SideMenuExpanded}" PointerPressed="Image_PointerPressed"
-                 Source="{SvgImage /Assets/Images/logo.svg}" />
-          <Image Width="40" IsVisible="{Binding !SideMenuExpanded}" PointerPressed="Image_PointerPressed"
-                 Source="{SvgImage /Assets/Images/icon.svg}" />
+          <Image Width="220" IsVisible="{Binding SideMenuExpanded}" PointerPressed="Image_PointerPressed" Source="{SvgImage /Assets/Images/logo.svg}" />
+          <Image Width="40" IsVisible="{Binding !SideMenuExpanded}" PointerPressed="Image_PointerPressed" Source="{SvgImage /Assets/Images/icon.svg}" />
 
           <IconButton HorizontalAlignment="Stretch" ava:ToolTip.Tip="Home" Classes="subtle"
                       Classes.active="{Binding HomePageIsActive}"
                       Command="{Binding GoToPageCommand}"
                       CommandParameter="{x:Static data:ApplicationPageName.Home}"
+                      FontSize="{DynamicResource FontSize_18}"
                       IconText="&#xe2c2;">
             <!--  CommandParameter="HomePage"  -->
             <Label Content="Home" IsVisible="{Binding SideMenuExpanded}" />
@@ -42,6 +41,7 @@
                       Classes.active="{Binding ProcessPageIsActive}"
                       Command="{Binding GoToPageCommand}"
                       CommandParameter="{x:Static data:ApplicationPageName.Process}"
+                      FontSize="{DynamicResource FontSize_18}"
                       IconText="&#xe346;">
             <!--  CommandParameter="ProcessPage"  -->
             <Label Content="Process" IsVisible="{Binding SideMenuExpanded}" />
@@ -51,6 +51,7 @@
                       Classes.active="{Binding ActionsPageIsActive}"
                       Command="{Binding GoToPageCommand}"
                       CommandParameter="{x:Static data:ApplicationPageName.Actions}"
+                      FontSize="{DynamicResource FontSize_18}"
                       IconText="&#xe7f2;">
             <!--  CommandParameter="ActionsPage"  -->
             <Label Content="Actions" IsVisible="{Binding SideMenuExpanded}" />
@@ -60,6 +61,7 @@
                       Classes.active="{Binding MacrosPageIsActive}"
                       Command="{Binding GoToPageCommand}"
                       CommandParameter="{x:Static data:ApplicationPageName.Macros}"
+                      FontSize="{DynamicResource FontSize_18}"
                       IconText="&#xe3ee;">
             <!--  CommandParameter="MacrosPage"  -->
             <Label Content="Macros" IsVisible="{Binding SideMenuExpanded}" />
@@ -69,6 +71,7 @@
                       Classes.active="{Binding ReporterPageIsActive}"
                       Command="{Binding GoToPageCommand}"
                       CommandParameter="{x:Static data:ApplicationPageName.Reporter}"
+                      FontSize="{DynamicResource FontSize_18}"
                       IconText="&#xeb7a;">
             <!--  CommandParameter="ReporterPage"  -->
             <Label Content="Reporter" IsVisible="{Binding SideMenuExpanded}" />
@@ -78,6 +81,7 @@
                       Classes.active="{Binding HistoryPageIsActive}"
                       Command="{Binding GoToPageCommand}"
                       CommandParameter="{x:Static data:ApplicationPageName.History}"
+                      FontSize="{DynamicResource FontSize_18}"
                       IconText="&#xe03a;">
             <!--  CommandParameter="HistoryPage"  -->
             <Label Content="History" IsVisible="{Binding SideMenuExpanded}" />
