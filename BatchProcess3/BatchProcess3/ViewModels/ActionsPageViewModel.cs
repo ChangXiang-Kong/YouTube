@@ -21,6 +21,15 @@ namespace BatchProcess3.ViewModels
 
         [ObservableProperty] 
         private string _test = "Test Actions";
+        
+        // TODO: Remove once we have database service
+        private ActionsPrinterProfileViewModel _defaultPrinterProfile = new ActionsPrinterProfileViewModel
+        {
+            Name  = "(Default)",
+            Description = "Use all default settings",
+            Copies = 1,
+            // TODO: Populate PrinterSettings
+        };
 
         // 使用 [] 进行初始化以消除警告，当误写 PrintList = null; 时会提示 Cannot convert null literal to non-nullable reference type
         [ObservableProperty] 
@@ -28,18 +37,21 @@ namespace BatchProcess3.ViewModels
 
         [ObservableProperty] 
         private ActionsPrintViewModel? _selectedPrintListItem;
+        
+        [ObservableProperty]
+        private ObservableCollection<ActionsPrinterProfileViewModel> _printerProfilesList = [];
 
         [RelayCommand]
         public void RefreshActionsPage(ActionsPageName actionsPageName)
         {
             switch (actionsPageName)
             {
-                case ActionsPageName.Print: FetchPrintList(); break;
+                case ActionsPageName.Print: FetchPrintActionsData(); break;
             }
         }
 
         [RelayCommand]
-        private void FetchPrintList()
+        private void FetchPrintActionsData()
         {
             // TODO: Fetch from a database/service provider
             PrintList =
@@ -53,8 +65,8 @@ namespace BatchProcess3.ViewModels
                     DrawingExclusionIsWhiteList = true,
                     PrintModels = true,
                     PrintDrawings = true,
-                    DrawingExclusionList =
-                        $"Some item 1{Environment.NewLine}Some item 2{Environment.NewLine}Some item 3"
+                    DrawingExclusionList = $"Some item 1{Environment.NewLine}Some item 2{Environment.NewLine}Some item 3",
+                    PrinterProfile = _defaultPrinterProfile,
                 },
                 new ActionsPrintViewModel
                 {
@@ -62,7 +74,8 @@ namespace BatchProcess3.ViewModels
                     JobName = "Print All Drawings Scale To Fit",
                     Description = "Prints drawing scaled to fit the paper",
                     PrintModels = true,
-                    PrintDrawings = false
+                    PrintDrawings = false,
+                    PrinterProfile = _defaultPrinterProfile,
                 },
                 new ActionsPrintViewModel
                 {
@@ -70,12 +83,39 @@ namespace BatchProcess3.ViewModels
                     JobName = "Print 3D Models A3",
                     Description = "Prints models as 3D visuals",
                     PrintModels = false,
-                    PrintDrawings = true
+                    PrintDrawings = true,
+                    PrinterProfile = _defaultPrinterProfile,
+                },
+            ];
+
+            PrinterProfilesList =
+            [
+                _defaultPrinterProfile,
+                new ActionsPrinterProfileViewModel
+                {
+                  Name  = "Print Landscape",
+                  Description = "Print all files in landscape mode",
+                  Copies = 1,
+                  // TODO: Populate PrinterSettings
+                },
+                new ActionsPrinterProfileViewModel
+                {
+                  Name  = "Print Portrait",
+                  Description = "Print all files in portrait mode",
+                  Copies = 3,
+                  // TODO: Populate PrinterSettings
+                },
+                new ActionsPrinterProfileViewModel
+                {
+                  Name  = "A3 Black & White",
+                  Description = "Make all A3 prints black and white",
+                  Copies = 5,
+                  // TODO: Populate PrinterSettings
                 },
             ];
         }
 
-        protected override void OnDesignTimeConstructor() => FetchPrintList();
+        protected override void OnDesignTimeConstructor() => FetchPrintActionsData();
 
         [RelayCommand]
         private void DeletePrintItem(string id)
@@ -100,6 +140,7 @@ namespace BatchProcess3.ViewModels
                 JobName = "New Print Item",
                 IsSelected = true,
                 IsNewItem = true,
+                PrinterProfile = _defaultPrinterProfile,
             };
             
             // Add to the print list

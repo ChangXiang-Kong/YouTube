@@ -50,13 +50,12 @@
     </Grid>
 
     <!--  General Settings Column  -->
-    <StackPanel Grid.Column="2" Spacing="10">
-      <Label Classes="h2" Content="General Settings" />
-      <TextBox Margin="0,-5,0,10" Text="Set the main properties of the print job." />
-      <Grid ColumnDefinitions="140, 15, *" RowDefinitions="Auto, 15, Auto, 15 Auto">
+    <Grid Grid.Column="2" RowDefinitions="Auto, 10, Auto, 10, Auto, 10, Auto, 10, Auto, 10, *">
+      <Label Grid.Row="0" Classes="h2" Content="General Settings" />
+      <TextBlock Grid.Row="2" Margin="0,-10,0,0" Text="Set the main properties of the print job." />
+      <Grid Grid.Row="4" ColumnDefinitions="140, 10, *" RowDefinitions="Auto, 10, Auto, 10 Auto">
         <Label Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Content="Job Name" />
         <TextBox Name="TextBox_JobName" Grid.Row="0" Grid.Column="2" Text="{Binding SelectedPrintListItem.JobName}" />
-
         <Label Grid.Row="2" Grid.Column="0" VerticalAlignment="Top" Content="Description" />
         <TextBox Grid.Row="2" Grid.Column="2" Height="80"
                  Text="{Binding SelectedPrintListItem.Description}"
@@ -68,13 +67,28 @@
           <CheckBox Content="Drawings" IsChecked="{Binding SelectedPrintListItem.PrintDrawings}" />
         </StackPanel>
       </Grid>
-    </StackPanel>
+
+      <!--  Printer Settings  -->
+      <Label Grid.Row="6" Classes="h2" Content="Printer Settings" />
+      <TextBlock Grid.Row="8" Margin="0,-10,0,0" Text="Select the profiles to use for paper sizes." TextWrapping="Wrap" />
+      <ListBox Grid.Row="10" ItemsSource="{Binding PrinterProfilesList}" SelectedItem="{Binding SelectedPrintListItem.PrinterProfile}">
+        <ListBox.ItemTemplate>
+          <DataTemplate x:DataType="vmActions:ActionsPrinterProfileViewModel">
+            <StackPanel>
+              <TextBlock FontWeight="Black" Text="{Binding Name}" />
+              <TextBlock Text="{Binding Description}" />
+            </StackPanel>
+          </DataTemplate>
+        </ListBox.ItemTemplate>
+      </ListBox>
+
+    </Grid>
 
     <!--  Drawings Column  -->
     <StackPanel Grid.Column="4" Spacing="10">
       <Label Classes="h2" Content="Drawings" />
-      <TextBox Margin="0,-5,0,10" Text="Set the properties that apply only to drawings." />
-      <Grid Grid.Row="4" ColumnDefinitions="140, 15, *" RowDefinitions="Auto, 15, Auto, 15, Auto">
+      <TextBlock Margin="0,-10,0,0" Text="Set the properties that apply only to drawings." />
+      <Grid Grid.Row="4" ColumnDefinitions="140, 10, *" RowDefinitions="Auto, 10, Auto, 10, Auto">
         <Label Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Content="Print Range" />
         <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding SelectedPrintListItem.PrintDrawingRange}" />
 
@@ -86,7 +100,7 @@
                         IsChecked="{Binding SelectedPrintListItem.DrawingExclusionIsWhiteList}"
                         OffContent="Black List" OnContent="White List" />
         </StackPanel>
-        <TextBox Grid.Row="2" Grid.Column="2" Height="80"
+        <TextBox Grid.Row="2" Grid.Column="2" Height="90"
                  AcceptsReturn="True"
                  Text="{Binding SelectedPrintListItem.DrawingExclusionList}"
                  TextWrapping="Wrap" />

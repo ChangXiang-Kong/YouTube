@@ -53,6 +53,8 @@
     <SolidColorBrush x:Key="PrimaryBackground">#14172D</SolidColorBrush>
     <SolidColorBrush x:Key="PrimaryForeground">#CFCFCF</SolidColorBrush>
     <SolidColorBrush x:Key="PrimaryForegroundSubtle">#aaa</SolidColorBrush>
+    <SolidColorBrush x:Key="LightCaretBrush">#CFCFCF</SolidColorBrush>
+    <SolidColorBrush x:Key="DarkCaretBrush">#14172D</SolidColorBrush>
 
     <Color x:Key="PrimaryBackgroundColor1">#111214</Color>
     <Color x:Key="PrimaryBackgroundColor2">#151E3E</Color>
