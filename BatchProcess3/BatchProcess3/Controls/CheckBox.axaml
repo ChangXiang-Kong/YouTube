@@ -31,7 +31,7 @@
     <Setter Property="VerticalAlignment" Value="Center" />
     <Setter Property="HorizontalContentAlignment" Value="Left" />
     <Setter Property="VerticalContentAlignment" Value="Center" />
-    <Setter Property="CornerRadius" Value="{DynamicResource PrimaryCornerRadius_5}" />
+    <Setter Property="CornerRadius" Value="{DynamicResource CornerRadius_5}" />
     <Setter Property="MinHeight" Value="30" />
     <Setter Property="Foreground" Value="{DynamicResource PrimaryForeground}" />
     <Setter Property="Background" Value="{DynamicResource CheckBoxBackgroundUnchecked}" />

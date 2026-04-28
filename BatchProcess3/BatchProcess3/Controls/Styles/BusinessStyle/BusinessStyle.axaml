@@ -1,0 +1,91 @@
+﻿
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="using:System"
+                    x:ClassModifier="internal">
+  <!--  Add Resources Here  -->
+
+  <Thickness x:Key="BorderThickness_09">0.9</Thickness>
+  <Thickness x:Key="BorderThickness_1">1</Thickness>
+  <Thickness x:Key="BorderThickness_2">2</Thickness>
+  <CornerRadius x:Key="CornerRadius_5">5</CornerRadius>
+
+  <SolidColorBrush x:Key="TransparentBackground">Transparent</SolidColorBrush>
+  <SolidColorBrush x:Key="GlobalBackground">White</SolidColorBrush>
+  <!-- <SolidColorBrush x:Key="GlobalBackground1">White</SolidColorBrush> -->
+  <!-- <SolidColorBrush x:Key="GlobalBackground2">White</SolidColorBrush> -->
+  <SolidColorBrush x:Key="GlobalForeground">Black</SolidColorBrush>
+  <SolidColorBrush x:Key="GlobalForeground1">Gray</SolidColorBrush>
+  <SolidColorBrush x:Key="GlobalForeground2">DarkGray</SolidColorBrush>
+  <SolidColorBrush x:Key="LightCaretBrush">White</SolidColorBrush>
+  <SolidColorBrush x:Key="DarkCaretBrush">Black</SolidColorBrush>
+
+  <!--  渐变示例  -->
+  <!--<Color x:Key="PrimaryBackgroundColor1">#111214</Color>
+    <Color x:Key="PrimaryBackgroundColor2">#151E3E</Color>
+    <LinearGradientBrush x:Key="PrimaryBackgroundGradient" StartPoint="0%, 0%" EndPoint="100%, 0%">
+      <GradientStop Offset="0" Color="{DynamicResource PrimaryBackgroundColor1}" />
+      <GradientStop Offset="1" Color="{DynamicResource PrimaryBackgroundColor2}" />
+    </LinearGradientBrush>-->
+
+  <!--  Default  -->
+  <SolidColorBrush x:Key="DefaultBackground">#cccccc</SolidColorBrush>
+  <SolidColorBrush x:Key="DefaultForeground">White</SolidColorBrush>
+  <SolidColorBrush x:Key="DefaultBorderBrush">#cccccc</SolidColorBrush>
+  <!--  Default Outline  -->
+  <SolidColorBrush x:Key="DefaultBackgroundOutline">White</SolidColorBrush>
+  <SolidColorBrush x:Key="DefaultForegroundOutline">Gray</SolidColorBrush>
+  <SolidColorBrush x:Key="DefaultBorderBrushOutline">LightGray</SolidColorBrush>
+
+  <!--  Primary  -->
+  <SolidColorBrush x:Key="PrimaryBackground">DodgerBlue</SolidColorBrush>
+  <SolidColorBrush x:Key="PrimaryForeground">White</SolidColorBrush>
+  <SolidColorBrush x:Key="PrimaryBorderBrush">DodgerBlue</SolidColorBrush>
+  <!--  Primary Outline  -->
+  <SolidColorBrush x:Key="PrimaryBackgroundOutline">#E6F1FC</SolidColorBrush>
+  <SolidColorBrush x:Key="PrimaryForegroundOutline">DodgerBlue</SolidColorBrush>
+  <SolidColorBrush x:Key="PrimaryBorderBrushOutline">DodgerBlue</SolidColorBrush>
+
+  <!--  Info  -->
+  <SolidColorBrush x:Key="InfoBackground">#00bcd4</SolidColorBrush>
+  <SolidColorBrush x:Key="InfoForeground">White</SolidColorBrush>
+  <SolidColorBrush x:Key="InfoBorderBrush">#00bcd4</SolidColorBrush>
+  <!--  Info Outline  -->
+  <SolidColorBrush x:Key="InfoBackgroundOutline">#E6F1FC</SolidColorBrush>
+  <SolidColorBrush x:Key="InfoForegroundOutline">#00bcd4</SolidColorBrush>
+  <SolidColorBrush x:Key="InfoBorderBrushOutline">#00bcd4</SolidColorBrush>
+
+  <!--  Success  -->
+  <SolidColorBrush x:Key="SuccessBackground">#2db84d</SolidColorBrush>
+  <SolidColorBrush x:Key="SuccessForeground">White</SolidColorBrush>
+  <SolidColorBrush x:Key="SuccessBorderBrush">#2db84d</SolidColorBrush>
+  <!--  Success Outline  -->
+  <SolidColorBrush x:Key="SuccessBackgroundOutline">#ecf7ec</SolidColorBrush>
+  <SolidColorBrush x:Key="SuccessForegroundOutline">#2db84d</SolidColorBrush>
+  <SolidColorBrush x:Key="SuccessBorderBrushOutline">#2db84d</SolidColorBrush>
+
+  <!--  Warning  -->
+  <SolidColorBrush x:Key="WarningBackground">#e9af20</SolidColorBrush>
+  <SolidColorBrush x:Key="WarningForeground">White</SolidColorBrush>
+  <SolidColorBrush x:Key="WarningBorderBrush">#e9af20</SolidColorBrush>
+  <!--  Warning Outline  -->
+  <SolidColorBrush x:Key="WarningBackgroundOutline">#FFF8EA</SolidColorBrush>
+  <SolidColorBrush x:Key="WarningForegroundOutline">#e9af20</SolidColorBrush>
+  <SolidColorBrush x:Key="WarningBorderBrushOutline">#e9af20</SolidColorBrush>
+
+  <!--  Danger  -->
+  <SolidColorBrush x:Key="DangerBackground">#db3340</SolidColorBrush>
+  <SolidColorBrush x:Key="DangerForeground">White</SolidColorBrush>
+  <SolidColorBrush x:Key="DangerBorderBrush">#db3340</SolidColorBrush>
+  <!--  Danger Outline  -->
+  <SolidColorBrush x:Key="DangerBackgroundOutline">#fef2ed</SolidColorBrush>
+  <SolidColorBrush x:Key="DangerForegroundOutline">#db3340</SolidColorBrush>
+  <SolidColorBrush x:Key="DangerBorderBrushOutline">#db3340</SolidColorBrush>
+
+  <!--  引用字体示例  -->
+  <!-- <FontFamily x:Key="DefaultFontFamily">/Assets/Fonts/NotoSansJP.tff</FontFamily> -->
+  <!-- <FontFamily x:Key="Phosphor">/Assets/Fonts/Phosphor.ttf#Phosphor</FontFamily> -->
+  <!-- <FontFamily x:Key="PhosphorFill">/Assets/Fonts/Phosphor-Fill.ttf#Phosphor-Fill</FontFamily> -->
+
+
+</ResourceDictionary>

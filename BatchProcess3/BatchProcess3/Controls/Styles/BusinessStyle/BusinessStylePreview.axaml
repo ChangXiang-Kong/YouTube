@@ -1,0 +1,101 @@
+﻿<UserControl x:Class="BatchProcess3.Controls.Styles.BusinessStylePreview"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:BatchProcess3.Controls.Styles"
+             d:DesignHeight="450"
+             d:DesignWidth="800"
+             x:DataType="vm:BusinessStylePreviewViewModel"
+             Background="{DynamicResource GlobalBackground}"
+             mc:Ignorable="d">
+  <Design.DataContext>
+    <!--
+      This only sets the DataContext for the previewer in an IDE,
+      to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs)
+    -->
+    <vm:BusinessStylePreviewViewModel />
+  </Design.DataContext>
+
+  <StackPanel Margin="10" Orientation="Vertical" Spacing="10">
+    <StackPanel>
+      <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Black" Text="{Binding Greeting}" />
+      <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Gray" Text="{Binding Greeting}" />
+      <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="DarkGray" Text="{Binding Greeting}" />
+    </StackPanel>
+    <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Spacing="5">
+      <!--  Default  -->
+      <StackPanel HorizontalAlignment="Center" Orientation="Vertical" Spacing="5">
+        <Button Width="80" HorizontalContentAlignment="Center"
+                Background="{DynamicResource DefaultBackground}"
+                BorderThickness="0.9" Content="Default"
+                Foreground="{DynamicResource DefaultForeground}" />
+        <Button Width="80" HorizontalContentAlignment="Center"
+                Background="{DynamicResource DefaultBackgroundOutline}"
+                BorderBrush="{DynamicResource DefaultBorderBrushOutline}"
+                BorderThickness="0.9" Content="Outline"
+                Foreground="{DynamicResource DefaultForegroundOutline}" />
+      </StackPanel>
+      <!--  Primary  -->
+      <StackPanel HorizontalAlignment="Center" Orientation="Vertical" Spacing="5">
+        <Button Width="80" HorizontalContentAlignment="Center"
+                Background="{DynamicResource PrimaryBackground}"
+                BorderThickness="0.9" Content="Primary"
+                Foreground="{DynamicResource PrimaryForeground}" />
+        <Button Width="80" HorizontalContentAlignment="Center"
+                Background="{DynamicResource PrimaryBackgroundOutline}"
+                BorderBrush="{DynamicResource PrimaryBorderBrushOutline}"
+                BorderThickness="0.9" Content="Outline"
+                Foreground="{DynamicResource PrimaryForegroundOutline}" />
+      </StackPanel>
+      <!--  Info  -->
+      <StackPanel HorizontalAlignment="Center" Orientation="Vertical" Spacing="5">
+        <Button Width="80" HorizontalContentAlignment="Center"
+                Background="{DynamicResource InfoBackground}"
+                BorderThickness="0.9" Content="Info"
+                Foreground="{DynamicResource InfoForeground}" />
+        <Button Width="80" HorizontalContentAlignment="Center"
+                Background="{DynamicResource InfoBackgroundOutline}"
+                BorderBrush="{DynamicResource InfoBorderBrushOutline}"
+                BorderThickness="0.9" Content="Outline"
+                Foreground="{DynamicResource InfoForegroundOutline}" />
+      </StackPanel>
+      <!--  Success  -->
+      <StackPanel HorizontalAlignment="Center" Orientation="Vertical" Spacing="5">
+        <Button Width="80" HorizontalContentAlignment="Center"
+                Background="{DynamicResource SuccessBackground}"
+                BorderThickness="0.9" Content="Success"
+                Foreground="{DynamicResource SuccessForeground}" />
+        <Button Width="80" HorizontalContentAlignment="Center"
+                Background="{DynamicResource SuccessBackgroundOutline}"
+                BorderBrush="{DynamicResource SuccessBorderBrushOutline}"
+                BorderThickness="0.9" Content="Outline"
+                Foreground="{DynamicResource SuccessForegroundOutline}" />
+      </StackPanel>
+      <!--  Warning  -->
+      <StackPanel HorizontalAlignment="Center" Orientation="Vertical" Spacing="5">
+        <Button Width="80" HorizontalContentAlignment="Center"
+                Background="{DynamicResource WarningBackground}"
+                BorderThickness="0.9" Content="Warning"
+                Foreground="{DynamicResource WarningForeground}" />
+        <Button Width="80" HorizontalContentAlignment="Center"
+                Background="{DynamicResource WarningBackgroundOutline}"
+                BorderBrush="{DynamicResource WarningBorderBrushOutline}"
+                BorderThickness="0.9" Content="Outline"
+                Foreground="{DynamicResource WarningForegroundOutline}" />
+      </StackPanel>
+      <!--  Danger  -->
+      <StackPanel HorizontalAlignment="Center" Orientation="Vertical" Spacing="5">
+        <Button Width="80" HorizontalContentAlignment="Center"
+                Background="{DynamicResource DangerBackground}"
+                BorderThickness="0.9" Content="Danger"
+                Foreground="{DynamicResource DangerForeground}" />
+        <Button Width="80" HorizontalContentAlignment="Center"
+                Background="{DynamicResource DangerBackgroundOutline}"
+                BorderBrush="{DynamicResource DangerBorderBrushOutline}"
+                BorderThickness="0.9" Content="Outline"
+                Foreground="{DynamicResource DangerForegroundOutline}" />
+      </StackPanel>
+    </StackPanel>
+  </StackPanel>
+</UserControl>

@@ -97,14 +97,14 @@
             <Border x:Name="OuterBorder" Grid.Row="1" Width="45"
                     Height="22" Background="Transparent"
                     BorderBrush="{DynamicResource ActiveGradient}"
-                    BorderThickness="{DynamicResource PrimaryBorderThickness_2}"
-                    CornerRadius="{DynamicResource PrimaryCornerRadius_5}" />
+                    BorderThickness="{DynamicResource BorderThickness_2}"
+                    CornerRadius="{DynamicResource CornerRadius_5}" />
 
             <Border x:Name="SwitchKnobBounds" Grid.Row="1" Width="45"
                     Height="22" Background="Transparent"
                     BorderBrush="{DynamicResource ActiveGradient}"
-                    BorderThickness="{DynamicResource PrimaryBorderThickness_2}"
-                    CornerRadius="{DynamicResource PrimaryCornerRadius_5}" />
+                    BorderThickness="{DynamicResource BorderThickness_2}"
+                    CornerRadius="{DynamicResource CornerRadius_5}" />
 
             <Canvas x:Name="PART_SwitchKnob" Grid.Row="1" Width="25"
                     Height="20" HorizontalAlignment="Left">
@@ -171,8 +171,7 @@
 
     <!--  Pressed State  -->
     <Style Selector="^:pressed /template/ Grid#Grid_Container">
-      <Setter Property="RenderTransform" Value="scale(0.95)">
-      </Setter>
+      <Setter Property="RenderTransform" Value="scale(0.95)" />
     </Style>
 
     <Style Selector="^:pressed /template/ Border#OuterBorder">

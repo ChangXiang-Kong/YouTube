@@ -18,12 +18,14 @@ namespace BatchProcess3
     {
         public Control? Build(object? data)
         {
+            if (App.Current == null)
+                throw new InvalidOperationException("App.Current 为 null，请确保在应用程序启动后调用此方法");
             if (data is null)
                 return null;
 
             // 获取 ViewModel 对应 View 的完整类型名
             var test = data.GetType();
-            if (App.Current.ViewModelMappings.TryGetValue(data.GetType(), out var viewType))
+            if (App.ViewModelMappings.TryGetValue(data.GetType(), out var viewType))
             {
                 // 根据 viewType 类型创建 View
                 var control = (Control)Activator.CreateInstance(viewType)!;
@@ -40,17 +42,18 @@ namespace BatchProcess3
                 if (type is null)
                 {
                     // 输出调试信息
-                    Debug.WriteLine($"找不到对应的 View: {errorViewName}");
+                    Debug.WriteLine($"Not found view: {errorViewName}");
                     return null;
                 }
 
-                var control = (Control)Activator.CreateInstance(type)!;
-                return control;
+                var controlErrorPageView = (Control)Activator.CreateInstance(type)!;
+                return controlErrorPageView;
             }
         }
 
         public bool Match(object? data)
         {
+            // return data is ViewModelBase;
             return data is PageViewModel;
         }
     }

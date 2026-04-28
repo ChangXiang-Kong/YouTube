@@ -11,9 +11,9 @@ namespace BatchProcess3.ViewModels
     public partial class HistoryPageViewModel() : PageViewModel(ApplicationPageName.History)
     {
         // 使用上面的方式替代以下方式构造函数
-        // public HistoryPageViewModel()
+        // public HistoryPageViewModel() : base(ApplicationPageName.History)
         // {
-        //     PageName = ApplicationPageName.History;
+        //     // Some logic
         // }
 
         [ObservableProperty]

@@ -1,6 +1,6 @@
 ﻿using Avalonia.Svg.Skia;
 using BatchProcess3.Data;
-using BatchProcess3.Factories;
+using BatchProcess3.Tools.Factories;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
@@ -111,7 +111,7 @@ namespace BatchProcess3.ViewModels
             CurrentPage = pageName switch
             {
                 // 可传入参数
-                ApplicationPageName.Home => _pageFactory.GetPageViewModel<HomePageViewModel>(viewmodel => viewmodel.Test = "Test Home (Parameters can be passed in here)"),
+                ApplicationPageName.Home => _pageFactory.GetPageViewModel<HomePageViewModel>(vm => vm.Test = "Test Home (Parameters can be passed in here)"),
                 ApplicationPageName.Process => _pageFactory.GetPageViewModel<ProcessPageViewModel>(),
                 ApplicationPageName.Actions => _pageFactory.GetPageViewModel<ActionsPageViewModel>(),
                 ApplicationPageName.Macros => _pageFactory.GetPageViewModel<MacrosPageViewModel>(),

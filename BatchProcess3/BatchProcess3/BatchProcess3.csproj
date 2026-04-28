@@ -24,4 +24,20 @@
         <PackageReference Include="IconPacks.Avalonia" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
     </ItemGroup>
+
+    <ItemGroup>
+      <AdditionalFiles Include="Controls\Styles\Basic\Fonts.axaml" />
+      <AdditionalFiles Include="Controls\Styles\BusinessStyle\BusinessStyle.axaml" />
+      <AdditionalFiles Include="Controls\Styles\BusinessStyle\BusinessStylePreview.axaml" />
+      <AdditionalFiles Include="Controls\Styles\Buttons.axaml" />
+      <AdditionalFiles Include="Controls\Styles\General.axaml" />
+      <AdditionalFiles Include="Controls\Styles\Labels.axaml" />
+      <AdditionalFiles Include="Controls\Styles\ListBox.axaml" />
+      <AdditionalFiles Include="Controls\Styles\TextBlock.axaml" />
+      <AdditionalFiles Include="Controls\Styles\TextBox.axaml" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Tools\Services\" />
+    </ItemGroup>
 </Project>

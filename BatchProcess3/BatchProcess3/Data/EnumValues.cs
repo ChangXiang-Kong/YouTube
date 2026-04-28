@@ -16,6 +16,7 @@ namespace BatchProcess3.Data
         Reporter = 5,
         History = 6,
         Settings = 7,
+        Detail = 8,
     }
     
     public enum ActionsPageName

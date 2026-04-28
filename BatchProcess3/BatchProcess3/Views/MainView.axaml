@@ -98,7 +98,7 @@
       </Grid>
     </Border>
 
-    <ContentControl Grid.Column="1" Content="{Binding CurrentPage}" Foreground="White" />
+    <ContentControl Grid.Column="1" Content="{Binding CurrentPage}" />
 
   </Grid>
 </UserControl>
