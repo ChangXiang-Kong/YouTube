@@ -1,0 +1,27 @@
+<Project>
+  <!-- https://learn.microsoft.com/en-us/nuget/consume-packages/central-package-management -->
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- Avalonia packages -->
+    <!-- Important: keep version in sync! -->
+    <PackageVersion Include="Avalonia" Version="12.0.2" />
+    <PackageVersion Include="Avalonia.Fonts.Inter" Version="12.0.2" />
+    <PackageVersion Include="Avalonia.Desktop" Version="12.0.2" />
+    <PackageVersion Include="Avalonia.iOS" Version="12.0.1" />
+    <PackageVersion Include="Avalonia.Browser" Version="12.0.1" />
+    <PackageVersion Include="Avalonia.Android" Version="12.0.1" />
+    <PackageVersion Include="Avalonia.Themes.Fluent" Version="12.0.2" />
+    <PackageVersion Include="AvaloniaUI.DiagnosticsSupport" Version="2.2.1" />
+    <PackageVersion Include="ClassicDiagnostics.Avalonia" Version="0.0.2-preview" />
+    <PackageVersion Include="CommunityToolkit.Mvvm" Version="8.4.2" />
+    <PackageVersion Include="IconPacks.Avalonia" Version="2.0.0" />
+    <PackageVersion Include="Irihi.Ursa" Version="2.0.0" />
+    <PackageVersion Include="Irihi.Ursa.Themes.Semi" Version="2.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="10.0.7" />
+    <PackageVersion Include="Semi.Avalonia" Version="12.0.1" />
+    <PackageVersion Include="Semi.Avalonia.Tabalonia" Version="11.0.0-beta1" />
+    <PackageVersion Include="Xamarin.AndroidX.Core.SplashScreen" Version="1.0.1.15" />
+  </ItemGroup>
+</Project>

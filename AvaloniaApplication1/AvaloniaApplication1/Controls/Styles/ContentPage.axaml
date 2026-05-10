@@ -1,0 +1,35 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <Design.PreviewWith>
+    <ContentPage Width="400" Height="300" Background="White">
+      <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="ContentPage" />
+    </ContentPage>
+  </Design.PreviewWith>
+
+  <Color x:Key="SemiBackground0Color">White</Color>
+  <Color x:Key="SemiGrey9Color">#1C1F23</Color>
+
+  <ControlTheme x:Key="{x:Type ContentPage}" TargetType="ContentPage">
+    <Setter Property="Background" Value="{DynamicResource SemiBackground0Color}" />
+    <Setter Property="Foreground" Value="{DynamicResource SemiGrey9Color}" />
+    <Setter Property="BorderBrush" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="Template">
+      <ControlTemplate TargetType="ContentPage">
+        <DockPanel>
+          <ContentPresenter Name="PART_TopCommandBar" DockPanel.Dock="Top" />
+          <ContentPresenter Name="PART_BottomCommandBar" DockPanel.Dock="Bottom" />
+          <ContentPresenter Name="PART_ContentPresenter"
+                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                            CornerRadius="{TemplateBinding CornerRadius}" />
+        </DockPanel>
+      </ControlTemplate>
+    </Setter>
+  </ControlTheme>
+</ResourceDictionary>

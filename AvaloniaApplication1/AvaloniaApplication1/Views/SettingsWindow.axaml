@@ -1,0 +1,288 @@
+﻿<u:UrsaWindow x:Class="AvaloniaApplication1.Views.SettingsWindow"
+              xmlns="https://github.com/avaloniaui"
+              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+              xmlns:cvt="using:AvaloniaApplication1.Controls.Converters"
+              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+              xmlns:iconPacks="https://github.com/MahApps/IconPacks.Avalonia"
+              xmlns:iri="https://irihi.tech/shared"
+              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+              xmlns:u="https://irihi.tech/ursa"
+              xmlns:vm="using:AvaloniaApplication1.ViewModels"
+              Title="设置"
+              Width="1024"
+              Height="768"
+              d:DesignHeight="768"
+              d:DesignWidth="1024"
+              x:CompileBindings="True"
+              x:DataType="vm:SettingsWindowViewModel"
+              ExtendClientAreaToDecorationsHint="True"
+              Icon="/Assets/avalonia-logo.ico"
+              IsFullScreenButtonVisible="{OnPlatform {x:False},
+                                                     macOS={x:False}}"
+              IsManagedResizerVisible="{OnPlatform {x:False},
+                                                   Linux={x:True}}"
+              IsTitleBarVisible="True"
+              ShowInTaskbar="True"
+              WindowStartupLocation="CenterScreen"
+              WindowState="Normal"
+              mc:Ignorable="d">
+  <u:UrsaWindow.LeftContent>
+    <!-- <views:TitleBarLeftContent /> -->
+  </u:UrsaWindow.LeftContent>
+  <u:UrsaWindow.RightContent>
+    <!-- <views:TitleBarRightContent /> -->
+  </u:UrsaWindow.RightContent>
+  <u:UrsaWindow.Styles>
+    <!--  This style is created to demonstrate Dialog StyleClass feature. This style is applied to dialogs in MainWindow OverlayDialogHost  -->
+    <Style Selector="u|StandardDialogControl.Custom">
+      <Style Selector="^ /template/ Button#PART_OKButton">
+        <Setter Property="Content" Value="CUSTOM" />
+        <Setter Property="iri:ClassHelper.Classes" Value="Warning" />
+      </Style>
+    </Style>
+  </u:UrsaWindow.Styles>
+  <Design.DataContext>
+    <!--
+      This only sets the DataContext for the previewer in an IDE,
+      to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs)
+    -->
+    <vm:SettingsWindowViewModel />
+  </Design.DataContext>
+
+  <Grid Margin="0,20,0,10" RowDefinitions="*, Auto">
+    <TabControl Name="TabControl_Main" Grid.Row="0" Padding="15,0,0,0"
+                SelectedIndex="1" TabStripPlacement="Left"
+                Theme="{DynamicResource ScrollButtonTabControl}">
+      <TabControl.Styles>
+        <Style Selector=".Dismiss /template/ ScrollViewer#PART_ScrollViewer">
+          <Setter Property="IsVisible" Value="False" />
+        </Style>
+      </TabControl.Styles>
+      <TabControl.ItemsPanel>
+        <ItemsPanelTemplate>
+          <StackPanel />
+        </ItemsPanelTemplate>
+      </TabControl.ItemsPanel>
+
+      <!--  Window Title  -->
+      <TabItem Height="45" MinWidth="180" Padding="20,0,0,0"
+               FontSize="20" FontWeight="Bold"
+               Foreground="{DynamicResource SemiColorPrimary}"
+               Header="系统设置" IsHitTestVisible="False" IsTabStop="False" />
+
+      <!--  常规  -->
+      <TabItem Height="45" MinWidth="180" Padding="25,0,0,0"
+               VerticalContentAlignment="Center" Header="常规"
+               Icon="{DynamicResource SemiIconSetting}">
+        <Grid RowDefinitions="Auto, *">
+          <!--  Title  -->
+          <TextBlock Grid.Row="0" Margin="0,0,0,15" Classes="H4"
+                     Text="常规"
+                     Theme="{StaticResource TitleTextBlock}" />
+          <ScrollViewer Grid.Row="1" Margin="0,0,2,0" AllowAutoHide="False">
+            <StackPanel Margin="0,0,15,0">
+              <u:UrsaGroupBox Margin="0,0,0,10"
+                              Background="{DynamicResource SemiColorTertiaryLight}"
+                              BorderBrush="{DynamicResource SemiColorTertiaryLight}"
+                              BorderThickness="1.5"
+                              CornerRadius="{DynamicResource RadiusCardCornerRadius}"
+                              HeaderSpacing="10"
+                              Theme="{DynamicResource UrsaGroupBox1}">
+                <u:UrsaGroupBox.Header>
+                  <TextBlock FontWeight="Bold" Text="常规" />
+                </u:UrsaGroupBox.Header>
+                <StackPanel Spacing="5">
+                  <DockPanel>
+                    <ComboBox DockPanel.Dock="Right" ItemsSource="{Binding TempSettings.Langs}" SelectedItem="{Binding TempSettings.SelectedLang}" />
+                    <TextBlock VerticalAlignment="Center" Text="语言" TextWrapping="Wrap" />
+                  </DockPanel>
+                  <Separator />
+                  <DockPanel>
+                    <ToggleSwitch HorizontalAlignment="Left"
+                                  Background="{DynamicResource SemiColorPrimary}"
+                                  DockPanel.Dock="Right"
+                                  IsChecked="{Binding TempSettings.AutoStart}"
+                                  Theme="{StaticResource SimpleToggleSwitch}" />
+                    <TextBlock VerticalAlignment="Center" Text="在计算机开机时自动启动" TextWrapping="Wrap" />
+                  </DockPanel>
+                  <Separator />
+                  <DockPanel>
+                    <ToggleSwitch HorizontalAlignment="Left"
+                                  Background="{DynamicResource SemiColorPrimary}"
+                                  DockPanel.Dock="Right"
+                                  IsChecked="{Binding TempSettings.AutoCheckUpdates}"
+                                  Theme="{StaticResource SimpleToggleSwitch}" />
+                    <TextBlock VerticalAlignment="Center" Text="启动时自动检查更新" TextWrapping="Wrap" />
+                  </DockPanel>
+                  <Separator />
+                </StackPanel>
+              </u:UrsaGroupBox>
+            </StackPanel>
+          </ScrollViewer>
+        </Grid>
+      </TabItem>
+
+      <!--  账户  -->
+      <TabItem Height="45" MinWidth="180" Padding="25,0,0,0"
+               VerticalContentAlignment="Center" Header="账户"
+               Icon="{DynamicResource SemiIconIdCard}">
+        <Grid RowDefinitions="Auto, *">
+          <!--  Title  -->
+          <TextBlock Grid.Row="0" Margin="0,0,0,15" Classes="H4"
+                     Text="账户"
+                     Theme="{StaticResource TitleTextBlock}" />
+          <ScrollViewer Grid.Row="1" Margin="0,0,2,0" AllowAutoHide="False">
+            <StackPanel Margin="0,0,15,0">
+              <u:UrsaGroupBox Margin="0,0,0,10"
+                              Background="{DynamicResource SemiColorTertiaryLight}"
+                              BorderBrush="{DynamicResource SemiColorTertiaryLight}"
+                              BorderThickness="1.5"
+                              CornerRadius="{DynamicResource RadiusCardCornerRadius}"
+                              HeaderSpacing="10"
+                              Theme="{DynamicResource UrsaGroupBox1}">
+                <u:UrsaGroupBox.Header>
+                  <TextBlock FontWeight="Bold" Text="按钮" />
+                </u:UrsaGroupBox.Header>
+                <StackPanel Spacing="5">
+                  <DockPanel>
+                    <ToggleSwitch HorizontalAlignment="Left" Background="{DynamicResource SemiColorPrimary}" DockPanel.Dock="Right" Theme="{StaticResource SimpleToggleSwitch}" />
+                    <TextBlock VerticalAlignment="Center" Text="显示查看日志按钮" TextWrapping="Wrap" />
+                  </DockPanel>
+                </StackPanel>
+              </u:UrsaGroupBox>
+              <u:UrsaGroupBox Margin="0,0,0,10"
+                              Background="{DynamicResource SemiColorTertiaryLight}"
+                              BorderBrush="{DynamicResource SemiColorTertiaryLight}"
+                              BorderThickness="1.5"
+                              CornerRadius="{DynamicResource RadiusCardCornerRadius}"
+                              HeaderSpacing="10"
+                              Theme="{DynamicResource UrsaGroupBox1}">
+                <u:UrsaGroupBox.Header>
+                  <TextBlock FontWeight="Bold" Text="按钮" />
+                </u:UrsaGroupBox.Header>
+                <StackPanel Spacing="5">
+                  <DockPanel>
+                    <ToggleSwitch HorizontalAlignment="Left" Background="{DynamicResource SemiColorPrimary}" DockPanel.Dock="Right" Theme="{StaticResource SimpleToggleSwitch}" />
+                    <TextBlock VerticalAlignment="Center" Text="显示查看日志按钮" TextWrapping="Wrap" />
+                  </DockPanel>
+                </StackPanel>
+              </u:UrsaGroupBox>
+            </StackPanel>
+          </ScrollViewer>
+        </Grid>
+      </TabItem>
+
+      <!--  通知  -->
+      <TabItem Height="45" MinWidth="180" Padding="25,0,0,0"
+               VerticalContentAlignment="Center" Header="通知"
+               Icon="{DynamicResource SemiIconBell}">
+        <Grid RowDefinitions="Auto, *">
+          <!--  Title  -->
+          <TextBlock Grid.Row="0" Margin="0,0,0,15" Classes="H4"
+                     Text="通知"
+                     Theme="{StaticResource TitleTextBlock}" />
+          <ScrollViewer Grid.Row="1" Margin="0,0,2,0" AllowAutoHide="False">
+            <StackPanel Margin="0,0,15,0">
+              <u:UrsaGroupBox Margin="0,0,0,10"
+                              Background="{DynamicResource SemiColorTertiaryLight}"
+                              BorderBrush="{DynamicResource SemiColorTertiaryLight}"
+                              BorderThickness="1.5"
+                              CornerRadius="{DynamicResource RadiusCardCornerRadius}"
+                              HeaderSpacing="10"
+                              Theme="{DynamicResource UrsaGroupBox1}">
+                <u:UrsaGroupBox.Header>
+                  <TextBlock FontWeight="Bold" Text="按钮" />
+                </u:UrsaGroupBox.Header>
+                <StackPanel Spacing="5">
+                  <DockPanel>
+                    <ToggleSwitch HorizontalAlignment="Left" Background="{DynamicResource SemiColorPrimary}" DockPanel.Dock="Right" Theme="{StaticResource SimpleToggleSwitch}" />
+                    <TextBlock VerticalAlignment="Center" Text="显示查看日志按钮" TextWrapping="Wrap" />
+                  </DockPanel>
+                </StackPanel>
+              </u:UrsaGroupBox>
+              <u:UrsaGroupBox Margin="0,0,0,10"
+                              Background="{DynamicResource SemiColorTertiaryLight}"
+                              BorderBrush="{DynamicResource SemiColorTertiaryLight}"
+                              BorderThickness="1.5"
+                              CornerRadius="{DynamicResource RadiusCardCornerRadius}"
+                              HeaderSpacing="10"
+                              Theme="{DynamicResource UrsaGroupBox1}">
+                <u:UrsaGroupBox.Header>
+                  <TextBlock FontWeight="Bold" Text="按钮" />
+                </u:UrsaGroupBox.Header>
+                <StackPanel Spacing="5">
+                  <DockPanel>
+                    <ToggleSwitch HorizontalAlignment="Left" Background="{DynamicResource SemiColorPrimary}" DockPanel.Dock="Right" Theme="{StaticResource SimpleToggleSwitch}" />
+                    <TextBlock VerticalAlignment="Center" Text="显示查看日志按钮" TextWrapping="Wrap" />
+                  </DockPanel>
+                </StackPanel>
+              </u:UrsaGroupBox>
+            </StackPanel>
+          </ScrollViewer>
+        </Grid>
+      </TabItem>
+
+
+      <TabItem Height="45" MinWidth="180" Padding="25,0,0,0"
+               VerticalContentAlignment="Center" Header="界面"
+               Icon="{DynamicResource MyIconDesktop}">
+        <Grid RowDefinitions="Auto, *">
+          <!--  Title  -->
+          <TextBlock Grid.Row="0" Margin="0,0,0,15" Classes="H4"
+                     Text="界面"
+                     Theme="{StaticResource TitleTextBlock}" />
+          <ScrollViewer Grid.Row="1" Margin="0,0,2,0" AllowAutoHide="False">
+            <StackPanel Margin="0,0,15,0">
+              <u:UrsaGroupBox Margin="0,0,0,10"
+                              Background="{DynamicResource SemiColorTertiaryLight}"
+                              BorderBrush="{DynamicResource SemiColorTertiaryLight}"
+                              BorderThickness="1.5"
+                              CornerRadius="{DynamicResource RadiusCardCornerRadius}"
+                              HeaderSpacing="10"
+                              Theme="{DynamicResource UrsaGroupBox1}">
+                <u:UrsaGroupBox.Header>
+                  <TextBlock FontWeight="Bold" Text="按钮" />
+                </u:UrsaGroupBox.Header>
+                <StackPanel Spacing="5">
+                  <DockPanel>
+                    <ToggleSwitch HorizontalAlignment="Left"
+                                  Background="{DynamicResource SemiColorPrimary}"
+                                  DockPanel.Dock="Right"
+                                  IsChecked="{Binding TempSettings.DisplayViewNewsButton}"
+                                  Theme="{StaticResource SimpleToggleSwitch}" />
+                    <TextBlock VerticalAlignment="Center" Text="显示查看新闻按钮" TextWrapping="Wrap" />
+                  </DockPanel>
+                  <Separator />
+                  <DockPanel>
+                    <ToggleSwitch HorizontalAlignment="Left"
+                                  Background="{DynamicResource SemiColorPrimary}"
+                                  DockPanel.Dock="Right"
+                                  IsChecked="{Binding TempSettings.DisplayViewNotificationsButton}"
+                                  Theme="{StaticResource SimpleToggleSwitch}" />
+                    <TextBlock VerticalAlignment="Center" Text="显示查看通知按钮" TextWrapping="Wrap" />
+                  </DockPanel>
+                  <Separator />
+                  <DockPanel>
+                    <ToggleSwitch HorizontalAlignment="Left"
+                                  Background="{DynamicResource SemiColorPrimary}"
+                                  DockPanel.Dock="Right"
+                                  IsChecked="{Binding TempSettings.DisplayViewLogButton}"
+                                  Theme="{StaticResource SimpleToggleSwitch}" />
+                    <TextBlock VerticalAlignment="Center" Text="显示查看日志按钮" TextWrapping="Wrap" />
+                  </DockPanel>
+                </StackPanel>
+              </u:UrsaGroupBox>
+            </StackPanel>
+          </ScrollViewer>
+        </Grid>
+      </TabItem>
+    </TabControl>
+
+    <StackPanel Grid.Row="1" Margin="0,10,15,0" HorizontalAlignment="Right"
+                Orientation="Horizontal" Spacing="5">
+      <Button Width="60" Command="{Binding OkCommand}" Content="确认" Theme="{DynamicResource SolidButton}" />
+      <Button Width="60" Command="{Binding CancelCommand}" Content="取消" />
+      <Button Width="60" Command="{Binding ApplyCommand}" Content="应用" IsEnabled="False" />
+    </StackPanel>
+  </Grid>
+</u:UrsaWindow>

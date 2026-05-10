@@ -1,0 +1,106 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <Design.PreviewWith>
+    <NavigationPage Width="400" Height="300" Header="test">
+      <ContentPage>ContentPage</ContentPage>
+    </NavigationPage>
+  </Design.PreviewWith>
+
+  <!--  NavigationPage  -->
+  <x:Double x:Key="NavigationPageBarMinHeight">32</x:Double>
+  <x:Double x:Key="NavigationPageBarLargeMinHeight">48</x:Double>
+  <Thickness x:Key="NavigationPageBarPadding">3 0</Thickness>
+  <Thickness x:Key="NavigationPageBarBorderThickness">0 0 0 0.7</Thickness>
+  <StreamGeometry x:Key="GeometryArrowLeft">
+    M87.5 161.3375L25 98.8375V90L87.5 27.5L96.3375 36.3375L44.5125 88.175H175V100.675H44.5L96.35 152.5L87.5 161.3375z
+  </StreamGeometry>
+  <StaticResource x:Key="NavigationPageBackButtonGlyph" ResourceKey="GeometryArrowLeft" />
+
+  <ControlTheme x:Key="{x:Type NavigationPage}" TargetType="NavigationPage">
+    <Setter Property="MinHeight" Value="{DynamicResource NavigationPageBarMinHeight}" />
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="BorderBrush" Value="LightGray" />
+    <Setter Property="BorderThickness" Value="{DynamicResource NavigationPageBarBorderThickness}" />
+    <!--  设置 ContentPage 的外侧空间  -->
+    <Setter Property="Padding" Value="{DynamicResource NavigationPageBarPadding}" />
+    <Setter Property="BarHeight" Value="32" />
+    <Setter Property="HasShadow" Value="True" />
+    <Setter Property="Template">
+      <ControlTemplate TargetType="NavigationPage">
+        <Panel ClipToBounds="True">
+          <DockPanel>
+            <Border Name="PART_NavBarSpacer" Height="{TemplateBinding EffectiveBarHeight}" DockPanel.Dock="Top" IsVisible="False" />
+            <ContentPresenter Name="PART_BottomCommandBar" Background="{TemplateBinding Background}" Content="{Binding CurrentPage.(NavigationPage.BottomCommandBar), RelativeSource={RelativeSource TemplatedParent}, FallbackValue={x:Null}}" DockPanel.Dock="Bottom" />
+            <Panel Name="PART_ContentHost" Background="{TemplateBinding Background}" ClipToBounds="True">
+              <ContentPresenter Name="PART_PageBackPresenter" />
+              <ContentPresenter Name="PART_PagePresenter" />
+            </Panel>
+          </DockPanel>
+
+          <Border Name="PART_NavigationBar"
+                  MinHeight="{TemplateBinding MinHeight}"
+                  Padding="{TemplateBinding Padding}"
+                  VerticalAlignment="Top"
+                  Background="{TemplateBinding Background}"
+                  BorderBrush="{TemplateBinding BorderBrush}"
+                  BorderThickness="{TemplateBinding BorderThickness}">
+            <Grid ColumnDefinitions="Auto,*,Auto">
+              <Button Name="PART_BackButton" Grid.Column="0"
+                      Width="{TemplateBinding BarHeight}"
+                      Height="{TemplateBinding BarHeight}"
+                      Margin="3,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                      Background="Transparent" Classes="Tertiary"
+                      CornerRadius="{StaticResource CornerRadius_6}"
+                      IsHitTestVisible="{TemplateBinding IsBackButtonEffectivelyVisible}"
+                      Opacity="{TemplateBinding IsBackButtonEffectivelyVisible}">
+                <!--  IsVisible="{TemplateBinding IsBackButtonEffectivelyVisible}"  -->
+                <!--  Theme="{StaticResource BorderlessButton}">  -->
+                <Panel Background="Transparent">
+                  <PathIcon Name="PART_BackButtonDefaultIcon" Data="{DynamicResource NavigationPageBackButtonGlyph}" />
+                  <!--  Theme="{StaticResource InnerPathIcon}" />  -->
+                  <ContentPresenter Name="PART_BackButtonContentPresenter" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                </Panel>
+              </Button>
+              <ContentPresenter Name="PART_Header" Grid.Column="1" Padding="3,7,3,3"
+                                VerticalAlignment="Center" Background="Transparent"
+                                Content="{Binding CurrentPage?.Header, RelativeSource={RelativeSource TemplatedParent}, FallbackValue={x:Null}}"
+                                ContentTemplate="{Binding CurrentPage?.HeaderTemplate, RelativeSource={RelativeSource TemplatedParent}, FallbackValue={x:Null}}"
+                                FontSize="16" FontWeight="Bold" />
+              <ContentPresenter Name="PART_TopCommandBar" Grid.Column="2" Margin="3,0"
+                                HorizontalAlignment="Right"
+                                Content="{Binding CurrentPage?.(NavigationPage.TopCommandBar), RelativeSource={RelativeSource TemplatedParent}, FallbackValue={x:Null}}" />
+            </Grid>
+          </Border>
+
+          <Border Name="PART_NavBarShadow" Height="4" VerticalAlignment="Top"
+                  IsHitTestVisible="False" IsVisible="False" ZIndex="1">
+            <Border.Background>
+              <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%">
+                <GradientStop Offset="0" Color="#0C000000" />
+                <GradientStop Offset="1" Color="#00000000" />
+              </LinearGradientBrush>
+            </Border.Background>
+          </Border>
+          <ContentPresenter Name="PART_ModalBackPresenter" Background="{TemplateBinding Background}" IsVisible="False" ZIndex="99" />
+          <ContentPresenter Name="PART_ModalPresenter" Background="{TemplateBinding Background}" IsVisible="False" ZIndex="100" />
+        </Panel>
+      </ControlTemplate>
+    </Setter>
+
+    <Style Selector="^ /template/ Border#PART_NavigationBar">
+      <Setter Property="Background" Value="Transparent" />
+    </Style>
+
+    <Style Selector="^:nav-bar-inset /template/ Border#PART_NavBarSpacer">
+      <Setter Property="IsVisible" Value="True" />
+    </Style>
+
+    <Style Selector="^:nav-bar-compact /template/ ContentPresenter#PART_TopCommandBar CommandBar">
+      <Setter Property="DefaultLabelPosition" Value="Collapsed" />
+    </Style>
+
+    <Style Selector="^.Large">
+      <Setter Property="BarHeight" Value="{DynamicResource NavigationPageBarLargeMinHeight}" />
+    </Style>
+  </ControlTheme>
+</ResourceDictionary>

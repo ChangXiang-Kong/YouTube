@@ -1,0 +1,21 @@
+﻿<UserControl x:Class="AvaloniaApplication1.Views.ErrorPageView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:AvaloniaApplication1.ViewModels"
+             d:DesignHeight="450"
+             d:DesignWidth="800"
+             mc:Ignorable="d">
+
+  <Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#EFEFEF">
+    <StackPanel MaxWidth="600" VerticalAlignment="Center" Background="Transparent" Orientation="Vertical">
+      <Image Name="Image_SomeImage" MaxWidth="50" MaxHeight="300" />
+      <TextBlock Name="TextBlock_Title" HorizontalAlignment="Center" VerticalAlignment="Center"
+                 FontSize="40" Foreground="DodgerBlue" Text="404 Not Found" />
+      <TextBlock Name="TextBlock_Message" HorizontalAlignment="Center" VerticalAlignment="Center"
+                 FontSize="30" Foreground="Gray" Text="未找到资源"
+                 TextWrapping="WrapWithOverflow" />
+    </StackPanel>
+  </Border>
+</UserControl>

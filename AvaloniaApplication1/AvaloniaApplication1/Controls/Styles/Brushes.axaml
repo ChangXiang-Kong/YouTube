@@ -1,0 +1,76 @@
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+  <Color x:Key="TransparentBackground">Transparent</Color>
+  <Color x:Key="GlobalBackground">White</Color>
+  <!-- <Color x:Key="GlobalBackground1">#fcfcfc</Color> -->
+  <!-- <Color x:Key="GlobalBackground2">#f9f9f9</Color> -->
+  <Color x:Key="GlobalForeground">Black</Color>
+  <Color x:Key="GlobalForeground1">Gray</Color>
+  <Color x:Key="GlobalForeground2">DarkGray</Color>
+  <Color x:Key="LightCaretBrush">White</Color>
+  <Color x:Key="DarkCaretBrush">Black</Color>
+
+  <!--  Button Icon-Only  -->
+  <Color x:Key="IconOnlyBackground">#cccccc</Color>
+  <Color x:Key="IconOnlyForeground">Black</Color>
+  <Color x:Key="IconOnlyBorderBrush">#cccccc</Color>
+  <!--  Button Icon-Only Outline  -->
+  <Color x:Key="IconOnlyBackgroundOutline">Transparent</Color>
+  <Color x:Key="IconOnlyForegroundOutline">Black</Color>
+  <Color x:Key="IconOnlyBorderBrushOutline">Transparent</Color>
+
+  <!--  Button Default  -->
+  <Color x:Key="DefaultBackground">#cccccc</Color>
+  <Color x:Key="DefaultForeground">White</Color>
+  <Color x:Key="DefaultBorderBrush">#cccccc</Color>
+  <!--  Button Default Outline  -->
+  <Color x:Key="DefaultBackgroundOutline">White</Color>
+  <Color x:Key="DefaultForegroundOutline">Gray</Color>
+  <Color x:Key="DefaultBorderBrushOutline">LightGray</Color>
+
+  <!--  Button Primary  -->
+  <Color x:Key="PrimaryBackground">DodgerBlue</Color>
+  <Color x:Key="PrimaryForeground">White</Color>
+  <Color x:Key="PrimaryBorderBrush">DodgerBlue</Color>
+  <!--  Button Primary Outline  -->
+  <Color x:Key="PrimaryBackgroundOutline">#E6F1FC</Color>
+  <Color x:Key="PrimaryForegroundOutline">DodgerBlue</Color>
+  <Color x:Key="PrimaryBorderBrushOutline">DodgerBlue</Color>
+
+  <!--  Button Info  -->
+  <Color x:Key="InfoBackground">#00bcd4</Color>
+  <Color x:Key="InfoForeground">White</Color>
+  <Color x:Key="InfoBorderBrush">#00bcd4</Color>
+  <!--  Button  Info Outline  -->
+  <Color x:Key="InfoBackgroundOutline">#E6F1FC</Color>
+  <Color x:Key="InfoForegroundOutline">#00bcd4</Color>
+  <Color x:Key="InfoBorderBrushOutline">#00bcd4</Color>
+
+  <!--  Button Success  -->
+  <Color x:Key="SuccessBackground">#2db84d</Color>
+  <Color x:Key="SuccessForeground">White</Color>
+  <Color x:Key="SuccessBorderBrush">#2db84d</Color>
+  <!--  Button Success Outline  -->
+  <Color x:Key="SuccessBackgroundOutline">#ecf7ec</Color>
+  <Color x:Key="SuccessForegroundOutline">#2db84d</Color>
+  <Color x:Key="SuccessBorderBrushOutline">#2db84d</Color>
+
+  <!--  Button Warning  -->
+  <Color x:Key="WarningBackground">#e9af20</Color>
+  <Color x:Key="WarningForeground">White</Color>
+  <Color x:Key="WarningBorderBrush">#e9af20</Color>
+  <!--  Button Warning Outline  -->
+  <Color x:Key="WarningBackgroundOutline">#FFF8EA</Color>
+  <Color x:Key="WarningForegroundOutline">#e9af20</Color>
+  <Color x:Key="WarningBorderBrushOutline">#e9af20</Color>
+
+  <!--  Button Danger  -->
+  <Color x:Key="DangerBackground">#db3340</Color>
+  <Color x:Key="DangerForeground">White</Color>
+  <Color x:Key="DangerBorderBrush">#db3340</Color>
+  <!--  Button Danger Outline  -->
+  <Color x:Key="DangerBackgroundOutline">#fef2ed</Color>
+  <Color x:Key="DangerForegroundOutline">#db3340</Color>
+  <Color x:Key="DangerBorderBrushOutline">#db3340</Color>
+</ResourceDictionary>

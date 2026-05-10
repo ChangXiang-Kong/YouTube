@@ -1,0 +1,211 @@
+﻿<UserControl x:Class="AvaloniaApplication1.Views.TitleBarLeftContent"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:data="using:AvaloniaApplication1.Data"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:u="https://irihi.tech/ursa"
+             xmlns:vm="using:AvaloniaApplication1.ViewModels"
+             d:DesignHeight="32"
+             d:DesignWidth="1000"
+             x:DataType="vm:MainViewModel"
+             mc:Ignorable="d">
+  <Design.DataContext>
+    <vm:MainViewModel />
+  </Design.DataContext>
+  <StackPanel Orientation="Horizontal">
+    <!--  Logo  -->
+    <!-- <Image Width="20" Margin="5,0,0,0" IsHitTestVisible="False" Source="/Assets/avalonia-logo.ico" /> -->
+
+    <!--  Menu  -->
+    <Menu>
+      <!--  Settings  -->
+      <MenuItem Margin="10,0,0,0" Padding="5,0,10,0" ToolTip.Placement="Bottom">
+        <ToolTip.Tip>
+          <StackPanel>
+            <TextBlock Classes="h1" Text="ToolTip" />
+            <TextBlock Classes="h2" Text="系统设置" />
+          </StackPanel>
+        </ToolTip.Tip>
+        <MenuItem.HeaderTemplate>
+          <DataTemplate>
+            <StackPanel Orientation="Horizontal">
+              <Image Width="20" Margin="-5,0,5,0" Source="/Assets/avalonia-logo.ico" />
+              <TextBlock VerticalAlignment="Center" FontSize="15" FontWeight="Bold"
+                         IsHitTestVisible="False"
+                         Text="{x:Static data:ResourceToken.AppName}" />
+            </StackPanel>
+          </DataTemplate>
+        </MenuItem.HeaderTemplate>
+        <MenuItem Header="检查更新">
+          <MenuItem.Icon>
+            <PathIcon Data="{StaticResource SemiIconSync}" />
+          </MenuItem.Icon>
+        </MenuItem>
+        <Separator />
+        <MenuItem Header="系统设置">
+          <MenuItem.Icon>
+            <PathIcon Data="{StaticResource SemiIconSetting}" />
+          </MenuItem.Icon>
+        </MenuItem>
+        <Separator />
+        <MenuItem Header="退出">
+          <MenuItem.Icon>
+            <PathIcon Data="{StaticResource SemiIconExit}" />
+          </MenuItem.Icon>
+        </MenuItem>
+      </MenuItem>
+
+      <!--  Select Project  -->
+      <MenuItem Padding="10,0" Click="MenuItem_SelectProjectClick" ToolTip.Tip="选择项目">
+        <MenuItem.HeaderTemplate>
+          <DataTemplate>
+            <StackPanel Orientation="Horizontal">
+              <PathIcon Width="15" Data="{StaticResource SemiIconApartment}" />
+              <TextBlock Margin="5,0,5,0" Text="选择项目" />
+              <PathIcon Width="10" Data="{StaticResource SemiIconChevronDown}" />
+            </StackPanel>
+          </DataTemplate>
+        </MenuItem.HeaderTemplate>
+      </MenuItem>
+      <!-- <MenuItem Padding="10,0" Click="MenuItem_SelectProjectClick" ToolTip.Tip="选择项目"> -->
+      <!--   <MenuItem.HeaderTemplate> -->
+      <!--     <DataTemplate> -->
+      <!--       <StackPanel Orientation="Horizontal"> -->
+      <!--         <PathIcon Width="15" Data="{StaticResource SemiIconApartment}" /> -->
+      <!--         <TextBlock Margin="5,0,5,0" Text="选择项目" /> -->
+      <!--         <PathIcon Width="10" Data="{StaticResource SemiIconChevronDown}" /> -->
+      <!--       </StackPanel> -->
+      <!--     </DataTemplate> -->
+      <!--   </MenuItem.HeaderTemplate> -->
+      <!--   <MenuItem Header="电控-晴隆碧痕"> -->
+      <!--     <MenuItem.Icon> -->
+      <!--       <PathIcon Data="{StaticResource SemiIconSync}" /> -->
+      <!--     </MenuItem.Icon> -->
+      <!--   </MenuItem> -->
+      <!--   <MenuItem Header="电控-化德储能"> -->
+      <!--     <MenuItem.Icon> -->
+      <!--       <PathIcon Data="{StaticResource SemiIconAbsoluteStroked}" /> -->
+      <!--     </MenuItem.Icon> -->
+      <!--   </MenuItem> -->
+      <!-- </MenuItem> -->
+
+      <!--  Select System  -->
+      <MenuItem Padding="10,0" Click="MenuItem_SelectSystemClick" ToolTip.Tip="选择系统">
+        <MenuItem.HeaderTemplate>
+          <DataTemplate>
+            <StackPanel Orientation="Horizontal">
+              <PathIcon Width="15" Data="{StaticResource SemiIconAppCenter}" />
+              <TextBlock Margin="5,0,5,0" Text="选择系统" />
+              <PathIcon Width="10" Data="{StaticResource SemiIconChevronDown}" />
+            </StackPanel>
+          </DataTemplate>
+        </MenuItem.HeaderTemplate>
+      </MenuItem>
+      <!--  System  -->
+      <!-- <MenuItem Padding="10,0" Header="选择系统"> -->
+      <!--   <MenuItem Header="工作台" /> -->
+      <!--   <MenuItem Header="用户中心" /> -->
+      <!--   <MenuItem Header="消息中心" /> -->
+      <!--   <Separator /> -->
+      <!--   <MenuItem Header="劳务管理系统"> -->
+      <!--     <MenuItem.Icon> -->
+      <!--       <TextBlock>😊</TextBlock> -->
+      <!--     </MenuItem.Icon> -->
+      <!--   </MenuItem> -->
+      <!-- </MenuItem> -->
+
+      <!--  Help  -->
+      <MenuItem Padding="10,0" Header="帮助" ToolTip.Tip="帮助">
+        <MenuItem Header="联系客服" />
+        <Separator />
+        <MenuItem Header="隐私政策" />
+        <MenuItem Header="法律信息" />
+        <MenuItem Header="用户协议" />
+        <Separator />
+        <MenuItem Header="系统信息" />
+        <Separator />
+        <MenuItem Header="关于" />
+      </MenuItem>
+    </Menu>
+    <!-- Menu 使用示例
+            <Menu WindowDecorationProperties.ElementRole="User">
+              <MenuItem Header="_First">
+                <MenuItem Header="Standard _Menu Item" InputGesture="Ctrl+A" />
+                <MenuItem Header="_Disabled Menu Item" InputGesture="Ctrl+D" IsEnabled="False" />
+                <Separator />
+                <MenuItem Header="Menu with _Submenu">
+                  <MenuItem Header="Submenu _1" />
+                  <MenuItem Header="Submenu _2 with Submenu">
+                    <MenuItem Header="Submenu Level 2" />
+                  </MenuItem>
+                  <MenuItem Header="Submenu _3 with Submenu Disabled" IsEnabled="False">
+                    <MenuItem Header="Submenu Level 2" />
+                  </MenuItem>
+                </MenuItem>
+                <MenuItem Header="Menu Item with _Icon">
+                  <MenuItem.Icon>
+                    <TextBlock>😊</TextBlock>
+                  </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Menu Item with _Checkbox" ToggleType="CheckBox" />
+              </MenuItem>
+              <MenuItem Header="_Second">
+                <MenuItem Header="Second _Menu Item" />
+                <MenuItem Header="Second Menu toggle item" IsChecked="True" ToggleType="CheckBox" />
+                <Separator />
+                <MenuItem GroupName="A" Header="Radio 1 - group" ToggleType="Radio" />
+                <MenuItem GroupName="A" Header="Radio 2 - group" IsChecked="True" ToggleType="Radio" />
+                <MenuItem GroupName="A" Header="Radio 3 - group" ToggleType="Radio">
+                  <MenuItem GroupName="A" Header="Radio 4 - group" ToggleType="Radio" />
+                  <MenuItem GroupName="A" Header="Radio 5 - group" ToggleType="Radio" />
+                </MenuItem>
+                <Separator />
+                <MenuItem Header="Radio 1" ToggleType="Radio" />
+                <MenuItem Header="Radio 2" IsChecked="True" ToggleType="Radio" />
+                <MenuItem Header="Radio 3" ToggleType="Radio">
+                  <MenuItem Header="Radio 4" ToggleType="Radio" />
+                  <MenuItem Header="Radio 5" ToggleType="Radio" />
+                </MenuItem>
+              </MenuItem>
+              <MenuItem Header="Parent">
+                <MenuItem Header="Child 1" />
+                <MenuItem Header="Child 2" />
+                <MenuItem Header="Child 3" />
+                <Separator />
+                <MenuItem Header="Child 4" />
+                <MenuItem Header="Child 5" />
+                <MenuItem Header="Child 6" />
+                <MenuItem Header="Child 7" />
+                <MenuItem Header="Child 8" />
+                <MenuItem Header="Child 9" />
+                <MenuItem Header="Child 10" />
+                <MenuItem Header="Child 11" />
+                <MenuItem Header="Child 12" />
+                <MenuItem Header="Child 13" />
+                <MenuItem Header="Child 14" />
+                <MenuItem Header="Child 15" />
+                <MenuItem Header="Child 16" />
+                <MenuItem Header="Child 17" />
+                <MenuItem Header="Child 18" />
+                <MenuItem Header="Child 19" />
+                <MenuItem Header="Child 4" />
+                <MenuItem Header="Child 5" />
+                <MenuItem Header="Child 6" />
+                <MenuItem Header="Child 7" />
+                <MenuItem Header="Child 8" />
+                <MenuItem Header="Child 9" />
+                <MenuItem Header="Child 10" />
+                <MenuItem Header="Child 11" />
+                <MenuItem Header="Child 12" />
+                <MenuItem Header="Child 13" />
+                <MenuItem Header="Child 14" />
+                <MenuItem Header="Child 15" />
+                <MenuItem Header="Child 16" />
+                <MenuItem Header="Child 17" />
+                <MenuItem Header="Child 18" />
+                <MenuItem Header="Child 19" />
+              </MenuItem>
+            </Menu>-->
+  </StackPanel>
+</UserControl>

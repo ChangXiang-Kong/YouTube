@@ -1,0 +1,6 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <StreamGeometry x:Key="MyIconDesktop">
+    M 3 2 C 1.9000011 2 1 2.9000011 1 4 L 1 16 C 1 17.099999 1.9000011 18 3 18 L 10 18 L 8 21 L 8 22 L 16 22 L 16 21 L 14 18 L 21 18 C 22.099999 18 23 17.099999 23 16 L 23 4 C 23 2.9000011 22.099999 2 21 2 L 3 2 z M 3 4 L 21 4 L 21 14 L 3 14 L 3 4 z
+  </StreamGeometry>
+</ResourceDictionary>

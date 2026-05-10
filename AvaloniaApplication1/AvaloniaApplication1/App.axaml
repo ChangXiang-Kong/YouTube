@@ -1,0 +1,91 @@
+<Application x:Class="AvaloniaApplication1.App"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="using:AvaloniaApplication1"
+             xmlns:semi="https://irihi.tech/semi"
+             xmlns:u="https://irihi.tech/ursa"
+             xmlns:vm="clr-namespace:AvaloniaApplication1.ViewModels"
+             Name="AvaloniaApplication1 Demo"
+             x:DataType="vm:ApplicationViewModel"
+             RequestedThemeVariant="Default">
+  <!--
+    上面的 Name 属性作用：
+    Application.Name 属性的注释明确为 "Application name to be used for various platform-specific purposes"（用于各种特定平台目的的应用程序名称）。
+    macOS：会替换默认的 "Avalonia Application"，显示在屏幕顶部的系统菜单栏、关于对话框、程序坞（Dock）中。
+    Windows/Linux：主要用于系统对话框、任务栏工具提示或某些系统 API 调用时的标识。
+    
+    RequestedThemeVariant="Default" => "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options.
+  -->
+
+  <Application.DataTemplates>
+    <local:ViewLocator />
+  </Application.DataTemplates>
+
+  <Application.Styles>
+    <!--  Semi Avalonia 是完全独立的样式库，引用后你的程序不再需要使用 FluentTheme 或 SimpleTheme。您可以放心地将它们移除。  -->
+    <!-- <FluentTheme /> -->
+
+    <!--  Semi使用参考链接：https://docs.irihi.tech/semi/docs/basic/resource-customization  -->
+    <!--  dotnet add package Semi.Avalonia  -->
+    <!--  dotnet add package Irihi.Ursa  -->
+    <!--  dotnet add package Irihi.Ursa.Themes.Semi  -->
+    <semi:SemiTheme Locale="zh-CN" />
+    <!-- <semi:SemiTheme Locale="en-US" /> -->
+    <semi:UrsaSemiTheme Locale="zh-CN" />
+    <!-- <semi:UrsaSemiTheme Locale="en-US" /> -->
+    <!--  开启弹窗框动画：Semi Avalonia 中的弹出框（Popup）默认没有任何的动画，这是开发组出于性能考虑做出的决定。如果您希望启用弹出框动画，获得更好的用户体验，那么您只需要在应用中额外引用下面这个样式，弹出框动画便会自动应用于程序中的所有控件。  -->
+    <semi:SemiPopupAnimations />
+
+    <!--  dotnet add package Semi.Avalonia.ColorPicker  -->
+    <!--  dotnet add package Semi.Avalonia.DataGrid  -->
+    <!--  dotnet add package Semi.Avalonia.TreeDataGrid  -->
+    <!--  dotnet add package Semi.Avalonia.Dock  -->
+    <!--  dotnet add package Semi.Avalonia.Tabalonia  -->
+    <!--  dotnet add package Semi.Avalonia.AvaloniaEdit  -->
+    <!-- <semi:ColorPickerSemiTheme /> -->
+    <!-- <semi:DataGridSemiTheme /> -->
+    <!-- <semi:TreeDataGridSemiTheme /> -->
+    <!-- <semi:DockSemiTheme /> -->
+    <!-- <semi:TabaloniaSemiTheme /> -->
+    <!-- <semi:AvaloniaEditSemiTheme /> -->
+
+    <!-- <StyleInclude Source="avares://IconPacks.Avalonia/Icons.axaml" /> -->
+    <StyleInclude Source="/Controls/Index.axaml" />
+  </Application.Styles>
+
+  <Application.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.ThemeDictionaries>
+        <!-- <ResourceDictionary x:Key="Light"> -->
+        <!--   <SolidColorBrush x:Key="ButtonDefaultPrimaryForeground" Color="#9E28B3" /> -->
+        <!-- </ResourceDictionary> -->
+        <!-- <ResourceDictionary x:Key="Dark"> -->
+        <!--   <SolidColorBrush x:Key="ButtonDefaultPrimaryForeground" Color="#B553C2" /> -->
+        <!-- </ResourceDictionary> -->
+      </ResourceDictionary.ThemeDictionaries>
+
+      <ResourceDictionary.MergedDictionaries>
+        <!-- <MergeResourceInclude Source="Controls/Styles/_index.axaml" /> -->
+      </ResourceDictionary.MergedDictionaries>
+    </ResourceDictionary>
+  </Application.Resources>
+
+  <NativeMenu.Menu>
+    <NativeMenu>
+      <NativeMenuItem Command="{Binding JumpToCommand}" CommandParameter="{Binding $self.Header}" Header="About Us" />
+    </NativeMenu>
+  </NativeMenu.Menu>
+  <TrayIcon.Icons>
+    <TrayIcons>
+      <TrayIcon Command="{Binding ActivateCommand}" Icon="{OnPlatform Default=/Assets/irihi.ico, macOS=/Assets/irihi2.ico}" MacOSProperties.IsTemplateIcon="true" ToolTipText="AvaloniaApplication1 Demo">
+        <TrayIcon.Menu>
+          <NativeMenu>
+            <NativeMenuItem Command="{Binding JumpToCommand}" CommandParameter="{Binding $self.Header}" Header="About Us" />
+            <NativeMenuItem Command="{Binding ExitCommand}" Header="Exit" />
+          </NativeMenu>
+        </TrayIcon.Menu>
+      </TrayIcon>
+    </TrayIcons>
+  </TrayIcon.Icons>
+
+</Application>
