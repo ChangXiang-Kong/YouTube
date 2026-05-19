@@ -16,7 +16,7 @@
     <vm:ActionsPageViewModel />
   </Design.DataContext>
 
-  <Grid ColumnDefinitions="*, 30, 1.5*, 30, 1.5*">
+  <Grid ColumnDefinitions="*, 30, 3*">
     <!--  Print List Column  -->
     <Grid RowDefinitions="Auto, 10, Auto, 10, Auto, 10, *">
       <Label Classes="h2" Content="Print Actions" />
@@ -29,7 +29,7 @@
         <ListBox.ItemTemplate>
           <DataTemplate x:DataType="vmActions:ActionsPrintViewModel">
             <Grid ColumnDefinitions="*, Auto">
-              <Label Grid.Column="0" VerticalAlignment="Center" Content="{Binding JobName}" />
+              <Label Grid.Column="0" VerticalAlignment="Center" Content="{Binding JobName}" FontWeight="{Binding HasChanged, Converter={StaticResource BoolToBoldFontConverter}}" />
               <Button Grid.Column="1" Margin="0,-4,-8,-4" Padding="0"
                       VerticalAlignment="Center" ava:ToolTip.Tip="Delete" Classes="smaller danger"
                       Command="{Binding $parent[ListBox].((vm:ActionsPageViewModel)DataContext).DeletePrintItemCommand}"
@@ -48,86 +48,118 @@
       </ListBox>
     </Grid>
 
-    <!--  General Settings Column  -->
-    <Grid Grid.Column="2" RowDefinitions="Auto, 10, Auto, 10, Auto, 10, Auto, 10, Auto, 10, *">
-      <Label Grid.Row="0" Classes="h2" Content="General Settings" />
-      <TextBlock Grid.Row="2" Margin="0,-10,0,0" Text="Set the main properties of the print job." />
-      <Grid Grid.Row="4" ColumnDefinitions="130, 10, *" RowDefinitions="Auto, 10, Auto, 10 Auto">
-        <Label Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Content="Job Name" />
-        <TextBox Name="TextBox_JobName" Grid.Row="0" Grid.Column="2" Text="{Binding SelectedPrintListItem.JobName}" />
-        <Label Grid.Row="2" Grid.Column="0" VerticalAlignment="Top" Content="Description" />
-        <TextBox Grid.Row="2" Grid.Column="2" Height="90"
-                 AcceptsReturn="True"
-                 Text="{Binding SelectedPrintListItem.Description}"
-                 TextWrapping="Wrap" />
+    <StackPanel Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center"
+                Opacity="{Binding !PrintListHasItems}"
+                Spacing="10">
+      <StackPanel.Styles>
+        <Style Selector="StackPanel">
+          <Setter Property="Transitions">
+            <Transitions>
+              <DoubleTransition Property="Opacity" Duration="0:0:0.1" />
+            </Transitions>
+          </Setter>
+        </Style>
+      </StackPanel.Styles>
 
-        <Label Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" Content="Print" />
-        <StackPanel Grid.Row="4" Grid.Column="2" Orientation="Horizontal" Spacing="10">
-          <CheckBox Content="Models" IsChecked="{Binding SelectedPrintListItem.PrintModels}" />
-          <CheckBox Content="Drawings" IsChecked="{Binding SelectedPrintListItem.PrintDrawings}" />
-        </StackPanel>
+      <TextBlock HorizontalAlignment="Center" Text="Print actions can be used to print drawings and models with specific printer settings." />
+      <TextBlock HorizontalAlignment="Center" Text="To get started, creat a new Print Action." />
+      <Button Margin="10" HorizontalAlignment="Center" Command="{Binding AddNewPrintItemCommand}" Content="New Print Action" />
+    </StackPanel>
+
+    <Grid Column="2" ColumnDefinitions="*, 30, *" Opacity="{Binding PrintListHasItems}">
+      <Grid.Styles>
+        <Style Selector="Grid">
+          <Setter Property="Transitions">
+            <Transitions>
+              <DoubleTransition Property="Opacity" Duration="0:0:0.1" />
+            </Transitions>
+          </Setter>
+        </Style>
+      </Grid.Styles>
+
+      <!--  General Settings Column  -->
+      <Grid Grid.Column="0" RowDefinitions="Auto, 10, Auto, 10, Auto, 10, Auto, 10, Auto, 10, *">
+        <Label Grid.Row="0" Classes="h2" Content="General Settings" />
+        <TextBlock Grid.Row="2" Margin="0,-10,0,0" Text="Set the main properties of the print job." />
+        <Grid Grid.Row="4" ColumnDefinitions="130, 10, *" RowDefinitions="Auto, 10, Auto, 10 Auto">
+          <Label Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Content="Job Name" />
+          <TextBox Name="TextBox_JobName" Grid.Row="0" Grid.Column="2" Text="{Binding SelectedPrintListItem.JobName}" />
+          <Label Grid.Row="2" Grid.Column="0" VerticalAlignment="Top" Content="Description" />
+          <TextBox Grid.Row="2" Grid.Column="2" Height="90"
+                   AcceptsReturn="True"
+                   Text="{Binding SelectedPrintListItem.Description}"
+                   TextWrapping="Wrap" />
+
+          <Label Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" Content="Print" />
+          <StackPanel Grid.Row="4" Grid.Column="2" Orientation="Horizontal" Spacing="10">
+            <CheckBox Content="Models" IsChecked="{Binding SelectedPrintListItem.PrintModels}" />
+            <CheckBox Content="Drawings" IsChecked="{Binding SelectedPrintListItem.PrintDrawings}" />
+          </StackPanel>
+        </Grid>
+
+        <!--  Printer Settings  -->
+        <Label Grid.Row="6" Classes="h2" Content="Printer Settings" />
+        <TextBlock Grid.Row="8" Margin="0,-10,0,0" Text="Select the profiles to use for paper sizes." TextWrapping="Wrap" />
+        <ListBox Grid.Row="10" ItemsSource="{Binding PrinterProfilesList}" SelectedItem="{Binding SelectedPrintListItem.PrinterProfile}">
+          <ListBox.ItemTemplate>
+            <DataTemplate x:DataType="vmActions:ActionsPrinterProfileViewModel">
+              <StackPanel>
+                <TextBlock FontWeight="Black" Text="{Binding Name}" />
+                <TextBlock Text="{Binding Description}" />
+              </StackPanel>
+            </DataTemplate>
+          </ListBox.ItemTemplate>
+        </ListBox>
+
       </Grid>
 
-      <!--  Printer Settings  -->
-      <Label Grid.Row="6" Classes="h2" Content="Printer Settings" />
-      <TextBlock Grid.Row="8" Margin="0,-10,0,0" Text="Select the profiles to use for paper sizes." TextWrapping="Wrap" />
-      <ListBox Grid.Row="10" ItemsSource="{Binding PrinterProfilesList}" SelectedItem="{Binding SelectedPrintListItem.PrinterProfile}">
-        <ListBox.ItemTemplate>
-          <DataTemplate x:DataType="vmActions:ActionsPrinterProfileViewModel">
-            <StackPanel>
-              <TextBlock FontWeight="Black" Text="{Binding Name}" />
-              <TextBlock Text="{Binding Description}" />
-            </StackPanel>
-          </DataTemplate>
-        </ListBox.ItemTemplate>
-      </ListBox>
+      <!--  Drawings Column  -->
+      <Grid Grid.Column="2" RowDefinitions="Auto, 10, Auto, 10, Auto, 10, *">
+        <Label Grid.Row="0" Classes="h2" Content="Drawings" />
+        <TextBlock Grid.Row="2" Margin="0,-10,0,0" Text="Set the properties that apply only to drawings." />
+        <Grid Grid.Row="4" ColumnDefinitions="130, 10, *" RowDefinitions="Auto, 10, Auto, 10, Auto">
+          <Label Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Content="Print Range" />
+          <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding SelectedPrintListItem.PrintDrawingRange}" />
 
-    </Grid>
+          <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal">
+            <!--  方式一 使用 ToggleButton 的 样式1  -->
+            <!-- <ToggleButton VerticalAlignment="Top" Content="{Binding SelectedPrintListItem.DrawingExclusionListTitle}" IsChecked="{Binding SelectedPrintListItem.DrawingExclusionIsWhiteList}" /> -->
+            <!--  方式二 使用 ToggleSwitch  -->
+            <ToggleSwitch VerticalAlignment="Top" FontSize="14" FontWeight="Normal"
+                          IsChecked="{Binding SelectedPrintListItem.DrawingExclusionIsWhiteList}"
+                          OffContent="Black List" OnContent="White List" />
+          </StackPanel>
+          <TextBox Grid.Row="2" Grid.Column="2" Height="90"
+                   AcceptsReturn="True"
+                   Text="{Binding SelectedPrintListItem.DrawingExclusionList}"
+                   TextWrapping="Wrap" />
+        </Grid>
 
-    <!--  Drawings Column  -->
-    <Grid Grid.Column="4" RowDefinitions="Auto, 10, Auto, 10, Auto, 10, *">
-      <Label Grid.Row="0" Classes="h2" Content="Drawings" />
-      <TextBlock Grid.Row="2" Margin="0,-10,0,0" Text="Set the properties that apply only to drawings." />
-      <Grid Grid.Row="4" ColumnDefinitions="130, 10, *" RowDefinitions="Auto, 10, Auto, 10, Auto">
-        <Label Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Content="Print Range" />
-        <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding SelectedPrintListItem.PrintDrawingRange}" />
-
-        <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal">
-          <!--  方式一 使用 ToggleButton 的 样式1  -->
-          <!-- <ToggleButton VerticalAlignment="Top" Content="{Binding SelectedPrintListItem.DrawingExclusionListTitle}" IsChecked="{Binding SelectedPrintListItem.DrawingExclusionIsWhiteList}" /> -->
-          <!--  方式二 使用 ToggleSwitch  -->
-          <ToggleSwitch VerticalAlignment="Top" FontSize="14" FontWeight="Normal"
-                        IsChecked="{Binding SelectedPrintListItem.DrawingExclusionIsWhiteList}"
-                        OffContent="Black List" OnContent="White List" />
+        <StackPanel Grid.Row="6" HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                    Opacity="{Binding SelectedPrintListItem.HasChanged, FallbackValue=0}"
+                    Orientation="Horizontal" Spacing="10">
+          <!--
+            FallbackValue = 绑定失败时的 “备胎值” ，当绑定找不到对象、找不到值、或者值为 null 时 → 自动使用 FallbackValue 指定的值。
+            场景 1：绑定对象可能为 null                      例如：SelectedPrintListItem 没选中时 = null → 便用 FallbackValue 给一个默认值
+            场景 2：界面设计时（Designer 预览）              Designer 里没有 DataContext → 绑定全部失败 → 使用 FallbackValue 让界面显示正常
+            场景 3：值类型不能为 null（bool /int/double）    如果绑定的是 bool，但对象是 null → 无法转换 → 使用 FallbackValue 提供默认值
+          -->
+          <!--  注意：WPF 与 Avalonia 的 IsVisible 不能绑定动画。Avalonia已经内置了 BoolToDouble值转换器，因此上面的 Opacity 可以直接绑定 HasChanged 布尔值  -->
+          <StackPanel.Styles>
+            <Style Selector="StackPanel">
+              <Setter Property="Transitions">
+                <Transitions>
+                  <DoubleTransition Property="Opacity" Duration="0:0:0.1" />
+                </Transitions>
+              </Setter>
+            </Style>
+          </StackPanel.Styles>
+          <Button Width="70" HorizontalContentAlignment="Center" Classes="success" Content="Save" />
+          <Button Width="70" HorizontalContentAlignment="Center" Classes="outline"
+                  Command="{Binding CancelPrintItemCommand}"
+                  Content="Cancel" />
         </StackPanel>
-        <TextBox Grid.Row="2" Grid.Column="2" Height="90"
-                 AcceptsReturn="True"
-                 Text="{Binding SelectedPrintListItem.DrawingExclusionList}"
-                 TextWrapping="Wrap" />
       </Grid>
-
-      <StackPanel Grid.Row="6" HorizontalAlignment="Right" VerticalAlignment="Bottom"
-                  Opacity="{Binding SelectedPrintListItem.HasChanged, FallbackValue=0}"
-                  Orientation="Horizontal" Spacing="10">
-        <!--
-          FallbackValue = 绑定失败时的 “备胎值” ，当绑定找不到对象、找不到值、或者值为 null 时 → 自动使用 FallbackValue 指定的值。
-          场景 1：绑定对象可能为 null                      例如：SelectedPrintListItem 没选中时 = null → 便用 FallbackValue 给一个默认值
-          场景 2：界面设计时（Designer 预览）              Designer 里没有 DataContext → 绑定全部失败 → 使用 FallbackValue 让界面显示正常
-          场景 3：值类型不能为 null（bool /int/double）    如果绑定的是 bool，但对象是 null → 无法转换 → 使用 FallbackValue 提供默认值
-        -->
-        <!--  注意：WPF 与 Avalonia 的 IsVisible 不能绑定动画。Avalonia已经内置了 BoolToDouble值转换器，因此上面的 Opacity 可以直接绑定 HasChanged 布尔值  -->
-        <StackPanel.Styles>
-          <Style Selector="StackPanel">
-            <Setter Property="Transitions">
-              <Transitions>
-                <DoubleTransition Property="Opacity" Duration="0:0:0.1" />
-              </Transitions>
-            </Setter>
-          </Style>
-        </StackPanel.Styles>
-        <Button Width="70" HorizontalContentAlignment="Center" Classes="success" Content="Save" />
-        <Button Width="70" HorizontalContentAlignment="Center" Classes="outline" Content="Cancel" />
-      </StackPanel>
     </Grid>
   </Grid>
 

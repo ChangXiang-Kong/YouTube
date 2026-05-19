@@ -1,6 +1,7 @@
 <Application x:Class="BatchProcess3.App"
              xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:cvt="clr-namespace:BatchProcess3.Tools.Converters"
              xmlns:local="clr-namespace:BatchProcess3"
              Name="BatchProcess3"
              RequestedThemeVariant="Default">
@@ -47,6 +48,8 @@
         <MergeResourceInclude Source="/Controls/ToggleSwitch.axaml" />
       </ResourceDictionary.MergedDictionaries>
     </ResourceDictionary>
+
+    <cvt:BoolToBoldFontConverter x:Key="BoolToBoldFontConverter" />
 
     <Thickness x:Key="BorderThickness_09">0.9</Thickness>
     <Thickness x:Key="BorderThickness_1">1</Thickness>

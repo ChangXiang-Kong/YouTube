@@ -183,7 +183,7 @@
                     CommandParameter="{x:Static data:ApplicationPageName.Settings}"
                     Content="Settings"
                     Theme="{DynamicResource SolidButton}" />
-            <Button Margin="5" Click="Button_TestButtonClick" Content="NewSystemNotification" Theme="{DynamicResource SolidButton}" />
+            <Button Margin="5" Click="Button_NewSystemNotificationClick" Content="NewSystemNotification" Theme="{DynamicResource SolidButton}" />
           </StackPanel>
 
           <!--  Right Buttons  -->
@@ -256,14 +256,35 @@
       <!-- </Border> -->
     </StackPanel>
 
-    <Grid Grid.Row="3" Grid.ColumnDefinitions="Auto, *, Auto">
+    <!--  Content  -->
+    <Grid Grid.Row="3" ColumnDefinitions="Auto, *, Auto">
       <!--  Content Body  -->
       <ScrollViewer Grid.Column="1" Margin="2" AllowAutoHide="False">
         <ContentControl Content="{Binding CurrentPage}" />
       </ScrollViewer>
 
+      <!--  Left/Right Bar Visible Button  -->
+      <u:IconButton Name="IconButton_LeftBarToggle" Grid.Column="1" Height="30"
+                    Margin="-10,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                    Classes="Tertiary" Click="IconButton_LeftBarToggleClick"
+                    Icon="{DynamicResource SemiIconChevronLeft}"
+                    Theme="{StaticResource BorderlessIconButton}"
+                    ToolTip.Tip="显示/隐藏侧边栏" />
+      <u:IconButton Name="IconButton_RightBarToggle" Grid.Column="1" Height="30"
+                    Margin="0,0,-10,0" HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                    Classes="Tertiary" Click="IconButton_RightBarToggleClick"
+                    Icon="{DynamicResource SemiIconChevronRight}"
+                    Theme="{StaticResource BorderlessIconButton}"
+                    ToolTip.Tip="显示/隐藏侧边栏" />
+      <u:IconButton Name="IconButton_BottomBarToggle" Grid.Column="1" Height="30"
+                    Margin="20,0,0,-10" HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                    Classes="Tertiary" Click="IconButton_BottomBarToggleClick"
+                    Icon="{DynamicResource SemiIconChevronDown}"
+                    Theme="{StaticResource BorderlessIconButton}"
+                    ToolTip.Tip="显示/隐藏侧边栏" />
+
       <!--  Left Bar  -->
-      <Border Grid.Column="0" BorderBrush="{DynamicResource TabItemLinePipePointeroverBorderBrush}" BorderThickness="0,0,1,0" IsVisible="True">
+      <Border Grid.Column="0" BorderBrush="{DynamicResource TabItemLinePipePointeroverBorderBrush}" BorderThickness="0,0,1,0">
         <StackPanel Name="StackPanel_LeftBar" VerticalAlignment="Top">
           <u:IconButton Width="32" Height="32" Classes="Tertiary"
                         Icon="{DynamicResource SemiIconChevronUp}"
@@ -279,6 +300,7 @@
                         ToolTip.Placement="Right" ToolTip.Tip="Explore" />
         </StackPanel>
       </Border>
+
       <!--  Right Bar  -->
       <Border Grid.Column="2" BorderBrush="{DynamicResource TabItemLinePipePointeroverBorderBrush}" BorderThickness="1,0,0,0">
         <StackPanel Name="StackPanel_RightBar" VerticalAlignment="Top">
@@ -296,51 +318,33 @@
     </Grid>
 
     <!--  Footer  -->
-    <Grid Grid.Row="4" Margin="5,0">
-      <u:IconButton Name="IconButton_LeftBarToggle" Height="30" Margin="18,-50,0,0"
-                    HorizontalAlignment="Left" Classes="Tertiary" Click="IconButton_LeftBarToggleClick"
-                    Icon="{DynamicResource SemiIconChevronLeft}"
-                    Theme="{StaticResource BorderlessIconButton}"
-                    ToolTip.Tip="显示/隐藏侧边栏" />
-      <u:IconButton Name="IconButton_RightBarToggle" Height="30" Margin="0,-50,18,0"
-                    HorizontalAlignment="Right" Classes="Tertiary" Click="IconButton_RightBarToggleClick"
-                    Icon="{DynamicResource SemiIconChevronRight}"
-                    Theme="{StaticResource BorderlessIconButton}"
-                    ToolTip.Tip="显示/隐藏侧边栏" />
-      <u:IconButton Name="IconButton_BottomBarToggle" Height="30" Margin="55,-40,0,0"
-                    HorizontalAlignment="Left" Classes="Tertiary" Click="IconButton_BottomBarToggleClick"
-                    Icon="{DynamicResource SemiIconChevronDown}"
-                    Theme="{StaticResource BorderlessIconButton}"
-                    ToolTip.Tip="显示/隐藏侧边栏" />
+    <Grid Name="Grid_BottomBar" Grid.Row="4" Margin="5,0">
+      <Border BorderBrush="{DynamicResource TabItemLinePipePointeroverBorderBrush}" BorderThickness="0,1,0,0" />
+      <!--  Left Area  -->
+      <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" Spacing="5" />
 
-      <Grid Name="Grid_BottomBar">
-        <Border BorderBrush="{DynamicResource TabItemLinePipePointeroverBorderBrush}" BorderThickness="0,1,0,0" />
-        <!--  Left Area  -->
-        <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" Spacing="5" />
-
-        <!--  Right Area  -->
-        <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" Spacing="5">
-          <!--  View Logs  -->
-          <u:Badge Margin="0,10,6,0" Classes="Primary" CornerPosition="TopRight"
-                   Dot="True"
-                   IsVisible="{Binding AppSettings.DisplayViewLogButton}">
-            <u:IconButton Margin="0,-10,-6,0" VerticalAlignment="Stretch" Classes="Tertiary"
-                          Icon="{DynamicResource SemiIconFile}"
-                          Theme="{StaticResource BorderlessIconButton}"
-                          ToolTip.Placement="Top" ToolTip.Tip="查看日志" />
-          </u:Badge>
-          <u:Badge Margin="0,10,8,0" Classes="Primary" CornerPosition="TopRight"
-                   Dot="True"
-                   IsVisible="{Binding AppSettings.DisplayViewLogButton}">
-            <u:IconButton Margin="0,-10,-8,0" VerticalAlignment="Stretch" Classes="Tertiary"
-                          Icon="{DynamicResource SemiIconFile}"
-                          Theme="{StaticResource BorderlessIconButton}"
-                          ToolTip.Placement="Top" ToolTip.Tip="查看日志">
-              <TextBlock Margin="-5,0,0,0" VerticalAlignment="Center" Text="查看日志" />
-            </u:IconButton>
-          </u:Badge>
-        </StackPanel>
-      </Grid>
+      <!--  Right Area  -->
+      <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" Spacing="5">
+        <!--  View Logs  -->
+        <u:Badge Margin="0,10,6,0" Classes="Primary" CornerPosition="TopRight"
+                 Dot="True"
+                 IsVisible="{Binding AppSettings.DisplayViewLogButton}">
+          <u:IconButton Margin="0,-10,-6,0" VerticalAlignment="Stretch" Classes="Tertiary"
+                        Icon="{DynamicResource SemiIconFile}"
+                        Theme="{StaticResource BorderlessIconButton}"
+                        ToolTip.Placement="Top" ToolTip.Tip="查看日志" />
+        </u:Badge>
+        <u:Badge Margin="0,10,8,0" Classes="Primary" CornerPosition="TopRight"
+                 Dot="True"
+                 IsVisible="{Binding AppSettings.DisplayViewLogButton}">
+          <u:IconButton Margin="0,-10,-8,0" VerticalAlignment="Stretch" Classes="Tertiary"
+                        Icon="{DynamicResource SemiIconFile}"
+                        Theme="{StaticResource BorderlessIconButton}"
+                        ToolTip.Placement="Top" ToolTip.Tip="查看日志">
+            <TextBlock Margin="-5,0,0,0" VerticalAlignment="Center" Text="查看日志" />
+          </u:IconButton>
+        </u:Badge>
+      </StackPanel>
     </Grid>
   </Grid>
 </UserControl>

@@ -6,7 +6,7 @@ using System.Windows.Input;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
-using AvaloniaApplication1.Controls.Models;
+using AvaloniaApplication1.Models;
 using AvaloniaApplication1.Data;
 using AvaloniaApplication1.Tools.Factories;
 using AvaloniaApplication1.Views;
@@ -15,6 +15,7 @@ using CommunityToolkit.Mvvm.Input;
 using Ursa.Common;
 using Ursa.Controls;
 using Ursa.Controls.Options;
+using AppSettings = AvaloniaApplication1.Models.AppSettings;
 
 namespace AvaloniaApplication1.ViewModels;
 

@@ -24,15 +24,12 @@ public partial class MainView : UserControl
             NewSystemNotificationHandler);
     }
 
-    #region Button Click
-
-    private void Button_TestButtonClick(object? sender, RoutedEventArgs e)
-    {
-        AddNewSystemNotification(new SystemNotificationModel
-            { Message = "New Test Notification", YesAction = () => { }, NoAction = () => { } });
-    }
-
-    #endregion Button Click
+    private readonly DynamicResourceExtension _dynamicResourceExtensionSemiIconChevronLeft = new("SemiIconChevronLeft");
+    private readonly DynamicResourceExtension _dynamicResourceExtensionSemiIconChevronRight = new("SemiIconChevronRight");
+    private readonly DynamicResourceExtension _dynamicResourceExtensionSemiIconChevronUp = new("SemiIconChevronUp");
+    private readonly DynamicResourceExtension _dynamicResourceExtensionSemiIconChevronDown = new("SemiIconChevronDown");
+    private readonly Thickness _bottomBarToggleTrueMargin = new(20, 0, 0, -10);
+    private readonly Thickness _bottomBarToggleFalseMargin = new(20, 0, 0, -41);
 
     #region WeakReferenceMessenger Handler
 
@@ -56,9 +53,9 @@ public partial class MainView : UserControl
                     SplitView_SelectSystem.IsPaneOpen = !SplitView_SelectSystem.IsPaneOpen;
                 break;
             case "ShowSplitView_SelectSystem":
+                SplitView_SelectSystem.IsPaneOpen = !SplitView_SelectSystem.IsPaneOpen;
                 if (SplitView_SelectProject.IsPaneOpen)
                     SplitView_SelectProject.IsPaneOpen = !SplitView_SelectProject.IsPaneOpen;
-                SplitView_SelectSystem.IsPaneOpen = !SplitView_SelectSystem.IsPaneOpen;
                 break;
         }
     }
@@ -188,64 +185,77 @@ public partial class MainView : UserControl
 
     #region Button Click
 
+    private void Button_TestButtonClick(object? sender, RoutedEventArgs e)
+    {
+        
+    }
+
+    private void Button_NewSystemNotificationClick(object? sender, RoutedEventArgs e)
+    {
+        AddNewSystemNotification(new SystemNotificationModel
+            { Message = "New Test Notification", YesAction = () => { }, NoAction = () => { } });
+    }
+
     private void Button_SelectProjectClick(object? sender, RoutedEventArgs e)
     {
         MessageHandler(null, "ShowSplitView_SelectProject");
     }
+
     private void Button_SelectSystemClick(object? sender, RoutedEventArgs e)
     {
         MessageHandler(null, "ShowSplitView_SelectSystem");
     }
-    
-    
 
-    #endregion Button Click
 
     private void IconButton_LeftBarToggleClick(object? sender, RoutedEventArgs e)
     {
         if (StackPanel_LeftBar.IsVisible)
         {
             StackPanel_LeftBar.IsVisible = false;
-            IconButton_LeftBarToggle.Margin = new Thickness(-13, -50, 0, 0);
-            IconButton_LeftBarToggle.Bind(IconButton.IconProperty, new DynamicResourceExtension("SemiIconChevronRight"));
+            // IconButton_LeftBarToggle.Margin = new Thickness(-10,0,0,0);
+            IconButton_LeftBarToggle.Bind(IconButton.IconProperty, _dynamicResourceExtensionSemiIconChevronRight);
         }
         else
         {
             StackPanel_LeftBar.IsVisible = true;
-            IconButton_LeftBarToggle.Margin = new Thickness(18, -50, 0, 0);
-            IconButton_LeftBarToggle.Bind(IconButton.IconProperty, new DynamicResourceExtension("SemiIconChevronLeft"));
+            // IconButton_LeftBarToggle.Margin = new Thickness(-10,0,0,0);
+            IconButton_LeftBarToggle.Bind(IconButton.IconProperty, _dynamicResourceExtensionSemiIconChevronLeft);
         }
     }
+
     private void IconButton_RightBarToggleClick(object? sender, RoutedEventArgs e)
     {
         if (StackPanel_RightBar.IsVisible)
         {
             StackPanel_RightBar.IsVisible = false;
-            IconButton_RightBarToggle.Margin = new Thickness(0,-50,-13,0);
-            IconButton_RightBarToggle.Bind(IconButton.IconProperty, new DynamicResourceExtension("SemiIconChevronLeft"));
+            // IconButton_RightBarToggle.Margin = new Thickness(0,0,-10,0);
+            IconButton_RightBarToggle.Bind(IconButton.IconProperty, _dynamicResourceExtensionSemiIconChevronLeft);
         }
         else
         {
             StackPanel_RightBar.IsVisible = true;
-            IconButton_RightBarToggle.Margin = new Thickness(0,-50,18,0);
-            IconButton_RightBarToggle.Bind(IconButton.IconProperty, new DynamicResourceExtension("SemiIconChevronRight"));
+            // IconButton_RightBarToggle.Margin = new Thickness(0,0,-10,0);
+            IconButton_RightBarToggle.Bind(IconButton.IconProperty, _dynamicResourceExtensionSemiIconChevronRight);
         }
     }
+
     private void IconButton_BottomBarToggleClick(object? sender, RoutedEventArgs e)
     {
         if (Grid_BottomBar.IsVisible)
         {
             Grid_BottomBar.IsVisible = false;
-            IconButton_BottomBarToggle.Margin = new Thickness(55,18,0,0);
-            IconButton_BottomBarToggle.Bind(IconButton.IconProperty, new DynamicResourceExtension("SemiIconChevronUp"));
+            IconButton_BottomBarToggle.Margin = _bottomBarToggleFalseMargin;
+            IconButton_BottomBarToggle.Bind(IconButton.IconProperty, _dynamicResourceExtensionSemiIconChevronUp);
         }
         else
         {
             Grid_BottomBar.IsVisible = true;
-            IconButton_BottomBarToggle.Margin = new Thickness(55,-40,0,0);
-            IconButton_BottomBarToggle.Bind(IconButton.IconProperty, new DynamicResourceExtension("SemiIconChevronDown"));
+            IconButton_BottomBarToggle.Margin = _bottomBarToggleTrueMargin;
+            IconButton_BottomBarToggle.Bind(IconButton.IconProperty, _dynamicResourceExtensionSemiIconChevronDown);
         }
     }
+
+    #endregion Button Click
 }
 
 public class SystemNotificationModel

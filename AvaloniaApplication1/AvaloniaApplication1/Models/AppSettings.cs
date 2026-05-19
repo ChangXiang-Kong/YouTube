@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using AvaloniaApplication1.ViewModels;
 using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace AvaloniaApplication1.Controls.Models;
+namespace AvaloniaApplication1.Models;
 
 public partial class AppSettings : ViewModelBase
 {

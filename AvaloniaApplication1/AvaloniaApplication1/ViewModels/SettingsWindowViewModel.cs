@@ -1,9 +1,10 @@
 ﻿using System.Collections.ObjectModel;
 using Avalonia.Controls.ApplicationLifetimes;
-using AvaloniaApplication1.Controls.Models;
+using AvaloniaApplication1.Models;
 using AvaloniaApplication1.Data;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using AppSettings = AvaloniaApplication1.Models.AppSettings;
 
 namespace AvaloniaApplication1.ViewModels;
 

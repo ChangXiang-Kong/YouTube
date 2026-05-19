@@ -7,7 +7,7 @@ using Avalonia.Data.Core.Plugins;
 using System.Linq;
 using Avalonia.Markup.Xaml;
 using Avalonia.Metadata;
-using AvaloniaApplication1.Controls.Models;
+using AvaloniaApplication1.Models;
 using AvaloniaApplication1.Tools.Extensions;
 using AvaloniaApplication1.Tools.Factories;
 using AvaloniaApplication1.Tools.Services;
@@ -15,6 +15,7 @@ using AvaloniaApplication1.ViewModels;
 using AvaloniaApplication1.Views;
 using ClassicDiagnostics.Avalonia;
 using Microsoft.Extensions.DependencyInjection;
+using AppSettings = AvaloniaApplication1.Models.AppSettings;
 
 // 自定义 XML Namespace 参考链接：https://docs.avaloniaui.net/docs/guides/custom-controls/how-to-create-a-custom-controls-library#xml-namespace-definitions
 // 参考视频：https://www.youtube.com/watch?v=M3CFj0x-tts&list=PLrW43fNmjaQWwIdZxjZrx5FSXcNzaucOO&index=7

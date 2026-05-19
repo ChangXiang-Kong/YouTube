@@ -3,7 +3,8 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
-using AvaloniaApplication1.Controls.Models;
+using AvaloniaApplication1.Models;
+using AppSettings = AvaloniaApplication1.Models.AppSettings;
 
 namespace AvaloniaApplication1.Views;
 
