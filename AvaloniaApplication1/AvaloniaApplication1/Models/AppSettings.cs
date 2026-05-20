@@ -10,17 +10,28 @@ public partial class AppSettings : ViewModelBase
 {
     #region 常规
 
-    private readonly List<string> _langsInternal =
+    /// <summary>
+    /// 语言选项
+    /// </summary>
+    public List<string> Langs
+    {
+        get => field.Order().ToList();
+    } =
     [
         "简体中文",
         "English",
         "Anglish",
         "繁体中文"
     ];
-    /// <summary>
-    /// 语言选项
-    /// </summary>
-    public List<string> Langs => _langsInternal.Order().ToList();
+    // 上 等于 下
+    // private readonly List<string> _langsInternal =
+    // [
+    //     "简体中文",
+    //     "English",
+    //     "Anglish",
+    //     "繁体中文"
+    // ];
+    // public List<string> Langs => _langsInternal.Order().ToList();
 
     /// <summary>
     /// 语言

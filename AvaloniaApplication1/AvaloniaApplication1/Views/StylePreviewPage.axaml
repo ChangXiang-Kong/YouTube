@@ -23,7 +23,7 @@
   </UserControl.Resources>
 
   <Grid>
-    <TabControl Name="TabControl_Main" SelectedIndex="2" TabStripPlacement="Left" Theme="{DynamicResource ScrollButtonTabControl}">
+    <TabControl Name="TabControl_Main" SelectedIndex="4" TabStripPlacement="Left" Theme="{DynamicResource ScrollButtonTabControl}">
       <TabControl.Styles>
         <Style Selector=".Dismiss /template/ ScrollViewer#PART_ScrollViewer">
           <Setter Property="IsVisible" Value="False" />
@@ -620,6 +620,11 @@
               </u:UrsaGroupBox.Header>
               <StackPanel Spacing="5">
                 <StackPanel Orientation="Horizontal" Spacing="5">
+                  <TextBlock Margin="0,0,10,0" VerticalAlignment="Center" Text="Smallest" />
+                  <ToggleSwitch Classes="Smallest" />
+                  <ToggleSwitch Classes="Smallest" IsChecked="True" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Spacing="5">
                   <TextBlock Margin="0,0,10,0" VerticalAlignment="Center" Text="Small" />
                   <ToggleSwitch Classes="Small" />
                   <ToggleSwitch Classes="Small" IsChecked="True" />
@@ -647,6 +652,13 @@
                 <TextBlock FontWeight="Bold" Text="SimpleToggleSwitch" />
               </u:UrsaGroupBox.Header>
               <StackPanel Spacing="5">
+                <StackPanel Orientation="Horizontal" Spacing="5">
+                  <TextBlock Margin="0,0,10,0" VerticalAlignment="Center" Text="Smallest" />
+                  <ToggleSwitch Classes="Smallest" OffContent="否" OnContent="是" Theme="{DynamicResource SimpleToggleSwitch}" />
+                  <ToggleSwitch Classes="Smallest" IsChecked="True" OffContent="否"
+                                OnContent="是"
+                                Theme="{DynamicResource SimpleToggleSwitch}" />
+                </StackPanel>
                 <StackPanel Orientation="Horizontal" Spacing="5">
                   <TextBlock Margin="0,0,10,0" VerticalAlignment="Center" Text="Small" />
                   <ToggleSwitch Classes="Small" OffContent="否" OnContent="是" Theme="{DynamicResource SimpleToggleSwitch}" />
