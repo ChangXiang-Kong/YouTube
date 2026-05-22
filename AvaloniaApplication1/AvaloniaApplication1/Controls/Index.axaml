@@ -14,10 +14,8 @@
     <ResourceDictionary>
       <!--  Semi使用参考链接：https://docs.irihi.tech/semi/docs/basic/resource-customization  -->
       <!--  覆写动态资源：可以在App.axaml中重新为这个资源赋值，通过覆写动态资源来基于 Semi Avalonia 的样式进行微调  -->
-      <!-- <CornerRadius x:Key="ButtonCornerRadius">5</CornerRadius> -->
+      <!-- <CornerRadius x:Key="ButtonCornerRadius">6</CornerRadius> -->
 
-      <Thickness x:Key="BorderThickness_1">1</Thickness>
-      <CornerRadius x:Key="CornerRadius_6">6</CornerRadius>
       <FontFamily x:Key="DefaultFontFamily">/Assets/Fonts/NotoSansJP.tff</FontFamily>
       <FontFamily x:Key="Phosphor">/Assets/Fonts/Phosphor.ttf#Phosphor</FontFamily>
       <FontFamily x:Key="PhosphorFill">/Assets/Fonts/Phosphor-Fill.ttf#Phosphor-Fill</FontFamily>

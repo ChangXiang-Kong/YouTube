@@ -7,7 +7,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:u="https://irihi.tech/ursa"
              xmlns:vm="using:AvaloniaApplication1.ViewModels"
-             d:DesignHeight="450"
+             d:DesignHeight="700"
              d:DesignWidth="1200"
              x:DataType="vm:StylePreviewPageViewModel"
              mc:Ignorable="d">
@@ -23,7 +23,7 @@
   </UserControl.Resources>
 
   <Grid>
-    <TabControl Name="TabControl_Main" SelectedIndex="4" TabStripPlacement="Left" Theme="{DynamicResource ScrollButtonTabControl}">
+    <TabControl Name="TabControl_Main" SelectedIndex="1" TabStripPlacement="Left" Theme="{DynamicResource ScrollButtonTabControl}">
       <TabControl.Styles>
         <Style Selector=".Dismiss /template/ ScrollViewer#PART_ScrollViewer">
           <Setter Property="IsVisible" Value="False" />
@@ -41,6 +41,7 @@
         </Grid>
       </TabItem>
 
+      <!--  Button  -->
       <TabItem MinWidth="100" Header="Button">
         <StackPanel Margin="10" HorizontalAlignment="Center" VerticalAlignment="Center"
                     Orientation="Vertical" Spacing="20">
@@ -56,279 +57,116 @@
                        Text="{Binding Greeting}" />
           </StackPanel>
 
-          <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Spacing="5">
-            <!--  Icon-Only  -->
-            <StackPanel HorizontalAlignment="Center" Orientation="Vertical" Spacing="5">
-              <Button HorizontalContentAlignment="Center"
-                      Background="{DynamicResource IconOnlyBackground}"
-                      BorderBrush="{DynamicResource IconOnlyBorderBrush}"
-                      BorderThickness="{StaticResource BorderThickness_1}"
-                      CornerRadius="{StaticResource CornerRadius_6}"
-                      Foreground="{DynamicResource IconOnlyForeground}">
-                <PathIcon Width="15" Data="{StaticResource SemiIconArrowLeft}" />
-              </Button>
-              <Button HorizontalContentAlignment="Center"
-                      Background="{DynamicResource IconOnlyBackgroundOutline}"
-                      BorderBrush="{DynamicResource IconOnlyBorderBrushOutline}"
-                      BorderThickness="{StaticResource BorderThickness_1}"
-                      CornerRadius="{StaticResource CornerRadius_6}"
-                      Foreground="{DynamicResource IconOnlyForegroundOutline}">
-                <PathIcon Width="15" Data="{StaticResource SemiIconRefresh2}" />
-              </Button>
-            </StackPanel>
-            <!--  Icon-Only Outline  -->
-            <StackPanel HorizontalAlignment="Center" Orientation="Vertical" Spacing="5">
-              <Button HorizontalContentAlignment="Center"
-                      Background="{DynamicResource DefaultBackground}"
-                      BorderBrush="{DynamicResource IconOnlyBorderBrush}"
-                      BorderThickness="{StaticResource BorderThickness_1}"
-                      CornerRadius="{StaticResource CornerRadius_6}"
-                      Foreground="{DynamicResource IconOnlyForeground}">
-                <PathIcon Width="15" Data="{StaticResource SemiIconArrowRight}" />
-              </Button>
-              <Button HorizontalContentAlignment="Center"
-                      Background="{DynamicResource IconOnlyBackgroundOutline}"
-                      BorderBrush="{DynamicResource IconOnlyBorderBrushOutline}"
-                      BorderThickness="{StaticResource BorderThickness_1}"
-                      CornerRadius="{StaticResource CornerRadius_6}"
-                      Foreground="{DynamicResource IconOnlyForegroundOutline}">
-                <PathIcon Width="15" Data="{StaticResource SemiIconHomeStroked}" />
-              </Button>
-            </StackPanel>
-            <!--  Tertiary  -->
-            <StackPanel HorizontalAlignment="Center" Orientation="Vertical" Spacing="5">
-              <Button Width="100" HorizontalContentAlignment="Center"
-                      Background="{DynamicResource DefaultBackground}"
-                      BorderThickness="{StaticResource BorderThickness_1}"
-                      Content="Default"
-                      CornerRadius="{StaticResource CornerRadius_6}"
-                      Foreground="{DynamicResource DefaultForeground}" />
-              <Button Width="100" HorizontalContentAlignment="Center"
-                      Background="{DynamicResource DefaultBackgroundOutline}"
-                      BorderBrush="{DynamicResource DefaultBorderBrushOutline}"
-                      BorderThickness="{StaticResource BorderThickness_1}"
-                      Content="Outline"
-                      CornerRadius="{StaticResource CornerRadius_6}"
-                      Foreground="{DynamicResource DefaultForegroundOutline}" />
-            </StackPanel>
-            <!--  Primary  -->
-            <StackPanel HorizontalAlignment="Center" Orientation="Vertical" Spacing="5">
-              <Button Width="100" HorizontalContentAlignment="Center"
-                      Background="{DynamicResource PrimaryBackground}"
-                      BorderThickness="{StaticResource BorderThickness_1}"
-                      Content="Primary"
-                      CornerRadius="{StaticResource CornerRadius_6}"
-                      Foreground="{DynamicResource PrimaryForeground}" />
-              <Button Width="100" HorizontalContentAlignment="Center"
-                      Background="{DynamicResource PrimaryBackgroundOutline}"
-                      BorderBrush="{DynamicResource PrimaryBorderBrushOutline}"
-                      BorderThickness="{StaticResource BorderThickness_1}"
-                      Content="Outline"
-                      CornerRadius="{StaticResource CornerRadius_6}"
-                      Foreground="{DynamicResource PrimaryForegroundOutline}" />
-            </StackPanel>
-            <!--  Info  -->
-            <StackPanel HorizontalAlignment="Center" Orientation="Vertical" Spacing="5">
-              <Button Width="100" HorizontalContentAlignment="Center"
-                      Background="{DynamicResource InfoBackground}"
-                      BorderThickness="{StaticResource BorderThickness_1}"
-                      Content="Info"
-                      CornerRadius="{StaticResource CornerRadius_6}"
-                      Foreground="{DynamicResource InfoForeground}" />
-              <Button Width="100" HorizontalContentAlignment="Center"
-                      Background="{DynamicResource InfoBackgroundOutline}"
-                      BorderBrush="{DynamicResource InfoBorderBrushOutline}"
-                      BorderThickness="{StaticResource BorderThickness_1}"
-                      Content="Outline"
-                      CornerRadius="{StaticResource CornerRadius_6}"
-                      Foreground="{DynamicResource InfoForegroundOutline}" />
-            </StackPanel>
-            <!--  Success  -->
-            <StackPanel HorizontalAlignment="Center" Orientation="Vertical" Spacing="5">
-              <Button Width="100" HorizontalContentAlignment="Center"
-                      Background="{DynamicResource SuccessBackground}"
-                      BorderThickness="{StaticResource BorderThickness_1}"
-                      Content="Success"
-                      CornerRadius="{StaticResource CornerRadius_6}"
-                      Foreground="{DynamicResource SuccessForeground}" />
-              <Button Width="100" HorizontalContentAlignment="Center"
-                      Background="{DynamicResource SuccessBackgroundOutline}"
-                      BorderBrush="{DynamicResource SuccessBorderBrushOutline}"
-                      BorderThickness="{StaticResource BorderThickness_1}"
-                      Content="Outline"
-                      CornerRadius="{StaticResource CornerRadius_6}"
-                      Foreground="{DynamicResource SuccessForegroundOutline}" />
-            </StackPanel>
-            <!--  Warning  -->
-            <StackPanel HorizontalAlignment="Center" Orientation="Vertical" Spacing="5">
-              <Button Width="100" HorizontalContentAlignment="Center"
-                      Background="{DynamicResource WarningBackground}"
-                      BorderThickness="{StaticResource BorderThickness_1}"
-                      Content="Warning"
-                      CornerRadius="{StaticResource CornerRadius_6}"
-                      Foreground="{DynamicResource WarningForeground}" />
-              <Button Width="100" HorizontalContentAlignment="Center"
-                      Background="{DynamicResource WarningBackgroundOutline}"
-                      BorderBrush="{DynamicResource WarningBorderBrushOutline}"
-                      BorderThickness="{StaticResource BorderThickness_1}"
-                      Content="Outline"
-                      CornerRadius="{StaticResource CornerRadius_6}"
-                      Foreground="{DynamicResource WarningForegroundOutline}" />
-            </StackPanel>
-            <!--  Danger  -->
-            <StackPanel HorizontalAlignment="Center" Orientation="Vertical" Spacing="5">
-              <Button Width="100" HorizontalContentAlignment="Center"
-                      Background="{DynamicResource DangerBackground}"
-                      BorderThickness="{StaticResource BorderThickness_1}"
-                      Content="Danger"
-                      CornerRadius="{StaticResource CornerRadius_6}"
-                      Foreground="{DynamicResource DangerForeground}" />
-              <Button Width="100" HorizontalContentAlignment="Center"
-                      Background="{DynamicResource DangerBackgroundOutline}"
-                      BorderBrush="{DynamicResource DangerBorderBrushOutline}"
-                      BorderThickness="{StaticResource BorderThickness_1}"
-                      Content="Outline"
-                      CornerRadius="{StaticResource CornerRadius_6}"
-                      Foreground="{DynamicResource DangerForegroundOutline}" />
-            </StackPanel>
-          </StackPanel>
-
-          <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Spacing="5">
-            <!--  Icon-Only  -->
-            <StackPanel HorizontalAlignment="Center" Orientation="Vertical" Spacing="5">
-              <Button HorizontalContentAlignment="Center"
-                      Background="{DynamicResource IconOnlyBackground}"
-                      BorderBrush="{DynamicResource IconOnlyBorderBrush}"
-                      BorderThickness="{StaticResource BorderThickness_1}"
-                      CornerRadius="{StaticResource CornerRadius_6}"
-                      Foreground="{DynamicResource IconOnlyForeground}">
-                <PathIcon Width="15" Data="{StaticResource SemiIconArrowLeft}" />
-              </Button>
-              <Button HorizontalContentAlignment="Center"
-                      Background="{DynamicResource IconOnlyBackgroundOutline}"
-                      BorderBrush="{DynamicResource IconOnlyBorderBrushOutline}"
-                      BorderThickness="{StaticResource BorderThickness_1}"
-                      CornerRadius="{StaticResource CornerRadius_6}"
-                      Foreground="{DynamicResource IconOnlyForegroundOutline}">
-                <PathIcon Width="15" Data="{StaticResource SemiIconRefresh2}" />
-              </Button>
-            </StackPanel>
-            <!--  Icon-Only Outline  -->
-            <StackPanel HorizontalAlignment="Center" Orientation="Vertical" Spacing="5">
-              <Button HorizontalContentAlignment="Center"
-                      Background="{DynamicResource DefaultBackground}"
-                      BorderBrush="{DynamicResource IconOnlyBorderBrush}"
-                      BorderThickness="{StaticResource BorderThickness_1}"
-                      CornerRadius="{StaticResource CornerRadius_6}"
-                      Foreground="{DynamicResource IconOnlyForeground}">
-                <PathIcon Width="15" Data="{StaticResource SemiIconArrowRight}" />
-              </Button>
-              <Button HorizontalContentAlignment="Center"
-                      Background="{DynamicResource IconOnlyBackgroundOutline}"
-                      BorderBrush="{DynamicResource IconOnlyBorderBrushOutline}"
-                      BorderThickness="{StaticResource BorderThickness_1}"
-                      CornerRadius="{StaticResource CornerRadius_6}"
-                      Foreground="{DynamicResource IconOnlyForegroundOutline}">
-                <PathIcon Width="15" Data="{StaticResource SemiIconHomeStroked}" />
-              </Button>
-            </StackPanel>
-            <!--  Tertiary  -->
-            <StackPanel HorizontalAlignment="Center" Orientation="Vertical" Spacing="5">
-              <Button Width="100" HorizontalContentAlignment="Center" Classes="Tertiary"
-                      Content="Tertiary"
-                      Theme="{DynamicResource SolidButton}" />
-              <Button Width="100" HorizontalContentAlignment="Center"
-                      Background="{DynamicResource DefaultBackground}"
-                      BorderThickness="{StaticResource BorderThickness_1}"
-                      Content="Default"
-                      CornerRadius="{StaticResource CornerRadius_6}"
-                      Foreground="{DynamicResource DefaultForeground}" />
-              <Button Width="100" HorizontalContentAlignment="Center"
-                      Background="{DynamicResource DefaultBackgroundOutline}"
-                      BorderBrush="{DynamicResource DefaultBorderBrushOutline}"
-                      BorderThickness="{StaticResource BorderThickness_1}"
-                      Content="Outline"
-                      CornerRadius="{StaticResource CornerRadius_6}"
-                      Foreground="{DynamicResource DefaultForegroundOutline}" />
-            </StackPanel>
-            <!--  Primary  -->
-            <StackPanel HorizontalAlignment="Center" Orientation="Vertical" Spacing="5">
-              <Button Width="100" HorizontalContentAlignment="Center" Classes="Primary"
-                      Content="Primary"
-                      Theme="{DynamicResource SolidButton}" />
-              <Button Width="100" HorizontalContentAlignment="Center"
-                      Background="{DynamicResource PrimaryBackgroundOutline}"
-                      BorderBrush="{DynamicResource PrimaryBorderBrushOutline}"
-                      BorderThickness="{StaticResource BorderThickness_1}"
-                      Content="Outline"
-                      CornerRadius="{StaticResource CornerRadius_6}"
-                      Foreground="{DynamicResource PrimaryForegroundOutline}" />
-            </StackPanel>
-            <!--  Info  -->
-            <StackPanel HorizontalAlignment="Center" Orientation="Vertical" Spacing="5">
-              <Button Width="100" HorizontalContentAlignment="Center" Classes="Secondary"
-                      Content="Secondary"
-                      Theme="{DynamicResource SolidButton}" />
-              <Button Width="100" HorizontalContentAlignment="Center"
-                      Background="{DynamicResource InfoBackgroundOutline}"
-                      BorderBrush="{DynamicResource InfoBorderBrushOutline}"
-                      BorderThickness="{StaticResource BorderThickness_1}"
-                      Content="Outline"
-                      CornerRadius="{StaticResource CornerRadius_6}"
-                      Foreground="{DynamicResource InfoForegroundOutline}" />
-            </StackPanel>
-            <!--  Success  -->
-            <StackPanel HorizontalAlignment="Center" Orientation="Vertical" Spacing="5">
-              <Button Width="100" HorizontalContentAlignment="Center" Classes="Success"
-                      Content="Success"
-                      Theme="{DynamicResource SolidButton}" />
-              <Button Width="100" HorizontalContentAlignment="Center"
-                      Background="{DynamicResource SuccessBackgroundOutline}"
-                      BorderBrush="{DynamicResource SuccessBorderBrushOutline}"
-                      BorderThickness="{StaticResource BorderThickness_1}"
-                      Content="Outline"
-                      CornerRadius="{StaticResource CornerRadius_6}"
-                      Foreground="{DynamicResource SuccessForegroundOutline}" />
-            </StackPanel>
-            <!--  Warning  -->
-            <StackPanel HorizontalAlignment="Center" Orientation="Vertical" Spacing="5">
-              <Button Width="100" HorizontalContentAlignment="Center" Classes="Warning"
-                      Content="Warning"
-                      Theme="{DynamicResource SolidButton}" />
-              <Button Width="100" HorizontalContentAlignment="Center"
-                      Background="{DynamicResource WarningBackgroundOutline}"
-                      BorderBrush="{DynamicResource WarningBorderBrushOutline}"
-                      BorderThickness="{StaticResource BorderThickness_1}"
-                      Content="Outline"
-                      CornerRadius="{StaticResource CornerRadius_6}"
-                      Foreground="{DynamicResource WarningForegroundOutline}" />
-            </StackPanel>
-            <!--  Danger  -->
-            <StackPanel HorizontalAlignment="Center" Orientation="Vertical" Spacing="5">
-              <Button Width="100" HorizontalContentAlignment="Center" Classes="Danger"
-                      Content="Danger"
-                      Theme="{DynamicResource SolidButton}" />
-              <Button Width="100" HorizontalContentAlignment="Center"
-                      Background="{DynamicResource DangerBackgroundOutline}"
-                      BorderBrush="{DynamicResource DangerBorderBrushOutline}"
-                      BorderThickness="{StaticResource BorderThickness_1}"
-                      Content="Outline"
-                      CornerRadius="{StaticResource CornerRadius_6}"
-                      Foreground="{DynamicResource DangerForegroundOutline}" />
-            </StackPanel>
+          <StackPanel Margin="10" Spacing="10">
+            <WrapPanel ItemSpacing="10">
+              <TextBlock Width="220" VerticalAlignment="Center" Text="IconButton" />
+              <u:IconButton Width="36" Classes="Tertiary" Icon="{DynamicResource SemiIconArrowLeft}" />
+              <u:IconButton Width="36" Classes="Tertiary" Icon="{DynamicResource SemiIconArrowRight}" />
+              <u:IconButton Width="36" Classes="Tertiary" Icon="{DynamicResource SemiIconRefresh2}" Theme="{StaticResource BorderlessIconButton}" />
+              <u:IconButton Width="36" Classes="Tertiary" Icon="{DynamicResource SemiIconHomeStroked}" Theme="{StaticResource BorderlessIconButton}" />
+              <Button Width="20" Height="20" Content="{DynamicResource CalendarDatePickerIconGlyph}" Theme="{DynamicResource InnerIconButton}" />
+              <Button Content="{DynamicResource IconButtonClearData}" Theme="{DynamicResource InnerIconButton}" />
+            </WrapPanel>
+            <WrapPanel ItemSpacing="10">
+              <TextBlock Width="220" VerticalAlignment="Center" Text="Theme: None" />
+              <Button Content="Default" />
+              <Button Classes="Primary" Content="Primary" />
+              <Button Classes="Secondary" Content="Secondary" />
+              <Button Classes="Tertiary" Content="Tertiary" />
+              <Button Classes="Success" Content="Success" />
+              <Button Classes="Warning" Content="Warning" />
+              <Button Classes="Danger" Content="Danger" />
+              <Button Classes="Danger" Content="Disabled" IsEnabled="False" />
+            </WrapPanel>
+            <WrapPanel ItemSpacing="10">
+              <TextBlock Width="220" VerticalAlignment="Center" Text="Theme: SolidButton" />
+              <Button Content="Default" Theme="{DynamicResource SolidButton}" />
+              <Button Classes="Primary" Content="Primary" Theme="{DynamicResource SolidButton}" />
+              <Button Classes="Secondary" Content="Secondary" Theme="{DynamicResource SolidButton}" />
+              <Button Classes="Tertiary" Content="Tertiary" Theme="{DynamicResource SolidButton}" />
+              <Button Classes="Success" Content="Success" Theme="{DynamicResource SolidButton}" />
+              <Button Classes="Warning" Content="Warning" Theme="{DynamicResource SolidButton}" />
+              <Button Classes="Danger" Content="Danger" Theme="{DynamicResource SolidButton}" />
+              <Button Classes="Danger" Content="Disabled" IsEnabled="False" Theme="{DynamicResource SolidButton}" />
+            </WrapPanel>
+            <WrapPanel ItemSpacing="10">
+              <TextBlock Width="220" VerticalAlignment="Center" Text="Theme: OutlineButton" />
+              <Button Content="Default" Theme="{DynamicResource OutlineButton}" />
+              <Button Classes="Primary" Content="Primary" Theme="{DynamicResource OutlineButton}" />
+              <Button Classes="Secondary" Content="Secondary" Theme="{DynamicResource OutlineButton}" />
+              <Button Classes="Tertiary" Content="Tertiary" Theme="{DynamicResource OutlineButton}" />
+              <Button Classes="Success" Content="Success" Theme="{DynamicResource OutlineButton}" />
+              <Button Classes="Warning" Content="Warning" Theme="{DynamicResource OutlineButton}" />
+              <Button Classes="Danger" Content="Danger" Theme="{DynamicResource OutlineButton}" />
+              <Button Classes="Danger" Content="Disabled" IsEnabled="False" Theme="{DynamicResource OutlineButton}" />
+            </WrapPanel>
+            <WrapPanel ItemSpacing="10">
+              <TextBlock Width="220" VerticalAlignment="Center" Text="Theme: BorderlessButton" />
+              <Button Content="Default" Theme="{DynamicResource BorderlessButton}" />
+              <Button Classes="Primary" Content="Primary" Theme="{DynamicResource BorderlessButton}" />
+              <Button Classes="Secondary" Content="Secondary" Theme="{DynamicResource BorderlessButton}" />
+              <Button Classes="Tertiary" Content="Tertiary" Theme="{DynamicResource BorderlessButton}" />
+              <Button Classes="Success" Content="Success" Theme="{DynamicResource BorderlessButton}" />
+              <Button Classes="Warning" Content="Warning" Theme="{DynamicResource BorderlessButton}" />
+              <Button Classes="Danger" Content="Danger" Theme="{DynamicResource BorderlessButton}" />
+              <Button Classes="Danger" Content="Disabled" IsEnabled="False" Theme="{DynamicResource BorderlessButton}" />
+            </WrapPanel>
+            <WrapPanel ItemSpacing="10">
+              <TextBlock Width="220" VerticalAlignment="Center" Text="Colorful-Theme: None" />
+              <Button Classes="Colorful" Content="Default" />
+              <Button Classes="Colorful Primary" Content="Primary" />
+              <Button Classes="Colorful Secondary" Content="Secondary" />
+              <Button Classes="Colorful Tertiary" Content="Tertiary" />
+              <Button Classes="Colorful Success" Content="Success" />
+              <Button Classes="Colorful Warning" Content="Warning" />
+              <Button Classes="Colorful Danger" Content="Danger" />
+              <Button Classes="Colorful Primary" Content="Disabled" IsEnabled="False" />
+            </WrapPanel>
+            <WrapPanel ItemSpacing="10">
+              <TextBlock Width="220" VerticalAlignment="Center" Text="Colorful-Theme: SolidButton" />
+              <Button Classes="Colorful" Content="Default" Theme="{DynamicResource SolidButton}" />
+              <Button Classes="Colorful Primary" Content="Primary" Theme="{DynamicResource SolidButton}" />
+              <Button Classes="Colorful Secondary" Content="Secondary" Theme="{DynamicResource SolidButton}" />
+              <Button Classes="Colorful Tertiary" Content="Tertiary" Theme="{DynamicResource SolidButton}" />
+              <Button Classes="Colorful Success" Content="Success" Theme="{DynamicResource SolidButton}" />
+              <Button Classes="Colorful Warning" Content="Warning" Theme="{DynamicResource SolidButton}" />
+              <Button Classes="Colorful Danger" Content="Danger" Theme="{DynamicResource SolidButton}" />
+              <Button Classes="Colorful Primary" Content="Disabled" IsEnabled="False" Theme="{DynamicResource SolidButton}" />
+            </WrapPanel>
+            <WrapPanel ItemSpacing="10">
+              <TextBlock Width="220" VerticalAlignment="Center" Text="Colorful-Theme: OutlineButton" />
+              <Button Classes="Colorful" Content="Default" Theme="{DynamicResource OutlineButton}" />
+              <Button Classes="Colorful Primary" Content="Primary" Theme="{DynamicResource OutlineButton}" />
+              <Button Classes="Colorful Secondary" Content="Secondary" Theme="{DynamicResource OutlineButton}" />
+              <Button Classes="Colorful Tertiary" Content="Tertiary" Theme="{DynamicResource OutlineButton}" />
+              <Button Classes="Colorful Success" Content="Success" Theme="{DynamicResource OutlineButton}" />
+              <Button Classes="Colorful Warning" Content="Warning" Theme="{DynamicResource OutlineButton}" />
+              <Button Classes="Colorful Danger" Content="Danger" Theme="{DynamicResource OutlineButton}" />
+              <Button Classes="Colorful Primary" Content="Disabled" IsEnabled="False" Theme="{DynamicResource OutlineButton}" />
+            </WrapPanel>
+            <WrapPanel ItemSpacing="10">
+              <TextBlock Width="220" VerticalAlignment="Center" Text="Colorful-Theme: BorderlessButton" />
+              <Button Classes="Colorful" Content="Default" Theme="{DynamicResource BorderlessButton}" />
+              <Button Classes="Colorful Primary" Content="Primary" Theme="{DynamicResource BorderlessButton}" />
+              <Button Classes="Colorful Secondary" Content="Secondary" Theme="{DynamicResource BorderlessButton}" />
+              <Button Classes="Colorful Tertiary" Content="Tertiary" Theme="{DynamicResource BorderlessButton}" />
+              <Button Classes="Colorful Success" Content="Success" Theme="{DynamicResource BorderlessButton}" />
+              <Button Classes="Colorful Warning" Content="Warning" Theme="{DynamicResource BorderlessButton}" />
+              <Button Classes="Colorful Danger" Content="Danger" Theme="{DynamicResource BorderlessButton}" />
+              <Button Classes="Colorful Primary" Content="Disabled" IsEnabled="False" Theme="{DynamicResource BorderlessButton}" />
+            </WrapPanel>
           </StackPanel>
         </StackPanel>
       </TabItem>
 
+      <!--  GroupBox  -->
       <TabItem MinWidth="100" Header="GroupBox">
         <StackPanel Width="400" Margin="10" HorizontalAlignment="Center"
                     VerticalAlignment="Center" Orientation="Vertical" Spacing="10">
           <u:UrsaGroupBox Margin="10"
                           Background="{DynamicResource SemiColorPrimaryLight}"
                           BorderBrush="{DynamicResource SemiColorPrimary}"
-                          BorderThickness="1.5"
-                          CornerRadius="{DynamicResource RadiusCardCornerRadius}"
-                          HeaderSpacing="10">
+                          BorderThickness="1.5" HeaderSpacing="10">
             <u:UrsaGroupBox.Header>
               <TextBlock FontWeight="Bold" Text="默认 Header 位置" />
             </u:UrsaGroupBox.Header>
@@ -361,9 +199,7 @@
           <u:UrsaGroupBox Margin="10"
                           Background="{DynamicResource SemiColorSuccessLight}"
                           BorderBrush="{DynamicResource SemiColorSuccess}"
-                          BorderThickness="1.5"
-                          CornerRadius="{DynamicResource RadiusCardCornerRadius}"
-                          HeaderSpacing="10"
+                          BorderThickness="1.5" HeaderSpacing="10"
                           Theme="{DynamicResource UrsaGroupBox1}">
             <u:UrsaGroupBox.Header>
               <TextBlock FontWeight="Bold" Text="自定义 Header 位置" />
@@ -397,6 +233,7 @@
         </StackPanel>
       </TabItem>
 
+      <!--  SplitView  -->
       <TabItem Header="SplitView">
         <TabControl Name="TabControl_SplitView" Margin="0,0" TabStripPlacement="Left" Theme="{DynamicResource ScrollButtonTabControl}">
           <TabControl.Styles>
@@ -605,6 +442,7 @@
         </TabControl>
       </TabItem>
 
+      <!--  ToggleSwitch  -->
       <TabItem Header="ToggleSwitch">
         <StackPanel Margin="10" HorizontalAlignment="Center" VerticalAlignment="Center"
                     Orientation="Vertical" Spacing="20">
@@ -612,9 +450,7 @@
             <u:UrsaGroupBox Margin="10"
                             Background="{DynamicResource SemiColorPrimaryLight}"
                             BorderBrush="{DynamicResource SemiColorPrimary}"
-                            BorderThickness="1.5"
-                            CornerRadius="{DynamicResource RadiusCardCornerRadius}"
-                            HeaderSpacing="10">
+                            BorderThickness="1.5" HeaderSpacing="10">
               <u:UrsaGroupBox.Header>
                 <TextBlock FontWeight="Bold" Text="DefaultToggleSwitch" />
               </u:UrsaGroupBox.Header>
@@ -645,9 +481,7 @@
             <u:UrsaGroupBox Margin="10"
                             Background="{DynamicResource SemiColorSuccessLight}"
                             BorderBrush="{DynamicResource SemiColorSuccess}"
-                            BorderThickness="1.5"
-                            CornerRadius="{DynamicResource RadiusCardCornerRadius}"
-                            HeaderSpacing="10">
+                            BorderThickness="1.5" HeaderSpacing="10">
               <u:UrsaGroupBox.Header>
                 <TextBlock FontWeight="Bold" Text="SimpleToggleSwitch" />
               </u:UrsaGroupBox.Header>
@@ -684,9 +518,7 @@
             <u:UrsaGroupBox Margin="10"
                             Background="{DynamicResource SemiColorWarningLight}"
                             BorderBrush="{DynamicResource SemiColorWarning}"
-                            BorderThickness="1.5"
-                            CornerRadius="{DynamicResource RadiusCardCornerRadius}"
-                            HeaderSpacing="10">
+                            BorderThickness="1.5" HeaderSpacing="10">
               <u:UrsaGroupBox.Header>
                 <TextBlock FontWeight="Bold" Text="ButtonToggleSwitch" />
               </u:UrsaGroupBox.Header>

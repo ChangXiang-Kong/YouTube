@@ -11,6 +11,7 @@
   <x:Double x:Key="NavigationPageBarLargeMinHeight">48</x:Double>
   <Thickness x:Key="NavigationPageBarPadding">3 0</Thickness>
   <Thickness x:Key="NavigationPageBarBorderThickness">0 0 0 0.7</Thickness>
+  <CornerRadius x:Key="CornerRadius_6">6</CornerRadius>
   <StreamGeometry x:Key="GeometryArrowLeft">
     M87.5 161.3375L25 98.8375V90L87.5 27.5L96.3375 36.3375L44.5125 88.175H175V100.675H44.5L96.35 152.5L87.5 161.3375z
   </StreamGeometry>
@@ -52,9 +53,9 @@
                       Background="Transparent" Classes="Tertiary"
                       CornerRadius="{StaticResource CornerRadius_6}"
                       IsHitTestVisible="{TemplateBinding IsBackButtonEffectivelyVisible}"
-                      Opacity="{TemplateBinding IsBackButtonEffectivelyVisible}">
+                      Opacity="{TemplateBinding IsBackButtonEffectivelyVisible}"
+                      Theme="{StaticResource BorderlessButton}">
                 <!--  IsVisible="{TemplateBinding IsBackButtonEffectivelyVisible}"  -->
-                <!--  Theme="{StaticResource BorderlessButton}">  -->
                 <Panel Background="Transparent">
                   <PathIcon Name="PART_BackButtonDefaultIcon" Data="{DynamicResource NavigationPageBackButtonGlyph}" />
                   <!--  Theme="{StaticResource InnerPathIcon}" />  -->

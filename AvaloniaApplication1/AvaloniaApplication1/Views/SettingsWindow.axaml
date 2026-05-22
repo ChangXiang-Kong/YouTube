@@ -84,9 +84,7 @@
               <u:UrsaGroupBox Margin="0,0,0,10"
                               Background="{DynamicResource SemiColorTertiaryLight}"
                               BorderBrush="{DynamicResource SemiColorTertiaryLight}"
-                              BorderThickness="1.5"
-                              CornerRadius="{DynamicResource RadiusCardCornerRadius}"
-                              HeaderSpacing="10"
+                              BorderThickness="1.5" HeaderSpacing="10"
                               Theme="{DynamicResource UrsaGroupBox1}">
                 <u:UrsaGroupBox.Header>
                   <TextBlock FontWeight="Bold" Text="常规" />
@@ -136,9 +134,7 @@
               <u:UrsaGroupBox Margin="0,0,0,10"
                               Background="{DynamicResource SemiColorTertiaryLight}"
                               BorderBrush="{DynamicResource SemiColorTertiaryLight}"
-                              BorderThickness="1.5"
-                              CornerRadius="{DynamicResource RadiusCardCornerRadius}"
-                              HeaderSpacing="10"
+                              BorderThickness="1.5" HeaderSpacing="10"
                               Theme="{DynamicResource UrsaGroupBox1}">
                 <u:UrsaGroupBox.Header>
                   <TextBlock FontWeight="Bold" Text="按钮" />
@@ -153,9 +149,7 @@
               <u:UrsaGroupBox Margin="0,0,0,10"
                               Background="{DynamicResource SemiColorTertiaryLight}"
                               BorderBrush="{DynamicResource SemiColorTertiaryLight}"
-                              BorderThickness="1.5"
-                              CornerRadius="{DynamicResource RadiusCardCornerRadius}"
-                              HeaderSpacing="10"
+                              BorderThickness="1.5" HeaderSpacing="10"
                               Theme="{DynamicResource UrsaGroupBox1}">
                 <u:UrsaGroupBox.Header>
                   <TextBlock FontWeight="Bold" Text="按钮" />
@@ -186,9 +180,7 @@
               <u:UrsaGroupBox Margin="0,0,0,10"
                               Background="{DynamicResource SemiColorTertiaryLight}"
                               BorderBrush="{DynamicResource SemiColorTertiaryLight}"
-                              BorderThickness="1.5"
-                              CornerRadius="{DynamicResource RadiusCardCornerRadius}"
-                              HeaderSpacing="10"
+                              BorderThickness="1.5" HeaderSpacing="10"
                               Theme="{DynamicResource UrsaGroupBox1}">
                 <u:UrsaGroupBox.Header>
                   <TextBlock FontWeight="Bold" Text="按钮" />
@@ -203,9 +195,7 @@
               <u:UrsaGroupBox Margin="0,0,0,10"
                               Background="{DynamicResource SemiColorTertiaryLight}"
                               BorderBrush="{DynamicResource SemiColorTertiaryLight}"
-                              BorderThickness="1.5"
-                              CornerRadius="{DynamicResource RadiusCardCornerRadius}"
-                              HeaderSpacing="10"
+                              BorderThickness="1.5" HeaderSpacing="10"
                               Theme="{DynamicResource UrsaGroupBox1}">
                 <u:UrsaGroupBox.Header>
                   <TextBlock FontWeight="Bold" Text="按钮" />
@@ -236,9 +226,7 @@
               <u:UrsaGroupBox Margin="0,0,0,10"
                               Background="{DynamicResource SemiColorTertiaryLight}"
                               BorderBrush="{DynamicResource SemiColorTertiaryLight}"
-                              BorderThickness="1.5"
-                              CornerRadius="{DynamicResource RadiusCardCornerRadius}"
-                              HeaderSpacing="10"
+                              BorderThickness="1.5" HeaderSpacing="10"
                               Theme="{DynamicResource UrsaGroupBox1}">
                 <u:UrsaGroupBox.Header>
                   <TextBlock FontWeight="Bold" Text="按钮" />
@@ -281,8 +269,11 @@
     <StackPanel Grid.Row="1" Margin="0,10,15,0" HorizontalAlignment="Right"
                 Orientation="Horizontal" Spacing="5">
       <Button Width="60" Command="{Binding OkCommand}" Content="确认" Theme="{DynamicResource SolidButton}" />
-      <Button Width="60" Command="{Binding CancelCommand}" Content="取消" />
-      <Button Width="60" Command="{Binding ApplyCommand}" Content="应用" IsEnabled="False" />
+      <Button Width="60" Classes="Danger" Command="{Binding CancelCommand}" Content="取消" />
+      <Button Width="60"
+              Command="{Binding ApplyCommand}"
+              Content="应用" IsEnabled="True"
+              Theme="{DynamicResource OutlineButton}" />
     </StackPanel>
   </Grid>
 </u:UrsaWindow>

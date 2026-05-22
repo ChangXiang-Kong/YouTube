@@ -31,7 +31,7 @@
   <Color x:Key="DefaultBorderBrushOutline">LightGray</Color>
 
   <!--  Button Primary  -->
-  <Color x:Key="PrimaryBackground">DodgerBlue</Color>
+  <Color x:Key="MyBlueColor">DodgerBlue</Color>
   <Color x:Key="PrimaryForeground">White</Color>
   <Color x:Key="PrimaryBorderBrush">DodgerBlue</Color>
   <!--  Button Primary Outline  -->
@@ -491,31 +491,39 @@
 
   <SolidColorBrush x:Key="SemiColorWhite" Color="{StaticResource SemiWhiteColor}" />
   <SolidColorBrush x:Key="SemiColorBlack" Color="{StaticResource SemiBlackColor}" />
+  <!--  Default  -->
+  <SolidColorBrush x:Key="SemiColorDefault" Color="{StaticResource MyBlueColor}" />
+  <SolidColorBrush x:Key="SemiColorDefaultPointerover" Color="{StaticResource SemiBlue5Color}" />
+  <SolidColorBrush x:Key="SemiColorDefaultActive" Color="{StaticResource SemiBlue6Color}" />
+  <SolidColorBrush x:Key="SemiColorDefaultDisabled" Color="{StaticResource SemiBlue2Color}" />
+  <SolidColorBrush x:Key="SemiColorDefaultLight" Color="{StaticResource SemiBlue0Color}" />
+  <SolidColorBrush x:Key="SemiColorDefaultLightPointerover" Color="{StaticResource SemiBlue1Color}" />
+  <SolidColorBrush x:Key="SemiColorDefaultLightActive" Color="{StaticResource SemiBlue2Color}" />
   <!--  Primary  -->
-  <SolidColorBrush x:Key="SemiColorPrimary" Color="{StaticResource PrimaryBackground}" />
+  <SolidColorBrush x:Key="SemiColorPrimary" Color="{StaticResource SemiBlue5Color}" />
   <SolidColorBrush x:Key="SemiColorPrimaryPointerover" Color="{StaticResource SemiBlue6Color}" />
   <SolidColorBrush x:Key="SemiColorPrimaryActive" Color="{StaticResource SemiBlue7Color}" />
   <SolidColorBrush x:Key="SemiColorPrimaryDisabled" Color="{StaticResource SemiBlue2Color}" />
-  <SolidColorBrush x:Key="SemiColorPrimaryLight" Color="{StaticResource SemiBlue0Color}" />
-  <SolidColorBrush x:Key="SemiColorPrimaryLightPointerover" Color="{StaticResource SemiBlue1Color}" />
-  <SolidColorBrush x:Key="SemiColorPrimaryLightActive" Color="{StaticResource SemiBlue2Color}" />
+  <SolidColorBrush x:Key="SemiColorPrimaryLight" Opacity="0.9" Color="{StaticResource SemiBlue1Color}" />
+  <SolidColorBrush x:Key="SemiColorPrimaryLightPointerover" Color="{StaticResource SemiBlue2Color}" />
+  <SolidColorBrush x:Key="SemiColorPrimaryLightActive" Color="{StaticResource SemiBlue3Color}" />
   <!--  Secondary  -->
-  <SolidColorBrush x:Key="SemiColorSecondary" Color="{StaticResource InfoBackground}" />
-  <SolidColorBrush x:Key="SemiColorSecondaryPointerover" Color="{StaticResource SemiLightBlue6Color}" />
-  <SolidColorBrush x:Key="SemiColorSecondaryActive" Color="{StaticResource SemiLightBlue7Color}" />
-  <SolidColorBrush x:Key="SemiColorSecondaryDisabled" Color="{StaticResource SemiLightBlue2Color}" />
-  <SolidColorBrush x:Key="SemiColorSecondaryLight" Color="{StaticResource SemiLightBlue0Color}" />
-  <SolidColorBrush x:Key="SemiColorSecondaryLightPointerover" Color="{StaticResource SemiLightBlue1Color}" />
-  <SolidColorBrush x:Key="SemiColorSecondaryLightActive" Color="{StaticResource SemiLightBlue2Color}" />
+  <SolidColorBrush x:Key="SemiColorSecondary" Color="{StaticResource SemiCyan4Color}" />
+  <SolidColorBrush x:Key="SemiColorSecondaryPointerover" Color="{StaticResource SemiCyan5Color}" />
+  <SolidColorBrush x:Key="SemiColorSecondaryActive" Color="{StaticResource SemiCyan6Color}" />
+  <SolidColorBrush x:Key="SemiColorSecondaryDisabled" Color="{StaticResource SemiCyan2Color}" />
+  <SolidColorBrush x:Key="SemiColorSecondaryLight" Color="{StaticResource SemiCyan0Color}" />
+  <SolidColorBrush x:Key="SemiColorSecondaryLightPointerover" Color="{StaticResource SemiCyan1Color}" />
+  <SolidColorBrush x:Key="SemiColorSecondaryLightActive" Color="{StaticResource SemiCyan2Color}" />
   <!--  Tertiary  -->
-  <SolidColorBrush x:Key="SemiColorTertiary" Color="{StaticResource DefaultBackground}" />
-  <SolidColorBrush x:Key="SemiColorTertiaryPointerover" Color="{StaticResource SemiGrey6Color}" />
-  <SolidColorBrush x:Key="SemiColorTertiaryActive" Color="{StaticResource SemiGrey7Color}" />
+  <SolidColorBrush x:Key="SemiColorTertiary" Color="{StaticResource SemiGrey3Color}" />
+  <SolidColorBrush x:Key="SemiColorTertiaryPointerover" Color="{StaticResource SemiGrey4Color}" />
+  <SolidColorBrush x:Key="SemiColorTertiaryActive" Color="{StaticResource SemiGrey5Color}" />
   <SolidColorBrush x:Key="SemiColorTertiaryLight" Color="{StaticResource SemiGrey0Color}" />
   <SolidColorBrush x:Key="SemiColorTertiaryLightPointerover" Color="{StaticResource SemiGrey1Color}" />
   <SolidColorBrush x:Key="SemiColorTertiaryLightActive" Color="{StaticResource SemiGrey2Color}" />
   <!--  Information  -->
-  <SolidColorBrush x:Key="SemiColorInformation" Color="{StaticResource PrimaryBackground}" />
+  <SolidColorBrush x:Key="SemiColorInformation" Color="{StaticResource SemiBlue5Color}" />
   <SolidColorBrush x:Key="SemiColorInformationPointerover" Color="{StaticResource SemiBlue6Color}" />
   <SolidColorBrush x:Key="SemiColorInformationActive" Color="{StaticResource SemiBlue7Color}" />
   <SolidColorBrush x:Key="SemiColorInformationDisabled" Color="{StaticResource SemiBlue2Color}" />
@@ -523,7 +531,7 @@
   <SolidColorBrush x:Key="SemiColorInformationLightPointerover" Color="{StaticResource SemiBlue1Color}" />
   <SolidColorBrush x:Key="SemiColorInformationLightActive" Color="{StaticResource SemiBlue2Color}" />
   <!--  Success  -->
-  <SolidColorBrush x:Key="SemiColorSuccess" Color="{StaticResource SuccessBackground}" />
+  <SolidColorBrush x:Key="SemiColorSuccess" Color="{StaticResource SemiGreen5Color}" />
   <SolidColorBrush x:Key="SemiColorSuccessPointerover" Color="{StaticResource SemiGreen6Color}" />
   <SolidColorBrush x:Key="SemiColorSuccessActive" Color="{StaticResource SemiGreen7Color}" />
   <SolidColorBrush x:Key="SemiColorSuccessDisabled" Color="{StaticResource SemiGreen2Color}" />
@@ -531,14 +539,14 @@
   <SolidColorBrush x:Key="SemiColorSuccessLightPointerover" Color="{StaticResource SemiGreen1Color}" />
   <SolidColorBrush x:Key="SemiColorSuccessLightActive" Color="{StaticResource SemiGreen2Color}" />
   <!--  Warning  -->
-  <SolidColorBrush x:Key="SemiColorWarning" Color="{StaticResource WarningBackground}" />
+  <SolidColorBrush x:Key="SemiColorWarning" Color="{StaticResource SemiOrange5Color}" />
   <SolidColorBrush x:Key="SemiColorWarningPointerover" Color="{StaticResource SemiOrange6Color}" />
   <SolidColorBrush x:Key="SemiColorWarningActive" Color="{StaticResource SemiOrange7Color}" />
   <SolidColorBrush x:Key="SemiColorWarningLight" Color="{StaticResource SemiOrange0Color}" />
   <SolidColorBrush x:Key="SemiColorWarningLightPointerover" Color="{StaticResource SemiOrange1Color}" />
   <SolidColorBrush x:Key="SemiColorWarningLightActive" Color="{StaticResource SemiOrange2Color}" />
   <!--  Danger  -->
-  <SolidColorBrush x:Key="SemiColorDanger" Color="{StaticResource DangerBackground}" />
+  <SolidColorBrush x:Key="SemiColorDanger" Color="{StaticResource SemiRed5Color}" />
   <SolidColorBrush x:Key="SemiColorDangerPointerover" Color="{StaticResource SemiRed6Color}" />
   <SolidColorBrush x:Key="SemiColorDangerActive" Color="{StaticResource SemiRed7Color}" />
   <SolidColorBrush x:Key="SemiColorDangerLight" Color="{StaticResource SemiRed0Color}" />
@@ -546,6 +554,12 @@
   <SolidColorBrush x:Key="SemiColorDangerLightActive" Color="{StaticResource SemiRed2Color}" />
 
   <!--  AI General  -->
+  <LinearGradientBrush x:Key="SemiColorAIGeneralOpacity" Opacity="0.15" StartPoint="99%,93%" EndPoint="1%,7%">
+    <GradientStop Offset="0.0" Color="#E945FF" />
+    <GradientStop Offset="0.3" Color="#A647FF" />
+    <GradientStop Offset="0.6" Color="#6B61FF" />
+    <GradientStop Offset="1.0" Color="#2E8CFF" />
+  </LinearGradientBrush>
   <LinearGradientBrush x:Key="SemiColorAIGeneral" StartPoint="99%,93%" EndPoint="1%,7%">
     <GradientStop Offset="0.0" Color="#E945FF" />
     <GradientStop Offset="0.3" Color="#A647FF" />
@@ -635,12 +649,12 @@
   <SolidColorBrush x:Key="SemiColorBackground4" Color="{StaticResource SemiBackground4Color}" />
 
   <!--  Fill  -->
-  <SolidColorBrush x:Key="SemiColorFill0" Opacity="0.05" Color="{StaticResource SemiGrey8Color}" />
-  <SolidColorBrush x:Key="SemiColorFill1" Opacity="0.09" Color="{StaticResource SemiGrey8Color}" />
-  <SolidColorBrush x:Key="SemiColorFill2" Opacity="0.13" Color="{StaticResource SemiGrey8Color}" />
+  <SolidColorBrush x:Key="SemiColorFill0" Opacity="0.1" Color="{StaticResource SemiGrey8Color}" />
+  <SolidColorBrush x:Key="SemiColorFill1" Opacity="0.14" Color="{StaticResource SemiGrey8Color}" />
+  <SolidColorBrush x:Key="SemiColorFill2" Opacity="0.18" Color="{StaticResource SemiGrey8Color}" />
 
   <!--  Border  -->
-  <SolidColorBrush x:Key="SemiColorBorder" Opacity="0.08" Color="{StaticResource SemiGrey9Color}" />
+  <SolidColorBrush x:Key="SemiColorBorder" Opacity="0.18" Color="{StaticResource SemiGrey9Color}" />
   <SolidColorBrush x:Key="SemiColorFocusBorder" Color="{StaticResource SemiBlue5Color}" />
 
   <!--  Disabled  -->

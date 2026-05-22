@@ -3,12 +3,19 @@
                     xmlns:u="https://irihi.tech/ursa">
   <Design.PreviewWith>
     <StackPanel Margin="30">
+      <u:UrsaGroupBox Margin="0,0,0,10" HeaderSpacing="10">
+        <u:UrsaGroupBox.Header>
+          <TextBlock FontWeight="Bold" Text="Default" />
+        </u:UrsaGroupBox.Header>
+        <StackPanel Spacing="8">
+          <TextBlock Text="The interior of this border has a semi-transparent fill." TextWrapping="Wrap" />
+          <Button HorizontalAlignment="Left" Content="Click Me" />
+        </StackPanel>
+      </u:UrsaGroupBox>
       <u:UrsaGroupBox Margin="0,0,0,10"
                       Background="{DynamicResource SemiColorPrimaryLight}"
                       BorderBrush="{DynamicResource SemiColorPrimary}"
-                      BorderThickness="1.5"
-                      CornerRadius="{DynamicResource RadiusCardCornerRadius}"
-                      HeaderSpacing="10">
+                      BorderThickness="1.5" HeaderSpacing="10">
         <u:UrsaGroupBox.Header>
           <TextBlock FontWeight="Bold" Text="With Background" />
         </u:UrsaGroupBox.Header>
@@ -20,9 +27,7 @@
       <u:UrsaGroupBox Margin="0,0,0,10"
                       Background="{DynamicResource SemiColorSuccessLight}"
                       BorderBrush="{DynamicResource SemiColorSuccess}"
-                      BorderThickness="1.5"
-                      CornerRadius="{DynamicResource RadiusCardCornerRadius}"
-                      HeaderSpacing="10"
+                      BorderThickness="1.5" HeaderSpacing="10"
                       Theme="{DynamicResource UrsaGroupBox1}">
         <u:UrsaGroupBox.Header>
           <TextBlock FontWeight="Bold" Text="With Background" />

@@ -20,7 +20,7 @@
     <!--  Menu  -->
     <Menu>
       <!--  Settings  -->
-      <MenuItem Margin="10,0,0,0" Padding="5,0,10,0" ToolTip.Placement="Bottom">
+      <MenuItem Margin="0,0,0,0" Padding="5,0,10,0" ToolTip.Placement="Bottom">
         <ToolTip.Tip>
           <StackPanel>
             <TextBlock Classes="h1" Text="ToolTip" />
@@ -30,7 +30,7 @@
         <MenuItem.HeaderTemplate>
           <DataTemplate>
             <StackPanel Orientation="Horizontal">
-              <Image Width="20" Margin="-5,0,5,0" Source="/Assets/avalonia-logo.ico" />
+              <Image Width="20" Margin="0,0,5,0" Source="/Assets/avalonia-logo.ico" />
               <TextBlock VerticalAlignment="Center" FontSize="15" FontWeight="Bold"
                          IsHitTestVisible="False"
                          Text="{x:Static data:ResourceToken.AppName}" />
