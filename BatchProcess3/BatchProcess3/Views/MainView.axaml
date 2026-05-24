@@ -20,6 +20,7 @@
   </Design.DataContext>
 
   <Grid Background="{DynamicResource PrimaryBackground}" ColumnDefinitions="Auto,*">
+    <!--  Left Menu  -->
     <Border Width="{Binding SomeWidth}" Padding="10" Background="{DynamicResource PrimaryBackgroundGradient}">
       <Grid RowDefinitions="*, Auto">
         <StackPanel Spacing="10">
@@ -98,7 +99,13 @@
       </Grid>
     </Border>
 
+    <!--  Right Content  -->
     <ContentControl Grid.Column="1" Content="{Binding CurrentPage}" />
 
+    <!--  Global Dialog  -->
+    <Grid Column="0" ColumnSpan="2" IsVisible="{Binding CurrentDialog.IsDialogOpen}">
+      <Border Background="Black" Opacity="0.5" />
+      <ContentControl HorizontalAlignment="Center" VerticalAlignment="Center" Content="{Binding CurrentDialog}" />
+    </Grid>
   </Grid>
 </UserControl>

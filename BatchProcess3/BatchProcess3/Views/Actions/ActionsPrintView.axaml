@@ -25,6 +25,7 @@
               Classes="small outline"
               Command="{Binding AddNewPrintItemCommand}"
               Content="New Print Action" />
+      <!--  绑定Model中的Id而不是Model本身  -->
       <ListBox Grid.Row="6"
                ItemsSource="{Binding PrintList}"
                SelectedValue="{Binding SelectedPrintListItemId}"
@@ -99,6 +100,7 @@
         <!--  Printer Settings  -->
         <Label Grid.Row="6" Classes="h2" Content="Printer Settings" />
         <TextBlock Grid.Row="8" Margin="0,-10,0,0" Text="Select the profiles to use for paper sizes." TextWrapping="Wrap" />
+        <!--  绑定Model中的Id而不是Model本身  -->
         <ListBox Grid.Row="10" ItemsSource="{Binding PrinterProfilesList}" SelectedValue="{Binding SelectedPrintListItem.PrinterProfileId}" SelectedValueBinding="{Binding Id}">
           <ListBox.ItemTemplate>
             <DataTemplate x:DataType="vmActions:ActionsPrinterProfileViewModel">

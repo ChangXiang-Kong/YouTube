@@ -168,11 +168,11 @@ public partial class ActionsPageViewModel() : PageViewModel(ApplicationPageName.
             PrinterProfileId = "0",
         };
 
-        // Select item
-        SelectedPrintListItemId = newItem.Id;
-
         // Add to the print list
         PrintList.Add(newItem);
+
+        // Select item
+        SelectedPrintListItemId = newItem.Id;
     }
 
     [RelayCommand]

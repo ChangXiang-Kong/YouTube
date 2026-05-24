@@ -121,7 +121,7 @@ public partial class App : Application
             case ISingleViewApplicationLifetime singleViewPlatform:
                 singleViewPlatform.MainView = new MainView
                 {
-                    DataContext = new MainViewModel()
+                    DataContext = serviceProvider.GetRequiredService<MainViewModel>()
                 };
                 break;
         }
@@ -140,6 +140,8 @@ public partial class App : Application
         services.AddTransientViewModel<ReporterPageView, ReporterPageViewModel>();
         services.AddTransientViewModel<HistoryPageView, HistoryPageViewModel>();
         services.AddTransientViewModel<SettingsPageView, SettingsPageViewModel>();
+        // Dialog
+        services.AddTransientViewModel<ConfirmDialogView, ConfirmDialogViewModel>();
     }
 
     private void RegisterServices(IServiceCollection services)

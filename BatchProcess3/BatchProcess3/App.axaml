@@ -130,6 +130,7 @@
     </LinearGradientBrush>
 
     <FontFamily x:Key="DefaultFontFamily">/Assets/Fonts/NotoSansJP.tff</FontFamily>
+    <!--  图标来源：https://phosphoricons.com/  -->
     <FontFamily x:Key="Phosphor">/Assets/Fonts/Phosphor.ttf#Phosphor</FontFamily>
     <FontFamily x:Key="PhosphorFill">/Assets/Fonts/Phosphor-Fill.ttf#Phosphor-Fill</FontFamily>
 

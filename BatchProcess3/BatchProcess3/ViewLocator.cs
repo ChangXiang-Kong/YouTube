@@ -54,7 +54,7 @@ namespace BatchProcess3
         public bool Match(object? data)
         {
             // return data is ViewModelBase;
-            return data is PageViewModel;
+            return data is PageViewModel or DialogViewModel;
         }
     }
 }

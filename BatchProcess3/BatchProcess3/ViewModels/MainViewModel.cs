@@ -65,7 +65,8 @@ namespace BatchProcess3.ViewModels
         [NotifyPropertyChangedFor(nameof(SettingsPageIsActive))]     // 修改时通知目标属性进行更新
         private PageViewModel _currentPage;
 
-
+        [ObservableProperty]
+        private DialogViewModel _currentDialog = new ConfirmDialogViewModel(){IsDialogOpen = true};
 
 
 
