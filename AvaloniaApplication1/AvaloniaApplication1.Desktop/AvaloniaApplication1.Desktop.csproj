@@ -13,7 +13,6 @@
 
     <ItemGroup>
         <PackageReference Include="Avalonia.Desktop"/>
-        <PackageReference Include="AvaloniaUI.DiagnosticsSupport" />
         <PackageReference Include="ClassicDiagnostics.Avalonia" />
         <PackageReference Include="Irihi.Ursa" />
         <PackageReference Include="Irihi.Ursa.Themes.Semi" />

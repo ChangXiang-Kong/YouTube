@@ -34,10 +34,6 @@ public partial class ActionsPrintViewModel : ViewModelBase
     [NotifyPropertyChangedFor(nameof(HasChanged))]
     private string _jobName = "";
 
-    [property: JsonIgnore]
-    [ObservableProperty]
-    private bool _isSelected;
-
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(HasChanged))]
     private string _description = "";
@@ -70,7 +66,7 @@ public partial class ActionsPrintViewModel : ViewModelBase
     
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(HasChanged))]
-    private ActionsPrinterProfileViewModel _printerProfile = new();
+    private string _printerProfileId = "";
 
     [JsonIgnore]
     public bool HasChanged => IsNewItem || (_saveState != "" && _saveState != JsonSerializer.Serialize(this));
@@ -79,5 +75,26 @@ public partial class ActionsPrintViewModel : ViewModelBase
     {
         _saveState = JsonSerializer.Serialize(this);
         OnPropertyChanged((nameof(HasChanged)));
+    }
+
+    public void RestoreSavedState()
+    {
+        var savedState = JsonSerializer.Deserialize<ActionsPrintViewModel>(_saveState);
+        // 反射
+        foreach (var propertyInfo in GetType().GetProperties())
+        {
+            // Only set setters, not get only properties
+            if (!propertyInfo.CanWrite)
+                continue;
+            
+            // Ignore any properties that have a JsonIgnore attribute
+            if (propertyInfo.GetCustomAttributes(typeof(JsonIgnoreAttribute), false).GetLength(0) > 0)
+                continue;
+            
+            // Pull the saved value
+            var originalValue = propertyInfo.GetValue(savedState);
+            // Restore it to this calss
+            propertyInfo.SetValue(this, originalValue);
+        }
     }
 }

@@ -32,15 +32,19 @@ public partial class ActionsPageViewModel() : PageViewModel(ApplicationPageName.
     };
 
     // 使用 [] 进行初始化以消除警告，当误写 PrintList = null; 时会提示 Cannot convert null literal to non-nullable reference type
-    [ObservableProperty] 
-    [NotifyPropertyChangedFor(nameof(PrintListHasItems))]
+    [ObservableProperty] [NotifyPropertyChangedFor(nameof(PrintListHasItems))]
     private ObservableCollection<ActionsPrintViewModel> _printList = [];
 
     // 因为 PrintList 是 ObservableCollection 类型，
     // 需要添加 PrintList.CollectionChanged += (_, _) => OnPropertyChanged(nameof(PrintListHasItems)); 才能生效
     public bool PrintListHasItems => PrintList.Any();
 
-    [ObservableProperty] private ActionsPrintViewModel? _selectedPrintListItem;
+    [ObservableProperty] 
+    [NotifyPropertyChangedFor(nameof(SelectedPrintListItem))]
+    private string _selectedPrintListItemId = "";
+
+    public ActionsPrintViewModel? SelectedPrintListItem =>
+        PrintList.FirstOrDefault(x => x.Id == SelectedPrintListItemId);
 
     [ObservableProperty] private ObservableCollection<ActionsPrinterProfileViewModel> _printerProfilesList = [];
 
@@ -56,6 +60,37 @@ public partial class ActionsPageViewModel() : PageViewModel(ApplicationPageName.
     [RelayCommand]
     private void FetchPrintActionsData()
     {
+        // 将 PrinterProfilesList = ... 放到 PrintList = ... 之前，
+        // 因为 PrinterProfilesList 会引用到 PrintList 中的项
+        PrinterProfilesList =
+        [
+            _defaultPrinterProfile,
+            new ActionsPrinterProfileViewModel
+            {
+                Id = "1",
+                Name = "Print Landscape",
+                Description = "Print all files in landscape mode",
+                Copies = 1,
+                // TODO: Populate PrinterSettings
+            },
+            new ActionsPrinterProfileViewModel
+            {
+                Id = "2",
+                Name = "Print Portrait",
+                Description = "Print all files in portrait mode",
+                Copies = 3,
+                // TODO: Populate PrinterSettings
+            },
+            new ActionsPrinterProfileViewModel
+            {
+                Id = "3",
+                Name = "A3 Black & White",
+                Description = "Make all A3 prints black and white",
+                Copies = 5,
+                // TODO: Populate PrinterSettings
+            },
+        ];
+        
         // TODO: Fetch from a database/service provider
         PrintList =
         [
@@ -70,7 +105,7 @@ public partial class ActionsPageViewModel() : PageViewModel(ApplicationPageName.
                 PrintDrawings = true,
                 DrawingExclusionList =
                     $"Some item 1{Environment.NewLine}Some item 2{Environment.NewLine}Some item 3",
-                PrinterProfile = _defaultPrinterProfile,
+                PrinterProfileId = "1",
             },
             new ActionsPrintViewModel
             {
@@ -79,7 +114,7 @@ public partial class ActionsPageViewModel() : PageViewModel(ApplicationPageName.
                 Description = "Prints drawing scaled to fit the paper",
                 PrintModels = true,
                 PrintDrawings = false,
-                PrinterProfile = _defaultPrinterProfile,
+                PrinterProfileId = "2",
             },
             new ActionsPrintViewModel
             {
@@ -88,48 +123,23 @@ public partial class ActionsPageViewModel() : PageViewModel(ApplicationPageName.
                 Description = "Prints models as 3D visuals",
                 PrintModels = false,
                 PrintDrawings = true,
-                PrinterProfile = _defaultPrinterProfile,
+                PrinterProfileId = "3",
             },
         ];
-        
+
         // Update PrintListHasItems when collection changes
         PrintList.CollectionChanged += (_, _) => OnPropertyChanged(nameof(PrintListHasItems));
-        
+
         if (PrintList.Count > 0)
         {
             // Select first item
-            PrintList.First().IsSelected = true;
-            
+            SelectedPrintListItemId = PrintList.First().Id;
+
             // Store last fetched database save states
             foreach (var printItem in PrintList)
                 printItem.SetSaveState();
         }
 
-        PrinterProfilesList =
-        [
-            _defaultPrinterProfile,
-            new ActionsPrinterProfileViewModel
-            {
-                Name = "Print Landscape",
-                Description = "Print all files in landscape mode",
-                Copies = 1,
-                // TODO: Populate PrinterSettings
-            },
-            new ActionsPrinterProfileViewModel
-            {
-                Name = "Print Portrait",
-                Description = "Print all files in portrait mode",
-                Copies = 3,
-                // TODO: Populate PrinterSettings
-            },
-            new ActionsPrinterProfileViewModel
-            {
-                Name = "A3 Black & White",
-                Description = "Make all A3 prints black and white",
-                Copies = 5,
-                // TODO: Populate PrinterSettings
-            },
-        ];
     }
 
     protected override void OnDesignTimeConstructor() => FetchPrintActionsData();
@@ -142,7 +152,7 @@ public partial class ActionsPageViewModel() : PageViewModel(ApplicationPageName.
         if (PrintList.Count(x => x.Id == id) != 1)
             // TODO: Throw/Warn?
             return;
-        
+
         DeletePrintItemFromUI(id);
     }
 
@@ -154,10 +164,12 @@ public partial class ActionsPageViewModel() : PageViewModel(ApplicationPageName.
         {
             Id = Guid.NewGuid().ToString("N"),
             JobName = "New Print Item",
-            IsSelected = true,
             IsNewItem = true,
-            PrinterProfile = _defaultPrinterProfile,
+            PrinterProfileId = "0",
         };
+
+        // Select item
+        SelectedPrintListItemId = newItem.Id;
 
         // Add to the print list
         PrintList.Add(newItem);
@@ -169,11 +181,13 @@ public partial class ActionsPageViewModel() : PageViewModel(ApplicationPageName.
         // Ignore if nothing is selected
         if (SelectedPrintListItem == null)
             return;
-            
+
         // If the selected item is new, delete it
         // Otherwise, restore from save state
         if (SelectedPrintListItem.IsNewItem)
             DeletePrintItemFromUI(SelectedPrintListItem.Id);
+        else
+            SelectedPrintListItem.RestoreSavedState();
     }
 
     private void DeletePrintItemFromUI(string id)
@@ -186,7 +200,6 @@ public partial class ActionsPageViewModel() : PageViewModel(ApplicationPageName.
         if (index > 0)
             index--;
         if (PrintList.Count > 0)
-            PrintList[index].IsSelected = true;
+            SelectedPrintListItemId = PrintList[index].Id;
     }
-    
 }

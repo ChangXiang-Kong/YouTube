@@ -120,7 +120,7 @@ public partial class MainView : UserControl
         };
 
         // 将关闭按钮添加到新的 DockPanel 中
-        DockPanel.SetDock(closeButton, Dock.Right);
+        DockPanel.SetDock(closeButton, Avalonia.Controls.Dock.Right);
         contentDockPanel.Children.Add(closeButton);
 
         // 创建显示通知内容的 StackPanel
@@ -128,7 +128,7 @@ public partial class MainView : UserControl
         {
             Orientation = Orientation.Horizontal,
             Margin = new Thickness(5, 0),
-            Spacing = 10
+            Spacing = 5
         };
 
         // 添加一个 TextBlock 来显示通知文本
@@ -145,7 +145,7 @@ public partial class MainView : UserControl
             MinHeight = 20,
             Height = 24,
             FontWeight = FontWeight.Normal,
-            Classes = { "Primary" },
+            // Classes = { "Primary" },
         };
         yesButton.Bind(ThemeProperty, new DynamicResourceExtension("SolidButton"));
         // 为按钮添加点击事件处理程序
