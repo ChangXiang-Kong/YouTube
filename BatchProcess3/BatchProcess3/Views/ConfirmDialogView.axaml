@@ -4,8 +4,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:BatchProcess3.ViewModels"
-             MinWidth="330"
-             MaxWidth="800"
+             MinWidth="{Binding MinWidth}"
+             MinHeight="{Binding MinHeight}"
+             MaxWidth="{Binding MaxWidth}"
+             MaxHeight="{Binding MaxHeight}"
              x:DataType="vm:ConfirmDialogViewModel"
              Background="Transparent"
              Foreground="{DynamicResource PrimaryForeground}"
@@ -23,36 +25,51 @@
     <Border.Effect>
       <DropShadowEffect Color="{DynamicResource PrimaryBackgroundColor1}" />
     </Border.Effect>
-    <StackPanel>
-      <!--  Title  -->
-      <Border Background="{DynamicResource PrimaryBackgroundGradient}" CornerRadius="20 20 0 0">
-        <TextBlock Padding="15,10" FontSize="18" FontWeight="Bold" Text="{Binding Title}" />
-      </Border>
 
-      <Border Padding="20">
-        <StackPanel Spacing="20">
-          <!--  Description  -->
-          <DockPanel>
-            <Label Margin="0,0,15,0" Classes="icon" Content="{Binding IconText}" FontSize="40" />
-            <!--  Foreground="{Binding IconForeground}" />  -->
-            <TextBlock VerticalAlignment="Center" FontSize="{DynamicResource FontSize_18}" Text="{Binding Message}" TextWrapping="Wrap" />
-          </DockPanel>
+    <Grid Margin="15" RowDefinitions="Auto, 15, *, 15, AUto">
+      <!--  Title Area  -->
+      <DockPanel Grid.Row="0">
+        <!--  Icon  -->
+        <!--  <Label Margin="0,0,15,0" Classes="icon"  -->
+        <!--  Content="{Binding IconText}"  -->
+        <!--  FontSize="40"  -->
+        <!--  Foreground="{Binding IconForeground}" />  -->
+        <Viewbox Width="40" Height="40" Margin="0,0,10,0" VerticalAlignment="Center">
+          <PathIcon Data="{Binding IconGeometry}" Foreground="{Binding IconForeground}" />
+        </Viewbox>
 
-          <!--  Buttons  -->
-          <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" Spacing="10">
-            <Button MinWidth="70" HorizontalContentAlignment="Center" Classes="success"
-                    Command="{Binding ConfirmCommand}"
-                    Content="{Binding ConfirmText}" />
-            <Button MinWidth="70" HorizontalContentAlignment="Center" Classes="outline danger"
-                    Command="{Binding CancelCommand}"
-                    Content="{Binding CancelText}" />
-            <Button MinWidth="70" HorizontalContentAlignment="Center" Classes="outline"
-                    Command="{Binding ApplyCommand}"
-                    Content="{Binding ApplyText}"
-                    IsVisible="False" />
-          </StackPanel>
-        </StackPanel>
-      </Border>
-    </StackPanel>
+        <!--  Title  -->
+        <TextBlock VerticalAlignment="Center" FontSize="16" FontWeight="Bold" Text="{Binding Title}" />
+
+        <!--  Close Button  -->
+        <Button Width="40" Margin="10,0,0,0" HorizontalAlignment="Right"
+                HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Classes="subtle"
+                Command="{Binding CancelCommand}"
+                Content="✕" DockPanel.Dock="Right" FontWeight="Normal" />
+      </DockPanel>
+
+      <!--  Description  -->
+      <ScrollViewer Grid.Row="2" AllowAutoHide="False">
+        <TextBlock Margin="10,0" VerticalAlignment="Center"
+                   FontSize="{DynamicResource FontSize_16}"
+                   Text="{Binding Message}"
+                   TextWrapping="Wrap" />
+      </ScrollViewer>
+
+      <!--  Yes/No Buttons  -->
+      <StackPanel Grid.Row="4" HorizontalAlignment="Right" DockPanel.Dock="Bottom"
+                  Orientation="Horizontal" Spacing="10">
+        <Button MinWidth="70" HorizontalContentAlignment="Center" Classes="success"
+                Command="{Binding ConfirmCommand}"
+                Content="{Binding ConfirmText}" />
+        <Button MinWidth="70" HorizontalContentAlignment="Center" Classes="outline danger"
+                Command="{Binding CancelCommand}"
+                Content="{Binding CancelText}" />
+        <Button MinWidth="70" HorizontalContentAlignment="Center" Classes="outline"
+                Command="{Binding ApplyCommand}"
+                Content="{Binding ApplyText}"
+                IsVisible="False" />
+      </StackPanel>
+    </Grid>
   </Border>
 </UserControl>

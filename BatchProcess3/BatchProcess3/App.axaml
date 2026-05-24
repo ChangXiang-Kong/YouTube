@@ -23,7 +23,7 @@
 
     <StyleInclude Source="avares://IconPacks.Avalonia/Icons.axaml" />
     <StyleInclude Source="/Controls/Styles/General.axaml" />
-    <StyleInclude Source="/Controls/Styles/Buttons.axaml" />
+    <StyleInclude Source="/Controls/Styles/Button.axaml" />
     <StyleInclude Source="/Controls/Styles/Labels.axaml" />
     <StyleInclude Source="/Controls/Styles/ListBox.axaml" />
     <StyleInclude Source="/Controls/Styles/TextBlock.axaml" />
@@ -126,7 +126,7 @@
 
     <LinearGradientBrush x:Key="DangerHoverGradient" StartPoint="0%, 0%" EndPoint="100%, 0%">
       <GradientStop Offset="0" Color="#ff4444" />
-      <GradientStop Offset="1" Color="#bb1111" />
+      <GradientStop Offset="1" Color="#ff4444" />
     </LinearGradientBrush>
 
     <FontFamily x:Key="DefaultFontFamily">/Assets/Fonts/NotoSansJP.tff</FontFamily>

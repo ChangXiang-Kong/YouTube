@@ -8,14 +8,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BatchProcess3.Data;
+using BatchProcess3.Tools.Interfaces;
 
 namespace BatchProcess3.ViewModels
 {
-    public partial class MainViewModel : ViewModelBase
+    public partial class MainViewModel : ViewModelBase, IDialogProvider
     {
         /// <summary>
-        /// Disign-time only constructor
+        /// Design-time only constructor
         /// </summary>
         public MainViewModel()
         {
@@ -66,7 +66,7 @@ namespace BatchProcess3.ViewModels
         private PageViewModel _currentPage;
 
         [ObservableProperty]
-        private DialogViewModel _currentDialog = new ConfirmDialogViewModel(){IsDialogOpen = true};
+        private DialogViewModel _dialog;
 
 
 

@@ -32,4 +32,13 @@ namespace BatchProcess3.Data
         Macros = 8,
     }
     
+    public enum InfoType
+    {
+        Ask,
+        Info,
+        Success,
+        Warning,
+        Error,
+        Fatal,
+    }
 }

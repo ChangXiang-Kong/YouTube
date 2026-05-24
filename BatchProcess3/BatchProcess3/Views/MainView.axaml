@@ -103,9 +103,22 @@
     <ContentControl Grid.Column="1" Content="{Binding CurrentPage}" />
 
     <!--  Global Dialog  -->
-    <Grid Column="0" ColumnSpan="2" IsVisible="{Binding CurrentDialog.IsDialogOpen}">
+    <Grid Name="Grid_DialogOverlay" Column="0" ColumnSpan="2"
+          IsVisible="{Binding #Grid_DialogOverlay.Opacity}"
+          Opacity="{Binding Dialog.IsDialogOpen, FallbackValue=0}">
+      <Grid.Styles>
+        <Style Selector="Grid">
+          <Setter Property="Transitions">
+            <Transitions>
+              <DoubleTransition Property="Opacity" Duration="0:0:0.1" />
+            </Transitions>
+          </Setter>
+        </Style>
+      </Grid.Styles>
       <Border Background="Black" Opacity="0.5" />
-      <ContentControl HorizontalAlignment="Center" VerticalAlignment="Center" Content="{Binding CurrentDialog}" />
+      <ContentControl HorizontalAlignment="Center" VerticalAlignment="Center" Content="{Binding Dialog}" />
     </Grid>
+
+
   </Grid>
 </UserControl>

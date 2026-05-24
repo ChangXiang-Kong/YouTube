@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using BatchProcess3.Data;
 using BatchProcess3.Tools.Extensions;
+using BatchProcess3.Tools.Services;
 using BatchProcess3.ViewModels.Actions;
 using BatchProcess3.Views.Actions;
 
@@ -173,5 +174,6 @@ public partial class App : Application
             _ => throw new InvalidOperationException(),
         });
         services.AddSingleton<PageFactory>();
+        services.AddSingleton<DialogService>();
     }
 }
