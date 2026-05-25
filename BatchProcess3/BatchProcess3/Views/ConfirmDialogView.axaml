@@ -4,6 +4,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:BatchProcess3.ViewModels"
+             Width="{Binding DialogWidth}"
+             Height="{Binding DialogHeight}"
              MinWidth="{Binding MinWidth}"
              MinHeight="{Binding MinHeight}"
              MaxWidth="{Binding MaxWidth}"
@@ -27,7 +29,7 @@
     </Border.Effect>
 
     <Grid Margin="15" RowDefinitions="Auto, 15, *, 15, AUto">
-      <!--  Title Area  -->
+      <!--  Title  -->
       <DockPanel Grid.Row="0">
         <!--  Icon  -->
         <!--  <Label Margin="0,0,15,0" Classes="icon"  -->
@@ -39,7 +41,7 @@
         </Viewbox>
 
         <!--  Title  -->
-        <TextBlock VerticalAlignment="Center" FontSize="16" FontWeight="Bold" Text="{Binding Title}" />
+        <TextBlock VerticalAlignment="Center" FontSize="{DynamicResource FontSize_16}" FontWeight="Bold" Text="{Binding Title}" />
 
         <!--  Close Button  -->
         <Button Width="40" Margin="10,0,0,0" HorizontalAlignment="Right"
@@ -50,25 +52,44 @@
 
       <!--  Description  -->
       <ScrollViewer Grid.Row="2" AllowAutoHide="False">
-        <TextBlock Margin="10,0" VerticalAlignment="Center"
+        <TextBlock Margin="10,0" VerticalAlignment="Top"
                    FontSize="{DynamicResource FontSize_16}"
                    Text="{Binding Message}"
                    TextWrapping="Wrap" />
       </ScrollViewer>
 
-      <!--  Yes/No Buttons  -->
-      <StackPanel Grid.Row="4" HorizontalAlignment="Right" DockPanel.Dock="Bottom"
-                  Orientation="Horizontal" Spacing="10">
-        <Button MinWidth="70" HorizontalContentAlignment="Center" Classes="success"
-                Command="{Binding ConfirmCommand}"
-                Content="{Binding ConfirmText}" />
-        <Button MinWidth="70" HorizontalContentAlignment="Center" Classes="outline danger"
-                Command="{Binding CancelCommand}"
-                Content="{Binding CancelText}" />
-        <Button MinWidth="70" HorizontalContentAlignment="Center" Classes="outline"
-                Command="{Binding ApplyCommand}"
-                Content="{Binding ApplyText}"
-                IsVisible="False" />
+      <!--  Fotter  -->
+      <StackPanel Grid.Row="4">
+        <!--  StatusText  -->
+        <TextBlock Margin="0,0,0,5" HorizontalAlignment="Right"
+                   FontSize="{DynamicResource FontSize_16}"
+                   Foreground="{DynamicResource AlertGradient}"
+                   Text="{Binding StatusText}"
+                   TextWrapping="Wrap" />
+
+        <!--  Yes/No Buttons  -->
+        <StackPanel HorizontalAlignment="Right" IsVisible="{Binding !IsBusy}" Orientation="Horizontal" Spacing="10">
+          <Button MinWidth="70" HorizontalContentAlignment="Center" Classes="success"
+                  Command="{Binding ConfirmCommand}"
+                  Content="{Binding ConfirmText}" />
+          <Button MinWidth="70" HorizontalContentAlignment="Center" Classes="outline danger"
+                  Command="{Binding CancelCommand}"
+                  Content="{Binding CancelText}" />
+          <Button MinWidth="70" HorizontalContentAlignment="Center" Classes="outline"
+                  Command="{Binding ApplyCommand}"
+                  Content="{Binding ApplyText}"
+                  IsVisible="False" />
+        </StackPanel>
+
+        <!--  ProgressText  -->
+        <StackPanel IsVisible="{Binding IsBusy}">
+          <TextBlock Margin="0,0,0,5" HorizontalAlignment="Right"
+                     FontSize="{DynamicResource FontSize_16}"
+                     Foreground="{DynamicResource HoverGradient}"
+                     Text="{Binding ProgressText}"
+                     TextWrapping="Wrap" />
+          <ProgressBar Foreground="{DynamicResource HoverGradient}" Maximum="100" Minimum="0" Value="{Binding ProgressValue}" />
+        </StackPanel>
       </StackPanel>
     </Grid>
   </Border>

@@ -205,6 +205,20 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
                 InfoType = InfoType.Warning,
                 Title = $"Delete {PrintList[index].JobName}?",
                 Message = "Are you sure you want to delete this print?",
+                DialogWidth = 500,
+                // OnConfirm = async (vm) =>
+                // {
+                //     await Task.Delay(2000);
+                //     
+                //     vm.ProgressText = "This is taking a while...";
+                //     vm.ProgressValue = 50;
+                //     
+                //     await Task.Delay(1000);
+                //
+                //     vm.StatusText = "Oh no, something went wrong...";
+                //     
+                //     return true;
+                // },
             };
             
             // Wait for click button
