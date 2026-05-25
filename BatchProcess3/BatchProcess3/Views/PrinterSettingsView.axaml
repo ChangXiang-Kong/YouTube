@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="BatchProcess3.Views.ConfirmDialogView"
+﻿<UserControl x:Class="BatchProcess3.Views.PrinterSettingsView"
              xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -10,12 +10,12 @@
              MinHeight="{Binding MinHeight}"
              MaxWidth="{Binding MaxWidth}"
              MaxHeight="{Binding MaxHeight}"
-             x:DataType="vm:ConfirmDialogViewModel"
+             x:DataType="vm:PrinterSettingsViewModel"
              Background="Transparent"
              Foreground="{DynamicResource PrimaryForeground}"
              mc:Ignorable="d">
   <Design.DataContext>
-    <vm:ConfirmDialogViewModel />
+    <vm:PrinterSettingsViewModel />
   </Design.DataContext>
 
   <!--  Main Dialog Window  -->
@@ -52,10 +52,37 @@
 
       <!--  Description  -->
       <ScrollViewer Grid.Row="2" AllowAutoHide="False">
-        <TextBlock Margin="10,0" VerticalAlignment="Top"
-                   FontSize="{DynamicResource FontSize_16}"
-                   Text="{Binding Message}"
-                   TextWrapping="Wrap" />
+        <Grid RowDefinitions="Auto, 10, Auto">
+          <TextBlock Grid.Row="0" Margin="10,0" VerticalAlignment="Top"
+                     FontSize="{DynamicResource FontSize_16}"
+                     Text="{Binding Message}"
+                     TextWrapping="Wrap" />
+
+          <StackPanel Grid.Row="2">
+            <!--  Name  -->
+            <DockPanel Margin="0,0,0,10">
+              <TextBlock Width="100" VerticalAlignment="Center" Text="Name" />
+              <TextBox DockPanel.Dock="Right" Text="{Binding Name}" />
+            </DockPanel>
+            <!--  Description  -->
+            <DockPanel Margin="0,0,0,10">
+              <TextBlock Width="100" VerticalAlignment="Center" Text="Description" />
+              <TextBox MaxHeight="65" AcceptsReturn="True" DockPanel.Dock="Right"
+                       ScrollViewer.AllowAutoHide="False"
+                       Text="{Binding Description}" />
+            </DockPanel>
+            <!--  Copies  -->
+            <StackPanel Margin="0,0,0,10" Orientation="Horizontal">
+              <TextBlock Width="100" VerticalAlignment="Center" Text="Copies" />
+              <NumericUpDown Width="150" VerticalContentAlignment="Center" ButtonSpinnerLocation="Right"
+                             FormatString="0" Increment="1" InnerLeftContent=""
+                             InnerRightContent="" Maximum="100" Minimum="1"
+                             ScrollViewer.AllowAutoHide="False"
+                             Value="{Binding Copies}" />
+              <TextBlock Margin="10,0,0,0" VerticalAlignment="Center" Foreground="#AAA" Text="( Maximum=100, Minimum=1 )" />
+            </StackPanel>
+          </StackPanel>
+        </Grid>
       </ScrollViewer>
 
       <!--  Fotter  -->

@@ -78,7 +78,7 @@
       </Grid.Styles>
 
       <!--  General Settings Column  -->
-      <Grid Grid.Column="0" RowDefinitions="Auto, 10, Auto, 10, Auto, 10, Auto, 10, Auto, 10, *">
+      <Grid Grid.Column="0" RowDefinitions="Auto, 10, Auto, 10, Auto, 10, Auto, 10, Auto, 10, Auto, 10, *">
         <Label Grid.Row="0" Classes="h2" Content="General Settings" />
         <TextBlock Grid.Row="2" Margin="0,-10,0,0" Text="Set the main properties of the print job." />
         <Grid Grid.Row="4" ColumnDefinitions="130, 10, *" RowDefinitions="Auto, 10, Auto, 10 Auto">
@@ -100,8 +100,12 @@
         <!--  Printer Settings  -->
         <Label Grid.Row="6" Classes="h2" Content="Printer Settings" />
         <TextBlock Grid.Row="8" Margin="0,-10,0,0" Text="Select the profiles to use for paper sizes." TextWrapping="Wrap" />
+        <Button Grid.Row="10" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"
+                Classes="small outline"
+                Command="{Binding AddNewPrinterSettingsCommand}"
+                Content="New Printer Settings" />
         <!--  绑定Model中的Id而不是Model本身  -->
-        <ListBox Grid.Row="10" ItemsSource="{Binding PrinterProfilesList}" SelectedValue="{Binding SelectedPrintListItem.PrinterProfileId}" SelectedValueBinding="{Binding Id}">
+        <ListBox Grid.Row="12" ItemsSource="{Binding PrinterProfilesList}" SelectedValue="{Binding SelectedPrintListItem.PrinterProfileId}" SelectedValueBinding="{Binding Id}">
           <ListBox.ItemTemplate>
             <DataTemplate x:DataType="vmActions:ActionsPrinterProfileViewModel">
               <StackPanel>

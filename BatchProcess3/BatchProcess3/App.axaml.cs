@@ -14,6 +14,7 @@ using BatchProcess3.Tools.Extensions;
 using BatchProcess3.Tools.Services;
 using BatchProcess3.ViewModels.Actions;
 using BatchProcess3.Views.Actions;
+using ClassicDiagnostics.Avalonia;
 
 // 自定义 XML Namespace 参考链接：https://docs.avaloniaui.net/docs/guides/custom-controls/how-to-create-a-custom-controls-library#xml-namespace-definitions
 // 参考视频：https://www.youtube.com/watch?v=M3CFj0x-tts&list=PLrW43fNmjaQWwIdZxjZrx5FSXcNzaucOO&index=7
@@ -89,9 +90,14 @@ public partial class App : Application
     public override void Initialize()
     {
         AvaloniaXamlLoader.Load(this);
-// #if DEBUG
-//             this.AttachDeveloperTools();
-// #endif
+#if DEBUG
+        /* 第三方F12诊断工具：
+        光头哥的 ProDiagnostics,
+        群友移植老版本的 ClassicDiagnostics.Avalonia
+         */
+        // this.AttachDeveloperTools();    // AvaloniaUI.DiagnosticsSupport
+        this.AttachDevTools();          // ClassicDiagnostics.Avalonia
+#endif
     }
 
     public override void OnFrameworkInitializationCompleted()
@@ -143,6 +149,7 @@ public partial class App : Application
         services.AddTransientViewModel<SettingsPageView, SettingsPageViewModel>();
         // Dialog
         services.AddTransientViewModel<ConfirmDialogView, ConfirmDialogViewModel>();
+        services.AddTransientViewModel<PrinterSettingsView, PrinterSettingsViewModel>();
     }
 
     private void RegisterServices(IServiceCollection services)

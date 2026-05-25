@@ -19,6 +19,9 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
     // {
     //     // Some logic
     // }
+    
+    // Design time only
+    public ActionsPageViewModel() : this(new MainViewModel(), new DialogService()) { }
 
     [ObservableProperty] private string _test = "Test Actions";
 
@@ -177,6 +180,45 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
     }
 
     [RelayCommand]
+    private async Task AddNewPrinterSettingsAsync()
+    {
+        var confirmDialogViewModel = new PrinterSettingsViewModel()
+        {
+            // 图标方式一：
+            // GeometryIcon = GeometryIcon.PrinterPosCog,                  // 不需要了，内部构造函数已有 IconGeometry 与 IconForeground 替代
+            // // 图标方式二：
+            // // IconMessage = "PrinterPosCog";
+            // // IconForeground = "DodgerBlue";
+            // // IconGeometry = StreamGeometry.Parse("M505.6512 39.0144c-261.2224 3.4816-470.1184 218.112-466.6368 479.4368 3.4816 261.12 218.112 470.1184 479.3344 466.6368 261.2224-3.4816 470.1184-218.112 466.7392-479.3344C981.504 244.4288 766.8736 35.5328 505.6512 39.0144zM558.08 196.608c48.128 0 62.2592 27.9552 62.2592 59.8016 0 39.8336-31.9488 76.6976-86.3232 76.6976-45.568 0-67.1744-22.9376-65.9456-60.8256C468.0704 240.4352 494.7968 196.608 558.08 196.608zM434.7904 807.6288c-32.8704 0-56.9344-19.968-33.8944-107.6224l37.6832-155.5456c6.5536-24.8832 7.68-34.9184 0-34.9184-9.8304 0-52.5312 17.2032-77.7216 34.2016l-16.384-26.9312c79.9744-66.7648 171.8272-105.8816 211.2512-105.8816 32.8704 0 38.2976 38.912 21.9136 98.6112l-43.2128 163.5328c-7.68 28.8768-4.4032 38.912 3.2768 38.912 9.9328 0 42.1888-11.9808 73.9328-36.9664l18.6368 24.8832C552.5504 777.728 467.6608 807.6288 434.7904 807.6288z");
+
+            // Title = $"Printer Settings",                                // 不需要了，内部构造函数已有
+            // Message = "Are you sure you want to delete this print?",    // 不需要了，内部构造函数已有
+            // DialogWidth = 1200,                                         // 不需要了，内部构造函数已有
+            // OnConfirm = async (vm) =>
+            // {
+            //     await Task.Delay(2000);
+            //     
+            //     vm.ProgressText = "This is taking a while...";
+            //     vm.ProgressValue = 50;
+            //     
+            //     await Task.Delay(1000);
+            //
+            //     vm.StatusText = "Oh no, something went wrong...";
+            //     
+            //     return true;
+            // },
+        };
+            
+        // Wait for click button
+        await dialogService.ShowDialogAsync(mainViewModel, confirmDialogViewModel);
+            
+        // Ignore if we clicked cancel
+        if (!confirmDialogViewModel.IsConfirmed)
+            return;
+        
+    }
+
+    [RelayCommand]
     private async Task CancelPrintItemAsync()
     {
         // Ignore if nothing is selected
@@ -202,7 +244,12 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
         {
             var confirmDialogViewModel = new ConfirmDialogViewModel
             {
-                InfoType = InfoType.Warning,
+                // 图标方式一：
+                GeometryIcon = GeometryIcon.Warning,
+                // 图标方式二：
+                // IconMessage = "Warning";
+                // IconForeground = "#fc8800";
+                // IconGeometry = StreamGeometry.Parse("M943.644188 827.215696l-351.176649-608.204749c-42.945473-74.36249-113.147387-74.36249-156.092861 0l-351.176649 608.204749c-42.946498 74.431167-7.811716 135.14955 78.012605 135.14955l702.420949 0C951.455904 962.36422 986.555836 901.645838 943.644188 827.215696zM466.187532 391.579035c12.621133-13.644108 28.66175-20.466675 48.233578-20.466675 19.580028 0 35.612444 6.75389 48.241778 20.194018 12.544256 13.473954 18.820484 30.325365 18.820484 50.587035 0 17.430551-26.19759 145.621205-34.929778 238.882082l-63.105666 0c-7.666162-93.259852-36.090106-221.450507-36.090106-238.882082C447.358847 421.938226 453.643275 405.155491 466.187532 391.579035zM561.76804 835.026386c-13.268949 12.928641-29.062535 19.375023-47.345906 19.375023-18.275171 0-34.076957-6.447407-47.346931-19.375023-13.235123-12.89379-19.818859-28.517221-19.818859-46.869269 0-18.249546 6.583736-34.043131 19.818859-47.278254 13.268949-13.235123 29.07176-19.852685 47.346931-19.852685 18.283371 0 34.076957 6.617562 47.345906 19.852685 13.235123 13.235123 19.827059 29.028709 19.827059 47.278254C581.595099 806.51019 575.003163 822.132597 561.76804 835.026386z");
                 Title = $"Delete {PrintList[index].JobName}?",
                 Message = "Are you sure you want to delete this print?",
                 DialogWidth = 500,

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
@@ -6,6 +7,7 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml.MarkupExtensions;
 using Avalonia.Media;
 using BatchProcess3.Data;
+using BatchProcess3.Tools.Extensions;
 using BatchProcess3.Tools.Helper;
 using BatchProcess3.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -17,29 +19,35 @@ namespace BatchProcess3.ViewModels;
 // ttf图标来源：https://phosphoricons.com/
 public partial class ConfirmDialogViewModel : DialogViewModel
 {
-    /// <summary>
-    /// Design-time only constructor
-    /// </summary>
     public ConfirmDialogViewModel()
     {
-        // switch (Application.Current?.ApplicationLifetime)
-        // {
-        //     case IClassicDesktopStyleApplicationLifetime desktop:
-                MinWidth = _desktopMinWidth;
-                MinHeight = _desktopMinHeight;
-                MaxWidth = _desktopMaxWidth;
-                MaxHeight = _desktopMaxHeight;
-        //         break;
-        //     case ISingleViewApplicationLifetime singleViewPlatform:
-        //         MinWidth = _mobileMinWidth;
-        //         MaxWidth = _mobileMaxWidth;
-        //         MinHeight = _mobileMinHeight;
-        //         MaxHeight = _mobileMaxHeight;
-        //         break;
-        // }
-
-        // Design-time only
-        _iconGeometry = _geometryAsk;
+        if (Avalonia.Controls.Design.IsDesignMode)
+        {
+            // Design-time only
+            MinWidth = _desktopMinWidth;
+            MinHeight = _desktopMinHeight;
+            MaxWidth = _desktopMaxWidth;
+            MaxHeight = _desktopMaxHeight;
+        }
+        else
+        {
+            switch (Application.Current?.ApplicationLifetime)
+            {
+                case IClassicDesktopStyleApplicationLifetime desktop:
+                    MinWidth = _desktopMinWidth;
+                    MinHeight = _desktopMinHeight;
+                    MaxWidth = _desktopMaxWidth;
+                    MaxHeight = _desktopMaxHeight;
+                    break;
+                case ISingleViewApplicationLifetime singleViewPlatform:
+                    MinWidth = _mobileMinWidth;
+                    MaxWidth = _mobileMaxWidth;
+                    MinHeight = _mobileMinHeight;
+                    MaxHeight = _mobileMaxHeight;
+                    break;
+            }
+        }
+        _iconGeometry = _geometryAsk;   // 默认图标
     }
 
     private readonly StreamGeometry _geometryAsk = StreamGeometry.Parse("M512 0 30.11843 240.941297l0 542.117406 481.88157 240.941297 481.88157-240.941297L993.88157 240.941297 512 0zM575.776472 768.799969 460.188012 768.799969 460.188012 656.222073l115.588459 0L575.776472 768.799969zM623.335603 509.329685c-52.375829 36.723353-59.600363 55.988096-59.600363 84.885211l0 19.866447L468.616977 614.081343l0-26.489278c0-45.754021 13.846342-80.67124 61.406497-116.791866 46.957428-36.723353 57.79423-62.0082 57.79423-84.282484 0-25.284848-21.67258-54.181962-55.386393-54.181962-42.743457 0-70.436142 26.489278-82.477374 85.486914l-105.956088-21.67258c24.683144-111.976192 82.477374-157.127486 205.289345-157.127486 98.12985 0 157.72919 63.212631 157.72919 131.842639C707.017407 423.240044 688.956071 461.76953 623.335603 509.329685z");
@@ -52,12 +60,12 @@ public partial class ConfirmDialogViewModel : DialogViewModel
     private readonly double _desktopMinWidth = 350;
     private readonly double _desktopMinWidth1 = double.NaN;
     private readonly double _desktopMinHeight = 220;
-    private readonly double _desktopMaxWidth = 1000;
-    private readonly double _desktopMaxHeight = 650;
-    private readonly double _mobileMinWidth;
-    private readonly double _mobileMinHeight;
-    private readonly double _mobileMaxWidth;
-    private readonly double _mobileMaxHeight;
+    private readonly double _desktopMaxWidth = 1200;
+    private readonly double _desktopMaxHeight = 700;
+    private readonly double _mobileMinWidth = double.NaN;
+    private readonly double _mobileMinHeight = double.NaN;
+    private readonly double _mobileMaxWidth = double.NaN;
+    private readonly double _mobileMaxHeight = double.NaN;
 
     [ObservableProperty] private double _minWidth;
     [ObservableProperty] private double _minHeight;
@@ -66,9 +74,12 @@ public partial class ConfirmDialogViewModel : DialogViewModel
     [ObservableProperty] private double _dialogWidth = double.NaN;
     [ObservableProperty] private double _dialogHeight = double.NaN;
 
+    [ObservableProperty] private double _iconWidth = 40;
+    [ObservableProperty] private double _iconHeight = 40;
     [ObservableProperty] private string _iconText = "";         // 使用ttf字体图标
-    [ObservableProperty] private StreamGeometry _iconGeometry;  // 使用Geometry
+    [ObservableProperty] private string _iconMessage = "";
     [ObservableProperty] private string _iconForeground = "DodgerBlue";
+    [ObservableProperty] private StreamGeometry _iconGeometry;  // 使用Geometry
     [ObservableProperty] private string _title = "Confirm";
     [ObservableProperty] private string _message = "Are you sure?";
     [ObservableProperty] private string _statusText = "";
@@ -85,21 +96,29 @@ public partial class ConfirmDialogViewModel : DialogViewModel
 
     public bool NotBusy => !IsBusy;
     public Func<ConfirmDialogViewModel, Task<bool>> OnConfirm { get; set; } = (_) => Task.FromResult(true);
-    public InfoType InfoType
+    /// <summary>
+    /// 修改 GeometryIcon 后，自动根据该枚举值的特性 GeometryIconAttribute 设置 IconMessage、IconForeground、IconGeometry
+    /// </summary>
+    public GeometryIcon GeometryIcon
     {
         get;
         set
         {
             field = value;
-            switch (field)
-            {
-                case InfoType.Ask: IconText = "\xe3e8"; IconGeometry = _geometryAsk; IconForeground = "DodgerBlue"; break;
-                case InfoType.Info: IconText = "\xe2ce"; IconGeometry = _geometryInfo; IconForeground = "#2cb8c5"; break;
-                case InfoType.Success: IconText = "\xe184"; IconGeometry = _geometrySuccess; IconForeground = "#3bb346"; break;
-                case InfoType.Warning: IconText = "\xe4e0"; IconGeometry = _geometryWarning; IconForeground = "#fc8800"; break;
-                case InfoType.Error: IconText = "\xe4f8"; IconGeometry = _geometryError; IconForeground = "#f93920"; break;
-                case InfoType.Fatal: IconText = "\xea96"; IconGeometry = _geometryFatal; IconForeground = "#c738ff"; break;
-            }
+            var strArray = field.ParseGeometryIconAttribute();
+            IconMessage = strArray[0];
+            IconForeground = strArray[1];
+            IconGeometry = StreamGeometry.Parse(strArray[2]);
+            // 参考使用 IconText
+            // switch (field)
+            // {
+            //     case GeometryIcon.Ask: IconText = "\xe3e8"; IconForeground = "DodgerBlue"; IconGeometry = _geometryAsk; break;
+            //     case GeometryIcon.Info: IconText = "\xe2ce"; IconForeground = "#2cb8c5"; IconGeometry = _geometryInfo; break;
+            //     case GeometryIcon.Success: IconText = "\xe184"; IconForeground = "#3bb346"; IconGeometry = _geometrySuccess; break;
+            //     case GeometryIcon.Warning: IconText = "\xe4e0"; IconForeground = "#fc8800"; IconGeometry = _geometryWarning; break;
+            //     case GeometryIcon.Error: IconText = "\xe4f8"; IconForeground = "#f93920"; IconGeometry = _geometryError; break;
+            //     case GeometryIcon.Fatal: IconText = "\xea96"; IconForeground = "#c738ff"; IconGeometry = _geometryFatal; break;
+            // }
         }
     }
 

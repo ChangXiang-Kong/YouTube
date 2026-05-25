@@ -1,0 +1,81 @@
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=System.Runtime"
+                    x:ClassModifier="internal">
+  <Design.PreviewWith>
+    <Border Width="600" Padding="20" Background="{DynamicResource PrimaryBackground}">
+      <StackPanel Spacing="20">
+        <NumericUpDown Increment="0.5" Maximum="10" Minimum="0" Watermark="Enter text" />
+        <NumericUpDown HorizontalContentAlignment="Center" VerticalContentAlignment="Center" ButtonSpinnerLocation="Left"
+                       Increment="0.5" Maximum="10" Minimum="0"
+                       Watermark="Enter text" />
+        <NumericUpDown ButtonSpinnerLocation="Left">
+          <NumericUpDown.InnerLeftContent>
+            <TextBlock VerticalAlignment="Center" Text="m" TextAlignment="Center" />
+          </NumericUpDown.InnerLeftContent>
+          <NumericUpDown.InnerRightContent>
+            <Button Content="X" />
+          </NumericUpDown.InnerRightContent>
+        </NumericUpDown>
+        <NumericUpDown ButtonSpinnerLocation="Right">
+          <NumericUpDown.InnerLeftContent>
+            <Button Content="X" />
+          </NumericUpDown.InnerLeftContent>
+          <NumericUpDown.InnerRightContent>
+            <TextBlock VerticalAlignment="Center" Text="m" TextAlignment="Center" />
+          </NumericUpDown.InnerRightContent>
+        </NumericUpDown>
+        <NumericUpDown>
+          <DataValidationErrors.Error>
+            <sys:Exception>
+              <x:Arguments>
+                <x:String>Error</x:String>
+              </x:Arguments>
+            </sys:Exception>
+          </DataValidationErrors.Error>
+        </NumericUpDown>
+      </StackPanel>
+    </Border>
+  </Design.PreviewWith>
+
+  <ControlTheme x:Key="{x:Type NumericUpDown}" TargetType="NumericUpDown">
+    <Setter Property="Foreground" Value="{DynamicResource TextControlForeground}" />
+    <Setter Property="Background" Value="{DynamicResource TextControlBackground}" />
+    <Setter Property="BorderThickness" Value="{DynamicResource BorderThickness_2}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource TextControlBorderBrush}" />
+    <Setter Property="MinHeight" Value="{DynamicResource TextControlThemeMinHeight}" />
+    <Setter Property="MinWidth" Value="{DynamicResource TextControlThemeMinWidth}" />
+    <Setter Property="Padding" Value="{DynamicResource TextControlThemePadding}" />
+    <Setter Property="CornerRadius" Value="{DynamicResource CornerRadius_5}" />
+    <Setter Property="Template">
+      <ControlTemplate>
+        <DataValidationErrors>
+          <ButtonSpinner Name="PART_Spinner" MinWidth="0" Padding="0"
+                         HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+                         AllowSpin="{TemplateBinding AllowSpin}"
+                         BorderThickness="0"
+                         ButtonSpinnerLocation="{TemplateBinding ButtonSpinnerLocation}"
+                         CornerRadius="{TemplateBinding CornerRadius}"
+                         IsTabStop="False"
+                         ShowButtonSpinner="{TemplateBinding ShowButtonSpinner}">
+            <TextBox Name="PART_TextBox" MinWidth="0"
+                     Padding="{TemplateBinding Padding}"
+                     HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                     VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                     AcceptsReturn="False"
+                     BorderThickness="{TemplateBinding BorderThickness}"
+                     CornerRadius="{TemplateBinding CornerRadius}"
+                     InnerLeftContent="{Binding InnerLeftContent, RelativeSource={RelativeSource TemplatedParent}}"
+                     InnerRightContent="{Binding InnerRightContent, RelativeSource={RelativeSource TemplatedParent}}"
+                     IsReadOnly="{TemplateBinding IsReadOnly}"
+                     PlaceholderText="{TemplateBinding PlaceholderText}"
+                     Text="{TemplateBinding Text}"
+                     TextAlignment="{TemplateBinding TextAlignment}"
+                     TextWrapping="NoWrap"
+                     Watermark="{TemplateBinding Watermark}" />
+          </ButtonSpinner>
+        </DataValidationErrors>
+      </ControlTemplate>
+    </Setter>
+  </ControlTheme>
+</ResourceDictionary>
