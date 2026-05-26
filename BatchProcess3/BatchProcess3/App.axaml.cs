@@ -149,7 +149,7 @@ public partial class App : Application
         services.AddTransientViewModel<SettingsPageView, SettingsPageViewModel>();
         // Dialog
         services.AddTransientViewModel<ConfirmDialogView, ConfirmDialogViewModel>();
-        services.AddTransientViewModel<PrinterSettingsView, PrinterSettingsViewModel>();
+        services.AddTransientViewModel<PrintProfileView, PrintProfileViewModel>();
     }
 
     private void RegisterServices(IServiceCollection services)

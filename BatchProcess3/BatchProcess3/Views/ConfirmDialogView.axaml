@@ -36,7 +36,10 @@
         <!--  Content="{Binding IconText}"  -->
         <!--  FontSize="40"  -->
         <!--  Foreground="{Binding IconForeground}" />  -->
-        <Viewbox Width="{Binding IconWidth}" Height="{Binding IconHeight}" Margin="0,0,10,0" VerticalAlignment="Center">
+        <Viewbox Width="{Binding IconWidth}"
+                 Height="{Binding IconHeight}"
+                 Margin="0,0,10,0" VerticalAlignment="Center"
+                 ToolTip.Tip="{Binding IconMessage}">
           <PathIcon Data="{Binding IconGeometry}" Foreground="{Binding IconForeground}" />
         </Viewbox>
 

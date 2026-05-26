@@ -1,5 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
@@ -79,7 +81,26 @@ public partial class ConfirmDialogViewModel : DialogViewModel
     [ObservableProperty] private string _iconText = "";         // 使用ttf字体图标
     [ObservableProperty] private string _iconMessage = "";
     [ObservableProperty] private string _iconForeground = "DodgerBlue";
-    [ObservableProperty] private StreamGeometry _iconGeometry;  // 使用Geometry
+    [ObservableProperty]
+    [property: JsonIgnore] // 序列化时忽略该属性，因为无法序列化 StreamGeometry 对象。
+    /*
+     说明：
+        在 Avalonia 12 中：StreamGeometry 无法反向获取原始路径数据
+        因为StreamGeometry：
+            不保存原始 SVG Path 字符串
+            不公开 Figures/Segments
+            内部已编译成绘制指令
+        所以：
+            _geometrySuccess.ToString()
+        得到的是类名：
+            "Avalonia.Media.StreamGeometry"
+        而不是路径数据：
+            M512.66048 64.64...
+        
+        在 ViewModelBase.cs 中调用 GetState() 进行序列化后，对象的 iconGeometry 字符串为 "iconGeometry" : { "transform" : null }，
+        因路径数据丢失，导致在反序列化时无法正常还原 Geometry
+     */
+    private StreamGeometry _iconGeometry;  // 使用Geometry
     [ObservableProperty] private string _title = "Confirm";
     [ObservableProperty] private string _message = "Are you sure?";
     [ObservableProperty] private string _statusText = "";
@@ -95,6 +116,7 @@ public partial class ConfirmDialogViewModel : DialogViewModel
     [ObservableProperty] private bool _isConfirmed;
 
     public bool NotBusy => !IsBusy;
+    [JsonIgnore]
     public Func<ConfirmDialogViewModel, Task<bool>> OnConfirm { get; set; } = (_) => Task.FromResult(true);
     /// <summary>
     /// 修改 GeometryIcon 后，自动根据该枚举值的特性 GeometryIconAttribute 设置 IconMessage、IconForeground、IconGeometry

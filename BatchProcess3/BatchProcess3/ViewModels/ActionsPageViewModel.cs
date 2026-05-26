@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using BatchProcess3.Data;
 using BatchProcess3.Tools.Services;
@@ -26,13 +28,13 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
     [ObservableProperty] private string _test = "Test Actions";
 
     // TODO: Remove once we have database service
-    private ActionsPrinterProfileViewModel _defaultPrinterProfile = new ActionsPrinterProfileViewModel
+    private PrintProfileViewModel _defaultPrinterProfile = new PrintProfileViewModel
     {
         Id = "0",
         Name = "(Default)",
         Description = "Use all default settings",
         Copies = 1,
-        // TODO: Populate PrinterSettings
+        // TODO: Populate PrintSettings
     };
 
     // 使用 [] 进行初始化以消除警告，当误写 PrintList = null; 时会提示 Cannot convert null literal to non-nullable reference type
@@ -50,7 +52,7 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
     public ActionsPrintViewModel? SelectedPrintListItem =>
         PrintList.FirstOrDefault(x => x.Id == SelectedPrintListItemId);
 
-    [ObservableProperty] private ObservableCollection<ActionsPrinterProfileViewModel> _printerProfilesList = [];
+    [ObservableProperty] private ObservableCollection<PrintProfileViewModel> _printerProfilesList = [];
 
     [RelayCommand]
     public void RefreshActionsPage(ActionsPageName actionsPageName)
@@ -66,34 +68,7 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
     {
         // 将 PrinterProfilesList = ... 放到 PrintList = ... 之前，
         // 因为 PrinterProfilesList 会引用到 PrintList 中的项
-        PrinterProfilesList =
-        [
-            _defaultPrinterProfile,
-            new ActionsPrinterProfileViewModel
-            {
-                Id = "1",
-                Name = "Print Landscape",
-                Description = "Print all files in landscape mode",
-                Copies = 1,
-                // TODO: Populate PrinterSettings
-            },
-            new ActionsPrinterProfileViewModel
-            {
-                Id = "2",
-                Name = "Print Portrait",
-                Description = "Print all files in portrait mode",
-                Copies = 3,
-                // TODO: Populate PrinterSettings
-            },
-            new ActionsPrinterProfileViewModel
-            {
-                Id = "3",
-                Name = "A3 Black & White",
-                Description = "Make all A3 prints black and white",
-                Copies = 5,
-                // TODO: Populate PrinterSettings
-            },
-        ];
+        FetchPrinterProfiles();
         
         // TODO: Fetch from a database/service provider
         PrintList =
@@ -146,6 +121,42 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
 
     }
 
+    [RelayCommand]
+    private void FetchPrinterProfiles()
+    {
+        // TODO: Pull from database
+        
+        PrinterProfilesList =
+        [
+            _defaultPrinterProfile,
+            new PrintProfileViewModel
+            {
+                Id = "1",
+                Name = "Print Landscape",
+                Description = "Print all files in landscape mode",
+                Copies = 1,
+                // TODO: Populate PrintSettings
+            },
+            new PrintProfileViewModel
+            {
+                Id = "2",
+                Name = "Print Portrait",
+                Description = "Print all files in portrait mode",
+                Copies = 3,
+                // TODO: Populate PrintSettings
+            },
+            new PrintProfileViewModel
+            {
+                Id = "3",
+                Name = "A3 Black & White",
+                Description = "Make all A3 prints black and white",
+                Copies = 5,
+                // TODO: Populate PrintSettings
+            },
+        ];
+
+    }
+
     protected override void OnDesignTimeConstructor() => FetchPrintActionsData();
 
     [RelayCommand]
@@ -158,6 +169,63 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
             return;
 
         await DeletePrintItemFromUIAsync(id);
+    }
+
+    [RelayCommand]
+    private async Task DeletePrintSettingsAsync(string id)
+    {
+        // TODO: Pass this logic to a service that handles the database/storage/fetching
+        //       For now just do it direct in here
+        if (PrinterProfilesList.Count(x => x.Id == id) != 1)
+            // TODO: Throw/Warn?
+            return;
+        
+        // TODO: Delete from database, then re-fetch to update UI
+        //       1. Delete from database
+        //       2. FetchPrintProfiles();
+
+        await DeletePrinterProfileFromUIAsync(id);
+    }
+
+    [RelayCommand]
+    private async Task EditPrintSettingsAsync(string id)
+    {
+        // TODO: Pass this logic to a service that handles database etc...
+
+        var profileViewModel = PrinterProfilesList.FirstOrDefault(x => x.Id == id);
+
+        if (profileViewModel == null)
+            // TODO: Throw/Warn?
+            return;
+
+        // Copy view model
+        var copiedProfileViewModel = new PrintProfileViewModel();
+        
+        // ===== 用于测试 ===== 
+        // JsonSerializerOptions _jsonSerializerOptions = new JsonSerializerOptions
+        // {
+        //     WriteIndented = true,
+        //     PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+        //     IgnoreReadOnlyFields = true,
+        //     IgnoreReadOnlyProperties = true,
+        //     NumberHandling = JsonNumberHandling.AllowNamedFloatingPointLiterals,    // 处理 如 double.NaN 之类的无限数对象
+        // };
+        // var a = JsonSerializer.Serialize(this, GetType().DeclaringType ?? GetType(), _jsonSerializerOptions);
+        // =====================
+        var c = profileViewModel.IconGeometry;
+        var b = profileViewModel.GetState();
+        copiedProfileViewModel.RestoreState(profileViewModel.GetState());
+
+        await dialogService.ShowDialogAsync(mainViewModel, copiedProfileViewModel);
+        
+        // Ignore if we clicked cancel
+        if (!copiedProfileViewModel.IsConfirmed)
+            return;
+        
+        // TODO: Database stuff
+        
+        // Commit copied view model back
+        profileViewModel.RestoreState(copiedProfileViewModel.GetState());
     }
 
     [RelayCommand]
@@ -180,9 +248,9 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
     }
 
     [RelayCommand]
-    private async Task AddNewPrinterSettingsAsync()
+    private async Task AddNewPrintSettingsAsync()
     {
-        var confirmDialogViewModel = new PrinterSettingsViewModel()
+        var confirmDialogViewModel = new PrintProfileViewModel()
         {
             // 图标方式一：
             // GeometryIcon = GeometryIcon.PrinterPosCog,                  // 不需要了，内部构造函数已有 IconGeometry 与 IconForeground 替代
@@ -230,13 +298,13 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
         if (SelectedPrintListItem.IsNewItem)
             await DeletePrintItemFromUIAsync(SelectedPrintListItem.Id, false);
         else
-            SelectedPrintListItem.RestoreSavedState();
+            SelectedPrintListItem.RestoreState();
     }
 
     // ReSharper disable once InconsistentNaming
     private async Task DeletePrintItemFromUIAsync(string id, bool warn = true)
     {
-        var index = PrintList.IndexOf((PrintList.First(x => x.Id == id)));
+        var index = PrintList.IndexOf(PrintList.First(x => x.Id == id));
         if (index == -1)
             return;
         
@@ -250,8 +318,8 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
                 // IconMessage = "Warning";
                 // IconForeground = "#fc8800";
                 // IconGeometry = StreamGeometry.Parse("M943.644188 827.215696l-351.176649-608.204749c-42.945473-74.36249-113.147387-74.36249-156.092861 0l-351.176649 608.204749c-42.946498 74.431167-7.811716 135.14955 78.012605 135.14955l702.420949 0C951.455904 962.36422 986.555836 901.645838 943.644188 827.215696zM466.187532 391.579035c12.621133-13.644108 28.66175-20.466675 48.233578-20.466675 19.580028 0 35.612444 6.75389 48.241778 20.194018 12.544256 13.473954 18.820484 30.325365 18.820484 50.587035 0 17.430551-26.19759 145.621205-34.929778 238.882082l-63.105666 0c-7.666162-93.259852-36.090106-221.450507-36.090106-238.882082C447.358847 421.938226 453.643275 405.155491 466.187532 391.579035zM561.76804 835.026386c-13.268949 12.928641-29.062535 19.375023-47.345906 19.375023-18.275171 0-34.076957-6.447407-47.346931-19.375023-13.235123-12.89379-19.818859-28.517221-19.818859-46.869269 0-18.249546 6.583736-34.043131 19.818859-47.278254 13.268949-13.235123 29.07176-19.852685 47.346931-19.852685 18.283371 0 34.076957 6.617562 47.345906 19.852685 13.235123 13.235123 19.827059 29.028709 19.827059 47.278254C581.595099 806.51019 575.003163 822.132597 561.76804 835.026386z");
-                Title = $"Delete {PrintList[index].JobName}?",
-                Message = "Are you sure you want to delete this print?",
+                Title = $"Delete Print Item?",
+                Message = $"Are you sure you want to delete {PrintList[index].JobName}?",
                 DialogWidth = 500,
                 // OnConfirm = async (vm) =>
                 // {
@@ -284,5 +352,45 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
             index--;
         if (PrintList.Count > 0)
             SelectedPrintListItemId = PrintList[index].Id;
+    }
+
+    // ReSharper disable once InconsistentNaming
+    private async Task DeletePrinterProfileFromUIAsync(string id, bool warn = true)
+    {
+        var index = PrinterProfilesList.IndexOf(PrinterProfilesList.First(x => x.Id == id));
+        if (index == -1)
+            return;
+        
+        if (warn)
+        {
+            var confirmDialogViewModel = new ConfirmDialogViewModel
+            {
+                // 图标方式一：
+                GeometryIcon = GeometryIcon.Warning,
+                // 图标方式二：
+                // IconMessage = "Warning";
+                // IconForeground = "#fc8800";
+                // IconGeometry = StreamGeometry.Parse("M943.644188 827.215696l-351.176649-608.204749c-42.945473-74.36249-113.147387-74.36249-156.092861 0l-351.176649 608.204749c-42.946498 74.431167-7.811716 135.14955 78.012605 135.14955l702.420949 0C951.455904 962.36422 986.555836 901.645838 943.644188 827.215696zM466.187532 391.579035c12.621133-13.644108 28.66175-20.466675 48.233578-20.466675 19.580028 0 35.612444 6.75389 48.241778 20.194018 12.544256 13.473954 18.820484 30.325365 18.820484 50.587035 0 17.430551-26.19759 145.621205-34.929778 238.882082l-63.105666 0c-7.666162-93.259852-36.090106-221.450507-36.090106-238.882082C447.358847 421.938226 453.643275 405.155491 466.187532 391.579035zM561.76804 835.026386c-13.268949 12.928641-29.062535 19.375023-47.345906 19.375023-18.275171 0-34.076957-6.447407-47.346931-19.375023-13.235123-12.89379-19.818859-28.517221-19.818859-46.869269 0-18.249546 6.583736-34.043131 19.818859-47.278254 13.268949-13.235123 29.07176-19.852685 47.346931-19.852685 18.283371 0 34.076957 6.617562 47.345906 19.852685 13.235123 13.235123 19.827059 29.028709 19.827059 47.278254C581.595099 806.51019 575.003163 822.132597 561.76804 835.026386z");
+                Title = $"Delete Printer Profile?",
+                Message = $"Are you sure you want to delete {PrinterProfilesList[index].Name}?",
+                DialogWidth = 500,
+            };
+            
+            // Wait for click button
+            await dialogService.ShowDialogAsync(mainViewModel, confirmDialogViewModel);
+            
+            // Ignore if we clicked cancel
+            if (!confirmDialogViewModel.IsConfirmed)
+                return;
+        }
+        
+        // Remove item
+        PrinterProfilesList.RemoveAt(index);
+
+        // Select the item before the deleted one
+        if (index > 0)
+            index--;
+        if (PrinterProfilesList.Count > 0)
+            SelectedPrintListItem!.PrinterProfileId = PrinterProfilesList[index].Id;
     }
 }
