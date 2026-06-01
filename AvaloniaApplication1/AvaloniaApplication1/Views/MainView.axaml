@@ -117,11 +117,11 @@
           <StackPanel DockPanel.Dock="Left" Orientation="Horizontal">
             <TextBlock Margin="5,0" HorizontalAlignment="Center" VerticalAlignment="Center" Text="这是Logo大图片~~~~~~" />
             <!--  Project Name  -->
-            <Button VerticalAlignment="Stretch" Click="Button_SelectProjectClick" Content="电控-晴隆碧痕"
+            <Button VerticalAlignment="Stretch" Click="Button_SelectProject_OnClick" Content="电控-晴隆碧痕"
                     FontSize="16" FontWeight="Bold" Foreground="White"
                     Theme="{DynamicResource BorderlessButton}" />
             <!--  System Name  -->
-            <Button VerticalAlignment="Stretch" Click="Button_SelectSystemClick" Content="工作台"
+            <Button VerticalAlignment="Stretch" Click="Button_SelectSystem_OnClick" Content="工作台"
                     FontSize="16" FontWeight="Bold" Foreground="White"
                     Theme="{DynamicResource BorderlessButton}" />
 
@@ -183,7 +183,7 @@
                     CommandParameter="{x:Static data:ApplicationPageName.Settings}"
                     Content="Settings"
                     Theme="{DynamicResource SolidButton}" />
-            <Button Margin="5" Click="Button_NewSystemNotificationClick" Content="NewSystemNotification" Theme="{DynamicResource SolidButton}" />
+            <Button Margin="5" Click="Button_NewSystemNotification_OnClick" Content="NewSystemNotification" Theme="{DynamicResource SolidButton}" />
           </StackPanel>
 
           <!--  Right Buttons  -->
@@ -266,19 +266,19 @@
       <!--  Left/Right Bar Visible Button  -->
       <u:IconButton Name="IconButton_LeftBarToggle" Grid.Column="1" Height="30"
                     Margin="-10,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Bottom"
-                    Classes="Tertiary" Click="IconButton_LeftBarToggleClick"
+                    Classes="Tertiary" Click="IconButton_LeftBarToggle_OnClick"
                     Icon="{DynamicResource SemiIconChevronLeft}"
                     Theme="{StaticResource BorderlessIconButton}"
                     ToolTip.Tip="显示/隐藏侧边栏" />
       <u:IconButton Name="IconButton_RightBarToggle" Grid.Column="1" Height="30"
                     Margin="0,0,-10,0" HorizontalAlignment="Right" VerticalAlignment="Bottom"
-                    Classes="Tertiary" Click="IconButton_RightBarToggleClick"
+                    Classes="Tertiary" Click="IconButton_RightBarToggle_OnClick"
                     Icon="{DynamicResource SemiIconChevronRight}"
                     Theme="{StaticResource BorderlessIconButton}"
                     ToolTip.Tip="显示/隐藏侧边栏" />
       <u:IconButton Name="IconButton_BottomBarToggle" Grid.Column="1" Height="30"
                     Margin="20,0,0,-10" HorizontalAlignment="Left" VerticalAlignment="Bottom"
-                    Classes="Tertiary" Click="IconButton_BottomBarToggleClick"
+                    Classes="Tertiary" Click="IconButton_BottomBarToggle_OnClick"
                     Icon="{DynamicResource SemiIconChevronDown}"
                     Theme="{StaticResource BorderlessIconButton}"
                     ToolTip.Tip="显示/隐藏侧边栏" />

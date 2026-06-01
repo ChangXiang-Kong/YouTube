@@ -22,12 +22,12 @@ public partial class TitleBarLeftContent : UserControl
         await launcher.LaunchUriAsync(new Uri("https://github.com/irihitech/Ursa.Avalonia"));
     }
 
-    private void MenuItem_SelectProjectClick(object? sender, RoutedEventArgs e)
+    private void MenuItem_SelectProject_OnClick(object? sender, RoutedEventArgs e)
     {
         WeakReferenceMessenger.Default.Send("ShowSplitView_SelectProject", "ShowSplitView_SelectProject");
     }
 
-    private void MenuItem_SelectSystemClick(object? sender, RoutedEventArgs e)
+    private void MenuItem_SelectSystem_OnClick(object? sender, RoutedEventArgs e)
     {
         WeakReferenceMessenger.Default.Send("ShowSplitView_SelectSystem", "ShowSplitView_SelectSystem");
     }

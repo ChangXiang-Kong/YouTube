@@ -17,6 +17,7 @@
       <!-- <CornerRadius x:Key="ButtonCornerRadius">6</CornerRadius> -->
 
       <FontFamily x:Key="DefaultFontFamily">/Assets/Fonts/NotoSansJP.tff</FontFamily>
+      <!--  图标来源：https://phosphoricons.com/  -->
       <FontFamily x:Key="Phosphor">/Assets/Fonts/Phosphor.ttf#Phosphor</FontFamily>
       <FontFamily x:Key="PhosphorFill">/Assets/Fonts/Phosphor-Fill.ttf#Phosphor-Fill</FontFamily>
 

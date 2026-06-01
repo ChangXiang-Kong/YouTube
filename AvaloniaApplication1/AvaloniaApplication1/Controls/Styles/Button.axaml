@@ -27,6 +27,7 @@
         <Button Classes="Success" Content="Success" />
         <Button Classes="Warning" Content="Warning" />
         <Button Classes="Danger" Content="Danger" />
+        <Button Classes="Fatal" Content="Fatal" />
         <Button Classes="Danger" Content="Disabled" IsEnabled="False" />
       </WrapPanel>
       <WrapPanel ItemSpacing="10">
@@ -38,6 +39,7 @@
         <Button Classes="Success" Content="Success" Theme="{DynamicResource SolidButton}" />
         <Button Classes="Warning" Content="Warning" Theme="{DynamicResource SolidButton}" />
         <Button Classes="Danger" Content="Danger" Theme="{DynamicResource SolidButton}" />
+        <Button Classes="Fatal" Content="Fatal" Theme="{DynamicResource SolidButton}" />
         <Button Classes="Danger" Content="Disabled" IsEnabled="False" Theme="{DynamicResource SolidButton}" />
       </WrapPanel>
       <WrapPanel ItemSpacing="10">
@@ -49,6 +51,7 @@
         <Button Classes="Success" Content="Success" Theme="{DynamicResource OutlineButton}" />
         <Button Classes="Warning" Content="Warning" Theme="{DynamicResource OutlineButton}" />
         <Button Classes="Danger" Content="Danger" Theme="{DynamicResource OutlineButton}" />
+        <Button Classes="Fatal" Content="Fatal" Theme="{DynamicResource OutlineButton}" />
         <Button Classes="Danger" Content="Disabled" IsEnabled="False" Theme="{DynamicResource OutlineButton}" />
       </WrapPanel>
       <WrapPanel ItemSpacing="10">
@@ -60,6 +63,7 @@
         <Button Classes="Success" Content="Success" Theme="{DynamicResource BorderlessButton}" />
         <Button Classes="Warning" Content="Warning" Theme="{DynamicResource BorderlessButton}" />
         <Button Classes="Danger" Content="Danger" Theme="{DynamicResource BorderlessButton}" />
+        <Button Classes="Fatal" Content="Fatal" Theme="{DynamicResource BorderlessButton}" />
         <Button Classes="Danger" Content="Disabled" IsEnabled="False" Theme="{DynamicResource BorderlessButton}" />
       </WrapPanel>
       <WrapPanel ItemSpacing="10">
@@ -71,6 +75,7 @@
         <Button Classes="Colorful Success" Content="Success" />
         <Button Classes="Colorful Warning" Content="Warning" />
         <Button Classes="Colorful Danger" Content="Danger" />
+        <Button Classes="Colorful Fatal" Content="Fatal" />
         <Button Classes="Colorful Primary" Content="Disabled" IsEnabled="False" />
       </WrapPanel>
       <WrapPanel ItemSpacing="10">
@@ -82,6 +87,7 @@
         <Button Classes="Colorful Success" Content="Success" Theme="{DynamicResource SolidButton}" />
         <Button Classes="Colorful Warning" Content="Warning" Theme="{DynamicResource SolidButton}" />
         <Button Classes="Colorful Danger" Content="Danger" Theme="{DynamicResource SolidButton}" />
+        <Button Classes="Colorful Fatal" Content="Fatal" Theme="{DynamicResource SolidButton}" />
         <Button Classes="Colorful Primary" Content="Disabled" IsEnabled="False" Theme="{DynamicResource SolidButton}" />
       </WrapPanel>
       <WrapPanel ItemSpacing="10">
@@ -93,6 +99,7 @@
         <Button Classes="Colorful Success" Content="Success" Theme="{DynamicResource OutlineButton}" />
         <Button Classes="Colorful Warning" Content="Warning" Theme="{DynamicResource OutlineButton}" />
         <Button Classes="Colorful Danger" Content="Danger" Theme="{DynamicResource OutlineButton}" />
+        <Button Classes="Colorful Fatal" Content="Fatal" Theme="{DynamicResource OutlineButton}" />
         <Button Classes="Colorful Primary" Content="Disabled" IsEnabled="False" Theme="{DynamicResource OutlineButton}" />
       </WrapPanel>
       <WrapPanel ItemSpacing="10">
@@ -104,6 +111,7 @@
         <Button Classes="Colorful Success" Content="Success" Theme="{DynamicResource BorderlessButton}" />
         <Button Classes="Colorful Warning" Content="Warning" Theme="{DynamicResource BorderlessButton}" />
         <Button Classes="Colorful Danger" Content="Danger" Theme="{DynamicResource BorderlessButton}" />
+        <Button Classes="Colorful Fatal" Content="Fatal" Theme="{DynamicResource BorderlessButton}" />
         <Button Classes="Colorful Primary" Content="Disabled" IsEnabled="False" Theme="{DynamicResource BorderlessButton}" />
       </WrapPanel>
     </StackPanel>
@@ -168,6 +176,9 @@
     </Style>
     <Style Selector="^.Danger /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="Foreground" Value="{DynamicResource ButtonDefaultDangerForeground}" />
+    </Style>
+    <Style Selector="^.Fatal /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Foreground" Value="{DynamicResource ButtonDefaultFatalForeground}" />
     </Style>
 
     <Style Selector="^.Colorful">
@@ -309,6 +320,21 @@
       <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
         <Setter Property="Background" Value="{DynamicResource ButtonSolidDangerPressedBackground}" />
         <Setter Property="BorderBrush" Value="{DynamicResource ButtonSolidDangerPressedBorderBrush}" />
+      </Style>
+    </Style>
+    <Style Selector="^.Fatal">
+      <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Foreground" Value="{DynamicResource ButtonSolidForeground}" />
+        <Setter Property="Background" Value="{DynamicResource ButtonSolidFatalBackground}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ButtonSolidFatalBorderBrush}" />
+      </Style>
+      <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource ButtonSolidFatalPointeroverBackground}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ButtonSolidFatalPointeroverBorderBrush}" />
+      </Style>
+      <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource ButtonSolidFatalPressedBackground}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ButtonSolidFatalPressedBorderBrush}" />
       </Style>
     </Style>
 
@@ -531,6 +557,22 @@
         <Setter Property="Foreground" Value="{DynamicResource ButtonSolidForeground}" />
         <Setter Property="Background" Value="{DynamicResource ButtonSolidDangerPressedBackground}" />
         <Setter Property="BorderBrush" Value="{DynamicResource ButtonSolidDangerPressedBorderBrush}" />
+      </Style>
+    </Style>
+    <Style Selector="^.Fatal">
+      <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource SemiColorFatalLight}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ButtonOutlineFatalBorderBrush}" />
+      </Style>
+      <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Foreground" Value="{DynamicResource ButtonSolidForeground}" />
+        <Setter Property="Background" Value="{DynamicResource ButtonSolidFatalBackground}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ButtonSolidFatalBorderBrush}" />
+      </Style>
+      <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Foreground" Value="{DynamicResource ButtonSolidForeground}" />
+        <Setter Property="Background" Value="{DynamicResource ButtonSolidFatalPressedBackground}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ButtonSolidFatalPressedBorderBrush}" />
       </Style>
     </Style>
 

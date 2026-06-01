@@ -15,7 +15,7 @@ using AvaloniaApplication1.ViewModels;
 using AvaloniaApplication1.Views;
 using ClassicDiagnostics.Avalonia;
 using Microsoft.Extensions.DependencyInjection;
-using AppSettings = AvaloniaApplication1.Models.AppSettings;
+using Ursa.Controls;
 
 // 自定义 XML Namespace 参考链接：https://docs.avaloniaui.net/docs/guides/custom-controls/how-to-create-a-custom-controls-library#xml-namespace-definitions
 // 参考视频：https://www.youtube.com/watch?v=M3CFj0x-tts&list=PLrW43fNmjaQWwIdZxjZrx5FSXcNzaucOO&index=7
@@ -93,6 +93,11 @@ public partial class App : Application
     // NavDemo -- 全局单例：导航服务（不使用依赖注入的方式，原因参考下面的说明）
     public static INavigationService? NavigationService { get; private set; }
 
+    // TODO: 实现依赖注入，而不是静态属性
+    public static WindowToastManager? WindowToastManager { get; set; }
+
+    
+    
     public override void Initialize()
     {
         AvaloniaXamlLoader.Load(this);
@@ -133,8 +138,8 @@ public partial class App : Application
 
                 desktop.MainWindow = new MainWindow
                 {
-                    // DataContext = serviceProvider.GetService<MainViewModel>()          // 参数 T 可为空，为空时不会报错
-                    DataContext = serviceProvider.GetRequiredService<MainViewModel>() // 参数 T 为空时报错
+                    // DataContext = serviceProvider.GetService<MainViewModel>()          // GetService 参数 T 可为空，为空时不会报错
+                    DataContext = serviceProvider.GetRequiredService<MainViewModel>() // GetRequiredService 参数 T 为空时报错
                 };
                 break;
             case ISingleViewApplicationLifetime singleViewPlatform:
@@ -183,6 +188,7 @@ public partial class App : Application
             _ => throw new InvalidOperationException(),
         });
         services.AddSingleton<PageFactory>();
+        
         // NavDemo
         services.AddSingleton<PageNavigationFactory>();
         /*
@@ -196,6 +202,7 @@ public partial class App : Application
             private readonly INavigationService _navigationService;
         */
         // services.AddSingleton<INavigationService, NavigationService>();
+        
         services.AddSingleton<AppSettings>();
     }
 

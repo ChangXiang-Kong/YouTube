@@ -552,6 +552,13 @@
   <SolidColorBrush x:Key="SemiColorDangerLight" Opacity="0.2" Color="{StaticResource SemiRed5Color}" />
   <SolidColorBrush x:Key="SemiColorDangerLightPointerover" Opacity="0.3" Color="{StaticResource SemiRed5Color}" />
   <SolidColorBrush x:Key="SemiColorDangerLightActive" Opacity="0.4" Color="{StaticResource SemiRed5Color}" />
+  <!--  Fatal  -->
+  <SolidColorBrush x:Key="SemiColorFatal" Color="{StaticResource SemiAIPurple5Color}" />
+  <SolidColorBrush x:Key="SemiColorFatalPointerover" Color="{StaticResource SemiAIPurple6Color}" />
+  <SolidColorBrush x:Key="SemiColorFatalActive" Color="{StaticResource SemiAIPurple7Color}" />
+  <SolidColorBrush x:Key="SemiColorFatalLight" Opacity="0.2" Color="{StaticResource SemiAIPurple5Color}" />
+  <SolidColorBrush x:Key="SemiColorFatalLightPointerover" Opacity="0.3" Color="{StaticResource SemiAIPurple5Color}" />
+  <SolidColorBrush x:Key="SemiColorFatalLightActive" Opacity="0.4" Color="{StaticResource SemiAIPurple5Color}" />
 
   <!--  AI General  -->
   <LinearGradientBrush x:Key="SemiColorAIGeneralOpacity" Opacity="0.15" StartPoint="99%,93%" EndPoint="1%,7%">
@@ -648,10 +655,10 @@
   <SolidColorBrush x:Key="SemiColorBackground3" Color="{StaticResource SemiBackground3Color}" />
   <SolidColorBrush x:Key="SemiColorBackground4" Color="{StaticResource SemiBackground4Color}" />
 
-  <!--  Fill  -->
-  <SolidColorBrush x:Key="SemiColorFill0" Opacity="0.17" Color="{StaticResource SemiWhiteColor}" />
-  <SolidColorBrush x:Key="SemiColorFill1" Opacity="0.21" Color="{StaticResource SemiWhiteColor}" />
-  <SolidColorBrush x:Key="SemiColorFill2" Opacity="0.25" Color="{StaticResource SemiWhiteColor}" />
+  <!--  Fill - Theme: None  -->
+  <SolidColorBrush x:Key="SemiColorFill0" Opacity="0.15" Color="{StaticResource SemiWhiteColor}" />
+  <SolidColorBrush x:Key="SemiColorFill1" Opacity="0.25" Color="{StaticResource SemiWhiteColor}" />
+  <SolidColorBrush x:Key="SemiColorFill2" Opacity="0.35" Color="{StaticResource SemiWhiteColor}" />
 
   <!--  Border  -->
   <SolidColorBrush x:Key="SemiColorBorder" Opacity="0.08" Color="{StaticResource SemiWhiteColor}" />

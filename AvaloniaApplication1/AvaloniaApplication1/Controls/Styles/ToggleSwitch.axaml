@@ -7,21 +7,25 @@
           <TextBlock Margin="0,0,10,0" VerticalAlignment="Center" Text="Smallest" />
           <ToggleSwitch Classes="Smallest" />
           <ToggleSwitch Classes="Smallest" IsChecked="True" />
+          <ToggleSwitch Classes="Smallest" Content="Title" IsChecked="True" />
         </StackPanel>
         <StackPanel Orientation="Horizontal" Spacing="5">
           <TextBlock Margin="0,0,10,0" VerticalAlignment="Center" Text="Small" />
           <ToggleSwitch Classes="Small" />
           <ToggleSwitch Classes="Small" IsChecked="True" />
+          <ToggleSwitch Classes="Small" Content="Title" IsChecked="True" />
         </StackPanel>
         <StackPanel Orientation="Horizontal" Spacing="5">
           <TextBlock Margin="0,0,10,0" VerticalAlignment="Center" Text="Default" />
           <ToggleSwitch />
           <ToggleSwitch IsChecked="True" />
+          <ToggleSwitch Content="Title" IsChecked="True" />
         </StackPanel>
         <StackPanel Orientation="Horizontal" Spacing="5">
           <TextBlock Margin="0,0,10,0" VerticalAlignment="Center" Text="Large" />
           <ToggleSwitch Classes="Large" />
           <ToggleSwitch Classes="Large" IsChecked="True" />
+          <ToggleSwitch Classes="Large" Content="Title" IsChecked="True" />
         </StackPanel>
         <Separator Margin="5" />
         <StackPanel Orientation="Horizontal" Spacing="5">

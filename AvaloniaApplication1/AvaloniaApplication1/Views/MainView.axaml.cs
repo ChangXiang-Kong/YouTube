@@ -7,6 +7,8 @@ using Avalonia.Layout;
 using Avalonia.Markup.Xaml.MarkupExtensions;
 using Avalonia.Media;
 using Avalonia.Styling;
+using AvaloniaApplication1.Data;
+using AvaloniaApplication1.ViewModels;
 using CommunityToolkit.Mvvm.Messaging;
 using Ursa.Controls;
 
@@ -17,20 +19,38 @@ public partial class MainView : UserControl
     public MainView()
     {
         InitializeComponent();
+        Loaded += OnLoaded;
+    }
+
+    /* 详解 Loaded、OnAttachedToVisualTree、OnDetachedFromVisualTree 的区别
+        一、整体执行顺序
+            页面 / 控件从创建到销毁，标准顺序：
+            构造函数 → OnAttachedToVisualTree → Loaded → 运行中 → OnDetachedFromVisualTree
+     */
+    private void OnLoaded(object? sender, RoutedEventArgs e)
+    {
         WeakReferenceMessenger.Default.Register<string, string>(this, "JumpTo", MessageHandler);
         WeakReferenceMessenger.Default.Register<string, string>(this, "ShowSplitView_SelectProject", MessageHandler);
         WeakReferenceMessenger.Default.Register<string, string>(this, "ShowSplitView_SelectSystem", MessageHandler);
         WeakReferenceMessenger.Default.Register<SystemNotificationModel, string>(this, "NewSystemNotification",
             NewSystemNotificationHandler);
+        
+        
     }
 
-    private readonly DynamicResourceExtension _dynamicResourceExtensionSemiIconChevronLeft = new("SemiIconChevronLeft");
-    private readonly DynamicResourceExtension _dynamicResourceExtensionSemiIconChevronRight = new("SemiIconChevronRight");
-    private readonly DynamicResourceExtension _dynamicResourceExtensionSemiIconChevronUp = new("SemiIconChevronUp");
-    private readonly DynamicResourceExtension _dynamicResourceExtensionSemiIconChevronDown = new("SemiIconChevronDown");
-    private readonly Thickness _bottomBarToggleTrueMargin = new(20, 0, 0, -10);
-    private readonly Thickness _bottomBarToggleFalseMargin = new(20, 0, 0, -41);
-    private readonly StreamGeometry _geometryAsk = StreamGeometry.Parse("M512 0 30.11843 240.941297l0 542.117406 481.88157 240.941297 481.88157-240.941297L993.88157 240.941297 512 0zM575.776472 768.799969 460.188012 768.799969 460.188012 656.222073l115.588459 0L575.776472 768.799969zM623.335603 509.329685c-52.375829 36.723353-59.600363 55.988096-59.600363 84.885211l0 19.866447L468.616977 614.081343l0-26.489278c0-45.754021 13.846342-80.67124 61.406497-116.791866 46.957428-36.723353 57.79423-62.0082 57.79423-84.282484 0-25.284848-21.67258-54.181962-55.386393-54.181962-42.743457 0-70.436142 26.489278-82.477374 85.486914l-105.956088-21.67258c24.683144-111.976192 82.477374-157.127486 205.289345-157.127486 98.12985 0 157.72919 63.212631 157.72919 131.842639C707.017407 423.240044 688.956071 461.76953 623.335603 509.329685z");
+    protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
+    {
+        base.OnAttachedToVisualTree(e);
+        // 初始化 App.WindowToastManager
+        App.WindowToastManager = new WindowToastManager(TopLevel.GetTopLevel(this)) { MaxItems = 3 };
+    }
+
+    protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)
+    {
+        base.OnDetachedFromVisualTree(e);
+        // 卸载 App.WindowToastManager
+        App.WindowToastManager?.Uninstall();
+    }
 
     #region WeakReferenceMessenger Handler
 
@@ -38,6 +58,8 @@ public partial class MainView : UserControl
     {
         switch (message)
         {
+            
+            // 处理来自 ApplicationViewModel.cs.JumpTo() 的 Message
             case "JumpTo":
                 // foreach (var item in tab.ItemsView)
                 // {
@@ -48,11 +70,13 @@ public partial class MainView : UserControl
                 //     }
                 // }
                 break;
+            // 处理来自 TitleBarLeftContent.cs.MenuItem_SelectProject_OnClick() 的 Message
             case "ShowSplitView_SelectProject":
                 SplitView_SelectProject.IsPaneOpen = !SplitView_SelectProject.IsPaneOpen;
                 if (SplitView_SelectSystem.IsPaneOpen)
                     SplitView_SelectSystem.IsPaneOpen = !SplitView_SelectSystem.IsPaneOpen;
                 break;
+            // 处理来自 TitleBarLeftContent.cs.MenuItem_SelectSystem_OnClick() 的 Message
             case "ShowSplitView_SelectSystem":
                 SplitView_SelectSystem.IsPaneOpen = !SplitView_SelectSystem.IsPaneOpen;
                 if (SplitView_SelectProject.IsPaneOpen)
@@ -86,7 +110,7 @@ public partial class MainView : UserControl
 
         var contentDockPanel = new DockPanel();
         // ✅ 关键：绑定 DynamicResource，而不是赋值颜色。等于 XAML 里的：Background="{DynamicResource SemiGreen2}"
-        contentDockPanel.Bind(BackgroundProperty, new DynamicResourceExtension("SemiGreen2"));
+        contentDockPanel.Bind(BackgroundProperty, ResourceToken.DynamicResourceExtensionSemiGreen2);
         // if (StackPanel_NotificationArea.Children.Count >= 1)
         contentDockPanel.Margin = new Thickness(0, 0, 0, 1);
 
@@ -110,8 +134,8 @@ public partial class MainView : UserControl
                 Avalonia 内置控件（Control / Visual 等）的属性：
                     直接写 ThemeProperty / BackgroundProperty / WidthProperty
          */
-        closeButton.Bind(IconButton.IconProperty, new DynamicResourceExtension("SemiIconClose"));
-        closeButton.Bind(ThemeProperty, new DynamicResourceExtension("BorderlessIconButton"));
+        closeButton.Bind(IconButton.IconProperty, ResourceToken.DynamicResourceExtensionSemiIconClose);
+        closeButton.Bind(ThemeProperty, ResourceToken.DynamicResourceExtensionBorderlessIconButton);
         // 为按钮添加点击事件处理程序
         closeButton.Click += (sender, args) =>
         {
@@ -148,7 +172,7 @@ public partial class MainView : UserControl
             FontWeight = FontWeight.Normal,
             // Classes = { "Primary" },
         };
-        yesButton.Bind(ThemeProperty, new DynamicResourceExtension("SolidButton"));
+        yesButton.Bind(ThemeProperty, ResourceToken.DynamicResourceExtensionSolidButton);
         // 为按钮添加点击事件处理程序
         yesButton.Click += (sender, args) =>
         {
@@ -165,7 +189,7 @@ public partial class MainView : UserControl
             FontWeight = FontWeight.Normal,
             Classes = { "Warning" },
         };
-        noButton.Bind(ThemeProperty, new DynamicResourceExtension("SolidButton"));
+        noButton.Bind(ThemeProperty, ResourceToken.DynamicResourceExtensionOutlineButton);
         // 为按钮添加点击事件处理程序
         noButton.Click += (sender, args) =>
         {
@@ -184,79 +208,79 @@ public partial class MainView : UserControl
 
     #endregion WeakReferenceMessenger Handler
 
-    #region Button Click
+    #region Click
 
-    private void Button_TestButtonClick(object? sender, RoutedEventArgs e)
+    private void Button_TestButton_OnClick(object? sender, RoutedEventArgs e)
     {
         
     }
 
-    private void Button_NewSystemNotificationClick(object? sender, RoutedEventArgs e)
+    private void Button_NewSystemNotification_OnClick(object? sender, RoutedEventArgs e)
     {
         AddNewSystemNotification(new SystemNotificationModel
             { Message = "New Test Notification", YesAction = () => { }, NoAction = () => { } });
     }
 
-    private void Button_SelectProjectClick(object? sender, RoutedEventArgs e)
+    private void Button_SelectProject_OnClick(object? sender, RoutedEventArgs e)
     {
         MessageHandler(null, "ShowSplitView_SelectProject");
     }
 
-    private void Button_SelectSystemClick(object? sender, RoutedEventArgs e)
+    private void Button_SelectSystem_OnClick(object? sender, RoutedEventArgs e)
     {
         MessageHandler(null, "ShowSplitView_SelectSystem");
     }
 
 
-    private void IconButton_LeftBarToggleClick(object? sender, RoutedEventArgs e)
+    private void IconButton_LeftBarToggle_OnClick(object? sender, RoutedEventArgs e)
     {
         if (StackPanel_LeftBar.IsVisible)
         {
             StackPanel_LeftBar.IsVisible = false;
             // IconButton_LeftBarToggle.Margin = new Thickness(-10,0,0,0);
-            IconButton_LeftBarToggle.Bind(IconButton.IconProperty, _dynamicResourceExtensionSemiIconChevronRight);
+            IconButton_LeftBarToggle.Bind(IconButton.IconProperty, ResourceToken.DynamicResourceExtensionSemiIconChevronRight);
         }
         else
         {
             StackPanel_LeftBar.IsVisible = true;
             // IconButton_LeftBarToggle.Margin = new Thickness(-10,0,0,0);
-            IconButton_LeftBarToggle.Bind(IconButton.IconProperty, _dynamicResourceExtensionSemiIconChevronLeft);
+            IconButton_LeftBarToggle.Bind(IconButton.IconProperty, ResourceToken.DynamicResourceExtensionSemiIconChevronLeft);
         }
     }
 
-    private void IconButton_RightBarToggleClick(object? sender, RoutedEventArgs e)
+    private void IconButton_RightBarToggle_OnClick(object? sender, RoutedEventArgs e)
     {
         if (StackPanel_RightBar.IsVisible)
         {
             StackPanel_RightBar.IsVisible = false;
             // IconButton_RightBarToggle.Margin = new Thickness(0,0,-10,0);
-            IconButton_RightBarToggle.Bind(IconButton.IconProperty, _dynamicResourceExtensionSemiIconChevronLeft);
+            IconButton_RightBarToggle.Bind(IconButton.IconProperty, ResourceToken.DynamicResourceExtensionSemiIconChevronLeft);
         }
         else
         {
             StackPanel_RightBar.IsVisible = true;
             // IconButton_RightBarToggle.Margin = new Thickness(0,0,-10,0);
-            IconButton_RightBarToggle.Bind(IconButton.IconProperty, _dynamicResourceExtensionSemiIconChevronRight);
+            IconButton_RightBarToggle.Bind(IconButton.IconProperty, ResourceToken.DynamicResourceExtensionSemiIconChevronRight);
         }
     }
 
-    private void IconButton_BottomBarToggleClick(object? sender, RoutedEventArgs e)
+    private void IconButton_BottomBarToggle_OnClick(object? sender, RoutedEventArgs e)
     {
         if (Grid_BottomBar.IsVisible)
         {
             Grid_BottomBar.IsVisible = false;
-            IconButton_BottomBarToggle.Margin = _bottomBarToggleFalseMargin;
-            IconButton_BottomBarToggle.Bind(IconButton.IconProperty, _dynamicResourceExtensionSemiIconChevronUp);
+            IconButton_BottomBarToggle.Margin = ResourceToken.BottomBarToggleFalseMargin;
+            IconButton_BottomBarToggle.Bind(IconButton.IconProperty, ResourceToken.DynamicResourceExtensionSemiIconChevronUp);
         }
         else
         {
             Grid_BottomBar.IsVisible = true;
-            IconButton_BottomBarToggle.Margin = _bottomBarToggleTrueMargin;
-            IconButton_BottomBarToggle.Bind(IconButton.IconProperty, _dynamicResourceExtensionSemiIconChevronDown);
+            IconButton_BottomBarToggle.Margin = ResourceToken.BottomBarToggleTrueMargin;
+            IconButton_BottomBarToggle.Bind(IconButton.IconProperty, ResourceToken.DynamicResourceExtensionSemiIconChevronDown);
         }
     }
 
-    #endregion Button Click
+    #endregion Click
 }
 
 public class SystemNotificationModel

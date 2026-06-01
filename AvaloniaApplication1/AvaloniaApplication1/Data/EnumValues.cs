@@ -33,4 +33,14 @@ namespace AvaloniaApplication1.Data
         Macros = 8,
     }
     
+    public enum InfoType
+    {
+        Ask,
+        Info,
+        Success,
+        Warning,
+        Error,
+        Fatal,
+    }
+    
 }

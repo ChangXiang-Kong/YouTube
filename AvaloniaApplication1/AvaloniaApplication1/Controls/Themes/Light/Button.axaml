@@ -8,6 +8,7 @@
   <StaticResource x:Key="ButtonDefaultSuccessForeground" ResourceKey="SemiColorSuccess" />
   <StaticResource x:Key="ButtonDefaultWarningForeground" ResourceKey="SemiColorWarning" />
   <StaticResource x:Key="ButtonDefaultDangerForeground" ResourceKey="SemiColorDanger" />
+  <StaticResource x:Key="ButtonDefaultFatalForeground" ResourceKey="SemiColorFatal" />
   <StaticResource x:Key="ButtonDefaultDisabledForeground" ResourceKey="SemiColorDisabledText" />
   <StaticResource x:Key="ButtonDefaultBackground" ResourceKey="SemiColorFill0" />
   <StaticResource x:Key="ButtonDefaultPointeroverBackground" ResourceKey="SemiColorFill1" />
@@ -41,6 +42,9 @@
   <StaticResource x:Key="ButtonSolidDangerBackground" ResourceKey="SemiColorDanger" />
   <StaticResource x:Key="ButtonSolidDangerPointeroverBackground" ResourceKey="SemiColorDangerPointerover" />
   <StaticResource x:Key="ButtonSolidDangerPressedBackground" ResourceKey="SemiColorDangerActive" />
+  <StaticResource x:Key="ButtonSolidFatalBackground" ResourceKey="SemiColorFatal" />
+  <StaticResource x:Key="ButtonSolidFatalPointeroverBackground" ResourceKey="SemiColorFatalPointerover" />
+  <StaticResource x:Key="ButtonSolidFatalPressedBackground" ResourceKey="SemiColorFatalActive" />
 
   <StaticResource x:Key="ButtonSolidDefaultBorderBrush" ResourceKey="SemiColorDefault" />
   <StaticResource x:Key="ButtonSolidDefaultPointeroverBorderBrush" ResourceKey="SemiColorDefaultPointerover" />
@@ -63,6 +67,9 @@
   <StaticResource x:Key="ButtonSolidDangerBorderBrush" ResourceKey="SemiColorDanger" />
   <StaticResource x:Key="ButtonSolidDangerPointeroverBorderBrush" ResourceKey="SemiColorDangerPointerover" />
   <StaticResource x:Key="ButtonSolidDangerPressedBorderBrush" ResourceKey="SemiColorDangerActive" />
+  <StaticResource x:Key="ButtonSolidFatalBorderBrush" ResourceKey="SemiColorFatal" />
+  <StaticResource x:Key="ButtonSolidFatalPointeroverBorderBrush" ResourceKey="SemiColorFatalPointerover" />
+  <StaticResource x:Key="ButtonSolidFatalPressedBorderBrush" ResourceKey="SemiColorFatalActive" />
   <StaticResource x:Key="ButtonSolidDisabledForeground" ResourceKey="SemiColorDisabledText" />
   <StaticResource x:Key="ButtonSolidDisabledBackground" ResourceKey="SemiColorDisabledBackground" />
   <SolidColorBrush x:Key="ButtonSolidDisabledBorderBrush" Color="Transparent" />
@@ -79,6 +86,7 @@
   <StaticResource x:Key="ButtonOutlineSuccessBorderBrush" ResourceKey="SemiColorSuccess" />
   <StaticResource x:Key="ButtonOutlineWarningBorderBrush" ResourceKey="SemiColorWarning" />
   <StaticResource x:Key="ButtonOutlineDangerBorderBrush" ResourceKey="SemiColorDanger" />
+  <StaticResource x:Key="ButtonOutlineFatalBorderBrush" ResourceKey="SemiColorFatal" />
   <!--  end Outline  -->
   <!--  Borderless  -->
   <SolidColorBrush x:Key="ButtonBorderlessBackground" Color="Transparent" />

@@ -25,7 +25,7 @@ public partial class TitleBarRightContent : UserControl
         await launcher.LaunchUriAsync(new Uri("https://github.com/irihitech/Ursa.Avalonia"));
     }
 
-    private void MenuItem_ViewNotificationClick(object? sender, RoutedEventArgs e)
+    private void MenuItem_ViewNotification_OnClick(object? sender, RoutedEventArgs e)
     {
         
     }

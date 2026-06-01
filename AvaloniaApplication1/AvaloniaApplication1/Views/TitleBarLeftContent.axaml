@@ -57,7 +57,7 @@
       </MenuItem>
 
       <!--  Select Project  -->
-      <MenuItem Padding="10,0" Click="MenuItem_SelectProjectClick" ToolTip.Tip="选择项目">
+      <MenuItem Padding="10,0" Click="MenuItem_SelectProject_OnClick" ToolTip.Tip="选择项目">
         <MenuItem.HeaderTemplate>
           <DataTemplate>
             <StackPanel Orientation="Horizontal">
@@ -91,7 +91,7 @@
       <!-- </MenuItem> -->
 
       <!--  Select System  -->
-      <MenuItem Padding="10,0" Click="MenuItem_SelectSystemClick" ToolTip.Tip="选择系统">
+      <MenuItem Padding="10,0" Click="MenuItem_SelectSystem_OnClick" ToolTip.Tip="选择系统">
         <MenuItem.HeaderTemplate>
           <DataTemplate>
             <StackPanel Orientation="Horizontal">

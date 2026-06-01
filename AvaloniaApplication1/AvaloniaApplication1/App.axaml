@@ -67,6 +67,10 @@
       <ResourceDictionary.MergedDictionaries>
         <!-- <MergeResourceInclude Source="Controls/Styles/_index.axaml" /> -->
       </ResourceDictionary.MergedDictionaries>
+
+      <!--  图标来源：https://phosphoricons.com/  -->
+      <FontFamily x:Key="Phosphor">/Assets/Fonts/Phosphor.ttf#Phosphor</FontFamily>
+      <FontFamily x:Key="PhosphorFill">/Assets/Fonts/Phosphor-Fill.ttf#Phosphor-Fill</FontFamily>
     </ResourceDictionary>
   </Application.Resources>
 

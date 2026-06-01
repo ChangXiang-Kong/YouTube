@@ -552,6 +552,13 @@
   <SolidColorBrush x:Key="SemiColorDangerLight" Color="{StaticResource SemiRed0Color}" />
   <SolidColorBrush x:Key="SemiColorDangerLightPointerover" Color="{StaticResource SemiRed1Color}" />
   <SolidColorBrush x:Key="SemiColorDangerLightActive" Color="{StaticResource SemiRed2Color}" />
+  <!--  Fatal  -->
+  <SolidColorBrush x:Key="SemiColorFatal" Color="{StaticResource SemiAIPurple5Color}" />
+  <SolidColorBrush x:Key="SemiColorFatalPointerover" Color="{StaticResource SemiAIPurple6Color}" />
+  <SolidColorBrush x:Key="SemiColorFatalActive" Color="{StaticResource SemiAIPurple7Color}" />
+  <SolidColorBrush x:Key="SemiColorFatalLight" Color="{StaticResource SemiAIPurple0Color}" />
+  <SolidColorBrush x:Key="SemiColorFatalLightPointerover" Color="{StaticResource SemiAIPurple1Color}" />
+  <SolidColorBrush x:Key="SemiColorFatalLightActive" Color="{StaticResource SemiAIPurple2Color}" />
 
   <!--  AI General  -->
   <LinearGradientBrush x:Key="SemiColorAIGeneralOpacity" Opacity="0.15" StartPoint="99%,93%" EndPoint="1%,7%">
@@ -648,10 +655,10 @@
   <SolidColorBrush x:Key="SemiColorBackground3" Color="{StaticResource SemiBackground3Color}" />
   <SolidColorBrush x:Key="SemiColorBackground4" Color="{StaticResource SemiBackground4Color}" />
 
-  <!--  Fill  -->
-  <SolidColorBrush x:Key="SemiColorFill0" Opacity="0.1" Color="{StaticResource SemiGrey8Color}" />
-  <SolidColorBrush x:Key="SemiColorFill1" Opacity="0.14" Color="{StaticResource SemiGrey8Color}" />
-  <SolidColorBrush x:Key="SemiColorFill2" Opacity="0.18" Color="{StaticResource SemiGrey8Color}" />
+  <!--  Fill - Theme: None  -->
+  <SolidColorBrush x:Key="SemiColorFill0" Opacity="0.10" Color="{StaticResource SemiGrey6Color}" />
+  <SolidColorBrush x:Key="SemiColorFill1" Opacity="0.20" Color="{StaticResource SemiGrey6Color}" />
+  <SolidColorBrush x:Key="SemiColorFill2" Opacity="0.30" Color="{StaticResource SemiGrey6Color}" />
 
   <!--  Border  -->
   <SolidColorBrush x:Key="SemiColorBorder" Opacity="0.18" Color="{StaticResource SemiGrey9Color}" />
