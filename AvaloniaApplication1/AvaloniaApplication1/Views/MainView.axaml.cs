@@ -29,10 +29,10 @@ public partial class MainView : UserControl
      */
     private void OnLoaded(object? sender, RoutedEventArgs e)
     {
-        WeakReferenceMessenger.Default.Register<string, string>(this, "JumpTo", MessageHandler);
-        WeakReferenceMessenger.Default.Register<string, string>(this, "ShowSplitView_SelectProject", MessageHandler);
-        WeakReferenceMessenger.Default.Register<string, string>(this, "ShowSplitView_SelectSystem", MessageHandler);
-        WeakReferenceMessenger.Default.Register<SystemNotificationModel, string>(this, "NewSystemNotification",
+        WeakReferenceMessenger.Default.Register<string, string>(this, MessageToken.JumpTo, MessageHandler);
+        WeakReferenceMessenger.Default.Register<string, string>(this, MessageToken.ShowSplitView_SelectProject, MessageHandler);
+        WeakReferenceMessenger.Default.Register<string, string>(this, MessageToken.ShowSplitView_SelectSystem, MessageHandler);
+        WeakReferenceMessenger.Default.Register<SystemNotificationModel, string>(this, MessageToken.NewSystemNotification,
             NewSystemNotificationHandler);
         
         
@@ -42,9 +42,13 @@ public partial class MainView : UserControl
     {
         base.OnAttachedToVisualTree(e);
         // 初始化 App.WindowToastManager
-        App.WindowToastManager = new WindowToastManager(TopLevel.GetTopLevel(this)) { MaxItems = 3 };
+        App.WindowToastManager = new WindowToastManager(TopLevel.GetTopLevel(this)) { MaxItems = 5 };
     }
 
+    /// <summary>
+    /// 离开可视树时的逻辑
+    /// </summary>
+    /// <param name="e"></param>
     protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)
     {
         base.OnDetachedFromVisualTree(e);
@@ -223,12 +227,12 @@ public partial class MainView : UserControl
 
     private void Button_SelectProject_OnClick(object? sender, RoutedEventArgs e)
     {
-        MessageHandler(null, "ShowSplitView_SelectProject");
+        MessageHandler(null, MessageToken.ShowSplitView_SelectProject);
     }
 
     private void Button_SelectSystem_OnClick(object? sender, RoutedEventArgs e)
     {
-        MessageHandler(null, "ShowSplitView_SelectSystem");
+        MessageHandler(null, MessageToken.ShowSplitView_SelectSystem);
     }
 
 

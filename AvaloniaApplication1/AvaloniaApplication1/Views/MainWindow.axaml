@@ -18,7 +18,7 @@
               x:CompileBindings="True"
               x:DataType="vm:MainViewModel"
               ExtendClientAreaToDecorationsHint="True"
-              Icon="/Assets/avalonia-logo.ico"
+              Icon="/Assets/Img/avalonia-logo.ico"
               IsFullScreenButtonVisible="{OnPlatform {x:True},
                                                      macOS={x:False}}"
               IsManagedResizerVisible="{OnPlatform {x:False},

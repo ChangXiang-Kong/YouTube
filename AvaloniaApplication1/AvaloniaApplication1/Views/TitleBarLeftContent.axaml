@@ -15,14 +15,14 @@
   </Design.DataContext>
   <StackPanel Orientation="Horizontal">
     <!--  Logo  -->
-    <!-- <Image Width="20" Margin="5,0,0,0" IsHitTestVisible="False" Source="/Assets/avalonia-logo.ico" /> -->
+    <!-- <Image Width="20" Margin="5,0,0,0" IsHitTestVisible="False" Source="/Assets/Img/avalonia-logo.ico" /> -->
 
     <!--  Menu  -->
     <Menu>
       <!--  Settings  -->
       <MenuItem Margin="0,0,0,0" Padding="5,0,10,0" ToolTip.Placement="Bottom">
         <ToolTip.Tip>
-          <StackPanel>
+          <StackPanel Background="Transparent">
             <TextBlock Classes="h1" Text="ToolTip" />
             <TextBlock Classes="h2" Text="系统设置" />
           </StackPanel>
@@ -30,7 +30,7 @@
         <MenuItem.HeaderTemplate>
           <DataTemplate>
             <StackPanel Orientation="Horizontal">
-              <Image Width="20" Margin="0,0,5,0" Source="/Assets/avalonia-logo.ico" />
+              <Image Width="20" Margin="0,0,5,0" Source="/Assets/Img/avalonia-logo.ico" />
               <TextBlock VerticalAlignment="Center" FontSize="15" FontWeight="Bold"
                          IsHitTestVisible="False"
                          Text="{x:Static data:ResourceToken.AppName}" />

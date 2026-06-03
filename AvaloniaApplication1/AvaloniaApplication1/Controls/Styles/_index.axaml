@@ -34,6 +34,7 @@
     <!-- <ResourceInclude Source="ManagedFileChooser.axaml" /> -->
     <!-- <ResourceInclude Source="Menu.axaml" /> -->
     <!-- <ResourceInclude Source="MenuFlyoutPresenter.axaml" /> -->
+    <ResourceInclude Source="Notification.axaml" />
     <!-- <ResourceInclude Source="NotificationCard.axaml" /> -->
     <!-- <ResourceInclude Source="NumericUpDown.axaml" /> -->
     <ResourceInclude Source="NavigationPage.axaml" />
@@ -44,6 +45,7 @@
     <!-- <ResourceInclude Source="RadioButton.axaml" /> -->
     <!-- <ResourceInclude Source="RefreshContainer.axaml" /> -->
     <!-- <ResourceInclude Source="RepeatButton.axaml" /> -->
+    <ResourceInclude Source="SearchBar.axaml" />
     <!-- <ResourceInclude Source="SelectableTextBlock.axaml" /> -->
     <!-- <ResourceInclude Source="ScrollViewer.axaml" /> -->
     <!-- <ResourceInclude Source="Slider.axaml" /> -->
@@ -54,7 +56,7 @@
     <!-- <ResourceInclude Source="TabStrip.axaml" /> -->
     <!-- <ResourceInclude Source="TabbedPage.axaml" /> -->
     <!-- <ResourceInclude Source="TextBlock.axaml" /> -->
-    <!-- <ResourceInclude Source="TextBox.axaml" /> -->
+    <ResourceInclude Source="TextBox.axaml" />
     <!-- <ResourceInclude Source="ThemeVariantScope.axaml" /> -->
     <!-- <ResourceInclude Source="TimePicker.axaml" /> -->
     <!-- <ResourceInclude Source="ToggleButton.axaml" /> -->

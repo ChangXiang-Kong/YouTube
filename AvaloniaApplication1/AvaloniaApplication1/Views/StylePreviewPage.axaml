@@ -10,6 +10,7 @@
              d:DesignHeight="900"
              d:DesignWidth="1200"
              x:DataType="vm:StylePreviewPageViewModel"
+             Background="{StaticResource CloudDrawingBrush}"
              mc:Ignorable="d">
   <Design.DataContext>
     <!--
@@ -18,9 +19,7 @@
     -->
     <vm:StylePreviewPageViewModel />
   </Design.DataContext>
-  <UserControl.Resources>
-    <cvt:IconNameToPathConverter x:Key="IconConverter" />
-  </UserControl.Resources>
+  <UserControl.Resources />
 
   <Grid>
     <TabControl Name="TabControl_Main" SelectedIndex="3" TabStripPlacement="Left" Theme="{DynamicResource ScrollButtonTabControl}">
@@ -38,6 +37,8 @@
       <TabItem MinWidth="120" Header="Test">
         <Grid />
       </TabItem>
+
+
 
       <!--  Button  -->
       <TabItem MinWidth="100" Header="Button">
@@ -58,12 +59,28 @@
           <StackPanel Margin="10" Spacing="10">
             <WrapPanel ItemSpacing="10">
               <TextBlock Width="220" VerticalAlignment="Center" Text="IconButton" />
-              <u:IconButton Width="36" Classes="Tertiary" Icon="{DynamicResource SemiIconArrowLeft}" />
-              <u:IconButton Width="36" Classes="Tertiary" Icon="{DynamicResource SemiIconArrowRight}" />
-              <u:IconButton Width="36" Classes="Tertiary" Icon="{DynamicResource SemiIconRefresh2}" Theme="{DynamicResource BorderlessIconButton}" />
-              <u:IconButton Width="36" Classes="Tertiary" Icon="{DynamicResource SemiIconHomeStroked}" Theme="{DynamicResource BorderlessIconButton}" />
-              <Button Width="20" Height="20" Content="{DynamicResource CalendarDatePickerIconGlyph}" Theme="{DynamicResource InnerIconButton}" />
-              <Button Content="{DynamicResource IconButtonClearData}" Theme="{DynamicResource InnerIconButton}" />
+              <Button Width="36" Classes="Tertiary" ToolTip.Tip="Button with inner PathIcon - Theme: InnerPathIcon">
+                <PathIcon Data="{DynamicResource SemiIconArrowLeft}" Theme="{DynamicResource InnerPathIcon}" />
+              </Button>
+              <Button Width="36" Classes="Tertiary" ToolTip.Tip="Button with inner PathIcon - Theme: PathIcon">
+                <PathIcon Data="{DynamicResource SemiIconArrowUp}" Theme="{DynamicResource PathIcon}" />
+              </Button>
+
+              <u:IconButton Width="36" Classes="Tertiary" Icon="{DynamicResource SemiIconArrowRight}" ToolTip.Tip="u:IconButton with Icon property - Theme: None" />
+              <u:IconButton Width="36" Classes="Tertiary"
+                            Icon="{DynamicResource SemiIconRefresh2}"
+                            Theme="{StaticResource BorderlessIconButton}"
+                            ToolTip.Tip="u:IconButton with Icon property - Theme: BorderlessIconButton" />
+              <u:IconButton Width="36" Classes="Tertiary"
+                            Icon="{DynamicResource SemiIconHomeStroked}"
+                            Theme="{StaticResource OutlineIconButton}"
+                            ToolTip.Tip="u:IconButton with Icon property - Theme: OutlineIconButton" />
+
+              <Button Width="20" Height="20"
+                      Content="{DynamicResource CalendarDatePickerIconGlyph}"
+                      Theme="{DynamicResource InnerIconButton}"
+                      ToolTip.Tip="Button with Content property - Theme: InnerIconButton" />
+              <Button Content="{DynamicResource IconButtonClearData}" Theme="{DynamicResource InnerIconButton}" ToolTip.Tip="Button with Content property - Theme: InnerIconButton" />
             </WrapPanel>
             <WrapPanel ItemSpacing="10">
               <TextBlock Width="220" VerticalAlignment="Center" Text="Theme: None" />
@@ -165,81 +182,153 @@
         </StackPanel>
       </TabItem>
 
+
+
       <!--  GroupBox  -->
       <TabItem MinWidth="100" Header="GroupBox">
-        <StackPanel Width="400" Margin="10" HorizontalAlignment="Center"
-                    VerticalAlignment="Center" Orientation="Vertical" Spacing="10">
-          <u:UrsaGroupBox Margin="10"
-                          Background="{DynamicResource SemiColorPrimaryLight}"
-                          BorderBrush="{DynamicResource SemiColorPrimary}"
-                          BorderThickness="1.5" HeaderSpacing="10">
-            <u:UrsaGroupBox.Header>
-              <TextBlock FontWeight="Bold" Text="默认 Header 位置" />
-            </u:UrsaGroupBox.Header>
-            <StackPanel Spacing="5">
-              <DockPanel>
-                <ToggleSwitch HorizontalAlignment="Left"
-                              Background="{DynamicResource SemiColorPrimary}"
-                              DockPanel.Dock="Right" IsChecked="True"
-                              Theme="{StaticResource SimpleToggleSwitch}" />
-                <TextBlock VerticalAlignment="Center" Text="显示查看新闻按钮" TextWrapping="Wrap" />
-              </DockPanel>
-              <Separator />
-              <DockPanel>
-                <ToggleSwitch HorizontalAlignment="Left"
-                              Background="{DynamicResource SemiColorPrimary}"
-                              DockPanel.Dock="Right" IsChecked="False"
-                              Theme="{StaticResource SimpleToggleSwitch}" />
-                <TextBlock VerticalAlignment="Center" Text="显示查看通知按钮" TextWrapping="Wrap" />
-              </DockPanel>
-              <Separator />
-              <DockPanel>
-                <ToggleSwitch HorizontalAlignment="Left"
-                              Background="{DynamicResource SemiColorPrimary}"
-                              DockPanel.Dock="Right" IsChecked="True"
-                              Theme="{StaticResource SimpleToggleSwitch}" />
-                <TextBlock VerticalAlignment="Center" Text="显示查看日志按钮" TextWrapping="Wrap" />
-              </DockPanel>
-            </StackPanel>
-          </u:UrsaGroupBox>
-          <u:UrsaGroupBox Margin="10"
-                          Background="{DynamicResource SemiColorSuccessLight}"
-                          BorderBrush="{DynamicResource SemiColorSuccess}"
-                          BorderThickness="1.5" HeaderSpacing="10"
-                          Theme="{DynamicResource UrsaGroupBox1}">
-            <u:UrsaGroupBox.Header>
-              <TextBlock FontWeight="Bold" Text="自定义 Header 位置" />
-            </u:UrsaGroupBox.Header>
-            <StackPanel Spacing="5">
-              <DockPanel>
-                <ToggleSwitch HorizontalAlignment="Left"
-                              Background="{DynamicResource SemiColorPrimary}"
-                              DockPanel.Dock="Right" IsChecked="True"
-                              Theme="{StaticResource SimpleToggleSwitch}" />
-                <TextBlock VerticalAlignment="Center" Text="显示查看新闻按钮" TextWrapping="Wrap" />
-              </DockPanel>
-              <Separator />
-              <DockPanel>
-                <ToggleSwitch HorizontalAlignment="Left"
-                              Background="{DynamicResource SemiColorPrimary}"
-                              DockPanel.Dock="Right" IsChecked="False"
-                              Theme="{StaticResource SimpleToggleSwitch}" />
-                <TextBlock VerticalAlignment="Center" Text="显示查看通知按钮" TextWrapping="Wrap" />
-              </DockPanel>
-              <Separator />
-              <DockPanel>
-                <ToggleSwitch HorizontalAlignment="Left"
-                              Background="{DynamicResource SemiColorPrimary}"
-                              DockPanel.Dock="Right" IsChecked="True"
-                              Theme="{StaticResource SimpleToggleSwitch}" />
-                <TextBlock VerticalAlignment="Center" Text="显示查看日志按钮" TextWrapping="Wrap" />
-              </DockPanel>
-            </StackPanel>
-          </u:UrsaGroupBox>
+        <StackPanel Margin="10" HorizontalAlignment="Center" VerticalAlignment="Center"
+                    Orientation="Horizontal" Spacing="20">
+          <StackPanel Spacing="15">
+            <GroupBox Width="300" Theme="{DynamicResource GroupBox}">
+              <GroupBox.Header>
+                <TextBlock FontWeight="Bold" Text="GroupBox" />
+              </GroupBox.Header>
+              <StackPanel Spacing="5">
+                <DockPanel>
+                  <ToggleSwitch HorizontalAlignment="Left"
+                                Background="{DynamicResource SemiColorPrimary}"
+                                DockPanel.Dock="Right" IsChecked="True"
+                                Theme="{StaticResource SimpleToggleSwitch}" />
+                  <TextBlock VerticalAlignment="Center" Text="显示查看新闻按钮" TextWrapping="Wrap" />
+                </DockPanel>
+                <Separator />
+                <DockPanel>
+                  <ToggleSwitch HorizontalAlignment="Left"
+                                Background="{DynamicResource SemiColorPrimary}"
+                                DockPanel.Dock="Right" IsChecked="False"
+                                Theme="{StaticResource SimpleToggleSwitch}" />
+                  <TextBlock VerticalAlignment="Center" Text="显示查看通知按钮" TextWrapping="Wrap" />
+                </DockPanel>
+                <Separator />
+                <DockPanel>
+                  <ToggleSwitch HorizontalAlignment="Left"
+                                Background="{DynamicResource SemiColorPrimary}"
+                                DockPanel.Dock="Right" IsChecked="True"
+                                Theme="{StaticResource SimpleToggleSwitch}" />
+                  <TextBlock VerticalAlignment="Center" Text="显示查看日志按钮" TextWrapping="Wrap" />
+                </DockPanel>
+              </StackPanel>
+            </GroupBox>
+
+            <GroupBox Width="300"
+                      Background="{DynamicResource SemiColorPrimaryLight}"
+                      BorderBrush="{DynamicResource SemiColorPrimary}"
+                      BorderThickness="1.5"
+                      Theme="{DynamicResource GroupBox}">
+              <GroupBox.Header>
+                <TextBlock FontWeight="Bold" Text="GroupBox With Background" />
+              </GroupBox.Header>
+              <StackPanel Spacing="5">
+                <DockPanel>
+                  <ToggleSwitch HorizontalAlignment="Left"
+                                Background="{DynamicResource SemiColorPrimary}"
+                                DockPanel.Dock="Right" IsChecked="True"
+                                Theme="{StaticResource SimpleToggleSwitch}" />
+                  <TextBlock VerticalAlignment="Center" Text="显示查看新闻按钮" TextWrapping="Wrap" />
+                </DockPanel>
+                <Separator />
+                <DockPanel>
+                  <ToggleSwitch HorizontalAlignment="Left"
+                                Background="{DynamicResource SemiColorPrimary}"
+                                DockPanel.Dock="Right" IsChecked="False"
+                                Theme="{StaticResource SimpleToggleSwitch}" />
+                  <TextBlock VerticalAlignment="Center" Text="显示查看通知按钮" TextWrapping="Wrap" />
+                </DockPanel>
+                <Separator />
+                <DockPanel>
+                  <ToggleSwitch HorizontalAlignment="Left"
+                                Background="{DynamicResource SemiColorPrimary}"
+                                DockPanel.Dock="Right" IsChecked="True"
+                                Theme="{StaticResource SimpleToggleSwitch}" />
+                  <TextBlock VerticalAlignment="Center" Text="显示查看日志按钮" TextWrapping="Wrap" />
+                </DockPanel>
+              </StackPanel>
+            </GroupBox>
+          </StackPanel>
+
+
+          <StackPanel Spacing="15">
+            <u:UrsaGroupBox Width="300" HeaderSpacing="10">
+              <u:UrsaGroupBox.Header>
+                <TextBlock FontWeight="Bold" Text="UrsaGroupBox" />
+              </u:UrsaGroupBox.Header>
+              <StackPanel Spacing="5">
+                <DockPanel>
+                  <ToggleSwitch HorizontalAlignment="Left"
+                                Background="{DynamicResource SemiColorPrimary}"
+                                DockPanel.Dock="Right" IsChecked="True"
+                                Theme="{StaticResource SimpleToggleSwitch}" />
+                  <TextBlock VerticalAlignment="Center" Text="显示查看新闻按钮" TextWrapping="Wrap" />
+                </DockPanel>
+                <Separator />
+                <DockPanel>
+                  <ToggleSwitch HorizontalAlignment="Left"
+                                Background="{DynamicResource SemiColorPrimary}"
+                                DockPanel.Dock="Right" IsChecked="False"
+                                Theme="{StaticResource SimpleToggleSwitch}" />
+                  <TextBlock VerticalAlignment="Center" Text="显示查看通知按钮" TextWrapping="Wrap" />
+                </DockPanel>
+                <Separator />
+                <DockPanel>
+                  <ToggleSwitch HorizontalAlignment="Left"
+                                Background="{DynamicResource SemiColorPrimary}"
+                                DockPanel.Dock="Right" IsChecked="True"
+                                Theme="{StaticResource SimpleToggleSwitch}" />
+                  <TextBlock VerticalAlignment="Center" Text="显示查看日志按钮" TextWrapping="Wrap" />
+                </DockPanel>
+              </StackPanel>
+            </u:UrsaGroupBox>
+
+            <u:UrsaGroupBox Width="300"
+                            Background="{DynamicResource SemiColorSuccessLight}"
+                            BorderBrush="{DynamicResource SemiColorSuccess}"
+                            BorderThickness="1.5" HeaderSpacing="10">
+              <u:UrsaGroupBox.Header>
+                <TextBlock FontWeight="Bold" Text="UrsaGroupBox With Background" />
+              </u:UrsaGroupBox.Header>
+              <StackPanel Spacing="5">
+                <DockPanel>
+                  <ToggleSwitch HorizontalAlignment="Left"
+                                Background="{DynamicResource SemiColorPrimary}"
+                                DockPanel.Dock="Right" IsChecked="True"
+                                Theme="{StaticResource SimpleToggleSwitch}" />
+                  <TextBlock VerticalAlignment="Center" Text="显示查看新闻按钮" TextWrapping="Wrap" />
+                </DockPanel>
+                <Separator />
+                <DockPanel>
+                  <ToggleSwitch HorizontalAlignment="Left"
+                                Background="{DynamicResource SemiColorPrimary}"
+                                DockPanel.Dock="Right" IsChecked="False"
+                                Theme="{StaticResource SimpleToggleSwitch}" />
+                  <TextBlock VerticalAlignment="Center" Text="显示查看通知按钮" TextWrapping="Wrap" />
+                </DockPanel>
+                <Separator />
+                <DockPanel>
+                  <ToggleSwitch HorizontalAlignment="Left"
+                                Background="{DynamicResource SemiColorPrimary}"
+                                DockPanel.Dock="Right" IsChecked="True"
+                                Theme="{StaticResource SimpleToggleSwitch}" />
+                  <TextBlock VerticalAlignment="Center" Text="显示查看日志按钮" TextWrapping="Wrap" />
+                </DockPanel>
+              </StackPanel>
+            </u:UrsaGroupBox>
+          </StackPanel>
         </StackPanel>
       </TabItem>
 
-      <!--  Log  -->
+
+
+      <!--  ListBoxLogger  -->
       <TabItem Header="ListBoxLogger">
         <Grid HorizontalAlignment="Center" VerticalAlignment="Center" RowDefinitions="Auto, 5, Auto, 5, *">
           <Grid Grid.Row="0" HorizontalAlignment="Center" ColumnDefinitions="Auto, 10, Auto, 10, Auto, 10, Auto" RowDefinitions="Auto, 5, Auto, 5, Auto, 5, Auto, 5, Auto">
@@ -255,7 +344,7 @@
             <ToggleSwitch Grid.Row="2" Grid.Column="4" Content="ShowLogType" IsChecked="{Binding ShowLogType}" />
             <!--  LogOrder  -->
             <ToggleSwitch Grid.Row="2" Grid.Column="6" Content="LogOrder"
-                          IsChecked="{Binding ListBoxLog.Desc}"
+                          IsChecked="{Binding ListBoxLogger.Desc}"
                           OffContent="Ascending" OnContent="Descending" />
 
             <!--  SubTitle  -->
@@ -270,6 +359,20 @@
             <ToggleSwitch Grid.Row="4" Grid.Column="4" VerticalAlignment="Center"
                           Content="ShowDate"
                           IsChecked="{Binding ShowDate}" />
+            <!--  MaxRandomNumber  -->
+            <StackPanel Grid.Row="4" Grid.Column="6" Opacity="0.5">
+              <TextBlock Text="MaxRandomNumber" />
+              <NumericUpDown FormatString="0" Maximum="200" Minimum="5"
+                             ToolTip.Placement="Bottom"
+                             Value="{Binding MaxRandomNumber}">
+                <ToolTip.Tip>
+                  <StackPanel Background="Transparent">
+                    <TextBlock Classes="h1" Text="点击添加日志按钮时" />
+                    <TextBlock Classes="h2" Text="随机生成日志的最大数量" />
+                  </StackPanel>
+                </ToolTip.Tip>
+              </NumericUpDown>
+            </StackPanel>
 
             <!--  OtherInfo  -->
             <TextBox Grid.Row="6" Grid.Column="0" Width="600"
@@ -286,7 +389,14 @@
             <!--  MaxLogCount  -->
             <StackPanel Grid.Row="6" Grid.Column="6">
               <TextBlock Text="MaxLogCount" />
-              <NumericUpDown FormatString="0" Maximum="200" Minimum="5" Value="{Binding ListBoxLog.MaxLogCount}" />
+              <NumericUpDown FormatString="0" Maximum="200" Minimum="5" Value="{Binding ListBoxLogger.MaxLogCount}">
+                <ToolTip.Tip>
+                  <StackPanel Background="Transparent">
+                    <TextBlock Classes="h1" Text="显示的最大日志数量" />
+                    <TextBlock Classes="h2" Text="超过将自动删除" />
+                  </StackPanel>
+                </ToolTip.Tip>
+              </NumericUpDown>
             </StackPanel>
 
             <!--  Message  -->
@@ -305,44 +415,56 @@
             <!--  MillisecondsLength  -->
             <StackPanel Grid.Row="8" Grid.Column="6">
               <TextBlock Text="MillisecondsLength" />
-              <NumericUpDown FormatString="0" Maximum="6" Minimum="1" Value="{Binding MillisecondsLength}" />
+              <NumericUpDown FormatString="0" Maximum="6" Minimum="1"
+                             ToolTip.Tip="显示毫秒的位数"
+                             Value="{Binding MillisecondsLength}" />
             </StackPanel>
           </Grid>
 
           <!--  日志按钮  -->
           <StackPanel Grid.Row="2" Orientation="Horizontal" Spacing="10">
-            <Button Classes="Colorful Primary"
-                    Command="{Binding RegisterLogListBoxCommand}"
-                    CommandParameter="{Binding #ListBox_Log}"
+            <Button Click="Button_Test_OnClick" Content="TestButton_OnClick" />
+            <Button Margin="0,0,10,0" Classes="Colorful Primary" Click="Button_RegisterLogListBox_OnClick"
                     Content="{Binding RegisterButtonContent}"
                     IsEnabled="{Binding !IsLogListBoxRegistered}"
-                    Theme="{DynamicResource SolidButton}" />
-            <Button Classes="Colorful Primary" Command="{Binding ClearLogCommand}" Content="ClearLog" />
-            <Button Command="{Binding NewTipLogCommand}" Content="NewTipLog" Foreground="DarkGray" />
-            <Button Classes="Tertiary" Command="{Binding NewDefaultLogCommand}" Content="NewDefaultLog" />
-            <Button Classes="Info" Command="{Binding NewInfoLogCommand}" Content="NewInfoLog" />
-            <Button Classes="Success" Command="{Binding NewSuccessLogCommand}" Content="NewSuccessLog" />
-            <Button Classes="Warning" Command="{Binding NewWarningLogCommand}" Content="NewWarningLog" />
-            <Button Classes="Danger" Command="{Binding NewErrorLogCommand}" Content="NewErrorLog" />
-            <Button Classes="Fatal" Command="{Binding NewFatalLogCommand}" Content="NewFatalLog" />
+                    Theme="{DynamicResource SolidButton}"
+                    ToolTip.Tip="注册Logger" />
+            <Button Command="{Binding NewTipLogCommand}" Content="NewTipLog" Foreground="DarkGray" ToolTip.Tip="添加Tip日志" />
+            <Button Classes="Tertiary" Command="{Binding NewDefaultLogCommand}" Content="NewDefaultLog" ToolTip.Tip="添加Default日志" />
+            <Button Classes="Info" Command="{Binding NewInfoLogCommand}" Content="NewInfoLog" ToolTip.Tip="添加Info日志" />
+            <Button Classes="Success" Command="{Binding NewSuccessLogCommand}" Content="NewSuccessLog" ToolTip.Tip="添加Success日志" />
+            <Button Classes="Warning" Command="{Binding NewWarningLogCommand}" Content="NewWarningLog" ToolTip.Tip="添加Warning日志" />
+            <Button Classes="Danger" Command="{Binding NewErrorLogCommand}" Content="NewErrorLog" ToolTip.Tip="添加Error日志" />
+            <Button Classes="Fatal" Command="{Binding NewFatalLogCommand}" Content="NewFatalLog" ToolTip.Tip="添加Fatal日志" />
           </StackPanel>
 
           <DockPanel Grid.Row="4">
-            <!--  日志统计  -->
             <StackPanel Margin="0,0,0,5" HorizontalAlignment="Center" DockPanel.Dock="Top" Orientation="Horizontal">
-              <TextBlock VerticalAlignment="Center" Text="日志统计：" />
+              <!--  日志搜索  -->
+              <TextBlock VerticalAlignment="Center" Text="搜索：" />
+              <SearchBar Width="250" Margin="0,0,20,0" Classes="clearButton searchButton filterButton"
+                         ClearedCommand="{Binding ClearSearchCommand}"
+                         Command="{Binding SearchCommand}"
+                         FilterConfirmedCommand="{Binding FilterConfirmCommand}"
+                         FilterOptions="{Binding FilterOptionsList}"
+                         IsEnabled="True" IsRealTime="False" MinSearchLength="2"
+                         PlaceholderText="Search" />
+              <!--  FilterItems="{Binding ItemsSource, ElementName=ListBox_Log}"  -->
+
+              <!--  日志统计  -->
+              <TextBlock VerticalAlignment="Center" Text="统计：" />
               <Button Margin="0,0,5,0" Classes="Colorful Primary"
-                      Content="{Binding ListBoxLog.TotalLogCount}"
+                      Content="{Binding ListBoxLogger.TotalLogCount}"
                       Theme="{DynamicResource SolidButton}"
                       ToolTip.Tip="Total" />
               <Button Margin="0,0,5,0" Classes="Tertiary"
-                      Content="{Binding ListBoxLog.LogCount_Tip}"
+                      Content="{Binding ListBoxLogger.LogCount_Tip}"
                       Theme="{DynamicResource SolidButton}"
                       ToolTip.Tip="Tip" />
               <Button Margin="0,0,5,0"
                       Background="{DynamicResource SemiColorText2}"
                       BorderBrush="Transparent"
-                      Content="{Binding ListBoxLog.LogCount_Default}"
+                      Content="{Binding ListBoxLogger.LogCount_Default}"
                       Foreground="White" ToolTip.Tip="Default">
                 <Button.Styles>
                   <Style Selector="Button:pointerover /template/ ContentPresenter#PART_ContentPresenter">
@@ -354,104 +476,184 @@
                 </Button.Styles>
               </Button>
               <Button Margin="0,0,5,0" Classes="Infomation"
-                      Content="{Binding ListBoxLog.LogCount_Info}"
+                      Content="{Binding ListBoxLogger.LogCount_Info}"
                       Theme="{DynamicResource SolidButton}"
                       ToolTip.Tip="Info" />
               <Button Margin="0,0,5,0" Classes="Success"
-                      Content="{Binding ListBoxLog.LogCount_Success}"
+                      Content="{Binding ListBoxLogger.LogCount_Success}"
                       Theme="{DynamicResource SolidButton}"
                       ToolTip.Tip="Success" />
               <Button Margin="0,0,5,0" Classes="Warning"
-                      Content="{Binding ListBoxLog.LogCount_Warning}"
+                      Content="{Binding ListBoxLogger.LogCount_Warning}"
                       Theme="{DynamicResource SolidButton}"
                       ToolTip.Tip="Warning" />
               <Button Margin="0,0,5,0" Classes="Danger"
-                      Content="{Binding ListBoxLog.LogCount_Error}"
+                      Content="{Binding ListBoxLogger.LogCount_Error}"
                       Theme="{DynamicResource SolidButton}"
                       ToolTip.Tip="Error" />
               <Button Margin="0,0,5,0" Classes="Fatal"
-                      Content="{Binding ListBoxLog.LogCount_Fatal}"
+                      Content="{Binding ListBoxLogger.LogCount_Fatal}"
                       Theme="{DynamicResource SolidButton}"
                       ToolTip.Tip="Fatal" />
-              <!--  Theme="{DynamicResource SolidButton}"  -->
+              <Button Margin="15,0,5,0" Classes="Tertiary" Command="{Binding ClearLogCommand}" ToolTip.Tip="Clear All Log">
+                <PathIcon Data="{DynamicResource SemiIconDeleteStroked}" Theme="{DynamicResource InnerPathIcon}" />
+              </Button>
             </StackPanel>
 
             <!--  日志 Body  -->
-            <ListBox Name="ListBox_Log" Width="800" Height="500"
-                     BorderBrush="{DynamicResource BorderCardBorderBrush}"
-                     BorderThickness="1" CornerRadius="6" WrapSelection="True">
-              <StackPanel>
-                <StackPanel Orientation="Horizontal">
-                  <TextBlock Foreground="{DynamicResource TextBlockTertiaryForeground}" Text="[2026-05-31 12:46] " />
-                  <TextBlock Foreground="{DynamicResource TextBlockTertiaryForeground}" Text="[TIP] " />
-                  <TextBlock Foreground="{DynamicResource TextBlockTertiaryForeground}" Text="[Title] " />
-                  <TextBlock Foreground="{DynamicResource TextBlockTertiaryForeground}" Text="[SubTitle] " />
-                  <TextBlock Foreground="{DynamicResource TextBlockTertiaryForeground}" Text="[OtherInfo] " />
+            <Grid>
+              <!--
+              两种方案选型建议：
+              · 海量高频日志（上万条、每秒批量刷日志）：选方式二（手动构建 UI 丢 Items），极致性能，缺点违背纯 MVVM，View 和 ViewModel 耦合 ListBox 控件实例；
+              · 常规业务日志、需要日志数据导出 / 筛选 / 搜索：选优化后的方式一（ItemsSource + 数据驱动），数据和 UI 分离，便于后续日志过滤、导出、统计。
+
+              对比项	  方案 1 ItemsSource+DataTemplate 绑定 (MVVM)	    方案 2 手动构造控件添加 Items
+              绑定开销	
+              · 【1】每条 N 个 Binding + 多转换器、StringFormat，属性变更监听、依赖属性表达式求值，CPU 消耗极高	
+              · 【2】无任何绑定、无转换器，C# 预先拼接文本、赋值颜色 / 字体，纯 CLR 属性赋值，零绑定引擎损耗
+              集合通知	
+              · 【1】ObservableCollection 逐条 Add = 逐条 CollectionChanged，批量循环 N 条 = N 次 UI 布局刷新；原生无批量通知，高频爆炸式刷新	
+              · 【2】ViewModel 里的LogMessagesList仅做数据备份，ListBox 不绑定该集合，集合增删完全不触发 UI 刷新，只操作 ListBox.ItemCollection
+              模板实例	
+              · 【1】新增条目走 DataTemplate 解析、模板树实例化，频繁创建销毁控件；虚拟化滚动还要反复重建绑定	
+              · 【2】代码一次性 new StackPanel+TextBlock，控件实例永久缓存到 Items，无模板解析开销
+              超限清理
+              · 【1】(MaxLogCount)	RemoveAt (0) 触发集合变更→UI 销毁控件 + 解绑所有绑定，删一条刷新一次	
+              · 【2】直接 Items.Remove (UI 对象)，仅从可视化树摘除控件，无数据联动、无绑定解绑
+              高频批量写入	
+              · 【1】循环逐条 Add 极易 UI 线程阻塞、滚动卡顿、丢帧	
+              · 【2】多条连续 Add 由 Dispatcher 合并布局，一帧只重绘一次
+
+
+
+              说明：方案一（ItemsSource+DataTemplate 数据绑定）：
+              · 走虚拟化 + 模板实例化 + 绑定系统，但大量高频新增时频繁触发绑定刷新、布局测量，会出现严重的卡顿问题
+              · 批量循环 Add 多条日志时，集合频繁触发 CollectionChanged、绑定批量求值、转换器反复执行、布局连续重排，几十条就累积卡顿。
+              · 关键坑：ObservableCollection.Add在循环内逐条添加，循环 N 次就触发 N 次集合变更、N 次 UI 刷新，没有批量合并通知。
+              绑定开销：WPF/Avalonia 绑定是一套反射 + 依赖属性监听系统，每个 Binding 创建绑定表达式、绑定监听、属性变更回调；新增条目就要初始化全部绑定。
+              转换器开销：LogTypeToForegroundConverter、BoolToBoldFontConverter、SubstringConverter每条日志每个绑定都要执行Convert方法，批量几十条就是上百次转换器调用。
+              StringFormat 格式化：绑定层内部额外字符串拼接，方式二是 C# 代码直接$"[{val}]"静态拼接，在 ViewModel 一次性算完，UI 无格式化开销。
+
+              <ListBox Name="ListBox_Log" Width="800" Height="500"
+                       BorderBrush="{DynamicResource BorderCardBorderBrush}"
+                       BorderThickness="1" CornerRadius="6"
+                       ItemsSource="{Binding ListBoxLogger.LogMessagesList}"
+                       WrapSelection="True">
+                <ListBox.ItemTemplate>
+                  <DataTemplate>
+                    <StackPanel>
+                      <StackPanel Orientation="Horizontal">
+                        <TextBlock Margin="0,0,5,0" Foreground="{Binding LogType, Converter={StaticResource LogTypeToForegroundConverter}}" Text="{Binding DateTimeStr, StringFormat='[{0}]'}" />
+                        <TextBlock Margin="0,0,5,0" Foreground="{Binding LogType, Converter={StaticResource LogTypeToForegroundConverter}}" Text="{Binding LogType, StringFormat='[{0}]', Converter={StaticResource SubstringConverter}, ConverterParameter=3}" />
+                        <TextBlock Margin="0,0,5,0" FontWeight="{Binding BoldTitleFont, Converter={StaticResource BoolToBoldFontConverter}}" Foreground="{Binding LogType, Converter={StaticResource LogTypeToForegroundConverter}}" Text="{Binding Title, StringFormat='[{0}]'}" />
+                        <TextBlock Margin="0,0,5,0" FontWeight="{Binding BoldTitleFont, Converter={StaticResource BoolToBoldFontConverter}}" Foreground="{Binding LogType, Converter={StaticResource LogTypeToForegroundConverter}}" Text="{Binding SubTitle, StringFormat='[{0}]'}" />
+                        <TextBlock Margin="0,0,5,0" FontWeight="{Binding BoldTitleFont, Converter={StaticResource BoolToBoldFontConverter}}" Foreground="{Binding LogType, Converter={StaticResource LogTypeToForegroundConverter}}" Text="{Binding OtherInfo, StringFormat='[{0}]'}" />
+                      </StackPanel>
+                      <TextBlock FontWeight="{Binding BoldTitleFont, Converter={StaticResource BoolToBoldFontConverter}}" Foreground="{Binding LogType, Converter={StaticResource LogTypeToForegroundConverter}}" Text="{Binding Message, StringFormat='[{0}]'}" />
+                    </StackPanel>
+                  </DataTemplate>
+                </ListBox.ItemTemplate>
+              -->
+
+              <!--
+                说明：方案二（手动 new 控件丢 Items）
+                绕过 WPF/Avalonia 数据绑定引擎、ItemsPresenter 数据容器，直接操作原生可视化树，没有绑定开销，所以流畅。
+                ListBox 的Items是ItemCollection，直接存放 UI 控件实例，不再走 ItemsSource 数据绑定链路
+                完全绕过：
+                · ObservableCollection 集合变更通知
+                · DataTemplate 模板解析 & 实例化
+                · IValueConverter 转换器逻辑
+                · DependencyProperty 数据绑定引擎（最耗性能的一块）
+                手动 new 控件只是普通 CLR 对象实例化 + 赋值原生属性，没有绑定监听、没有依赖属性变更回调；Add 到 Items 只是往容器集合塞 UI 元素，单次布局刷新被 Dispatcher 合并，批量添加开销极低。
+                所有 Text、Foreground、FontWeight 全在 C# 代码手动赋值，无任何绑定、无转换器运行，属性直接赋值原生 CLR 属性，开销极小。
+              -->
+
+              <!--  副ListBox（显示过滤后的日志）  -->
+              <ListBox Name="ListBox_MainLogger_bak" Width="800" Height="500"
+                       Margin="50,0,0,0"
+                       BorderBrush="{DynamicResource BorderCardBorderBrush}"
+                       BorderThickness="1" CornerRadius="6"
+                       IsVisible="{Binding ListBoxLogger.IsConfirmFiltering}" />
+              <!--  主ListBox（显示全部日志）  -->
+              <ListBox Name="ListBox_MainLogger" Width="800" Height="500"
+                       BorderBrush="{DynamicResource BorderCardBorderBrush}"
+                       BorderThickness="1" CornerRadius="6"
+                       IsVisible="{Binding !ListBoxLogger.IsConfirmFiltering}">
+                <StackPanel Tag="Tip">
+                  <StackPanel Orientation="Horizontal">
+                    <TextBlock Foreground="{DynamicResource TextBlockTertiaryForeground}" Text="[2026-05-31 12:42.1234] " />
+                    <TextBlock Foreground="{DynamicResource TextBlockTertiaryForeground}" Text="[TIP] " />
+                    <TextBlock Foreground="{DynamicResource TextBlockTertiaryForeground}" Text="[Title] " />
+                    <TextBlock Foreground="{DynamicResource TextBlockTertiaryForeground}" Text="[SubTitle] " />
+                    <TextBlock Foreground="{DynamicResource TextBlockTertiaryForeground}" Text="[OtherInfo] " />
+                  </StackPanel>
+                  <TextBlock Foreground="{DynamicResource TextBlockTertiaryForeground}" Text="Messageeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee" TextWrapping="Wrap" />
                 </StackPanel>
-                <TextBlock Foreground="{DynamicResource TextBlockTertiaryForeground}" Text="Messageeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee" TextWrapping="Wrap" />
-              </StackPanel>
-              <StackPanel>
-                <StackPanel Orientation="Horizontal">
-                  <TextBlock Foreground="{DynamicResource TextBlockDefaultForeground}" Text="[2026-05-31 12:46] " />
-                  <TextBlock Foreground="{DynamicResource TextBlockDefaultForeground}" Text="[DEF] " />
-                  <TextBlock Foreground="{DynamicResource TextBlockDefaultForeground}" Text="[Title] " />
-                  <TextBlock Foreground="{DynamicResource TextBlockDefaultForeground}" Text="[SubTitle] " />
-                  <TextBlock Foreground="{DynamicResource TextBlockDefaultForeground}" Text="[OtherInfo] " />
+                <StackPanel Tag="Default">
+                  <StackPanel Orientation="Horizontal">
+                    <TextBlock Foreground="{DynamicResource TextBlockDefaultForeground}" Text="[2026-05-31 12:42.1234] " />
+                    <TextBlock Foreground="{DynamicResource TextBlockDefaultForeground}" Text="[DEF] " />
+                    <TextBlock Foreground="{DynamicResource TextBlockDefaultForeground}" Text="[Title] " />
+                    <TextBlock Foreground="{DynamicResource TextBlockDefaultForeground}" Text="[SubTitle] " />
+                    <TextBlock Foreground="{DynamicResource TextBlockDefaultForeground}" Text="[OtherInfo] " />
+                  </StackPanel>
+                  <TextBlock Foreground="{DynamicResource TextBlockDefaultForeground}" Text="Messageeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee" TextWrapping="Wrap" />
                 </StackPanel>
-                <TextBlock Foreground="{DynamicResource TextBlockDefaultForeground}" Text="Messageeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee" TextWrapping="Wrap" />
-              </StackPanel>
-              <StackPanel>
-                <StackPanel Orientation="Horizontal">
-                  <TextBlock Foreground="{DynamicResource TextBlockInfoForeground}" Text="[2026-05-31 12:46] " />
-                  <TextBlock Foreground="{DynamicResource TextBlockInfoForeground}" Text="[INF] " />
-                  <TextBlock Foreground="{DynamicResource TextBlockInfoForeground}" Text="[Title] " />
-                  <TextBlock Foreground="{DynamicResource TextBlockInfoForeground}" Text="[SubTitle] " />
-                  <TextBlock Foreground="{DynamicResource TextBlockInfoForeground}" Text="[OtherInfo] " />
+                <StackPanel Tag="Info">
+                  <StackPanel Orientation="Horizontal">
+                    <TextBlock Foreground="{DynamicResource TextBlockInfoForeground}" Text="[2026-05-31 12:42.1234] " />
+                    <TextBlock Foreground="{DynamicResource TextBlockInfoForeground}" Text="[INF] " />
+                    <TextBlock Foreground="{DynamicResource TextBlockInfoForeground}" Text="[Title] " />
+                    <TextBlock Foreground="{DynamicResource TextBlockInfoForeground}" Text="[SubTitle] " />
+                    <TextBlock Foreground="{DynamicResource TextBlockInfoForeground}" Text="[OtherInfo] " />
+                  </StackPanel>
+                  <TextBlock Foreground="{DynamicResource TextBlockInfoForeground}" Text="Messageeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee" TextWrapping="Wrap" />
                 </StackPanel>
-                <TextBlock Foreground="{DynamicResource TextBlockInfoForeground}" Text="Messageeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee" TextWrapping="Wrap" />
-              </StackPanel>
-              <StackPanel>
-                <StackPanel Orientation="Horizontal">
-                  <TextBlock Foreground="{DynamicResource TextBlockSuccessForeground}" Text="[2026-05-31 12:46] " />
-                  <TextBlock Foreground="{DynamicResource TextBlockSuccessForeground}" Text="[SUC] " />
-                  <TextBlock Foreground="{DynamicResource TextBlockSuccessForeground}" Text="[Title] " />
-                  <TextBlock Foreground="{DynamicResource TextBlockSuccessForeground}" Text="[SubTitle] " />
-                  <TextBlock Foreground="{DynamicResource TextBlockSuccessForeground}" Text="[OtherInfo] " />
+                <StackPanel Tag="Success">
+                  <StackPanel Orientation="Horizontal">
+                    <TextBlock Foreground="{DynamicResource TextBlockSuccessForeground}" Text="[2026-05-31 12:42.1234] " />
+                    <TextBlock Foreground="{DynamicResource TextBlockSuccessForeground}" Text="[SUC] " />
+                    <TextBlock Foreground="{DynamicResource TextBlockSuccessForeground}" Text="[Title] " />
+                    <TextBlock Foreground="{DynamicResource TextBlockSuccessForeground}" Text="[SubTitle] " />
+                    <TextBlock Foreground="{DynamicResource TextBlockSuccessForeground}" Text="[OtherInfo] " />
+                  </StackPanel>
+                  <TextBlock Foreground="{DynamicResource TextBlockSuccessForeground}" Text="Messageeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee" TextWrapping="Wrap" />
                 </StackPanel>
-                <TextBlock Foreground="{DynamicResource TextBlockSuccessForeground}" Text="Messageeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee" TextWrapping="Wrap" />
-              </StackPanel>
-              <StackPanel>
-                <StackPanel Orientation="Horizontal">
-                  <TextBlock Foreground="{DynamicResource TextBlockWarningForeground}" Text="[2026-05-31 12:46] " />
-                  <TextBlock Foreground="{DynamicResource TextBlockWarningForeground}" Text="[WAR] " />
-                  <TextBlock Foreground="{DynamicResource TextBlockWarningForeground}" Text="[Title] " />
-                  <TextBlock Foreground="{DynamicResource TextBlockWarningForeground}" Text="[SubTitle] " />
-                  <TextBlock Foreground="{DynamicResource TextBlockWarningForeground}" Text="[OtherInfo] " />
+                <StackPanel Tag="Warning">
+                  <StackPanel Orientation="Horizontal">
+                    <TextBlock Foreground="{DynamicResource TextBlockWarningForeground}" Text="[2026-05-31 12:42.1234] " />
+                    <TextBlock Foreground="{DynamicResource TextBlockWarningForeground}" Text="[WAR] " />
+                    <TextBlock Foreground="{DynamicResource TextBlockWarningForeground}" Text="[Title] " />
+                    <TextBlock Foreground="{DynamicResource TextBlockWarningForeground}" Text="[SubTitle] " />
+                    <TextBlock Foreground="{DynamicResource TextBlockWarningForeground}" Text="[OtherInfo] " />
+                  </StackPanel>
+                  <TextBlock Foreground="{DynamicResource TextBlockWarningForeground}" Text="Messageeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee" TextWrapping="Wrap" />
                 </StackPanel>
-                <TextBlock Foreground="{DynamicResource TextBlockWarningForeground}" Text="Messageeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee" TextWrapping="Wrap" />
-              </StackPanel>
-              <StackPanel>
-                <StackPanel Orientation="Horizontal">
-                  <TextBlock Foreground="{DynamicResource TextBlockDangerForeground}" Text="[2026-05-31 12:46] " />
-                  <TextBlock Foreground="{DynamicResource TextBlockDangerForeground}" Text="[ERR] " />
-                  <TextBlock Foreground="{DynamicResource TextBlockDangerForeground}" Text="[SubTitle] " />
-                  <TextBlock Foreground="{DynamicResource TextBlockDangerForeground}" Text="[OtherInfo] " />
+                <StackPanel Tag="Error">
+                  <StackPanel Orientation="Horizontal">
+                    <TextBlock Foreground="{DynamicResource TextBlockDangerForeground}" Text="[2026-05-31 12:42.1234] " />
+                    <TextBlock Foreground="{DynamicResource TextBlockDangerForeground}" Text="[ERR] " />
+                    <TextBlock Foreground="{DynamicResource TextBlockDangerForeground}" Text="[SubTitle] " />
+                    <TextBlock Foreground="{DynamicResource TextBlockDangerForeground}" Text="[OtherInfo] " />
+                  </StackPanel>
+                  <TextBlock Foreground="{DynamicResource TextBlockDangerForeground}" Text="Messageeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee" TextWrapping="Wrap" />
                 </StackPanel>
-                <TextBlock Foreground="{DynamicResource TextBlockDangerForeground}" Text="Messageeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee" TextWrapping="Wrap" />
-              </StackPanel>
-              <StackPanel>
-                <StackPanel Orientation="Horizontal">
-                  <TextBlock Foreground="{DynamicResource SemiAIPurple5}" Text="[2026-05-31 12:46] " />
-                  <TextBlock Foreground="{DynamicResource SemiAIPurple5}" Text="[FAT] " />
-                  <TextBlock Foreground="{DynamicResource SemiAIPurple5}" Text="[SubTitle] " />
-                  <TextBlock Foreground="{DynamicResource SemiAIPurple5}" Text="[OtherInfo] " />
+                <StackPanel Tag="Fatal">
+                  <StackPanel Orientation="Horizontal">
+                    <TextBlock Foreground="{DynamicResource SemiAIPurple5}" Text="[2026-05-31 12:42.1234] " />
+                    <TextBlock Foreground="{DynamicResource SemiAIPurple5}" Text="[FAT] " />
+                    <TextBlock Foreground="{DynamicResource SemiAIPurple5}" Text="[SubTitle] " />
+                    <TextBlock Foreground="{DynamicResource SemiAIPurple5}" Text="[OtherInfo] " />
+                  </StackPanel>
+                  <TextBlock Foreground="{DynamicResource SemiAIPurple5}" Text="Messageeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee" TextWrapping="Wrap" />
                 </StackPanel>
-                <TextBlock Foreground="{DynamicResource SemiAIPurple5}" Text="Messageeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee" TextWrapping="Wrap" />
-              </StackPanel>
-            </ListBox>
+              </ListBox>
+            </Grid>
           </DockPanel>
         </Grid>
       </TabItem>
+
+
 
       <!--  SplitView  -->
       <TabItem Header="SplitView">
@@ -523,7 +725,7 @@
                       </Style.Animations>
                     </Style>
                   </Panel.Styles>
-                  <Image Name="AlbumCover" Width="200" Height="200" Source="/Assets/WORLD.png" />
+                  <Image Name="AlbumCover" Width="200" Height="200" Source="/Assets/Img/WORLD.png" />
                   <Arc Width="290" Height="290" StartAngle="0"
                        StrokeJoin="Round" StrokeLineCap="Round" StrokeThickness="45"
                        SweepAngle="360">
@@ -637,7 +839,7 @@
                       </Style.Animations>
                     </Style>
                   </Panel.Styles>
-                  <Image Name="AlbumCover2" Width="200" Height="200" Source="/Assets/WORLD.png" />
+                  <Image Name="AlbumCover2" Width="200" Height="200" Source="/Assets/Img/WORLD.png" />
                   <Arc Width="290" Height="290" StartAngle="0"
                        StrokeJoin="Round" StrokeLineCap="Round" StrokeThickness="45"
                        SweepAngle="360">
@@ -661,6 +863,81 @@
           </TabItem>
         </TabControl>
       </TabItem>
+
+
+
+      <!--  SearchBar | TextBox  -->
+      <TabItem MinWidth="100" Header="SearchBar | TextBox">
+        <StackPanel Margin="10" HorizontalAlignment="Center" VerticalAlignment="Center"
+                    Orientation="Horizontal" Spacing="20">
+          <!--  SearchBar  -->
+          <StackPanel Spacing="10">
+            <StackPanel>
+              <TextBlock FontSize="20" Foreground="DodgerBlue" Text="SearchBar" TextWrapping="Wrap" />
+              <TextBlock Text="(Add BreakPoint in StylePreviewViewModel.cs.Search()" TextWrapping="Wrap" />
+              <TextBlock Text="to check hit)" TextWrapping="Wrap" />
+            </StackPanel>
+            <SearchBar Width="300" Classes="searchButton clearButton Small"
+                       Command="{Binding SearchCommand}"
+                       IsRealTime="True" PlaceholderText="Small" Text="Small" />
+            <!--  提示：不用手动绑定CommandParameter="{Binding Text,RelativeSource=Self}"），Search()方法已自动接收 Text 为命令参数  -->
+            <SearchBar Width="300" Classes="searchButton clearButton filterButton" Cleared="SearchBar_OnCleared"
+                       ClearedCommand="{Binding ClearSearchCommand}"
+                       Command="{Binding SearchCommand}"
+                       IsRealTime="True" MinSearchLength="2" PlaceholderText="Default"
+                       SearchStarted="SearchBar_OnSearchStarted" Text="Default" />
+            <SearchBar Width="300" Classes="searchButton clearButton Large bordered"
+                       Command="{Binding SearchCommand}"
+                       CommandParameter="{Binding Text, RelativeSource={RelativeSource Self}}"
+                       IsRealTime="True" PlaceholderText="Large" Text="Large" />
+
+            <SearchBar Width="300" Classes="searchButton clearButton Small"
+                       Command="{Binding SearchCommand}"
+                       CommandParameter="{Binding Text, RelativeSource={RelativeSource Self}}"
+                       PlaceholderText="Small" />
+            <SearchBar Width="300" Classes="searchButton clearButton"
+                       Command="{Binding SearchCommand}"
+                       CommandParameter="{Binding Text, RelativeSource={RelativeSource Self}}"
+                       PlaceholderText="Default" />
+            <SearchBar Width="300" Classes="searchButton clearButton Large"
+                       Command="{Binding SearchCommand}"
+                       CommandParameter="{Binding Text, RelativeSource={RelativeSource Self}}"
+                       IsEnabled="False" PlaceholderText="Large Disabled" />
+          </StackPanel>
+
+          <!--  TextBox  -->
+          <StackPanel Spacing="20">
+            <TextBox Width="300" />
+            <TextBox Width="300" InnerLeftContent="https://" InnerRightContent=".com" />
+            <TextBox Width="300" Classes="clearButton" Text="click to clear" />
+            <TextBox Width="300" Classes="revealPasswordButton" Text="123456" />
+            <TextBox Width="300" Classes="ClearButton RevealPasswordButton" InnerLeftContent="https://"
+                     InnerRightContent=".com" Text="123456" />
+            <TextBox Width="300" InnerLeftContent="https://" InnerRightContent=".com"
+                     PlaceholderText="Lookless TextBox"
+                     Theme="{StaticResource LooklessTextBox}" />
+          </StackPanel>
+
+          <StackPanel Spacing="20">
+            <StackPanel Orientation="Horizontal">
+              <TextBox Width="100" Classes="Large" PlaceholderText="Large" />
+              <TextBox Width="100" PlaceholderText="Default" />
+              <TextBox Width="100" Classes="Small" PlaceholderText="Small" />
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal">
+              <TextBox Width="100" IsEnabled="False" PlaceholderText="Disabled" />
+              <TextBox Width="100" Classes="Bordered" PlaceholderText="Bordered" />
+              <TextBox Width="100" Classes="Bordered" IsEnabled="False" />
+            </StackPanel>
+
+            <TextBox Width="300" Classes="TextArea" PlaceholderText="TextArea TextBox" />
+            <TextBox Width="300" Classes="TextArea ClearButton" Text="TextArea with ClearButton - text should be clearable" />
+          </StackPanel>
+        </StackPanel>
+      </TabItem>
+
+
 
       <!--  ToggleSwitch  -->
       <TabItem Header="ToggleSwitch">

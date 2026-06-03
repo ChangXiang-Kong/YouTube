@@ -14,6 +14,8 @@
     <ResourceInclude x:Key="{x:Static semi:SemiTheme.NightSky}" Source="HighContrast/NightSky.axaml" />
   </ResourceDictionary.ThemeDictionaries>
   <ResourceDictionary.MergedDictionaries>
+    <ResourceInclude Source="Converters.axaml" />
+    <ResourceInclude Source="Effects.axaml" />
     <ResourceInclude Source="MyIcons.axaml" />
     <semi:Variables />
   </ResourceDictionary.MergedDictionaries>

@@ -16,7 +16,7 @@
               x:CompileBindings="True"
               x:DataType="vm:SettingsWindowViewModel"
               ExtendClientAreaToDecorationsHint="True"
-              Icon="/Assets/avalonia-logo.ico"
+              Icon="/Assets/Img/avalonia-logo.ico"
               IsFullScreenButtonVisible="{OnPlatform {x:False},
                                                      macOS={x:False}}"
               IsManagedResizerVisible="{OnPlatform {x:False},
@@ -85,7 +85,7 @@
                               Background="{DynamicResource SemiColorTertiaryLight}"
                               BorderBrush="{DynamicResource SemiColorTertiaryLight}"
                               BorderThickness="1.5" HeaderSpacing="10"
-                              Theme="{DynamicResource UrsaGroupBox1}">
+                              Theme="{DynamicResource GroupBox}">
                 <u:UrsaGroupBox.Header>
                   <TextBlock FontWeight="Bold" Text="常规" />
                 </u:UrsaGroupBox.Header>
@@ -135,7 +135,7 @@
                               Background="{DynamicResource SemiColorTertiaryLight}"
                               BorderBrush="{DynamicResource SemiColorTertiaryLight}"
                               BorderThickness="1.5" HeaderSpacing="10"
-                              Theme="{DynamicResource UrsaGroupBox1}">
+                              Theme="{DynamicResource GroupBox}">
                 <u:UrsaGroupBox.Header>
                   <TextBlock FontWeight="Bold" Text="按钮" />
                 </u:UrsaGroupBox.Header>
@@ -150,7 +150,7 @@
                               Background="{DynamicResource SemiColorTertiaryLight}"
                               BorderBrush="{DynamicResource SemiColorTertiaryLight}"
                               BorderThickness="1.5" HeaderSpacing="10"
-                              Theme="{DynamicResource UrsaGroupBox1}">
+                              Theme="{DynamicResource GroupBox}">
                 <u:UrsaGroupBox.Header>
                   <TextBlock FontWeight="Bold" Text="按钮" />
                 </u:UrsaGroupBox.Header>
@@ -181,7 +181,7 @@
                               Background="{DynamicResource SemiColorTertiaryLight}"
                               BorderBrush="{DynamicResource SemiColorTertiaryLight}"
                               BorderThickness="1.5" HeaderSpacing="10"
-                              Theme="{DynamicResource UrsaGroupBox1}">
+                              Theme="{DynamicResource GroupBox}">
                 <u:UrsaGroupBox.Header>
                   <TextBlock FontWeight="Bold" Text="按钮" />
                 </u:UrsaGroupBox.Header>
@@ -196,7 +196,7 @@
                               Background="{DynamicResource SemiColorTertiaryLight}"
                               BorderBrush="{DynamicResource SemiColorTertiaryLight}"
                               BorderThickness="1.5" HeaderSpacing="10"
-                              Theme="{DynamicResource UrsaGroupBox1}">
+                              Theme="{DynamicResource GroupBox}">
                 <u:UrsaGroupBox.Header>
                   <TextBlock FontWeight="Bold" Text="按钮" />
                 </u:UrsaGroupBox.Header>
@@ -227,7 +227,7 @@
                               Background="{DynamicResource SemiColorTertiaryLight}"
                               BorderBrush="{DynamicResource SemiColorTertiaryLight}"
                               BorderThickness="1.5" HeaderSpacing="10"
-                              Theme="{DynamicResource UrsaGroupBox1}">
+                              Theme="{DynamicResource GroupBox}">
                 <u:UrsaGroupBox.Header>
                   <TextBlock FontWeight="Bold" Text="按钮" />
                 </u:UrsaGroupBox.Header>

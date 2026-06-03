@@ -2,45 +2,77 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:u="https://irihi.tech/ursa">
   <Design.PreviewWith>
-    <StackPanel Margin="30">
-      <u:UrsaGroupBox Margin="0,0,0,10" HeaderSpacing="10">
-        <u:UrsaGroupBox.Header>
-          <TextBlock FontWeight="Bold" Text="Default" />
-        </u:UrsaGroupBox.Header>
-        <StackPanel Spacing="8">
-          <TextBlock Text="The interior of this border has a semi-transparent fill." TextWrapping="Wrap" />
-          <Button HorizontalAlignment="Left" Content="Click Me" />
+    <StackPanel Margin="30" Orientation="Horizontal" Spacing="20">
+      <ThemeVariantScope RequestedThemeVariant="Light">
+        <StackPanel Spacing="15">
+          <GroupBox Theme="{DynamicResource GroupBox}">
+            <GroupBox.Header>
+              <TextBlock FontWeight="Bold" Text="GroupBox" />
+            </GroupBox.Header>
+            <StackPanel Spacing="8">
+              <TextBlock Text="The interior of this border has a semi-transparent fill." TextWrapping="Wrap" />
+              <Button HorizontalAlignment="Left" Content="Click Me" />
+            </StackPanel>
+          </GroupBox>
+          <GroupBox Background="{DynamicResource SemiColorSuccessLight}" BorderBrush="{DynamicResource SemiColorSuccess}" BorderThickness="1.5" Theme="{DynamicResource GroupBox}">
+            <GroupBox.Header>
+              <TextBlock FontWeight="Bold" Text="GroupBox With Background" />
+            </GroupBox.Header>
+            <StackPanel Spacing="8">
+              <TextBlock Text="The interior of this border has a semi-transparent fill." TextWrapping="Wrap" />
+              <Button HorizontalAlignment="Left" Content="Click Me" />
+            </StackPanel>
+          </GroupBox>
+
+          <u:UrsaGroupBox HeaderSpacing="10">
+            <u:UrsaGroupBox.Header>
+              <TextBlock FontWeight="Bold" Text="UrsaGroupBox" />
+            </u:UrsaGroupBox.Header>
+            <StackPanel Spacing="8">
+              <TextBlock Text="The interior of this border has a semi-transparent fill." TextWrapping="Wrap" />
+              <Button HorizontalAlignment="Left" Content="Click Me" />
+            </StackPanel>
+          </u:UrsaGroupBox>
+          <u:UrsaGroupBox Background="{DynamicResource SemiColorPrimaryLight}" BorderBrush="{DynamicResource SemiColorPrimary}" BorderThickness="1.5" HeaderSpacing="10">
+            <u:UrsaGroupBox.Header>
+              <TextBlock FontWeight="Bold" Text="UrsaGroupBox With Background" />
+            </u:UrsaGroupBox.Header>
+            <StackPanel Spacing="8">
+              <TextBlock Text="The interior of this border has a semi-transparent fill." TextWrapping="Wrap" />
+              <Button HorizontalAlignment="Left" Content="Click Me" />
+            </StackPanel>
+          </u:UrsaGroupBox>
         </StackPanel>
-      </u:UrsaGroupBox>
-      <u:UrsaGroupBox Margin="0,0,0,10"
-                      Background="{DynamicResource SemiColorPrimaryLight}"
-                      BorderBrush="{DynamicResource SemiColorPrimary}"
-                      BorderThickness="1.5" HeaderSpacing="10">
-        <u:UrsaGroupBox.Header>
-          <TextBlock FontWeight="Bold" Text="With Background" />
-        </u:UrsaGroupBox.Header>
-        <StackPanel Spacing="8">
-          <TextBlock Text="The interior of this border has a semi-transparent fill." TextWrapping="Wrap" />
-          <Button HorizontalAlignment="Left" Content="Click Me" />
-        </StackPanel>
-      </u:UrsaGroupBox>
-      <u:UrsaGroupBox Margin="0,0,0,10"
-                      Background="{DynamicResource SemiColorSuccessLight}"
-                      BorderBrush="{DynamicResource SemiColorSuccess}"
-                      BorderThickness="1.5" HeaderSpacing="10"
-                      Theme="{DynamicResource UrsaGroupBox1}">
-        <u:UrsaGroupBox.Header>
-          <TextBlock FontWeight="Bold" Text="With Background" />
-        </u:UrsaGroupBox.Header>
-        <StackPanel Spacing="8">
-          <TextBlock Text="The interior of this border has a semi-transparent fill." TextWrapping="Wrap" />
-          <Button HorizontalAlignment="Left" Content="Click Me" />
-        </StackPanel>
-      </u:UrsaGroupBox>
+      </ThemeVariantScope>
     </StackPanel>
   </Design.PreviewWith>
 
-  <!--  原始样式：Header 在整体左上角  -->
+  <!--  默认 GroupBox  -->
+  <ControlTheme x:Key="GroupBox" TargetType="GroupBox">
+    <Setter Property="Padding" Value="{DynamicResource ThicknessCardPadding}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource BorderCardBorderBrush}" />
+    <Setter Property="CornerRadius" Value="{DynamicResource RadiusCardCornerRadius}" />
+    <Setter Property="BorderThickness" Value="{DynamicResource ThicknessCardBorderThickness}" />
+    <Setter Property="Template">
+      <ControlTemplate TargetType="u:UrsaGroupBox">
+        <!--  整体容器  -->
+        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="{TemplateBinding CornerRadius}">
+          <!--  内部布局：Header 放在 内部顶部左边  -->
+          <DockPanel LastChildFill="True">
+            <!--  Header 放在内部左上角  -->
+            <ContentPresenter Margin="10,5,5,0" HorizontalAlignment="Left" VerticalAlignment="Top"
+                              Content="{TemplateBinding Header}"
+                              ContentTemplate="{TemplateBinding HeaderTemplate}"
+                              DockPanel.Dock="Top" />
+            <!--  内容区域  -->
+            <ContentPresenter Margin="{TemplateBinding Padding}" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" />
+          </DockPanel>
+        </Border>
+      </ControlTemplate>
+    </Setter>
+  </ControlTheme>
+
+  <!--  UrsaGroupBox  -->
   <ControlTheme x:Key="{x:Type u:UrsaGroupBox}" TargetType="u:UrsaGroupBox">
     <Setter Property="Padding" Value="{DynamicResource ThicknessCardPadding}" />
     <Setter Property="BorderBrush" Value="{DynamicResource BorderCardBorderBrush}" />
@@ -59,32 +91,6 @@
           </u:GroupBoxBorder.Header>
           <ContentPresenter Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" />
         </u:GroupBoxBorder>
-      </ControlTemplate>
-    </Setter>
-  </ControlTheme>
-
-  <!--  修改样式：将 Header 放到整体内部左上角  -->
-  <ControlTheme x:Key="UrsaGroupBox1" TargetType="u:UrsaGroupBox">
-    <Setter Property="Padding" Value="{DynamicResource ThicknessCardPadding}" />
-    <Setter Property="BorderBrush" Value="{DynamicResource BorderCardBorderBrush}" />
-    <Setter Property="CornerRadius" Value="{DynamicResource RadiusCardCornerRadius}" />
-    <Setter Property="BorderThickness" Value="{DynamicResource ThicknessCardBorderThickness}" />
-    <Setter Property="HeaderSpacing" Value="10" />
-    <Setter Property="Template">
-      <ControlTemplate TargetType="u:UrsaGroupBox">
-        <!--  整体容器  -->
-        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="{TemplateBinding CornerRadius}">
-          <!--  内部布局：Header 放在 内部顶部左边  -->
-          <DockPanel LastChildFill="True">
-            <!--  Header 放在内部左上角  -->
-            <ContentPresenter Margin="10,5,5,0" HorizontalAlignment="Left" VerticalAlignment="Top"
-                              Content="{TemplateBinding Header}"
-                              ContentTemplate="{TemplateBinding HeaderTemplate}"
-                              DockPanel.Dock="Top" />
-            <!--  内容区域  -->
-            <ContentPresenter Margin="{TemplateBinding Padding}" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" />
-          </DockPanel>
-        </Border>
       </ControlTemplate>
     </Setter>
   </ControlTheme>

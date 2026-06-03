@@ -7,7 +7,7 @@
   <Thickness x:Key="CheckBoxContentMargin">8 0 0 0</Thickness>
   <x:Double x:Key="CheckBoxBoxGlyphWidth">16</x:Double>
   <x:Double x:Key="CheckBoxBoxGlyphHeight">16</x:Double>
-  <StaticResource x:Key="CheckBoxBoxCornerRadius" ResourceKey="SemiBorderRadiusMedium" />
+  <StaticResource x:Key="CheckBoxBoxCornerRadius" ResourceKey="SemiBorderRadiusSmall" />
   <StaticResource x:Key="CheckBoxBoxBorderThickness" ResourceKey="SemiBorderThicknessControl" />
   <StaticResource x:Key="CheckBoxCheckGlyph" ResourceKey="SemiIconCheckBoxTick" />
   <StaticResource x:Key="CheckBoxIndeterminateGlyph" ResourceKey="SemiIconCheckBoxIndeterminate" />

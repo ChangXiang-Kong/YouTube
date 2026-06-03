@@ -1,0 +1,326 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:cvt="clr-namespace:AvaloniaApplication1.Controls.Converters">
+  <Design.PreviewWith>
+    <StackPanel Orientation="Horizontal">
+      <ThemeVariantScope RequestedThemeVariant="Light">
+        <StackPanel Margin="20" Spacing="10">
+          <TextBlock Text="SearchBar" />
+          <SearchBar Width="300" Classes="searchButton clearButton Small" PlaceholderText="Small" Text="Small" />
+          <SearchBar Width="300" Classes="searchButton clearButton filterButton" PlaceholderText="Default" Text="Default" />
+          <SearchBar Width="300" Classes="searchButton clearButton Large Bordered" PlaceholderText="Large" Text="Large Bordered" />
+          <SearchBar Width="300" Classes="searchButton clearButton Small" PlaceholderText="Small" />
+          <SearchBar Width="300" Classes="searchButton clearButton" PlaceholderText="Default" />
+          <SearchBar Width="300" Classes="searchButton clearButton Large" IsEnabled="False" PlaceholderText="Large Disabled " />
+        </StackPanel>
+      </ThemeVariantScope>
+    </StackPanel>
+  </Design.PreviewWith>
+
+  <MenuFlyout x:Key="DefaultTextBoxContextFlyout" Placement="Bottom" ShowMode="{OnFormFactor Desktop=Standard, Mobile=Transient}">
+    <MenuItem Command="{Binding $parent[TextBox].Cut}" Header="{DynamicResource STRING_MENU_CUT}" InputGesture="{x:Static TextBox.CutGesture}" IsEnabled="{Binding $parent[TextBox].CanCut}" />
+    <MenuItem Command="{Binding $parent[TextBox].Copy}" Header="{DynamicResource STRING_MENU_COPY}" InputGesture="{x:Static TextBox.CopyGesture}" IsEnabled="{Binding $parent[TextBox].CanCopy}" />
+    <MenuItem Command="{Binding $parent[TextBox].Paste}" Header="{DynamicResource STRING_MENU_PASTE}" InputGesture="{x:Static TextBox.PasteGesture}" IsEnabled="{Binding $parent[TextBox].CanPaste}" />
+  </MenuFlyout>
+  <MenuFlyout x:Key="HorizontalTextBoxContextFlyout" FlyoutPresenterTheme="{StaticResource HorizontalMenuFlyoutPresenter}" ItemContainerTheme="{StaticResource TopLevelMenuItem}" ShowMode="{OnFormFactor Desktop=Standard, Mobile=Transient}">
+    <MenuItem Command="{Binding $parent[TextBox].Cut}" Header="{DynamicResource STRING_MENU_CUT}" IsEnabled="{Binding $parent[TextBox].CanCut}" IsVisible="{Binding $parent[TextBox].CanCut}" />
+    <MenuItem Command="{Binding $parent[TextBox].Copy}" Header="{DynamicResource STRING_MENU_COPY}" IsEnabled="{Binding $parent[TextBox].CanCopy}" IsVisible="{Binding $parent[TextBox].CanCopy}" />
+    <MenuItem Command="{Binding $parent[TextBox].Paste}" Header="{DynamicResource STRING_MENU_PASTE}" IsEnabled="{Binding $parent[TextBox].CanPaste}" />
+  </MenuFlyout>
+
+  <cvt:MultiBindingValueConcatToStringConverter x:Key="MultiBindingValueConcatToStringConverter" />
+
+  <ControlTheme x:Key="{x:Type SearchBar}" TargetType="SearchBar">
+    <Setter Property="Foreground" Value="{DynamicResource TextBoxForeground}" />
+    <Setter Property="PlaceholderForeground" Value="{DynamicResource TextBoxPlaceholderForeground}" />
+    <Setter Property="Background" Value="{DynamicResource TextBoxDefaultBackground}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource TextBoxDefaultBorderBrush}" />
+    <Setter Property="SelectionBrush" Value="{DynamicResource TextBoxSelectionBackground}" />
+    <Setter Property="SelectionForegroundBrush" Value="{DynamicResource TextBoxSelectionForeground}" />
+    <Setter Property="BorderThickness" Value="{DynamicResource TextBoxBorderThickness}" />
+    <Setter Property="BackgroundSizing" Value="OuterBorderEdge" />
+    <Setter Property="CornerRadius" Value="{DynamicResource TextBoxDefaultCornerRadius}" />
+    <Setter Property="CaretBrush" Value="{DynamicResource TextBoxTextCaretBrush}" />
+    <Setter Property="Padding" Value="{DynamicResource TextBoxContentPadding}" />
+    <Setter Property="MinHeight" Value="{DynamicResource TextBoxDefaultHeight}" />
+    <Setter Property="VerticalAlignment" Value="Center" />
+    <Setter Property="VerticalContentAlignment" Value="Center" />
+    <Setter Property="FocusAdorner" Value="{x:Null}" />
+    <Setter Property="ScrollViewer.IsScrollChainingEnabled" Value="True" />
+    <Setter Property="ContextFlyout" Value="{StaticResource DefaultTextBoxContextFlyout}" />
+    <Setter Property="Template">
+      <ControlTemplate TargetType="TextBox">
+        <DataValidationErrors>
+          <!--  PART_ContentPresenterBorder  -->
+          <Border Name="PART_ContentPresenterBorder"
+                  MinHeight="{TemplateBinding MinHeight}"
+                  Background="{TemplateBinding Background}"
+                  BackgroundSizing="{TemplateBinding BackgroundSizing}"
+                  BorderBrush="{TemplateBinding BorderBrush}"
+                  BorderThickness="{TemplateBinding BorderThickness}"
+                  CornerRadius="{TemplateBinding CornerRadius}">
+            <Grid Margin="{TemplateBinding Padding}" ColumnDefinitions="Auto, Auto,*,Auto, Auto, Auto, Auto">
+              <!--  PART_FilterContainer  -->
+              <StackPanel Name="PART_FilterContainer" Grid.Column="0" IsVisible="False" Orientation="Horizontal">
+                <!--  PART_Filter  -->
+                <Button Name="PART_FilterButton" MinHeight="20" Margin="-12,0,0,0"
+                        VerticalAlignment="Stretch" Classes="Tertiary" Focusable="False"
+                        Theme="{DynamicResource BorderlessButton}"
+                        ToolTip.Tip="Filter Search Results">
+                  <Button.Flyout>
+                    <Flyout Placement="BottomEdgeAlignedLeft">
+                      <Flyout.ContentTemplate>
+                        <DataTemplate>
+                          <DockPanel Margin="10">
+                            <TextBlock Name="PART_FilterTitle" Margin="0,-5,0,10" VerticalAlignment="Center"
+                                       DockPanel.Dock="Top" FontWeight="Bold" Text="Filter Options" />
+
+                            <ScrollViewer>
+                              <!--  动态生成复选框，绑定FilterItems，无硬编码字符串  -->
+                              <ItemsControl Name="PART_FilterOptions" ItemsSource="{Binding $parent[SearchBar].FilterOptions}">
+                                <ItemsControl.ItemsPanel>
+                                  <ItemsPanelTemplate>
+                                    <StackPanel Spacing="5" />
+                                  </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                  <DataTemplate>
+                                    <CheckBox HorizontalAlignment="Stretch" IsChecked="{Binding IsChecked, Mode=TwoWay}" Tag="{Binding Name}">
+                                      <CheckBox.Content>
+                                        <MultiBinding Converter="{StaticResource MultiBindingValueConcatToStringConverter}" ConverterParameter="  --  ">
+                                          <Binding Path="Title" />
+                                          <Binding Path="Count" />
+                                        </MultiBinding>
+                                      </CheckBox.Content>
+                                    </CheckBox>
+                                    <!-- <TextBlock Margin="6,0,0,0" VerticalAlignment="Center" Text="{Binding Count, StringFormat='({0})'}" /> -->
+                                    <!--
+                                      StringFormat 完整示例：
+                                      · StringFormat='({0})'             显示为 (10)
+                                      · StringFormat='Count: ({0})'      显示为 Count: (10)
+                                      · StringFormat='[{0}]'             显示为 [10]
+                                      · StringFormat='{{ {0} }}'         显示为 { 10 }
+                                      · StringFormat='&quot;{0}&quot;    显示为 "10"
+                                      注意事项：
+                                      · 单引号：Avalonia中使用单引号'来包裹格式字符串
+                                      · 花括号转义：如果需要显示花括号{}，需要使用双重花括号{{和}}
+                                      · 空格处理：格式字符串中的空格会被保留
+                                    -->
+                                  </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                              </ItemsControl>
+                            </ScrollViewer>
+
+                          </DockPanel>
+                        </DataTemplate>
+                      </Flyout.ContentTemplate>
+                    </Flyout>
+                  </Button.Flyout>
+                  <PathIcon Data="{DynamicResource SemiIconFilterStroked}" Theme="{DynamicResource InnerPathIcon}" />
+                  <!-- <PathIcon Height="18" Data="{DynamicResource MyIconFilter}" Theme="{DynamicResource InnerPathIcon}" /> -->
+                </Button>
+                <Separator Width="1" Height="{Binding $parent[SearchBar].Height}" Margin="0,0,10,0" />
+              </StackPanel>
+              <!--  InnerLeftContent  -->
+              <ContentPresenter Grid.Column="1"
+                                Padding="{DynamicResource TextBoxInnerLeftContentPadding}"
+                                VerticalAlignment="Center"
+                                Content="{TemplateBinding InnerLeftContent}"
+                                Foreground="{DynamicResource TextBoxInnerForeground}"
+                                IsVisible="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=InnerLeftContent, Converter={x:Static ObjectConverters.IsNotNull}}" />
+              <ScrollViewer Name="PART_ScrollViewer" Grid.Column="2"
+                            AllowAutoHide="{TemplateBinding (ScrollViewer.AllowAutoHide)}"
+                            HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}"
+                            IsScrollChainingEnabled="{TemplateBinding (ScrollViewer.IsScrollChainingEnabled)}"
+                            VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}">
+                <Panel>
+                  <!--  PART_Placeholder  -->
+                  <TextBlock Name="PART_Placeholder"
+                             HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                             VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                             Foreground="{TemplateBinding PlaceholderForeground}"
+                             Text="{TemplateBinding PlaceholderText}"
+                             TextAlignment="{TemplateBinding TextAlignment}"
+                             TextWrapping="{TemplateBinding TextWrapping}">
+                    <TextBlock.IsVisible>
+                      <MultiBinding Converter="{x:Static BoolConverters.And}">
+                        <Binding Converter="{x:Static StringConverters.IsNullOrEmpty}" ElementName="PART_TextPresenter" Path="PreeditText" />
+                        <Binding Converter="{x:Static StringConverters.IsNullOrEmpty}" Path="Text" RelativeSource="{RelativeSource TemplatedParent}" />
+                      </MultiBinding>
+                    </TextBlock.IsVisible>
+                  </TextBlock>
+                  <!--  PART_TextPresenter  -->
+                  <TextPresenter Name="PART_TextPresenter"
+                                 HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                 VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                 CaretBlinkInterval="{TemplateBinding CaretBlinkInterval}"
+                                 CaretBrush="{TemplateBinding CaretBrush}"
+                                 CaretIndex="{TemplateBinding CaretIndex}"
+                                 LineHeight="{TemplateBinding LineHeight}"
+                                 PasswordChar="{TemplateBinding PasswordChar}"
+                                 RevealPassword="{TemplateBinding RevealPassword}"
+                                 SelectionBrush="{TemplateBinding SelectionBrush}"
+                                 SelectionEnd="{TemplateBinding SelectionEnd}"
+                                 SelectionForegroundBrush="{TemplateBinding SelectionForegroundBrush}"
+                                 SelectionStart="{TemplateBinding SelectionStart}"
+                                 Text="{TemplateBinding Text,
+                                                        Mode=TwoWay}"
+                                 TextAlignment="{TemplateBinding TextAlignment}"
+                                 TextWrapping="{TemplateBinding TextWrapping}" />
+                </Panel>
+                <ScrollViewer.Styles>
+                  <Style Selector="ScrollContentPresenter#PART_ContentPresenter">
+                    <Setter Property="Cursor" Value="Ibeam" />
+                  </Style>
+                </ScrollViewer.Styles>
+              </ScrollViewer>
+              <!--  PART_ClearButton  -->
+              <Button Name="PART_ClearButton" Grid.Column="3"
+                      Command="{Binding $parent[TextBox].Clear}"
+                      Content="{DynamicResource IconButtonClearData}"
+                      Focusable="False" IsVisible="False"
+                      Theme="{StaticResource InnerIconButton}" />
+              <!--  RevealButton  -->
+              <ToggleButton Name="PART_RevealButton" Grid.Column="4" Margin="4,0,0,0"
+                            IsChecked="{TemplateBinding RevealPassword,
+                                                        Mode=TwoWay}"
+                            IsVisible="False"
+                            Theme="{StaticResource InputToggleButton}" />
+              <!--  InnerRightContent  -->
+              <ContentPresenter Grid.Column="5"
+                                Padding="{DynamicResource TextBoxInnerRightContentPadding}"
+                                VerticalAlignment="Center"
+                                Content="{TemplateBinding InnerRightContent}"
+                                Foreground="{DynamicResource TextBoxInnerForeground}"
+                                IsVisible="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=InnerRightContent, Converter={x:Static ObjectConverters.IsNotNull}}" />
+              <!--  PART_SearchButton  -->
+              <Button Name="PART_SearchButton" Grid.Column="6" MinHeight="20"
+                      Margin="3,0,-12,0" VerticalAlignment="Stretch" Classes="Tertiary"
+                      Command="{Binding $parent[SearchBar].Search}"
+                      Focusable="False" IsVisible="False"
+                      Theme="{DynamicResource BorderlessButton}"
+                      ToolTip.Tip="Click to Search">
+                <PathIcon Data="{DynamicResource SemiIconSearch}" Theme="{DynamicResource InnerPathIcon}" />
+              </Button>
+            </Grid>
+          </Border>
+        </DataValidationErrors>
+      </ControlTemplate>
+    </Setter>
+
+    <Style Selector="^:touch-mode">
+      <Setter Property="ContextFlyout" Value="{StaticResource HorizontalTextBoxContextFlyout}" />
+    </Style>
+
+    <Style Selector="^:pointerover /template/ Border#PART_ContentPresenterBorder">
+      <Setter Property="Background" Value="{DynamicResource TextBoxPointeroverBackground}" />
+      <Setter Property="BorderBrush" Value="{DynamicResource TextBoxPointeroverBorderBrush}" />
+    </Style>
+    <Style Selector="^:pressed /template/ Border#PART_ContentPresenterBorder">
+      <Setter Property="Background" Value="{DynamicResource TextBoxPressedBackground}" />
+    </Style>
+    <Style Selector="^:focus /template/ Border#PART_ContentPresenterBorder">
+      <Setter Property="BorderBrush" Value="{DynamicResource TextBoxFocusBorderBrush}" />
+    </Style>
+    <Style Selector="^:disabled /template/ Border#PART_ContentPresenterBorder">
+      <Setter Property="BorderBrush" Value="{DynamicResource TextBoxDisabledBorderBrush}" />
+      <Setter Property="Background" Value="{DynamicResource TextBoxDisabledBackground}" />
+    </Style>
+    <Style Selector="^:disabled">
+      <Setter Property="Foreground" Value="{DynamicResource TextBoxDisabledForeground}" />
+    </Style>
+
+    <Style Selector="^:error">
+      <Style Selector="^ /template/ Border#PART_ContentPresenterBorder">
+        <Setter Property="Background" Value="{DynamicResource DataValidationErrorsBackground}" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+      </Style>
+      <Style Selector="^:pointerover /template/ Border#PART_ContentPresenterBorder">
+        <Setter Property="Background" Value="{DynamicResource DataValidationErrorsPointeroverBackground}" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+      </Style>
+      <Style Selector="^:pressed /template/ Border#PART_ContentPresenterBorder">
+        <Setter Property="Background" Value="{DynamicResource DataValidationErrorsPressedBackground}" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+      </Style>
+      <Style Selector="^:focus /template/ Border#PART_ContentPresenterBorder">
+        <Setter Property="Background" Value="{DynamicResource DataValidationErrorsSelectedBackground}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource DataValidationErrorsSelectedBorderBrush}" />
+      </Style>
+    </Style>
+
+    <Style Selector="^.filterButton, ^.FilterButton">
+      <Style Selector="^[AcceptsReturn=False][IsReadOnly=False]">
+        <!-- <Style Selector="^:pointerover,^:focus"> -->
+        <Style Selector="^ /template/ StackPanel#PART_FilterContainer">
+          <Setter Property="IsVisible" Value="True" />
+        </Style>
+        <!-- </Style> -->
+      </Style>
+    </Style>
+
+    <Style Selector="^.clearButton, ^.ClearButton">
+      <Style Selector="^[AcceptsReturn=False][IsReadOnly=False]:not(:empty)">
+        <Style Selector="^:pointerover,^:focus">
+          <Style Selector="^ /template/ Button#PART_ClearButton">
+            <Setter Property="IsVisible" Value="True" />
+          </Style>
+        </Style>
+      </Style>
+    </Style>
+
+    <Style Selector="^.searchButton, ^.SearchButton">
+      <Style Selector="^[AcceptsReturn=False][IsReadOnly=False]">
+        <!-- <Style Selector="^:pointerover,^:focus"> -->
+        <Style Selector="^ /template/ Button#PART_SearchButton">
+          <Setter Property="IsVisible" Value="True" />
+        </Style>
+        <!-- </Style> -->
+      </Style>
+    </Style>
+
+    <Style Selector="^.Large, ^.large">
+      <Setter Property="MinHeight" Value="{DynamicResource TextBoxLargeHeight}" />
+    </Style>
+    <Style Selector="^.Small, ^.small">
+      <Setter Property="MinHeight" Value="{DynamicResource TextBoxSmallHeight}" />
+    </Style>
+
+    <Style Selector="^.Bordered, ^.bordered">
+      <Setter Property="Background" Value="{DynamicResource TextBoxBorderedDefaultBackground}" />
+      <Setter Property="BorderBrush" Value="{DynamicResource TextBoxBorderedDefaultBorderBrush}" />
+      <Style Selector="^:pointerover /template/ Border#PART_ContentPresenterBorder">
+        <Setter Property="Background" Value="{DynamicResource TextBoxBorderedPointeroverBackground}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource TextBoxBorderedPointeroverBorderBrush}" />
+      </Style>
+      <Style Selector="^:focus">
+        <Setter Property="Background" Value="{DynamicResource TextBoxBorderedPointeroverBackground}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource TextBoxBorderedPointeroverBorderBrush}" />
+      </Style>
+      <Style Selector="^:disabled /template/ Border#PART_ContentPresenterBorder">
+        <Setter Property="Background" Value="{DynamicResource TextBoxDisabledBackground}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource TextBoxDisabledBorderBrush}" />
+      </Style>
+
+      <Style Selector="^:error">
+        <Style Selector="^ /template/ Border#PART_ContentPresenterBorder">
+          <Setter Property="Background" Value="{DynamicResource DataValidationErrorsBackground}" />
+          <Setter Property="BorderBrush" Value="{DynamicResource DataValidationErrorsBorderBrush}" />
+        </Style>
+        <Style Selector="^:pointerover /template/ Border#PART_ContentPresenterBorder">
+          <Setter Property="Background" Value="{DynamicResource DataValidationErrorsPointeroverBackground}" />
+          <Setter Property="BorderBrush" Value="{DynamicResource DataValidationErrorsPointeroverBorderBrush}" />
+        </Style>
+        <Style Selector="^:pressed /template/ Border#PART_ContentPresenterBorder">
+          <Setter Property="Background" Value="{DynamicResource DataValidationErrorsPressedBackground}" />
+          <Setter Property="BorderBrush" Value="{DynamicResource DataValidationErrorsPressedBorderBrush}" />
+        </Style>
+        <Style Selector="^:focus /template/ Border#PART_ContentPresenterBorder">
+          <Setter Property="Background" Value="{DynamicResource DataValidationErrorsSelectedBackground}" />
+          <Setter Property="BorderBrush" Value="{DynamicResource DataValidationErrorsSelectedBorderBrush}" />
+        </Style>
+      </Style>
+    </Style>
+  </ControlTheme>
+
+</ResourceDictionary>

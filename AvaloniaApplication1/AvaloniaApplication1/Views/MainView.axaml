@@ -111,7 +111,7 @@
     <!--  Header  -->
     <ThemeVariantScope Grid.Row="0" RequestedThemeVariant="Dark">
       <Grid>
-        <Image Source="/Assets/header-bg.png" Stretch="UniformToFill" />
+        <Image Source="/Assets/Img/header-bg.png" Stretch="UniformToFill" />
         <DockPanel LastChildFill="False">
           <!--  Left Contents  -->
           <StackPanel DockPanel.Dock="Left" Orientation="Horizontal">

@@ -2,9 +2,9 @@
 using Avalonia.Controls;
 using Avalonia.Controls.Notifications;
 using Avalonia.Interactivity;
-using Avalonia.Markup.Xaml;
-using AvaloniaApplication1.Tools.Helper;
-using AvaloniaApplication1.Tools.ListBoxLogger;
+using AvaloniaApplication1.Controls;
+using AvaloniaApplication1.Data;
+using AvaloniaApplication1.Tools.ListBoxLog;
 using AvaloniaApplication1.ViewModels;
 using CommunityToolkit.Mvvm.Messaging;
 using Ursa.Controls;
@@ -24,6 +24,10 @@ public partial class StylePreviewPage : UserControl
         base.OnAttachedToVisualTree(e);
     }
 
+    /// <summary>
+    /// 离开可视树时的逻辑
+    /// </summary>
+    /// <param name="e"></param>
     protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)
     {
         base.OnDetachedFromVisualTree(e);
@@ -31,9 +35,7 @@ public partial class StylePreviewPage : UserControl
 
     private void OnLoaded(object? sender, RoutedEventArgs e)
     {
-        // 获取 LoggerName
-        string loggerName = ((StylePreviewPageViewModel)DataContext).LoggerName;
-        WeakReferenceMessenger.Default.Register<string, string>(this, loggerName, MessageHandler);
+        WeakReferenceMessenger.Default.Register<string, string>(this, MessageToken.ListBoxLogger_StylePreviewPage, MessageHandler);
         
     }
     
@@ -43,7 +45,7 @@ public partial class StylePreviewPage : UserControl
         switch (strArray[0])
         {
             // 处理来自 ListBoxLogger.cs.LogListBox_DoubleTapped() 的 Message
-            case "ListBoxLogger_StylePreviewPage":
+            case MessageToken.ListBoxLogger_StylePreviewPage:
                 App.WindowToastManager?.Show(
                     new Toast(strArray[1]),
                     type: NotificationType.Information,
@@ -55,8 +57,15 @@ public partial class StylePreviewPage : UserControl
         }
     }
 
-    #region Click
+    private void Button_Test_OnClick(object? sender, RoutedEventArgs e)
+    {
+        // var a = ListBox_Log.Items;
+        var b = "Success".Substring(0, 3);
+        
+        return;
+    }
 
+    #region Event
     private void Button_ToggleSplitView1_OnClick(object? sender, RoutedEventArgs e)
     {
         SplitView_Demo1.IsPaneOpen = !SplitView_Demo1.IsPaneOpen;
@@ -65,13 +74,58 @@ public partial class StylePreviewPage : UserControl
     {
         SplitView_Demo2.IsPaneOpen = !SplitView_Demo2.IsPaneOpen;
     }
-
-
-    #endregion Click
-
-
-    #region Method
     
+    
+    #region ListBoxLogger
+    private void Button_RegisterLogListBox_OnClick(object? sender, RoutedEventArgs e)
+    {
+        ListBoxLoggerManager.Logger.RegisterListBoxLogger(MessageToken.ListBoxLogger_StylePreviewPage, ListBox_MainLogger, ListBox_MainLogger_bak); 
+        ((StylePreviewPageViewModel)DataContext).ListBoxLogger = ListBoxLoggerManager.Logger.GetLoggerByName(MessageToken.ListBoxLogger_StylePreviewPage);
+        
+        App.WindowToastManager?.Show(
+            new Toast("注册成功"),
+            type: NotificationType.Success,
+            showIcon: true,
+            showClose: true,
+            onClose: OnToastClose,
+            classes: ["Light"]);
+    }
+    #endregion ListBoxLogger
+
+    #region SearchBar | TextBox
+    private void SearchBar_OnSearchStarted(object? sender, FunctionEventArgs<string> e)
+    {
+        string keyword = e.Info;
+        
+        App.WindowToastManager?.Show(
+            new Toast($"[Event SearchBar_OnSearchStarted] 参数：{e.Info}"),
+            type: NotificationType.Information,
+            showIcon: true,
+            showClose: true,
+            onClose: OnToastClose,
+            classes: ["Light"]);
+    }
+    private void SearchBar_OnCleared(object? sender, RoutedEventArgs e)
+    {
+        App.WindowToastManager?.Show(
+            new Toast($"[Event SearchBar_OnCleared] SearchBar content cleared"),
+            type: NotificationType.Information,
+            showIcon: true,
+            showClose: true,
+            onClose: OnToastClose,
+            classes: ["Light"]);
+    }
+    #endregion SearchBar | TextBox
+
+
+    #endregion Event
+    
+    
+
+
+
+    
+    #region Method
     private void OnToastClose(MessageCloseReason closeReason)
     {
         var reason = closeReason;
@@ -79,5 +133,5 @@ public partial class StylePreviewPage : UserControl
     
 
     #endregion Method
-    
+
 }

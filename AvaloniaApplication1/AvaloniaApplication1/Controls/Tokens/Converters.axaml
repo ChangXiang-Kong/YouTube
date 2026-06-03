@@ -1,0 +1,30 @@
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:acvt="using:Avalonia.Controls.Converters"
+                    xmlns:cvt="using:AvaloniaApplication1.Controls.Converters"
+                    xmlns:globalization="using:System.Globalization"
+                    xmlns:pc="using:Avalonia.Controls.Primitives.Converters">
+  <pc:ContrastBrushConverter x:Key="ContrastBrushConverter" />
+  <pc:AccentColorConverter x:Key="AccentColorConverter" />
+
+  <acvt:ColorToDisplayNameConverter x:Key="ColorToDisplayNameConverter" />
+  <acvt:DoNothingForNullConverter x:Key="DoNothingForNullConverter" />
+  <acvt:ToBrushConverter x:Key="ToBrushConverter" />
+  <acvt:ColorToHexConverter x:Key="ColorToHexConverter" AlphaPosition="Trailing" IsAlphaVisible="True" />
+
+  <acvt:EnumToBoolConverter x:Key="EnumToBoolConverter" />
+
+  <globalization:NumberFormatInfo x:Key="ColorViewComponentNumberFormat" NumberDecimalDigits="0" />
+
+
+
+  <cvt:BoolToBoldFontConverter x:Key="BoolToBoldFontConverter" />
+  <cvt:IconNameConverter x:Key="IconNameConverter" />
+  <cvt:IconNameToPathConverter x:Key="IconNameToPathConverter" />
+  <cvt:LogTypeToForegroundConverter x:Key="LogTypeToForegroundConverter" />
+  <cvt:MultiBindingValueConcatToStringConverter x:Key="MultiBindingValueConcatToStringConverter" />
+  <cvt:SubstringConverter x:Key="SubstringConverter" />
+  <cvt:TimelineIconConverter x:Key="TimelineIconConverter" />
+
+
+</ResourceDictionary>

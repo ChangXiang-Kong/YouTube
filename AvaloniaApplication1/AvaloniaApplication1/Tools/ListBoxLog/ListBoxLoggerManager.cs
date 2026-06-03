@@ -2,54 +2,54 @@
 using System.Collections.Concurrent;
 using Avalonia.Controls;
 
-namespace AvaloniaApplication1.Tools.ListBoxLogger;
+namespace AvaloniaApplication1.Tools.ListBoxLog;
 
-public class ListBoxLogManager
+public class ListBoxLoggerManager
 {
-    public ListBoxLogManager() { }
-    private static readonly Lazy<ListBoxLogManager> _instance = new Lazy<ListBoxLogManager>(() => new ListBoxLogManager());
-    public static ListBoxLogManager Logger => _instance.Value;
+    public ListBoxLoggerManager() { }
+    private static readonly Lazy<ListBoxLoggerManager> _instance = new Lazy<ListBoxLoggerManager>(() => new ListBoxLoggerManager());
+    public static ListBoxLoggerManager Logger => _instance.Value;
 
-    private readonly ConcurrentDictionary<string, ListBoxLog> _loggers = new();
+    private readonly ConcurrentDictionary<string, ListBoxLogger> _loggers = new();
 
     /// <summary>
-    /// 绑定日志ListBox
+    /// 绑定 ListBox
     /// </summary>
-    /// <param name="loggerName">目标日志列表</param>
-    /// <param name="listBox">目标日志列表</param>
-    public bool TryRegisterLogListBox(string loggerName, ListBox listBox, bool desc = false)
+    /// <param name="loggerName"></param>
+    /// <param name="primaryListBox">主ListBox（显示全部日志）</param>
+    /// <param name="secondListBox">副ListBox（显示过滤后的日志）</param>
+    /// <exception cref="ArgumentNullException"></exception>
+    public void RegisterListBoxLogger(string loggerName, ListBox primaryListBox, ListBox secondListBox)
     {
         if (string.IsNullOrWhiteSpace(loggerName))
-            throw new ArgumentNullException(nameof(loggerName), "Param cannot be null");
-        if (listBox == null)
-            throw new ArgumentNullException(nameof(listBox), "Param cannot be null");
+            throw new ArgumentNullException(nameof(loggerName), "LoggerName can not be null");
+        
+        if (primaryListBox == null)
+            throw new ArgumentNullException(nameof(primaryListBox), "Logger can not be null");
+        if (secondListBox == null)
+            throw new ArgumentNullException(nameof(secondListBox), "Logger can not be null");
 
-        return _loggers.TryAdd(loggerName, new ListBoxLog(listBox, loggerName, desc));
+        _loggers.TryAdd(loggerName, new ListBoxLogger(loggerName, primaryListBox, secondListBox));
+        _loggers[loggerName].Clear();
     }
 
     /// <summary>
     /// 取消绑定日志ListBox
     /// </summary>
-    public void UnregisterLogListBox(string loggerName)
+    public void UnregisterListBoxLogger(string loggerName)
     {
-        var logger = GetLoggerByName(loggerName);
-
-        logger.UnregisterLogListBox();
+        GetLoggerByName(loggerName).UnregisterListBoxLogger();
         _loggers.TryRemove(loggerName, out _);
     }
     
-    public ListBoxLog GetLoggerByName(string loggerName)
+    public ListBoxLogger GetLoggerByName(string loggerName)
     {
         return _loggers.TryGetValue(loggerName, out var logger)
             ? logger
-            : throw new ArgumentException($"Logger {loggerName} not found. Possible reasons: LogListBox not registered or input a wrong param {nameof(loggerName)}");
+            : throw new ArgumentException($"Logger {loggerName} not found. Possible reasons: LogListBox not registered or input a wrong {nameof(loggerName)} param");
     }
 
-    public void Clear(string loggerName)
-    {
-        var logger = GetLoggerByName(loggerName);
-        logger.Clear();
-    }
+    public void ClearLoggerByName(string loggerName) => GetLoggerByName(loggerName).Clear();
 
     /// <summary>
     /// 添加一条日志
@@ -74,7 +74,6 @@ public class ListBoxLogManager
         bool boldTitleFont = false, bool boldSubTitleFont = false, bool boldOtherInfoFont = false, bool boldMessageFont = false, 
         bool showLogType = true, bool showDate = true, bool showTime = true, bool showMilliseconds = true, int millisecondsLength = 4)
     {
-        var logger = GetLoggerByName(loggerName);
         LogMessage logMessage = new()
         {
             LogType = logType,
@@ -92,7 +91,7 @@ public class ListBoxLogManager
             ShowMilliseconds = showMilliseconds,
             MillisecondsLength = millisecondsLength,
         };
-        logger.Log(logMessage);
+        GetLoggerByName(loggerName).Log(logMessage);
     }
 
     /// <summary>

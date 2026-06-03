@@ -3,23 +3,36 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Avalonia.Controls;
 using Avalonia.Controls.Notifications;
+using AvaloniaApplication1.Controls;
 using AvaloniaApplication1.Data;
-using AvaloniaApplication1.Tools.ListBoxLogger;
-using AvaloniaApplication1.Views;
+using AvaloniaApplication1.Tools.ListBoxLog;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Ursa.Controls;
 
 namespace AvaloniaApplication1.ViewModels;
 
-public partial class StylePreviewPageViewModel() : PageViewModel(ApplicationPageName.StylePreview)
+public partial class StylePreviewPageViewModel : PageViewModel
 {
-    [ObservableProperty] 
-    private ListBoxLog _listBoxLog;
-    
+    public StylePreviewPageViewModel() : base(ApplicationPageName.StylePreview)
+    {
+        #region Demo-SearchBox
+        FilterOptionsList =
+        [
+            new FilterOption { Name = "N1", Title = nameof(LogMessage.DateTimeStr), IsChecked = false, Count = 59 },
+            new FilterOption { Name = "N2", Title = nameof(LogMessage.LogType), IsChecked = false, Count = 0 },
+            new FilterOption { Name = "N3", Title = nameof(LogMessage.Title), IsChecked = false, Count = 12 },
+            new FilterOption { Name = "N4", Title = nameof(LogMessage.SubTitle), IsChecked = false, Count = 36 },
+            new FilterOption { Name = "N5", Title = nameof(LogMessage.OtherInfo), IsChecked = false, Count = 1 },
+            new FilterOption { Name = "N6", Title = nameof(LogMessage.Message), IsChecked = false, Count = 22 },
+        ];
+        #endregion Demo-SearchBox
+    }
+
     [ObservableProperty] 
     private string _greeting = "Welcome to Avalonia!";
-    
+
+    #region MenuItem
     [ObservableProperty]
     private MenuItem? _selectedMenuItem;
     
@@ -87,12 +100,78 @@ public partial class StylePreviewPageViewModel() : PageViewModel(ApplicationPage
 
         return items;
     }
+    #endregion MenuItem
 
 
-    #region LogDemo
 
-    public readonly string LoggerName = $"ListBoxLogger_{nameof(StylePreviewPage)}";
+    #region Demo-SearchBox
 
+    [ObservableProperty] private ObservableCollection<FilterOption> _filterOptionsList;
+
+    [RelayCommand]
+    private void FilterConfirm(object? obj)
+    {
+        // TODO: Refresh data source
+        if (obj == null)
+            return;
+        
+        // 获取已选中的筛选项
+        List<FilterOption> checkedFilterOptions = (obj as List<FilterOption>)!;
+        ListBoxLoggerManager.Logger.GetLoggerByName(MessageToken.ListBoxLogger_StylePreviewPage).FilterLogs(checkedFilterOptions);
+        
+        int i = 0;
+
+    }
+
+    private void GenerateFilteredLogs()
+    {
+        
+    }
+    
+    [RelayCommand]
+    private void Search(object obj)
+    {
+        var str = obj as string;
+        NotificationType notificationType = str switch
+        {
+            "Large" => NotificationType.Warning,
+            "Default" => NotificationType.Success,
+            "Small" => NotificationType.Information,
+            _ => NotificationType.Error
+        };
+        
+        App.WindowToastManager?.Show(
+            new Toast($"[Command Search] 参数：{str}"),
+            type: notificationType,
+            showIcon: true,
+            showClose: true,
+            onClose: OnToastClose,
+            classes: ["Light"]);
+    }
+
+    [RelayCommand]
+    private void ClearSearch()
+    {
+        // Some logic
+        
+        App.WindowToastManager?.Show(
+            new Toast($"[Command ClearSearch] SearchBar content cleared"),
+            type: NotificationType.Information,
+            showIcon: true,
+            showClose: true,
+            onClose: OnToastClose,
+            classes: ["Light"]);
+    }
+
+    #endregion Demo-SearchBox
+    
+    
+    
+    #region Demo-ListBoxLogger
+    // 1. 创建 Random 实例（不要频繁 new，建议全局/静态复用）
+    private static readonly Random _random = new Random();
+
+    public ListBoxLogger ListBoxLogger { get; set { SetProperty(ref field, value); IsLogListBoxRegistered = true; } }
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(RegisterButtonContent))] private bool _isLogListBoxRegistered;
     public string RegisterButtonContent => !IsLogListBoxRegistered ? "Register" : "Registered";
     [ObservableProperty] private string? _logTitle = "Title";
@@ -108,95 +187,121 @@ public partial class StylePreviewPageViewModel() : PageViewModel(ApplicationPage
     [ObservableProperty] private bool _showTime = true;
     [ObservableProperty] private bool _showMilliseconds = true;
     [ObservableProperty] private int _millisecondsLength = 4;
+    
+    [ObservableProperty] private int _maxRandomNumber = 10;
 
-    [RelayCommand]
-    private void RegisterLogListBox(object? obj)
-    {
-        if (obj == null)
-            return;
-        
-        ListBox listBox = (obj as ListBox)!;
-        if (!ListBoxLogManager.Logger.TryRegisterLogListBox(LoggerName, listBox)) 
-            return;
-        
-        ListBoxLog = ListBoxLogManager.Logger.GetLoggerByName(LoggerName);
-        IsLogListBoxRegistered = true;
-        App.WindowToastManager?.Show(
-            new Toast("注册成功"),
-            type: NotificationType.Success,
-            showIcon: true,
-            showClose: true,
-            onClose: OnToastClose,
-            classes: ["Light"]);
-    }
     [RelayCommand]
     private void ClearLog()
     {
-        ListBoxLogManager.Logger.Clear(LoggerName);
+        ListBoxLoggerManager.Logger.ClearLoggerByName(MessageToken.ListBoxLogger_StylePreviewPage);
     }
     [RelayCommand]
     private void NewTipLog()
     {
-        ListBoxLogManager.Logger.TipLog(LoggerName, 
-            LogTitle, LogSubTitle, OtherInfo, Message, 
-            BoldTitleFont, BoldSubTitleFont, BoldOtherInfoFont, BoldMessageFont,
-            ShowLogType, ShowDate, ShowTime, ShowMilliseconds, MillisecondsLength);
+        // 2. 生成 1~10 随机整数
+        // Random.Next(minValue, maxValue) 规则：左闭右开，即包含最小值、不包含最大值。
+        // 要生成 1 ~ 10（含两端），需要写成 Next(1, 11)。
+        var random = _random.Next(1, MaxRandomNumber + 1);
+        int i = 0;
+        while (i < random)
+        {
+            ListBoxLoggerManager.Logger.TipLog(MessageToken.ListBoxLogger_StylePreviewPage, 
+                LogTitle, LogSubTitle, OtherInfo, Message, 
+                BoldTitleFont, BoldSubTitleFont, BoldOtherInfoFont, BoldMessageFont,
+                ShowLogType, ShowDate, ShowTime, ShowMilliseconds, MillisecondsLength);
+            i++;
+        }
     }
     [RelayCommand]
     private void NewDefaultLog()
     {
-        ListBoxLogManager.Logger.DefaultLog(LoggerName, 
-            LogTitle, LogSubTitle, OtherInfo, Message, 
-            BoldTitleFont, BoldSubTitleFont, BoldOtherInfoFont, BoldMessageFont,
-            ShowLogType, ShowDate, ShowTime, ShowMilliseconds, MillisecondsLength);
+        var random = _random.Next(1, MaxRandomNumber + 1);
+        int i = 0;
+        while (i < random)
+        {
+            ListBoxLoggerManager.Logger.DefaultLog(MessageToken.ListBoxLogger_StylePreviewPage, 
+                LogTitle, LogSubTitle, OtherInfo, Message, 
+                BoldTitleFont, BoldSubTitleFont, BoldOtherInfoFont, BoldMessageFont,
+                ShowLogType, ShowDate, ShowTime, ShowMilliseconds, MillisecondsLength);
+            i++;
+        }
     }
     [RelayCommand]
     private void NewInfoLog()
     {
-        ListBoxLogManager.Logger.InfoLog(LoggerName, 
-            LogTitle, LogSubTitle, OtherInfo, Message, 
-            BoldTitleFont, BoldSubTitleFont, BoldOtherInfoFont, BoldMessageFont,
-            ShowLogType, ShowDate, ShowTime, ShowMilliseconds, MillisecondsLength);
+        var random = _random.Next(1, MaxRandomNumber + 1);
+        int i = 0;
+        while (i < random)
+        {
+            ListBoxLoggerManager.Logger.InfoLog(MessageToken.ListBoxLogger_StylePreviewPage, 
+                LogTitle, LogSubTitle, OtherInfo, Message, 
+                BoldTitleFont, BoldSubTitleFont, BoldOtherInfoFont, BoldMessageFont,
+                ShowLogType, ShowDate, ShowTime, ShowMilliseconds, MillisecondsLength);
+            i++;
+        }
     }
     [RelayCommand]
     private void NewSuccessLog()
     {
-        ListBoxLogManager.Logger.SuccessLog(LoggerName, 
-            LogTitle, LogSubTitle, OtherInfo, Message, 
-            BoldTitleFont, BoldSubTitleFont, BoldOtherInfoFont, BoldMessageFont,
-            ShowLogType, ShowDate, ShowTime, ShowMilliseconds, MillisecondsLength);
+        var random = _random.Next(1, MaxRandomNumber + 1);
+        int i = 0;
+        while (i < random)
+        {
+            ListBoxLoggerManager.Logger.SuccessLog(MessageToken.ListBoxLogger_StylePreviewPage, 
+                LogTitle, LogSubTitle, OtherInfo, Message, 
+                BoldTitleFont, BoldSubTitleFont, BoldOtherInfoFont, BoldMessageFont,
+                ShowLogType, ShowDate, ShowTime, ShowMilliseconds, MillisecondsLength);
+            i++;
+        }
     }
     [RelayCommand]
     private void NewWarningLog()
     {
-        ListBoxLogManager.Logger.WarningLog(LoggerName, 
-            LogTitle, LogSubTitle, OtherInfo, Message, 
-            BoldTitleFont, BoldSubTitleFont, BoldOtherInfoFont, BoldMessageFont,
-            ShowLogType, ShowDate, ShowTime, ShowMilliseconds, MillisecondsLength);
+        var random = _random.Next(1, MaxRandomNumber + 1);
+        int i = 0;
+        while (i < random)
+        {
+            ListBoxLoggerManager.Logger.WarningLog(MessageToken.ListBoxLogger_StylePreviewPage, 
+                LogTitle, LogSubTitle, OtherInfo, Message, 
+                BoldTitleFont, BoldSubTitleFont, BoldOtherInfoFont, BoldMessageFont,
+                ShowLogType, ShowDate, ShowTime, ShowMilliseconds, MillisecondsLength);
+            i++;
+        }
     }
     [RelayCommand]
     private void NewErrorLog()
     {
-        ListBoxLogManager.Logger.ErrorLog(LoggerName, 
-            LogTitle, LogSubTitle, OtherInfo, Message, 
-            BoldTitleFont, BoldSubTitleFont, BoldOtherInfoFont, BoldMessageFont,
-            ShowLogType, ShowDate, ShowTime, ShowMilliseconds, MillisecondsLength);
+        var random = _random.Next(1, MaxRandomNumber + 1);
+        int i = 0;
+        while (i < random)
+        {
+            ListBoxLoggerManager.Logger.ErrorLog(MessageToken.ListBoxLogger_StylePreviewPage, 
+                LogTitle, LogSubTitle, OtherInfo, Message, 
+                BoldTitleFont, BoldSubTitleFont, BoldOtherInfoFont, BoldMessageFont,
+                ShowLogType, ShowDate, ShowTime, ShowMilliseconds, MillisecondsLength);
+            i++;
+        }
     }
     [RelayCommand]
     private void NewFatalLog()
     {
-        ListBoxLogManager.Logger.FatalLog(LoggerName, 
-            LogTitle, LogSubTitle, OtherInfo, Message, 
-            BoldTitleFont, BoldSubTitleFont, BoldOtherInfoFont, BoldMessageFont,
-            ShowLogType, ShowDate, ShowTime, ShowMilliseconds, MillisecondsLength);
+        var random = _random.Next(1, MaxRandomNumber + 1);
+        int i = 0;
+        while (i < random)
+        {
+            ListBoxLoggerManager.Logger.FatalLog(MessageToken.ListBoxLogger_StylePreviewPage, 
+                LogTitle, LogSubTitle, OtherInfo, Message, 
+                BoldTitleFont, BoldSubTitleFont, BoldOtherInfoFont, BoldMessageFont,
+                ShowLogType, ShowDate, ShowTime, ShowMilliseconds, MillisecondsLength);
+            i++;
+        }
     }
-
-    #endregion LogDemo
 
     private void OnToastClose(MessageCloseReason closeReason)
     {
         var reason = closeReason;
     }
+    #endregion Demo-ListBoxLogger
 
     
     

@@ -11,12 +11,28 @@
     <StackPanel Margin="10" Spacing="10">
       <WrapPanel ItemSpacing="10">
         <TextBlock Width="220" VerticalAlignment="Center" Text="IconButton" />
-        <u:IconButton Width="36" Classes="Tertiary" Icon="{DynamicResource SemiIconArrowLeft}" />
-        <u:IconButton Width="36" Classes="Tertiary" Icon="{DynamicResource SemiIconArrowRight}" />
-        <u:IconButton Width="36" Classes="Tertiary" Icon="{DynamicResource SemiIconRefresh2}" Theme="{StaticResource BorderlessIconButton}" />
-        <u:IconButton Width="36" Classes="Tertiary" Icon="{DynamicResource SemiIconHomeStroked}" Theme="{StaticResource BorderlessIconButton}" />
-        <Button Width="20" Height="20" Content="{DynamicResource CalendarDatePickerIconGlyph}" Theme="{DynamicResource InnerIconButton}" />
-        <Button Content="{DynamicResource IconButtonClearData}" Theme="{DynamicResource InnerIconButton}" />
+        <Button Width="36" Classes="Tertiary" ToolTip.Tip="Button with inner PathIcon - Theme: InnerPathIcon">
+          <PathIcon Data="{DynamicResource SemiIconArrowLeft}" Theme="{DynamicResource InnerPathIcon}" />
+        </Button>
+        <Button Width="36" Classes="Tertiary" ToolTip.Tip="Button with inner PathIcon - Theme: PathIcon">
+          <PathIcon Data="{DynamicResource SemiIconArrowUp}" Theme="{DynamicResource PathIcon}" />
+        </Button>
+
+        <u:IconButton Width="36" Classes="Tertiary" Icon="{DynamicResource SemiIconArrowRight}" ToolTip.Tip="u:IconButton with Icon property - Theme: None" />
+        <u:IconButton Width="36" Classes="Tertiary"
+                      Icon="{DynamicResource SemiIconRefresh2}"
+                      Theme="{StaticResource BorderlessIconButton}"
+                      ToolTip.Tip="u:IconButton with Icon property - Theme: BorderlessIconButton" />
+        <u:IconButton Width="36" Classes="Tertiary"
+                      Icon="{DynamicResource SemiIconHomeStroked}"
+                      Theme="{StaticResource OutlineIconButton}"
+                      ToolTip.Tip="u:IconButton with Icon property - Theme: OutlineIconButton" />
+
+        <Button Width="20" Height="20"
+                Content="{DynamicResource CalendarDatePickerIconGlyph}"
+                Theme="{DynamicResource InnerIconButton}"
+                ToolTip.Tip="Button with Content property - Theme: InnerIconButton" />
+        <Button Content="{DynamicResource IconButtonClearData}" Theme="{DynamicResource InnerIconButton}" ToolTip.Tip="Button with Content property - Theme: InnerIconButton" />
       </WrapPanel>
       <WrapPanel ItemSpacing="10">
         <TextBlock Width="220" VerticalAlignment="Center" Text="Theme: None" />

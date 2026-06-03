@@ -1,7 +1,8 @@
-﻿namespace AvaloniaApplication1.Tools.ListBoxLogger;
+﻿namespace AvaloniaApplication1.Tools.ListBoxLog;
 
 public class LogMessage
 {
+    public string DateTimeStr { get; set; } = string.Empty;
     public LogType LogType { get; set; } = LogType.Tip;
     public string? Title { get; set; } = string.Empty;
     public string? SubTitle { get; set; } = string.Empty;

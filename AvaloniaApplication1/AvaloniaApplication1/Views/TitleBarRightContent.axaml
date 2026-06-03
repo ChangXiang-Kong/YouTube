@@ -125,7 +125,7 @@
         <MenuItem.HeaderTemplate>
           <DataTemplate>
             <StackPanel Orientation="Horizontal">
-              <Image Height="26" Margin="0,0,5,0" Source="/Assets/avatar.jpg" />
+              <Image Height="26" Margin="0,0,5,0" Source="/Assets/Img/avatar.jpg" />
               <TextBlock VerticalAlignment="Center" Text="你好我是畅想" />
             </StackPanel>
           </DataTemplate>
@@ -147,7 +147,7 @@
         <MenuItem.HeaderTemplate>
           <DataTemplate>
             <StackPanel Orientation="Horizontal">
-              <Image Height="26" Margin="0,0,5,0" Source="/Assets/avatar.jpg" />
+              <Image Height="26" Margin="0,0,5,0" Source="/Assets/Img/avatar.jpg" />
               <TextBlock VerticalAlignment="Center" Text="你好我是畅想" />
             </StackPanel>
           </DataTemplate>

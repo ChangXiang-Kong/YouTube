@@ -34,7 +34,6 @@
         <ResourceInclude Source="/Controls/Styles/_index.axaml" />
         <ResourceInclude Source="/Controls/Themes/Shared/_index.axaml" />
         <ResourceInclude Source="/Controls/Tokens/_index.axaml" />
-        <ResourceInclude Source="/Controls/Styles/Brushes.axaml" />
         <!-- <ResourceInclude Source="/Locale/zh-cn.axaml" /> -->
         <semi:Icons />
       </ResourceDictionary.MergedDictionaries>

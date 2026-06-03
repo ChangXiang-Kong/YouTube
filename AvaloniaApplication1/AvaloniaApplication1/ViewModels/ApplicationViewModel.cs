@@ -1,6 +1,7 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
+using AvaloniaApplication1.Data;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
@@ -29,7 +30,7 @@ public partial class ApplicationViewModel : ViewModelBase
     private void JumpTo(string header)
     {
         Activate();
-        WeakReferenceMessenger.Default.Send(header, "JumpTo");
+        WeakReferenceMessenger.Default.Send(header, MessageToken.JumpTo);
     }
 
     [RelayCommand]

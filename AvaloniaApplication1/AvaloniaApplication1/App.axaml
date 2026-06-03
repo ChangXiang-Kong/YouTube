@@ -81,7 +81,7 @@
   </NativeMenu.Menu>
   <TrayIcon.Icons>
     <TrayIcons>
-      <TrayIcon Command="{Binding ActivateCommand}" Icon="{OnPlatform Default=/Assets/irihi.ico, macOS=/Assets/irihi2.ico}" MacOSProperties.IsTemplateIcon="true" ToolTipText="AvaloniaApplication1 Demo">
+      <TrayIcon Command="{Binding ActivateCommand}" Icon="{OnPlatform Default=/Assets/Img/irihi.ico, macOS=/Assets/Img/irihi2.ico}" MacOSProperties.IsTemplateIcon="true" ToolTipText="AvaloniaApplication1 Demo">
         <TrayIcon.Menu>
           <NativeMenu>
             <NativeMenuItem Command="{Binding JumpToCommand}" CommandParameter="{Binding $self.Header}" Header="About Us" />
