@@ -117,7 +117,9 @@ public partial class StylePreviewPageViewModel : PageViewModel
         
         // 获取已选中的筛选项
         List<FilterOption> checkedFilterOptions = (obj as List<FilterOption>)!;
-        ListBoxLoggerManager.Logger.GetLoggerByName(MessageToken.ListBoxLogger_StylePreviewPage).FilterLogs(checkedFilterOptions);
+        // ListBoxLoggerManager.GetLoggerByName(MessageToken.ListBoxLogger_StylePreviewPage).FilterLogs(checkedFilterOptions);
+        ListBoxLogger.FilterLogs(checkedFilterOptions);
+        
         
         int i = 0;
 
@@ -174,10 +176,10 @@ public partial class StylePreviewPageViewModel : PageViewModel
     public ListBoxLogger ListBoxLogger { get; set { SetProperty(ref field, value); IsLogListBoxRegistered = true; } }
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(RegisterButtonContent))] private bool _isLogListBoxRegistered;
     public string RegisterButtonContent => !IsLogListBoxRegistered ? "Register" : "Registered";
-    [ObservableProperty] private string? _logTitle = "Title";
-    [ObservableProperty] private string? _logSubTitle = "SubTitle";
-    [ObservableProperty] private string? _otherInfo = "OtherInfo";
-    [ObservableProperty] private string? _message = "Message";
+    [ObservableProperty] private string _logTitle = "Title";
+    [ObservableProperty] private string _logSubTitle = "SubTitle";
+    [ObservableProperty] private string _otherInfo = "OtherInfo";
+    [ObservableProperty] private string _message = "Message";
     [ObservableProperty] private bool _boldTitleFont;
     [ObservableProperty] private bool _boldSubTitleFont;
     [ObservableProperty] private bool _boldOtherInfoFont;
@@ -193,7 +195,8 @@ public partial class StylePreviewPageViewModel : PageViewModel
     [RelayCommand]
     private void ClearLog()
     {
-        ListBoxLoggerManager.Logger.ClearLoggerByName(MessageToken.ListBoxLogger_StylePreviewPage);
+        // ListBoxLoggerManager.ClearAllLogs(MessageToken.ListBoxLogger_StylePreviewPage);
+        ListBoxLogger.ClearAllLogs();
     }
     [RelayCommand]
     private void NewTipLog()
@@ -205,7 +208,7 @@ public partial class StylePreviewPageViewModel : PageViewModel
         int i = 0;
         while (i < random)
         {
-            ListBoxLoggerManager.Logger.TipLog(MessageToken.ListBoxLogger_StylePreviewPage, 
+            ListBoxLoggerManager.TipLog(MessageToken.ListBoxLogger_StylePreviewPage, 
                 LogTitle, LogSubTitle, OtherInfo, Message, 
                 BoldTitleFont, BoldSubTitleFont, BoldOtherInfoFont, BoldMessageFont,
                 ShowLogType, ShowDate, ShowTime, ShowMilliseconds, MillisecondsLength);
@@ -219,8 +222,7 @@ public partial class StylePreviewPageViewModel : PageViewModel
         int i = 0;
         while (i < random)
         {
-            ListBoxLoggerManager.Logger.DefaultLog(MessageToken.ListBoxLogger_StylePreviewPage, 
-                LogTitle, LogSubTitle, OtherInfo, Message, 
+            ListBoxLogger.DefaultLog(LogTitle, LogSubTitle, OtherInfo, Message, 
                 BoldTitleFont, BoldSubTitleFont, BoldOtherInfoFont, BoldMessageFont,
                 ShowLogType, ShowDate, ShowTime, ShowMilliseconds, MillisecondsLength);
             i++;
@@ -233,8 +235,7 @@ public partial class StylePreviewPageViewModel : PageViewModel
         int i = 0;
         while (i < random)
         {
-            ListBoxLoggerManager.Logger.InfoLog(MessageToken.ListBoxLogger_StylePreviewPage, 
-                LogTitle, LogSubTitle, OtherInfo, Message, 
+            ListBoxLogger.InfoLog(LogTitle, LogSubTitle, OtherInfo, Message, 
                 BoldTitleFont, BoldSubTitleFont, BoldOtherInfoFont, BoldMessageFont,
                 ShowLogType, ShowDate, ShowTime, ShowMilliseconds, MillisecondsLength);
             i++;
@@ -247,8 +248,7 @@ public partial class StylePreviewPageViewModel : PageViewModel
         int i = 0;
         while (i < random)
         {
-            ListBoxLoggerManager.Logger.SuccessLog(MessageToken.ListBoxLogger_StylePreviewPage, 
-                LogTitle, LogSubTitle, OtherInfo, Message, 
+            ListBoxLogger.SuccessLog(LogTitle, LogSubTitle, OtherInfo, Message, 
                 BoldTitleFont, BoldSubTitleFont, BoldOtherInfoFont, BoldMessageFont,
                 ShowLogType, ShowDate, ShowTime, ShowMilliseconds, MillisecondsLength);
             i++;
@@ -261,8 +261,7 @@ public partial class StylePreviewPageViewModel : PageViewModel
         int i = 0;
         while (i < random)
         {
-            ListBoxLoggerManager.Logger.WarningLog(MessageToken.ListBoxLogger_StylePreviewPage, 
-                LogTitle, LogSubTitle, OtherInfo, Message, 
+            ListBoxLogger.WarningLog(LogTitle, LogSubTitle, OtherInfo, Message, 
                 BoldTitleFont, BoldSubTitleFont, BoldOtherInfoFont, BoldMessageFont,
                 ShowLogType, ShowDate, ShowTime, ShowMilliseconds, MillisecondsLength);
             i++;
@@ -275,8 +274,7 @@ public partial class StylePreviewPageViewModel : PageViewModel
         int i = 0;
         while (i < random)
         {
-            ListBoxLoggerManager.Logger.ErrorLog(MessageToken.ListBoxLogger_StylePreviewPage, 
-                LogTitle, LogSubTitle, OtherInfo, Message, 
+            ListBoxLogger.ErrorLog(LogTitle, LogSubTitle, OtherInfo, Message, 
                 BoldTitleFont, BoldSubTitleFont, BoldOtherInfoFont, BoldMessageFont,
                 ShowLogType, ShowDate, ShowTime, ShowMilliseconds, MillisecondsLength);
             i++;
@@ -289,12 +287,21 @@ public partial class StylePreviewPageViewModel : PageViewModel
         int i = 0;
         while (i < random)
         {
-            ListBoxLoggerManager.Logger.FatalLog(MessageToken.ListBoxLogger_StylePreviewPage, 
-                LogTitle, LogSubTitle, OtherInfo, Message, 
+            ListBoxLogger.FatalLog(LogTitle, LogSubTitle, OtherInfo, Message, 
                 BoldTitleFont, BoldSubTitleFont, BoldOtherInfoFont, BoldMessageFont,
                 ShowLogType, ShowDate, ShowTime, ShowMilliseconds, MillisecondsLength);
             i++;
         }
+    }
+    [RelayCommand]
+    private void GetLogs(LogType logType)
+    {
+        ListBoxLogger.GetLogsByLogType(logType);
+    }
+
+    private void Test()
+    {
+        
     }
 
     private void OnToastClose(MessageCloseReason closeReason)

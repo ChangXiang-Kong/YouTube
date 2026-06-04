@@ -4,6 +4,7 @@
              xmlns:cvt="using:AvaloniaApplication1.Controls.Converters"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:iri="https://irihi.tech/shared"
+             xmlns:logMsg="clr-namespace:AvaloniaApplication1.Tools.ListBoxLog"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:u="https://irihi.tech/ursa"
              xmlns:vm="using:AvaloniaApplication1.ViewModels"
@@ -389,7 +390,7 @@
             <!--  MaxLogCount  -->
             <StackPanel Grid.Row="6" Grid.Column="6">
               <TextBlock Text="MaxLogCount" />
-              <NumericUpDown FormatString="0" Maximum="200" Minimum="5" Value="{Binding ListBoxLogger.MaxLogCount}">
+              <NumericUpDown FormatString="0" Maximum="2000" Minimum="5" Value="{Binding ListBoxLogger.MaxLogCount}">
                 <ToolTip.Tip>
                   <StackPanel Background="Transparent">
                     <TextBlock Classes="h1" Text="显示的最大日志数量" />
@@ -454,16 +455,22 @@
               <!--  日志统计  -->
               <TextBlock VerticalAlignment="Center" Text="统计：" />
               <Button Margin="0,0,5,0" Classes="Colorful Primary"
+                      Command="{Binding GetLogsCommand}"
+                      CommandParameter="{x:Static logMsg:LogType.Total}"
                       Content="{Binding ListBoxLogger.TotalLogCount}"
                       Theme="{DynamicResource SolidButton}"
                       ToolTip.Tip="Total" />
               <Button Margin="0,0,5,0" Classes="Tertiary"
+                      Command="{Binding GetLogsCommand}"
+                      CommandParameter="{x:Static logMsg:LogType.Tip}"
                       Content="{Binding ListBoxLogger.LogCount_Tip}"
                       Theme="{DynamicResource SolidButton}"
                       ToolTip.Tip="Tip" />
               <Button Margin="0,0,5,0"
                       Background="{DynamicResource SemiColorText2}"
                       BorderBrush="Transparent"
+                      Command="{Binding GetLogsCommand}"
+                      CommandParameter="{x:Static logMsg:LogType.Default}"
                       Content="{Binding ListBoxLogger.LogCount_Default}"
                       Foreground="White" ToolTip.Tip="Default">
                 <Button.Styles>
@@ -476,22 +483,32 @@
                 </Button.Styles>
               </Button>
               <Button Margin="0,0,5,0" Classes="Infomation"
+                      Command="{Binding GetLogsCommand}"
+                      CommandParameter="{x:Static logMsg:LogType.Info}"
                       Content="{Binding ListBoxLogger.LogCount_Info}"
                       Theme="{DynamicResource SolidButton}"
                       ToolTip.Tip="Info" />
               <Button Margin="0,0,5,0" Classes="Success"
+                      Command="{Binding GetLogsCommand}"
+                      CommandParameter="{x:Static logMsg:LogType.Success}"
                       Content="{Binding ListBoxLogger.LogCount_Success}"
                       Theme="{DynamicResource SolidButton}"
                       ToolTip.Tip="Success" />
               <Button Margin="0,0,5,0" Classes="Warning"
+                      Command="{Binding GetLogsCommand}"
+                      CommandParameter="{x:Static logMsg:LogType.Warning}"
                       Content="{Binding ListBoxLogger.LogCount_Warning}"
                       Theme="{DynamicResource SolidButton}"
                       ToolTip.Tip="Warning" />
               <Button Margin="0,0,5,0" Classes="Danger"
+                      Command="{Binding GetLogsCommand}"
+                      CommandParameter="{x:Static logMsg:LogType.Error}"
                       Content="{Binding ListBoxLogger.LogCount_Error}"
                       Theme="{DynamicResource SolidButton}"
                       ToolTip.Tip="Error" />
               <Button Margin="0,0,5,0" Classes="Fatal"
+                      Command="{Binding GetLogsCommand}"
+                      CommandParameter="{x:Static logMsg:LogType.Fatal}"
                       Content="{Binding ListBoxLogger.LogCount_Fatal}"
                       Theme="{DynamicResource SolidButton}"
                       ToolTip.Tip="Fatal" />
@@ -570,15 +587,12 @@
 
               <!--  副ListBox（显示过滤后的日志）  -->
               <ListBox Name="ListBox_MainLogger_bak" Width="800" Height="500"
-                       Margin="50,0,0,0"
                        BorderBrush="{DynamicResource BorderCardBorderBrush}"
-                       BorderThickness="1" CornerRadius="6"
-                       IsVisible="{Binding ListBoxLogger.IsConfirmFiltering}" />
+                       BorderThickness="1" CornerRadius="6" IsVisible="False" />
               <!--  主ListBox（显示全部日志）  -->
               <ListBox Name="ListBox_MainLogger" Width="800" Height="500"
                        BorderBrush="{DynamicResource BorderCardBorderBrush}"
-                       BorderThickness="1" CornerRadius="6"
-                       IsVisible="{Binding !ListBoxLogger.IsConfirmFiltering}">
+                       BorderThickness="1" CornerRadius="6">
                 <StackPanel Tag="Tip">
                   <StackPanel Orientation="Horizontal">
                     <TextBlock Foreground="{DynamicResource TextBlockTertiaryForeground}" Text="[2026-05-31 12:42.1234] " />

@@ -4,10 +4,10 @@ public class LogMessage
 {
     public string DateTimeStr { get; set; } = string.Empty;
     public LogType LogType { get; set; } = LogType.Tip;
-    public string? Title { get; set; } = string.Empty;
-    public string? SubTitle { get; set; } = string.Empty;
-    public string? OtherInfo { get; set; } = string.Empty;
-    public string? Message { get; set; } = string.Empty;
+    public string Title { get; set; } = string.Empty;
+    public string SubTitle { get; set; } = string.Empty;
+    public string OtherInfo { get; set; } = string.Empty;
+    public string Message { get; set; } = string.Empty;
     public bool BoldTitleFont { get; set; } = false;
     public bool BoldSubTitleFont { get; set; } = false;
     public bool BoldOtherInfoFont { get; set; } = false;
@@ -32,6 +32,7 @@ public class LogMessage
 
 public enum LogType
 {
+    Total,
     Tip,
     Default,
     Info,

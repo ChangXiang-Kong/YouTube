@@ -79,11 +79,11 @@ public partial class StylePreviewPage : UserControl
     #region ListBoxLogger
     private void Button_RegisterLogListBox_OnClick(object? sender, RoutedEventArgs e)
     {
-        ListBoxLoggerManager.Logger.RegisterListBoxLogger(MessageToken.ListBoxLogger_StylePreviewPage, ListBox_MainLogger, ListBox_MainLogger_bak); 
-        ((StylePreviewPageViewModel)DataContext).ListBoxLogger = ListBoxLoggerManager.Logger.GetLoggerByName(MessageToken.ListBoxLogger_StylePreviewPage);
+        ListBoxLoggerManager.RegisterListBoxLogger(MessageToken.ListBoxLogger_StylePreviewPage, ListBox_MainLogger, ListBox_MainLogger_bak); 
+        ((StylePreviewPageViewModel)DataContext).ListBoxLogger = ListBoxLoggerManager.GetLoggerByName(MessageToken.ListBoxLogger_StylePreviewPage);
         
         App.WindowToastManager?.Show(
-            new Toast("注册成功"),
+            new Toast($"注册成功 {MessageToken.ListBoxLogger_StylePreviewPage}"),
             type: NotificationType.Success,
             showIcon: true,
             showClose: true,
