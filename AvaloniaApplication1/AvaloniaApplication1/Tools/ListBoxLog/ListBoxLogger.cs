@@ -31,7 +31,7 @@ public partial class ListBoxLogger : ObservableObject
         
         // 枚举全部初始化显示标记
         foreach (var type in Enum.GetValues<LogType>())
-            _logTypeShowState[type] = false;
+            _selectedLogType[type] = false;
     }
     
     private readonly DynamicResourceExtension _dynamicResourceTextBlockTertiaryForeground = new("TextBlockTertiaryForeground");
@@ -54,8 +54,7 @@ public partial class ListBoxLogger : ObservableObject
     /// </summary>
     private List<LogMessage> _logMessagesListCache = [];
     // 用字典存储各类型显示状态，去掉一堆_isShowingLogs_XXX零散字段
-    private readonly Dictionary<LogType, bool> _logTypeShowState = new();
-    private bool _isConfirmFiltering;
+    private readonly Dictionary<LogType, bool> _selectedLogType = new();
 
     /// <summary>
     /// 是否过滤日志，false 显示主ListBox（显示全部日志），true 显示副ListBox（显示过滤后的日志）
@@ -66,7 +65,7 @@ public partial class ListBoxLogger : ObservableObject
     /// false 按时间正排序；true 按时间倒排序
     /// </summary>
     [ObservableProperty] private bool _desc;
-    [ObservableProperty] private int _maxLogCount = 200;
+    [ObservableProperty] private int _maxLogCount = 500;
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(TotalLogCount))] private int _logCount_Tip;
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(TotalLogCount))] private int _logCount_Default;
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(TotalLogCount))] private int _logCount_Info;
@@ -163,8 +162,6 @@ public partial class ListBoxLogger : ObservableObject
         // Create a horizontal StackPanel for the timestamp and titles
         StackPanel headerPanel = new StackPanel { Orientation = Orientation.Horizontal };
 
-        string tempText = "";
-        
         // 统一获取当前时间，避免前后时间不一致
         var now = DateTime.Now;
         // Add timestamp if required
@@ -196,6 +193,8 @@ public partial class ListBoxLogger : ObservableObject
             headerPanel.Children.Add(typeText);
         // }
         
+        string tempText = "";
+
         // Add title
         if (!string.IsNullOrWhiteSpace(logMessage.Title))
         {
@@ -340,8 +339,8 @@ public partial class ListBoxLogger : ObservableObject
         Log(logMessage);
         
         // 在过滤时新增的日志处理逻辑
-        if (_logTypeShowState[LogType.Tip])
-            GetLogsByLogType(LogType.Tip, logMessage);
+        if (_selectedLogType[LogType.Tip])
+            FilterLogsByLogType(LogType.Tip, logMessage);
     }
 
     /// <summary>
@@ -384,8 +383,8 @@ public partial class ListBoxLogger : ObservableObject
         Log(logMessage);
         
         // 在过滤时新增的日志处理逻辑
-        if (_logTypeShowState[LogType.Default])
-            GetLogsByLogType(LogType.Default, logMessage);
+        if (_selectedLogType[LogType.Default])
+            FilterLogsByLogType(LogType.Default, logMessage);
     }
 
     /// <summary>
@@ -428,8 +427,8 @@ public partial class ListBoxLogger : ObservableObject
         Log(logMessage);
         
         // 在过滤时新增的日志处理逻辑
-        if (_logTypeShowState[LogType.Info])
-            GetLogsByLogType(LogType.Info, logMessage);
+        if (_selectedLogType[LogType.Info])
+            FilterLogsByLogType(LogType.Info, logMessage);
     }
 
     /// <summary>
@@ -472,8 +471,8 @@ public partial class ListBoxLogger : ObservableObject
         Log(logMessage);
         
         // 在过滤时新增的日志处理逻辑
-        if (_logTypeShowState[LogType.Success])
-            GetLogsByLogType(LogType.Success, logMessage);
+        if (_selectedLogType[LogType.Success])
+            FilterLogsByLogType(LogType.Success, logMessage);
     }
 
     /// <summary>
@@ -516,8 +515,8 @@ public partial class ListBoxLogger : ObservableObject
         Log(logMessage);
         
         // 在过滤时新增的日志处理逻辑
-        if (_logTypeShowState[LogType.Warning])
-            GetLogsByLogType(LogType.Warning, logMessage);
+        if (_selectedLogType[LogType.Warning])
+            FilterLogsByLogType(LogType.Warning, logMessage);
     }
 
     /// <summary>
@@ -560,8 +559,8 @@ public partial class ListBoxLogger : ObservableObject
         Log(logMessage);
         
         // 在过滤时新增的日志处理逻辑
-        if (_logTypeShowState[LogType.Error])
-            GetLogsByLogType(LogType.Error, logMessage);
+        if (_selectedLogType[LogType.Error])
+            FilterLogsByLogType(LogType.Error, logMessage);
     }
 
     /// <summary>
@@ -604,50 +603,129 @@ public partial class ListBoxLogger : ObservableObject
         Log(logMessage);
         
         // 在过滤时新增的日志处理逻辑
-        if (_logTypeShowState[LogType.Fatal])
-            GetLogsByLogType(LogType.Fatal, logMessage);
+        if (_selectedLogType[LogType.Fatal])
+            FilterLogsByLogType(LogType.Fatal, logMessage);
     }
-    
+
 
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="checkedFilterOptions"></param>
+    /// <param name="filterOptions">过滤项集合</param>
+    /// <param name="keyword">搜索的关键字</param>
     /// <exception cref="ArgumentNullException"></exception>
-    public void FilterLogs(List<FilterOption>? checkedFilterOptions)
+    public void SearchLogs(string keyword, IEnumerable<FilterOption> filterOptions)
     {
-        if (_primaryListBoxLogger == null)
-            throw new ArgumentNullException(nameof(_primaryListBoxLogger), "LogListBox not registered");
         if (_secondListBoxLogger == null)
             throw new ArgumentNullException(nameof(_secondListBoxLogger), "LogListBox not registered");
 
-        // 是否已过滤日志，
-        _isConfirmFiltering = (checkedFilterOptions != null && checkedFilterOptions.Count != 0);
-        _primaryListBoxLogger.IsVisible = !_isConfirmFiltering;
-        _secondListBoxLogger.IsVisible = _isConfirmFiltering;
+        // 未输入关键字 或 没有日志时，不搜索
+        if (string.IsNullOrWhiteSpace(keyword) || _logMessagesListCache.Count == 0)
+        {
+            UpdateLoggerVisible(isPrimaryListBoxLoggerVisible: true);
+            return;
+        }
         
-        // TODO: 未完成
+        UpdateLoggerVisible(isPrimaryListBoxLoggerVisible: false);
+    
+        // var c = default(LogType);   // Total
+        var selectedLogType = _selectedLogType.FirstOrDefault(x => x.Value).Key;
         
-        // 组合条件
-        List<LogMessage> filteredResults = _logMessagesListCache!.Where(x => x.LogType == LogType.Success).ToList();
+        // 组合条件过滤日志
+        List<LogMessage> filteredResults = new();
+        // 查看全部日志时
+        if (selectedLogType == LogType.Total)
+        {
+            foreach (var filterOption in filterOptions)
+            {
+                if (filterOption.IsChecked)
+                {
+                    switch (filterOption.Title)
+                    {
+                        case nameof(LogMessage.DateTimeStr):
+                            filteredResults.AddRange(_logMessagesListCache.Where(x => x.DateTimeStr.Contains(keyword)));
+                            break;
+                        case nameof(LogMessage.Title):
+                            filteredResults.AddRange(_logMessagesListCache.Where(x =>  x.Title.Contains(keyword)));
+                            break;
+                        case nameof(LogMessage.SubTitle):
+                            filteredResults.AddRange(_logMessagesListCache.Where(x => x.SubTitle.Contains(keyword)));
+                            break;
+                        case nameof(LogMessage.OtherInfo):
+                            filteredResults.AddRange(_logMessagesListCache.Where(x => x.OtherInfo.Contains(keyword)));
+                            break;
+                        case nameof(LogMessage.Message):
+                            filteredResults.AddRange(_logMessagesListCache.Where(x => x.Message.Contains(keyword)));
+                            break;
+                    }
+                }
+            }
+        }
+        // 查看特定类型日志时
+        else
+        {
+            foreach (var filterOption in filterOptions)
+            {
+                if (filterOption.IsChecked)
+                {
+                    switch (filterOption.Title)
+                    {
+                        case nameof(LogMessage.DateTimeStr):
+                            filteredResults.AddRange(_logMessagesListCache.Where(x => x.LogType == selectedLogType && x.DateTimeStr.Contains(keyword)));
+                            break;
+                        case nameof(LogMessage.Title):
+                            filteredResults.AddRange(_logMessagesListCache.Where(x => x.LogType == selectedLogType && x.Title.Contains(keyword)));
+                            break;
+                        case nameof(LogMessage.SubTitle):
+                            filteredResults.AddRange(_logMessagesListCache.Where(x => x.LogType == selectedLogType && x.SubTitle.Contains(keyword)));
+                            break;
+                        case nameof(LogMessage.OtherInfo):
+                            filteredResults.AddRange(_logMessagesListCache.Where(x => x.LogType == selectedLogType && x.OtherInfo.Contains(keyword)));
+                            break;
+                        case nameof(LogMessage.Message):
+                            filteredResults.AddRange(_logMessagesListCache.Where(x => x.LogType == selectedLogType && x.Message.Contains(keyword)));
+                            break;
+                    }
+                }
+            }
+        }
         
-        if (_isConfirmFiltering && filteredResults.Count > 0)
+        if (filteredResults.Count > 0)
         {
             _secondListBoxLogger.Items.Clear();
-            foreach (var oldLogMessage in filteredResults)
+            foreach (var oldLogMessage in filteredResults.Distinct())   // Distinct() 去重
             {
                 RestoreLogFromOldLogMessage(oldLogMessage);
             }
         }
+        else
+        {
+            // 未找到符合项时清空
+            _secondListBoxLogger.Items.Clear();
+        }
+        filteredResults.Clear();
+        
+        if(_secondListBoxLogger.Items.Count == 0) 
+            return;
+        // _secondListBoxLogger 滚动到最新日志
+        _secondListBoxLogger.Dispatcher.InvokeAsync(() =>
+        {
+            object selectItem = !Desc 
+                ? _secondListBoxLogger.Items[^1]! // 正序：最后一条
+                : _secondListBoxLogger.Items[0]!; // 倒序：第一条
+            
+            _secondListBoxLogger.SelectedItem = selectItem;
+            _secondListBoxLogger.ScrollIntoView(selectItem);
+        });
     }
 
     /// <summary>
-    /// 获取指定类型的日志
+    /// 过滤指定类型的日志
     /// </summary>
     /// <param name="logType"></param>
     /// <param name="newLogWhenFiltering">不需要传入该参数，该参数仅是为了方便（非 null 表示是在过滤时新增的日志）</param>
     /// <exception cref="ArgumentNullException"></exception>
-    public void GetLogsByLogType(LogType logType, LogMessage? newLogWhenFiltering = null)
+    public void FilterLogsByLogType(LogType logType, LogMessage? newLogWhenFiltering = null)
     {
         if (_primaryListBoxLogger == null)
             throw new ArgumentNullException(nameof(_primaryListBoxLogger), "LogListBox not registered");
@@ -660,17 +738,32 @@ public partial class ListBoxLogger : ObservableObject
         if (callingType != typeof(ListBoxLogger))
             newLogWhenFiltering = null;
         
+        // 正常过滤日志（非过滤时新增日志）
         if (newLogWhenFiltering == null)
         {
-            // 已经是当前选中类型，直接退出（防重复点击刷新）
-            if (_logTypeShowState[logType])
+            var count = logType switch
+            {
+                LogType.Tip => LogCount_Tip,
+                LogType.Default => LogCount_Default,
+                LogType.Info => LogCount_Info,
+                LogType.Success => LogCount_Success,
+                LogType.Warning => LogCount_Warning,
+                LogType.Error => LogCount_Error,
+                LogType.Fatal => LogCount_Fatal,
+                _ => TotalLogCount
+            };
+            var isSearching = _secondListBoxLogger.Items.Count < count;
+            
+            // 已经是当前选中类型，并且没有进行搜索，直接退出（防重复点击刷新）
+            if (_selectedLogType[logType] && !isSearching)
                 return;
             
             // 全部置false，仅当前选中类型置true（替换一堆赋值）
-            foreach (var kv in _logTypeShowState.ToList())
-                _logTypeShowState[kv.Key] = false;
-            _logTypeShowState[logType] = true;
+            foreach (var kv in _selectedLogType.ToList())
+                _selectedLogType[kv.Key] = false;
+            _selectedLogType[logType] = true;
 
+            // 全部日志
             if (logType == LogType.Total)
             {
                 UpdateLoggerVisible(isPrimaryListBoxLoggerVisible: true);
@@ -710,6 +803,7 @@ public partial class ListBoxLogger : ObservableObject
         }
         else
         {
+            // newLogWhenFiltering 非 null 表示是在过滤时新增的日志
             RestoreLogFromOldLogMessage(newLogWhenFiltering);
         }
         
@@ -755,17 +849,26 @@ public partial class ListBoxLogger : ObservableObject
         // Create a horizontal StackPanel for the timestamp and titles
         StackPanel headerPanel = new StackPanel { Orientation = Orientation.Horizontal };
 
-        string tempText = "";
-        string demoDateTimeStr = "2026-05-31 12:42.1234";
-        
-        var parts = oldLogMessage.DateTimeStr.Split(new char[] { ' ', '.' }, StringSplitOptions.RemoveEmptyEntries);
-        string dateStr = parts[0];                  // "2026-05-31"
-        string timeStr = parts[1];                  // "12:42"
-        string millisecondsStr = $".{parts[2]}";    // ".1234"
-        
         // Add timestamp if required
         if (oldLogMessage.ShowDate || oldLogMessage.ShowTime)
         {
+            string demoDateTimeStr = "2026-05-31 12:42.1234";
+            var parts = oldLogMessage.DateTimeStr.Split(new char[] { ' ', '.' }, StringSplitOptions.RemoveEmptyEntries);
+            string dateStr = "";
+            string timeStr = "";
+            string millisecondsStr = "";
+            if (parts.Length == 3)
+            {
+                dateStr = parts[0];                  // "2026-05-31"
+                timeStr = parts[1];                  // "12:42"
+                millisecondsStr = $".{parts[2]}";    // ".1234"
+            }
+            else if (parts.Length == 2)
+            {
+                timeStr = parts[0];                  // "12:42"
+                millisecondsStr = $".{parts[1]}";    // ".1234"
+            }
+        
             string timestamp = "";
             if (oldLogMessage.ShowDate) 
                 timestamp += dateStr;
@@ -792,6 +895,7 @@ public partial class ListBoxLogger : ObservableObject
             headerPanel.Children.Add(typeText);
         // }
         
+        string tempText = "";
         // Add title
         if (!string.IsNullOrWhiteSpace(oldLogMessage.Title))
         {
@@ -840,18 +944,7 @@ public partial class ListBoxLogger : ObservableObject
         logEntry.Children.Add(messageText);
 
         // Add the log entry to the ListBox
-        if (!Desc)
-        {
-            // 降序
-            // 添加日志
-            _secondListBoxLogger.Items.Insert(0, logEntry);
-        }
-        else
-        {
-            // 升序
-            // 添加日志
-            _secondListBoxLogger.Items.Add(logEntry);
-        }
+        _secondListBoxLogger.Items.Add(logEntry);
     }
 
     /// <summary>
@@ -859,7 +952,6 @@ public partial class ListBoxLogger : ObservableObject
     /// </summary>
     public void ClearAllLogs()
     {
-        _isConfirmFiltering = false;
         UpdateLoggerVisible(isPrimaryListBoxLoggerVisible: true);
         _primaryListBoxLogger?.Items.Clear();
         _secondListBoxLogger?.Items.Clear();

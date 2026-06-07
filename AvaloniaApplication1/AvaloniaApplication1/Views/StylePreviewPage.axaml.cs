@@ -60,7 +60,11 @@ public partial class StylePreviewPage : UserControl
     private void Button_Test_OnClick(object? sender, RoutedEventArgs e)
     {
         // var a = ListBox_Log.Items;
-        var b = "Success".Substring(0, 3);
+        // var b = "Success".Substring(0, 3);  // "Suc"
+        // var c = default(LogType);   // Total
+        var d = ListBox_MainLogger.Classes;
+        var ee = ListBox_MainLogger;
+        ee.Margin = new Thickness(50, 0, 0, 0);
         
         return;
     }

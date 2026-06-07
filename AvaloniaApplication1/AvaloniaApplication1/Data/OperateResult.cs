@@ -90,7 +90,7 @@ namespace AvaloniaApplication1.Data
         /// <summary>
         /// 结果码（可根据需求自定义成功或者失败的结果码）
         /// </summary>
-        public int Code { get; protected set; } = 10000;
+        public int Code { get; protected set; }
         /// <summary>
         /// 操作返回的消息
         /// </summary>
@@ -134,7 +134,7 @@ namespace AvaloniaApplication1.Data
             => new OperateResult<T>(false, 10000, message, content, exception);
 
         public static OperateResult<T> Fail<T>(int code, string message, T? content = default, Exception? exception = null)
-            => new OperateResult<T>(false, 10000, message, content, exception);
+            => new OperateResult<T>(false, code, message, content, exception);
         #endregion
 
         public override string ToString()

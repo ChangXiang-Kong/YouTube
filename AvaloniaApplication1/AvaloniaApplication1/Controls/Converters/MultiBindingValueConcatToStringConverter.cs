@@ -8,8 +8,9 @@ using Avalonia.Data.Converters;
 namespace AvaloniaApplication1.Controls.Converters;
 
 /// <summary>
-/// 多值拼接字符串转换器，默认分隔符：" -- "<br/>
-/// 将多个简单值（string, int, ...）拼接为字符串（"aa -- bb -- cc"），若合并失败则返回异常信息字符串
+/// 将多个绑定值连接成一个字符串，默认分隔符为" -- "，可通过parameter参数自定义分隔符<br/>
+/// * 例如：绑定了三个值 "A", "B", "C"，使用默认分隔符，则输出 "A -- B -- C"；如果parameter传入 "|", 则输出 "A|B|C"。<br/>
+/// * 注意：如果某个绑定值未赋值（AvaloniaProperty.UnsetValue），则会被忽略，不参与连接。若合并失败则返回异常信息字符串
 /// </summary>
 public class MultiBindingValueConcatToStringConverter : IMultiValueConverter
 {

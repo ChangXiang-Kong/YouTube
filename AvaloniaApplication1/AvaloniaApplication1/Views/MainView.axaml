@@ -21,9 +21,7 @@
     -->
     <vm:MainViewModel />
   </Design.DataContext>
-  <UserControl.Resources>
-    <cvt:IconNameToPathConverter x:Key="IconConverter" />
-  </UserControl.Resources>
+  <UserControl.Resources />
 
   <Grid RowDefinitions="50, Auto, Auto, *, 32">
     <!--  Select Project  -->
@@ -73,7 +71,7 @@
                   <u:TwoTonePathIcon Width="16" Height="16" Margin="5,0,0,0"
                                      ActiveForeground="{DynamicResource SemiBlue5}"
                                      ActiveStrokeBrush="{DynamicResource SemiBlue5}"
-                                     Data="{Binding Converter={StaticResource IconConverter}}"
+                                     Data="{Binding Converter={StaticResource IconNameToPathConverter}}"
                                      Foreground="{DynamicResource SemiGrey5}"
                                      IsActive="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=u:NavMenuItem}, Path=IsHighlighted, Mode=TwoWay}"
                                      StrokeBrush="{DynamicResource SemiGrey5}" />

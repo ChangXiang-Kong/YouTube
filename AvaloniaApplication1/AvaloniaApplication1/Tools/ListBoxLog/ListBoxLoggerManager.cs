@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Linq;
 using Avalonia.Controls;
 
 namespace AvaloniaApplication1.Tools.ListBoxLog;
@@ -28,7 +29,7 @@ public class ListBoxLoggerManager
             throw new ArgumentNullException(nameof(primaryListBox), "Logger can not be null");
         if (secondListBox == null)
             throw new ArgumentNullException(nameof(secondListBox), "Logger can not be null");
-
+    
         Instance._loggers.TryAdd(loggerName, new ListBoxLogger(loggerName, primaryListBox, secondListBox));
         Instance._loggers[loggerName].ClearAllLogs();
     }

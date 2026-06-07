@@ -85,7 +85,7 @@
                                 </ItemsControl.ItemsPanel>
                                 <ItemsControl.ItemTemplate>
                                   <DataTemplate>
-                                    <CheckBox HorizontalAlignment="Stretch" IsChecked="{Binding IsChecked, Mode=TwoWay}" Tag="{Binding Name}">
+                                    <CheckBox HorizontalAlignment="Stretch" IsChecked="{Binding IsChecked, Mode=TwoWay}" Tag="{Binding Id}">
                                       <CheckBox.Content>
                                         <MultiBinding Converter="{StaticResource MultiBindingValueConcatToStringConverter}" ConverterParameter="  --  ">
                                           <Binding Path="Title" />

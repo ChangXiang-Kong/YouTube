@@ -19,12 +19,11 @@ public partial class StylePreviewPageViewModel : PageViewModel
         #region Demo-SearchBox
         FilterOptionsList =
         [
-            new FilterOption { Name = "N1", Title = nameof(LogMessage.DateTimeStr), IsChecked = false, Count = 59 },
-            new FilterOption { Name = "N2", Title = nameof(LogMessage.LogType), IsChecked = false, Count = 0 },
-            new FilterOption { Name = "N3", Title = nameof(LogMessage.Title), IsChecked = false, Count = 12 },
-            new FilterOption { Name = "N4", Title = nameof(LogMessage.SubTitle), IsChecked = false, Count = 36 },
-            new FilterOption { Name = "N5", Title = nameof(LogMessage.OtherInfo), IsChecked = false, Count = 1 },
-            new FilterOption { Name = "N6", Title = nameof(LogMessage.Message), IsChecked = false, Count = 22 },
+            new FilterOption { Id = "N1", Title = nameof(LogMessage.DateTimeStr), IsChecked = false, Count = 59 },
+            new FilterOption { Id = "N3", Title = nameof(LogMessage.Title), IsChecked = false, Count = 12 },
+            new FilterOption { Id = "N4", Title = nameof(LogMessage.SubTitle), IsChecked = false, Count = 36 },
+            new FilterOption { Id = "N5", Title = nameof(LogMessage.OtherInfo), IsChecked = false, Count = 1 },
+            new FilterOption { Id = "N6", Title = nameof(LogMessage.Message), IsChecked = false, Count = 22 },
         ];
         #endregion Demo-SearchBox
     }
@@ -105,7 +104,6 @@ public partial class StylePreviewPageViewModel : PageViewModel
 
 
     #region Demo-SearchBox
-
     [ObservableProperty] private ObservableCollection<FilterOption> _filterOptionsList;
 
     [RelayCommand]
@@ -115,26 +113,17 @@ public partial class StylePreviewPageViewModel : PageViewModel
         if (obj == null)
             return;
         
-        // 获取已选中的筛选项
-        List<FilterOption> checkedFilterOptions = (obj as List<FilterOption>)!;
-        // ListBoxLoggerManager.GetLoggerByName(MessageToken.ListBoxLogger_StylePreviewPage).FilterLogs(checkedFilterOptions);
-        ListBoxLogger.FilterLogs(checkedFilterOptions);
-        
-        
-        int i = 0;
-
-    }
-
-    private void GenerateFilteredLogs()
-    {
+        // 示例：从该 Command 的 CommandParameter 获取已选中的筛选项
+        // List<FilterOption> checkedFilterOptions = (obj as List<FilterOption>)!;
         
     }
     
     [RelayCommand]
-    private void Search(object obj)
+    private void Search(string keyword)
     {
-        var str = obj as string;
-        NotificationType notificationType = str switch
+        ListBoxLogger.SearchLogs(keyword, FilterOptionsList);
+        
+        NotificationType notificationType = keyword switch
         {
             "Large" => NotificationType.Warning,
             "Default" => NotificationType.Success,
@@ -143,7 +132,7 @@ public partial class StylePreviewPageViewModel : PageViewModel
         };
         
         App.WindowToastManager?.Show(
-            new Toast($"[Command Search] 参数：{str}"),
+            new Toast($"[Command Search] 参数：{keyword}"),
             type: notificationType,
             showIcon: true,
             showClose: true,
@@ -296,7 +285,7 @@ public partial class StylePreviewPageViewModel : PageViewModel
     [RelayCommand]
     private void GetLogs(LogType logType)
     {
-        ListBoxLogger.GetLogsByLogType(logType);
+        ListBoxLogger.FilterLogsByLogType(logType);
     }
 
     private void Test()

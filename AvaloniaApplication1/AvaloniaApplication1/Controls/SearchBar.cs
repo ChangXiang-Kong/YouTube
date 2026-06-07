@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using Avalonia;
@@ -42,14 +40,6 @@ public class SearchBar : TextBox
         add => AddHandler(ClearedEvent, value);
         remove => RemoveHandler(ClearedEvent, value);
     }
-    
-    public static readonly RoutedEvent<FunctionEventArgs<IEnumerable<FilterOption>>> FilterConfirmedEvent =
-        RoutedEvent.Register<SearchBar, FunctionEventArgs<IEnumerable<FilterOption>>>(nameof(FilterConfirmed), RoutingStrategies.Bubble);
-    public event EventHandler<FunctionEventArgs<IEnumerable<FilterOption>>> FilterConfirmed
-    {
-        add => AddHandler(FilterConfirmedEvent, value);
-        remove => RemoveHandler(FilterConfirmedEvent, value);
-    }
     #endregion RoutedEvent
 
     
@@ -78,9 +68,9 @@ public class SearchBar : TextBox
 
     public static readonly StyledProperty<int> MinSearchLengthProperty = AvaloniaProperty.Register<SearchBar, int>(nameof(MinSearchLength), defaultValue: 0);
     /// <summary>
-    /// 最小搜索字符，小于该长度不触发搜索，（默认0，不限制）<br/>
+    /// 最小搜索字符长度，小于该长度不触发搜索，（默认0，不限制）<br/>
     /// MinSearchLength=0 ：不限制字符，空文本也能搜索<br/>
-    /// MinSearchLength=2 ：输入a/ab → a不搜、ab才触发搜索<br/>
+    /// MinSearchLength=2 ：输入a/ab -> a不搜、ab才触发搜索<br/>
     /// 当 MinSearchLength=0 时，手动删文字变成空也触发搜索
     /// </summary>
     public int MinSearchLength
@@ -160,26 +150,23 @@ public class SearchBar : TextBox
         结论：
             只有需要 CanExecute 驱动 IsEnabled 的 Command 才需要监听逻辑。
         区分两种 Command，规则不一样：
-            ① 需要管控「控件 IsEnabled」的主 Command → 必须加 Changed 监听（你现在的 Command 属于此类）
-                绑定后需要：CanExecute→自动禁用/启用SearchBar整体
+            ① 需要管控「控件 IsEnabled」的主 Command -> 必须加 Changed 监听（你现在的 Command 属于此类）
+                绑定后需要：CanExecute->自动禁用/启用SearchBar整体
                 必须：XxxCommandProperty.Changed + OnXxxCommandChanged + 挂CanExecuteChanged
-            ② 普通回调 Command（ClearedCommand / FilterConfirmedCommand）→ 不需要监听 Changed
+            ② 普通回调 Command（ClearedCommand / FilterConfirmedCommand）-> 不需要监听 Changed
                 这类 Command 特征：
                 不参与控制控件 IsEnabled；
                 只在点击 / 触发时 Command?.Execute(...)；
                 即便没解绑 CanExecuteChanged，也不影响控件可用性；
-            只用的时候判空调用 Execute，不用订阅 CanExecuteChanged → 不用注册 Property.Changed
+            只用的时候判空调用 Execute，不用订阅 CanExecuteChanged -> 不用注册 Property.Changed
         举例：
-            // 1. 主搜索Command：控制IsEnabled → 必须监听Changed
+            // 1. 主搜索Command：控制IsEnabled -> 必须监听Changed
             public static readonly StyledProperty<ICommand?> CommandProperty = ...
-            // 2. 清空回调Command：只触发执行、不控IsEnabled → 不用监听Changed
+            // 2. 清空回调Command：只触发执行、不控IsEnabled -> 不用监听Changed
             public static readonly StyledProperty<ICommand?> ClearedCommandProperty = ...
-            // 3. 筛选弹窗确认Command：只触发执行、不控IsEnabled → 不用监听Changed
+            // 3. 筛选弹窗确认Command：只触发执行、不控IsEnabled -> 不用监听Changed
             public static readonly StyledProperty<ICommand?> FilterConfirmedCommandProperty = ...
          */
-        
-        // FilterOptions赋值变更监听
-        FilterOptionsProperty.Changed.AddClassHandler<SearchBar>(OnFilterOptionsPropertyChanged);
     }
 
     public SearchBar()
@@ -190,15 +177,11 @@ public class SearchBar : TextBox
 
     // 标记：只要 XAML 设置IsEnabled="False"，后续 Command 无论 CanExecute 返回 true/false 都无法启用控件
     private bool _explicitlyDisabled;
-    // 是否首次初始化
-    private bool _isFirstLoad = true;
     // 防抖计时器
     private readonly DispatcherTimer _debounceTimer;
-    // 缓存当前绑定集合，用于切换集合时解绑事件
-    private IEnumerable<FilterOption>? _cachedFilterOptions;
-    // 缓存ObservableCollection，用于解绑CollectionChanged
-    private ObservableCollection<FilterOption>? _cachedObservableCollection;
 
+    
+    
     protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
     {
         base.OnAttachedToVisualTree(e);
@@ -219,11 +202,6 @@ public class SearchBar : TextBox
         // 定时器是实例私有字段，随 SearchBar 生命周期销毁。控件彻底销毁时，_debounceTimer随实例 GC 自动释放，无内存泄漏。
         _debounceTimer.Stop();
         
-        ////////// 筛选
-        // 控件切页离开树时全部解绑，防止内存泄漏
-        CleanOldFilterBindings();
-        _cachedFilterOptions = null;
-        
         
     }
 
@@ -241,15 +219,11 @@ public class SearchBar : TextBox
             _explicitlyDisabled = !IsEnabled;
         }
 
-        // Text 属性变化 + IsRealTime=true → 实时搜索，执行防抖逻辑
+        // Text 属性变化 + IsRealTime=true -> 实时搜索，执行防抖逻辑
         if (change.Property == TextProperty)
         {
             // 首次初始化赋值直接跳过实时防抖
-            if (_isFirstLoad)
-            {
-                _isFirstLoad = false;
-            }
-            else if (IsRealTime)
+            if (IsRealTime)
             {
                 RestartDebounceTimer();
             }
@@ -294,7 +268,7 @@ public class SearchBar : TextBox
     }
     /// <summary>
     /// 命令可用性变化，修改IsEnabled
-    /// VM 里ICommand.CanExecute(false) → 控件自动IsEnabled=false禁用
+    /// VM 里ICommand.CanExecute(false) -> 控件自动IsEnabled=false禁用
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
@@ -302,7 +276,7 @@ public class SearchBar : TextBox
     /// <summary>
     /// 命令可用性变化，修改IsEnabled
     /// 优先级：用户手动禁用 > Command可用性
-    /// VM 里ICommand.CanExecute(false) → 控件自动IsEnabled=false禁用
+    /// VM 里ICommand.CanExecute(false) -> 控件自动IsEnabled=false禁用
     /// </summary>
     private void UpdateCanExecute()
     {
@@ -341,6 +315,7 @@ public class SearchBar : TextBox
         // 文本为空 -> 触发清空事件与命令，不再搜索
         if (string.IsNullOrEmpty(txt))
         {
+            // 抛出事件 + Command
             RaiseEvent(new RoutedEventArgs(ClearedEvent, this));
             ClearedCommand?.Execute(null);
             return;
@@ -356,6 +331,7 @@ public class SearchBar : TextBox
         // 抛出路由事件
         RaiseEvent(new FunctionEventArgs<string>(SearchStartedEvent, this, Text));
 
+        // TODO: 不需要 CommandParameter，执行命令时传入 Text 即可，这里留着作为参考示例
         // 更新CommandParameter为最新的Text值，否则在执行命令时，Text是新值，但CommandParameter是旧值
         // CommandParameter = Text; 会修改绑定源，如果 XAML 绑定了 CommandParameter 会被代码覆盖（设计如此：优先使用输入文本做参数）
         // 自动覆盖 CommandParameter = "当前输入文本"（XAML 不用手动绑定CommandParameter="{Binding Text,RelativeSource=Self}"）
@@ -386,135 +362,8 @@ public class SearchBar : TextBox
     }
     #endregion Debounce
     #endregion Search
-
     
     
-    #region Filter
-    /*
-    说明
-        1、VM 普通集合（IEnumerable<FilterOption>）
-            赋值后所有子项自动绑定，勾选触发RaiseFilterConfirmed；无法动态 Add/Remove。
-        2、VM 动态集合（ObservableCollection<FilterOption>）
-            public ObservableCollection<FilterOption> FilterItems {get;set;}
-            · FilterItems.Add(xxx) → 自动订阅新项 PropertyChanged；
-            · FilterItems.Remove(xxx) → 自动解绑该项；
-            · FilterItems.Clear() → 全部解绑；
-            · 任意项勾选切换 → 自动执行RaiseFilterConfirmed()。
-     */
-    /// <summary>
-    /// 属性变更主逻辑
-    /// </summary>
-    /// <param name="owner"></param>
-    /// <param name="args"></param>
-    private static void OnFilterOptionsPropertyChanged(SearchBar owner, AvaloniaPropertyChangedEventArgs args)
-    {
-        // 1、先清理旧集合全部绑定
-        owner.CleanOldFilterBindings();
-
-        var newVal = args.NewValue as IEnumerable<FilterOption>;
-        owner._cachedFilterOptions = newVal;
-
-        if (newVal == null)
-            return;
-
-        // 2、普通集合：全量订阅子项PropertyChanged
-        foreach (var item in newVal)
-        {
-            item.PropertyChanged += owner.OnFilterItemPropertyChanged;
-        }
-
-        // 3、如果是ObservableCollection，额外监听集合增减
-        if (newVal is ObservableCollection<FilterOption> obsColl)
-        {
-            owner._cachedObservableCollection = obsColl;
-            obsColl.CollectionChanged += owner.OnFilterCollectionChanged;
-        }
-    }
-    /// <summary>
-    /// 单个FilterOption属性变更回调
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    /// <exception cref="NotImplementedException"></exception>
-    private void OnFilterItemPropertyChanged(object? sender, PropertyChangedEventArgs e)
-    {
-        // 只有 IsChecked 变化时触发筛选回调，修改 Name/Count 不会触发。
-        if (e.PropertyName == nameof(FilterOption.IsChecked))
-        {
-            RaiseFilterConfirmed();
-        }
-    }
-    /// <summary>
-    /// 集合新增/删除项时自动绑定/解绑
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    private void OnFilterCollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-    {
-        switch (e.Action)
-        {
-            case System.Collections.Specialized.NotifyCollectionChangedAction.Add:
-                if (e.NewItems != null)
-                {
-                    foreach (FilterOption item in e.NewItems)
-                    {
-                        item.PropertyChanged += OnFilterItemPropertyChanged;
-                    }
-                }
-                break;
-
-            case System.Collections.Specialized.NotifyCollectionChangedAction.Remove:
-                if (e.OldItems != null)
-                {
-                    foreach (FilterOption item in e.OldItems)
-                    {
-                        item.PropertyChanged -= OnFilterItemPropertyChanged;
-                    }
-                }
-                break;
-
-            case System.Collections.Specialized.NotifyCollectionChangedAction.Reset:
-                // Clear全清空，全部解绑
-                CleanOldFilterBindings();
-                break;
-        }
-    }
-    /// <summary>
-    /// 解绑旧集合：子项PropertyChanged + 集合CollectionChanged
-    /// 重新给 SearchBar.FilterOptions 赋新集合时，旧集合全部自动解绑，不会残留事件；
-    /// </summary>
-    private void CleanOldFilterBindings()
-    {
-        // 解绑子项勾选事件
-        if (_cachedFilterOptions != null)
-        {
-            foreach (var item in _cachedFilterOptions)
-            {
-                item.PropertyChanged -= OnFilterItemPropertyChanged;
-            }
-        }
-
-        // 解绑ObservableCollection集合变更事件
-        if (_cachedObservableCollection != null)
-        {
-            _cachedObservableCollection.CollectionChanged -= OnFilterCollectionChanged;
-            _cachedObservableCollection = null;
-        }
-    }
-    /// <summary>
-    /// 弹窗确定触发，收集勾选项并向外抛出事件 + Command
-    /// </summary>
-    public void RaiseFilterConfirmed()
-    {
-        if (FilterOptions == null) 
-            return;
-        
-        var checkedFilterOptions = FilterOptions.Where(x => x.IsChecked).ToList();
-        RaiseEvent(new FunctionEventArgs<List<FilterOption>>(FilterConfirmedEvent, this, checkedFilterOptions));
-        
-        FilterConfirmedCommand?.Execute(checkedFilterOptions);
-    }
-    #endregion Filter
     
 }
 
@@ -541,7 +390,7 @@ public class FunctionEventArgs<T>(RoutedEvent routedEvent, object source, T? inf
 
 public class FilterOption : INotifyPropertyChanged
 {
-    public string Name { get; set; } = "";
+    public string Id { get; set; } = "";
     public string Title { get; set; } = "";
     private int _count;
     public int Count { get => _count; set => SetField(ref _count, value); }

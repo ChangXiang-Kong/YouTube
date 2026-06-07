@@ -106,7 +106,7 @@ public partial class MainViewModel : ViewModelBase
                 var window = new SettingsWindow();
                 window.DataContext = _pageFactory.GetPageViewModel<SettingsWindowViewModel>(vm =>
                 {
-
+                    
                 });
                 window.Show();
                 

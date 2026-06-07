@@ -36,7 +36,35 @@
       </TabControl.ItemsPanel>
 
       <TabItem MinWidth="120" Header="Test">
-        <Grid />
+        <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+          <Button Content="Welcome to Avalonia!">
+            <Button.Flyout>
+              <Flyout Placement="BottomEdgeAlignedRight">
+                <Flyout.ContentTemplate>
+                  <DataTemplate>
+                    <DockPanel MaxHeight="350">
+                      <DockPanel MinWidth="300" Margin="0,0,0,5" DockPanel.Dock="Top" LastChildFill="False">
+                        <TextBlock Margin="5,0,0,0" VerticalAlignment="Center" DockPanel.Dock="Left"
+                                   FontSize="15" FontWeight="Bold" Text="通知" />
+                        <Button Content="查看全部" DockPanel.Dock="Right" />
+                      </DockPanel>
+                      <ScrollViewer>
+                        <StackPanel>
+                          <u:IconButton Margin="0,3,0,0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"
+                                        Content="1 条新好友请求"
+                                        Icon="{DynamicResource SemiIconUserAdd}" />
+                          <u:IconButton Margin="0,3,0,0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"
+                                        Content="1 条新好友请求"
+                                        Icon="{DynamicResource SemiIconUserAdd}" />
+                        </StackPanel>
+                      </ScrollViewer>
+                    </DockPanel>
+                  </DataTemplate>
+                </Flyout.ContentTemplate>
+              </Flyout>
+            </Button.Flyout>
+          </Button>
+        </Grid>
       </TabItem>
 
 
@@ -363,7 +391,7 @@
             <!--  MaxRandomNumber  -->
             <StackPanel Grid.Row="4" Grid.Column="6" Opacity="0.5">
               <TextBlock Text="MaxRandomNumber" />
-              <NumericUpDown FormatString="0" Maximum="200" Minimum="5"
+              <NumericUpDown FormatString="0" Maximum="200" Minimum="1"
                              ToolTip.Placement="Bottom"
                              Value="{Binding MaxRandomNumber}">
                 <ToolTip.Tip>
@@ -424,7 +452,7 @@
 
           <!--  日志按钮  -->
           <StackPanel Grid.Row="2" Orientation="Horizontal" Spacing="10">
-            <Button Click="Button_Test_OnClick" Content="TestButton_OnClick" />
+            <Button Classes="Primary" Click="Button_Test_OnClick" Content="TestButton_OnClick" />
             <Button Margin="0,0,10,0" Classes="Colorful Primary" Click="Button_RegisterLogListBox_OnClick"
                     Content="{Binding RegisterButtonContent}"
                     IsEnabled="{Binding !IsLogListBoxRegistered}"
@@ -443,12 +471,15 @@
             <StackPanel Margin="0,0,0,5" HorizontalAlignment="Center" DockPanel.Dock="Top" Orientation="Horizontal">
               <!--  日志搜索  -->
               <TextBlock VerticalAlignment="Center" Text="搜索：" />
+              <!--  <SearchBar Width="300" Classes="searchButton clearButton Small"  -->
+              <!--  Command="{Binding SearchCommand}"  -->
+              <!--  IsRealTime="True" PlaceholderText="Small" Text="Small" />  -->
               <SearchBar Width="250" Margin="0,0,20,0" Classes="clearButton searchButton filterButton"
                          ClearedCommand="{Binding ClearSearchCommand}"
                          Command="{Binding SearchCommand}"
                          FilterConfirmedCommand="{Binding FilterConfirmCommand}"
                          FilterOptions="{Binding FilterOptionsList}"
-                         IsEnabled="True" IsRealTime="False" MinSearchLength="2"
+                         IsEnabled="True" IsRealTime="True" MinSearchLength="2"
                          PlaceholderText="Search" />
               <!--  FilterItems="{Binding ItemsSource, ElementName=ListBox_Log}"  -->
 
@@ -592,7 +623,7 @@
               <!--  主ListBox（显示全部日志）  -->
               <ListBox Name="ListBox_MainLogger" Width="800" Height="500"
                        BorderBrush="{DynamicResource BorderCardBorderBrush}"
-                       BorderThickness="1" CornerRadius="6">
+                       BorderThickness="1" Classes="Small" CornerRadius="6">
                 <StackPanel Tag="Tip">
                   <StackPanel Orientation="Horizontal">
                     <TextBlock Foreground="{DynamicResource TextBlockTertiaryForeground}" Text="[2026-05-31 12:42.1234] " />
@@ -826,7 +857,7 @@
                               <u:TwoTonePathIcon Width="16" Height="16" Margin="5,0,0,0"
                                                  ActiveForeground="{DynamicResource SemiBlue5}"
                                                  ActiveStrokeBrush="{DynamicResource SemiBlue5}"
-                                                 Data="{Binding Converter={StaticResource IconConverter}}"
+                                                 Data="{Binding Converter={StaticResource IconNameToPathConverter}}"
                                                  Foreground="{DynamicResource SemiGrey5}"
                                                  IsActive="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=u:NavMenuItem}, Path=IsHighlighted, Mode=TwoWay}"
                                                  StrokeBrush="{DynamicResource SemiGrey5}" />
@@ -893,17 +924,17 @@
             </StackPanel>
             <SearchBar Width="300" Classes="searchButton clearButton Small"
                        Command="{Binding SearchCommand}"
-                       IsRealTime="True" PlaceholderText="Small" Text="Small" />
+                       IsRealTime="True" PlaceholderText="Small" />
             <!--  提示：不用手动绑定CommandParameter="{Binding Text,RelativeSource=Self}"），Search()方法已自动接收 Text 为命令参数  -->
             <SearchBar Width="300" Classes="searchButton clearButton filterButton" Cleared="SearchBar_OnCleared"
                        ClearedCommand="{Binding ClearSearchCommand}"
                        Command="{Binding SearchCommand}"
                        IsRealTime="True" MinSearchLength="2" PlaceholderText="Default"
-                       SearchStarted="SearchBar_OnSearchStarted" Text="Default" />
+                       SearchStarted="SearchBar_OnSearchStarted" />
             <SearchBar Width="300" Classes="searchButton clearButton Large bordered"
                        Command="{Binding SearchCommand}"
                        CommandParameter="{Binding Text, RelativeSource={RelativeSource Self}}"
-                       IsRealTime="True" PlaceholderText="Large" Text="Large" />
+                       IsRealTime="True" PlaceholderText="Large" />
 
             <SearchBar Width="300" Classes="searchButton clearButton Small"
                        Command="{Binding SearchCommand}"
