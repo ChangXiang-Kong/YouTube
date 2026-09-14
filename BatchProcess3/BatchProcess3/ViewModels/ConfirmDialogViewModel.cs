@@ -123,14 +123,14 @@ public partial class ConfirmDialogViewModel : DialogViewModel
     /// </summary>
     public GeometryIcon GeometryIcon
     {
-        get;
+        get => field;
         set
         {
             field = value;
-            var strArray = field.ParseGeometryIconAttribute();
-            IconMessage = strArray[0];
-            IconForeground = strArray[1];
-            IconGeometry = StreamGeometry.Parse(strArray[2]);
+            var res = field.ParseGeometryIconAttribute();
+            IconMessage = res.Message;
+            IconForeground = res.ColorStr;
+            IconGeometry = StreamGeometry.Parse(res.GeometryPath);
             // 参考使用 IconText
             // switch (field)
             // {

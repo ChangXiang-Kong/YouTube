@@ -28,7 +28,7 @@
       <DropShadowEffect Color="{DynamicResource PrimaryBackgroundColor1}" />
     </Border.Effect>
 
-    <Grid Margin="15" RowDefinitions="Auto, 15, *, 15, AUto">
+    <Grid Margin="15" RowDefinitions="Auto, 10, *, 10, Auto">
       <!--  Title  -->
       <DockPanel Grid.Row="0">
         <!--  Icon  -->

@@ -8,6 +8,7 @@
   <Design.PreviewWith>
     <Border Padding="20" Background="{DynamicResource PrimaryBackground}">
       <StackPanel Spacing="20">
+        <IconButton Height="100" Content="Click Me!" IconText="&#xe7f2;" IsEnabled="False" />
         <IconButton Height="100" Content="Click Me!" IconText="&#xe7f2;" />
         <IconButton Content="Click Me!" IconText="&#xe7f2;" />
         <IconButton Classes="accent" Content="Click Me!" Foreground="Red" IconText="&#xe3e4;" />

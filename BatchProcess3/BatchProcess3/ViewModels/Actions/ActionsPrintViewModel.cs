@@ -50,6 +50,6 @@ public partial class ActionsPrintViewModel : ViewModelBase
     private string _printerProfileId = "";
 
     [JsonIgnore]
-    public new bool HasChanged => IsNewItem || (SavedState != "" && SavedState != JsonSerializer.Serialize(this));
+    public new bool HasChanged => IsNewItem || (SavedState != "" && SavedState != JsonSerializer.Serialize(this, JsonSerializerOptions));
 
 }

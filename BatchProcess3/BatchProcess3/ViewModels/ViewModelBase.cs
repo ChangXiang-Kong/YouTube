@@ -13,9 +13,18 @@ namespace BatchProcess3.ViewModels;
 
 public class ViewModelBase : ObservableObject
 {
+    public ViewModelBase()
+    {
+        // Detect design time 
+        if (Avalonia.Controls.Design.IsDesignMode)
+            OnDesignTimeConstructor();
+    }
+
+    protected virtual void OnDesignTimeConstructor() { }
+    
     // 参考视频：https://www.youtube.com/watch?v=xR5115U_RdI&list=PLrW43fNmjaQWwIdZxjZrx5FSXcNzaucOO&index=31
     // 可多看账几遍，视频中出现多次错误与解决思路，有助于了解 Json 的使用
-    private JsonSerializerOptions _jsonSerializerOptions = new JsonSerializerOptions
+    protected readonly JsonSerializerOptions JsonSerializerOptions = new JsonSerializerOptions
     {
         WriteIndented = true,
         PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
@@ -45,7 +54,7 @@ public class ViewModelBase : ObservableObject
     public string SavedState = "";
 
     [JsonIgnore]
-    public virtual bool HasChanged => SavedState != "" && SavedState != JsonSerializer.Serialize(this, _jsonSerializerOptions);
+    public virtual bool HasChanged => SavedState != "" && SavedState != JsonSerializer.Serialize(this, JsonSerializerOptions);
     
     public void SetSaveState()
     {
@@ -56,8 +65,8 @@ public class ViewModelBase : ObservableObject
     // public string GetState() => JsonSerializer.Serialize(this, GetType().DeclaringType ?? GetType(), _jsonSerializerOptions);
     public string GetState()
     {
-        var state = JsonSerializer.Serialize(this, GetType().DeclaringType ?? GetType(), _jsonSerializerOptions);
-        System.Diagnostics.Debug.WriteLine($"Serialized State: {state}");
+        var state = JsonSerializer.Serialize(this, GetType().DeclaringType ?? GetType(), JsonSerializerOptions);
+        // System.Diagnostics.Debug.WriteLine($"Serialized State: {state}");
         return state;
     }
     
@@ -67,8 +76,8 @@ public class ViewModelBase : ObservableObject
 
         var type = GetType().DeclaringType ?? GetType();
         
-        var savedState = JsonSerializer.Deserialize(stateToRestore, type, _jsonSerializerOptions);
-        System.Diagnostics.Debug.WriteLine($"Serialized State: {savedState}");
+        var savedState = JsonSerializer.Deserialize(stateToRestore, type, JsonSerializerOptions);
+        // System.Diagnostics.Debug.WriteLine($"Serialized State: {savedState}");
         
         // 反射
         foreach (var propertyInfo in type.GetProperties())

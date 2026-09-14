@@ -28,7 +28,7 @@
       <DropShadowEffect Color="{DynamicResource PrimaryBackgroundColor1}" />
     </Border.Effect>
 
-    <Grid Margin="15" RowDefinitions="Auto, 15, *, 15, AUto">
+    <Grid Margin="15" RowDefinitions="Auto, 10, *, 10, AUto">
       <!--  Title  -->
       <DockPanel Grid.Row="0">
         <!--  Icon  -->
@@ -53,9 +53,10 @@
                 Content="✕" DockPanel.Dock="Right" FontWeight="Normal" />
       </DockPanel>
 
-      <!--  Description  -->
+      <!--  Content Body  -->
       <ScrollViewer Grid.Row="2" AllowAutoHide="False">
-        <Grid RowDefinitions="Auto, 10, Auto">
+        <Grid RowDefinitions="Auto, 10, Auto, 10, *">
+          <!--  Message  -->
           <TextBlock Grid.Row="0" Margin="10,0" VerticalAlignment="Top"
                      FontSize="{DynamicResource FontSize_16}"
                      Text="{Binding Message}"
@@ -65,7 +66,7 @@
             <!--  Name  -->
             <DockPanel Margin="0,0,0,10">
               <TextBlock Width="100" VerticalAlignment="Center" Text="Name" />
-              <TextBox DockPanel.Dock="Right" Text="{Binding Name}" />
+              <TextBox Name="TextBox_Name" DockPanel.Dock="Right" Text="{Binding Name}" />
             </DockPanel>
             <!--  Description  -->
             <DockPanel Margin="0,0,0,10">
@@ -85,6 +86,9 @@
               <TextBlock Margin="10,0,0,0" VerticalAlignment="Center" Foreground="#AAA" Text="( Maximum=100, Minimum=1 )" />
             </StackPanel>
           </StackPanel>
+
+          <!--  Printer Settings  -->
+          <DataGrid Grid.Row="4" ItemsSource="{Binding PrinterSettings}" />
         </Grid>
       </ScrollViewer>
 

@@ -8,9 +8,9 @@ namespace BatchProcess3.CustomAttributes;
 /// AllowMultiple       控制特性是否能在同一目标上多次标注（默认不允许）<br/>
 /// Inherited           控制特性是否随父类 / 接口的继承 / 实现传递给子类 / 实现类（默认传递，false 不传递）<br/>
 /// </summary>
-/// <param name="message"></param>
-/// <param name="colorStr"></param>
-/// <param name="geometryPath"></param>
+/// <param name="message">提示消息</param>
+/// <param name="colorStr">颜色字符串</param>
+/// <param name="geometryPath">Geometry路径</param>
 [AttributeUsage(AttributeTargets.Field, AllowMultiple = false, Inherited = false)]
 public class GeometryIconAttribute(string message, string colorStr, string geometryPath) : Attribute
 {

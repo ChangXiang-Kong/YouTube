@@ -16,16 +16,10 @@ namespace BatchProcess3.ViewModels
         protected PageViewModel(ApplicationPageName pageName)
         {
             _pageName = pageName;
-
-            // Detect design time 
-            if (Avalonia.Controls.Design.IsDesignMode)
-                OnDesignTimeConstructor();
         }
 
         [ObservableProperty]
         private ApplicationPageName _pageName;
-
-        protected virtual void OnDesignTimeConstructor() { }
     }
 
     // 方式二：简化写法

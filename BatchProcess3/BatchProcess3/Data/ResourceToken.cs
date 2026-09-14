@@ -1,5 +1,7 @@
 using System.Reflection;
 using Avalonia;
+using Avalonia.Markup.Xaml.MarkupExtensions;
+using Avalonia.Media;
 
 namespace BatchProcess3.Data;
 

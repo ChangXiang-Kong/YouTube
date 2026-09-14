@@ -212,7 +212,6 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
         // };
         // var a = JsonSerializer.Serialize(this, GetType().DeclaringType ?? GetType(), _jsonSerializerOptions);
         // =====================
-        var c = profileViewModel.IconGeometry;
         var b = profileViewModel.GetState();
         copiedProfileViewModel.RestoreState(profileViewModel.GetState());
 

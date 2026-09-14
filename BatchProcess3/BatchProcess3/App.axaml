@@ -86,6 +86,10 @@
       <GradientStop Offset="1" Color="#7C59CD" />
     </LinearGradientBrush>
 
+    <LinearGradientBrush x:Key="ActiveGradientOpacity" Opacity="0.5" StartPoint="0%,0%" EndPoint="100%,0%">
+      <GradientStop Offset="0" Color="#6633DD" />
+      <GradientStop Offset="1" Color="#431B9F" />
+    </LinearGradientBrush>
     <LinearGradientBrush x:Key="ActiveGradient" StartPoint="0%,0%" EndPoint="100%,0%">
       <GradientStop Offset="0" Color="#6633DD" />
       <GradientStop Offset="1" Color="#431B9F" />

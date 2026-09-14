@@ -6,6 +6,7 @@
       <!--  Add Controls for Previewer Here  -->
       <Grid ColumnDefinitions="*,*">
         <StackPanel Spacing="15">
+          <Button Content="Disabled" IsEnabled="False" />
           <Button Content="Normal" />
           <Button Classes="small" Content="Small" />
           <Button Classes="smaller" Content="Smaller" />
@@ -49,6 +50,12 @@
     <Setter Property="Effect">
       <DropShadowEffect BlurRadius="30" Opacity="0.3" />
     </Setter>
+
+    <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Foreground" Value="{DynamicResource PrimaryForegroundSubtle}" />
+      <Setter Property="Background" Value="DimGray" />
+      <Setter Property="Opacity" Value="0.5" />
+    </Style>
   </Style>
 
   <!--  Small Button Styles  -->
