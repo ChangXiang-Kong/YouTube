@@ -7,6 +7,7 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using Avalonia.Media;
 using BatchProcess3.Data;
 using BatchProcess3.Tools.Services;
 using BatchProcess3.ViewModels.Actions;
@@ -199,7 +200,11 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
             return;
 
         // Copy view model
-        var copiedProfileViewModel = new PrintProfileViewModel();
+        var copiedProfileViewModel = new PrintProfileViewModel
+        {
+            Title = "Edit Printer Settings",
+            // IconForeground = "Yellow"
+        };
         
         // ===== 用于测试 ===== 
         // JsonSerializerOptions _jsonSerializerOptions = new JsonSerializerOptions

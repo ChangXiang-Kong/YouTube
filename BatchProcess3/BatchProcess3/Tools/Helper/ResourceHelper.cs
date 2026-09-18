@@ -1,14 +1,21 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
-using Avalonia.Media;
 
 namespace BatchProcess3.Tools.Helper;
 
 public static class ResourceHelper
 {
-    public static TopLevel? ResolveDefaultTopLevel()
+    /// <summary>
+    /// 获取默认的 TopLevel（MainWindow 或 MainView）
+    /// </summary>
+    /// <returns></returns>
+    public static TopLevel? GetDefaultTopLevel()
     {
+        var app = Application.Current;
+        if (app is null)
+            return null;
+        
         return Application.Current?.ApplicationLifetime switch
         {
             IClassicDesktopStyleApplicationLifetime desktopLifetime => desktopLifetime.MainWindow,
@@ -16,23 +23,68 @@ public static class ResourceHelper
             _ => null
         };
     }
-
+    
     /// <summary>
-    /// 查找资源（强泛型版本）
+    /// 先从 MainWindow 或 MainView 搜索资源，若未找到则从 Application 全局资源搜索，若都未找到则返回 default
     /// </summary>
-    public static T? FindResource<T>(string resourceKey)
+    public static T? FindResource<T>(string resourceKey, bool searchFromApplication = false)
     {
-        var topLevel = ResolveDefaultTopLevel();
-        return topLevel?.FindResource(resourceKey) is T resource ? resource : default;
+        if (!searchFromApplication)
+        {
+            var topLevel = GetDefaultTopLevel();
+            if (topLevel is null)
+                return default;
+
+            // 从当前visual向上找TopLevel，优先使用控件上下文查找
+            // 从主窗口 / 主 View（TopLevel）开始向上搜索资源，能读到 窗口级资源，受当前窗口局部主题覆盖；
+            var resFromTopLevel = topLevel.FindResource(resourceKey);   // TopLevel.FindResource 默认使用 ActualThemeVariant（当前窗口实际生效主题）
+            if (resFromTopLevel is T typedRes)  // 等于 if (resFromTopLevel is T typedRes && typedRes != null)
+                return typedRes;
+        }
+        
+        var app =  Application.Current;
+        if (app is null)
+            return default;
+        
+        return Application.Current?.FindResource(Application.Current.ActualThemeVariant, resourceKey) is T res ? res : default;
     }
 
     /// <summary>
-    /// 尝试查找资源（强泛型版本）
+    /// 先从指定Visual上下文查找资源（和XAML原生查找逻辑完全一致）， 使用该Visual的 ActualThemeVariant，向上遍历逻辑树资源字典，
+    /// 当Visual为null时，降级到Application全局资源
     /// </summary>
-    public static bool TryFindResource<T>(string resourceKey)
+    /// <typeparam name="T">资源目标类型</typeparam>
+    /// <param name="visual">UI控件/Visual实例</param>
+    /// <param name="resourceKey">资源Key</param>
+    /// <param name="searchFromApplication">false 从当前 Visual搜索，true 直接从  Application 根节点搜索</param>
+    /// <returns>找到返回实例，找不到返回default，不会抛出异常</returns>
+    public static T? FindResource<T>(Visual? visual, string resourceKey, bool searchFromApplication = false)
     {
-        var topLevel = ResolveDefaultTopLevel();
-        return topLevel?.TryFindResource(resourceKey, out var value) == true && value is T resource;
+        // Avalonia 资源查找规则：调用节点向上遍历逻辑树，找到第一个匹配 key 的资源就返回；越靠近调用节点优先级越高Avalonia
+
+        if (!searchFromApplication)
+        {
+            if (visual is null)
+                return default;
+
+            // 从当前visual向上找TopLevel，优先使用控件上下文查找
+            // 从主窗口 / 主 View（TopLevel）开始向上搜索资源，能读到 窗口级资源，受当前窗口局部主题覆盖；
+            var topLevel = TopLevel.GetTopLevel(visual);
+            if (topLevel is not null)
+            {
+                var resFromTopLevel = topLevel.FindResource(resourceKey);   // TopLevel.FindResource 默认使用 ActualThemeVariant（当前窗口实际生效主题）
+                if (resFromTopLevel is T typedRes)  // 等于 if (resFromTopLevel is T typedRes && typedRes != null)
+                    return typedRes;
+            }
+        }
+        
+        // 兜底：App全局资源
+        // 直接从 Application 根节点搜索，看不到 Window 级别资源，只能读取 App 全局资源，使用 应用全局ActualThemeVariant
+        var app =  Application.Current;
+        if (app is null)
+            return default;
+        
+        return Application.Current?.FindResource(Application.Current.ActualThemeVariant, resourceKey) is T res ? res : default;
     }
 
     /// <summary>
@@ -40,7 +92,7 @@ public static class ResourceHelper
     /// </summary>
     public static void ShowAllResourceKeys()
     {
-        var topLevel = ResolveDefaultTopLevel();
+        var topLevel = GetDefaultTopLevel();
         var resources = topLevel?.Resources;
         var resourceKeys = topLevel?.Resources.Keys;
         var mergedDictionaries = topLevel?.Resources.MergedDictionaries;

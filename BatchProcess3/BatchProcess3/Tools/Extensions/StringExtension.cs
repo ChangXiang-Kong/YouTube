@@ -12,7 +12,7 @@ public static class StringExtension
     public static void ClipboardSetTextAsync(this string text)
     {
         // 获取剪贴板
-        var clipboard = ResourceHelper.ResolveDefaultTopLevel()?.Clipboard;
+        var clipboard = ResourceHelper.GetDefaultTopLevel()?.Clipboard;
         // 写入剪贴板
         clipboard?.SetTextAsync(text);
     }

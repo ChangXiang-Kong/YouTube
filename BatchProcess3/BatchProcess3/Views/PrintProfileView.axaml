@@ -41,6 +41,21 @@
                  Margin="0,0,10,0" VerticalAlignment="Center"
                  ToolTip.Tip="{Binding IconMessage}">
           <PathIcon Data="{Binding IconGeometry}" Foreground="{Binding IconForeground}" />
+          <!-- <PathIcon Data="{Binding IconGeometry}" Foreground="{DynamicResource HoverGradient}" />  可直接引用已定义的资源 -->
+        </Viewbox>
+        <!--  测试用：Foreground 的值使用 IBrush 类型  -->
+        <Viewbox Width="{Binding IconWidth}"
+                 Height="{Binding IconHeight}"
+                 Margin="0,0,10,0" VerticalAlignment="Center" IsVisible="False"
+                 ToolTip.Tip="{Binding IconMessage}">
+          <PathIcon Data="{Binding IconGeometry}" Foreground="{Binding IconForeground1}" />
+        </Viewbox>
+        <!--  测试用：Foreground 的值使用 IBrush 类型，且来自 App.axaml 中定义的资源  -->
+        <Viewbox Width="{Binding IconWidth}"
+                 Height="{Binding IconHeight}"
+                 Margin="0,0,10,0" VerticalAlignment="Center" IsVisible="False"
+                 ToolTip.Tip="{Binding IconMessage}">
+          <PathIcon Data="{Binding IconGeometry}" Foreground="{Binding IconForeground2}" />
         </Viewbox>
 
         <!--  Title  -->
