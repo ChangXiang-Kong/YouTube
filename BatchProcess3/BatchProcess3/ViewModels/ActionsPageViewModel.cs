@@ -15,7 +15,10 @@ using CommunityToolkit.Mvvm.Input;
 
 namespace BatchProcess3.ViewModels;
 
-public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogService dialogService) : PageViewModel(ApplicationPageName.Actions)
+public partial class ActionsPageViewModel(
+    MainViewModel mainViewModel, 
+    DialogService dialogService,
+    PrinterService printerService) : PageViewModel(ApplicationPageName.Actions)
 {
     // 使用上面的方式替代以下方式构造函数
     // public ActionsPageViewModel() : base(ApplicationPageName.Actions)
@@ -24,7 +27,7 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
     // }
     
     // Design time only
-    public ActionsPageViewModel() : this(new MainViewModel(), new DialogService()) { }
+    public ActionsPageViewModel() : this(new MainViewModel(), new DialogService(), new PrinterService()) { }
 
     [ObservableProperty] private string _test = "Test Actions";
 
@@ -125,13 +128,18 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
     [RelayCommand]
     private void FetchPrinterProfiles()
     {
+        // Fetch live printers available on machine
+        var availablePrinters = printerService.GetAvailablePrinters();
+        var printerNameOptions = new ObservableCollection<string>(availablePrinters.Select(x => x.Name));
+        
         // TODO: Pull from database
         var printerSettingsItem = new ActionsPrinterSettingsViewModel()
         {
             Id = "2",
             Height = 200,
             Width = 140,
-            ScaleToFil = true
+            ScaleToFil = true,
+            PrinterNameOptions = printerNameOptions,
         };
         var printerSettings = new ObservableCollection<ActionsPrinterSettingsViewModel>
         {
@@ -140,6 +148,8 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
             printerSettingsItem, printerSettingsItem, printerSettingsItem, printerSettingsItem, printerSettingsItem,
             printerSettingsItem, printerSettingsItem, printerSettingsItem, printerSettingsItem, printerSettingsItem,
         };
+
+        _defaultPrinterProfile.PrinterSettings = printerSettings;
         
         PrinterProfilesList =
         [

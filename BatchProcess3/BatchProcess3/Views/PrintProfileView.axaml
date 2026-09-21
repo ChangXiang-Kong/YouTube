@@ -115,17 +115,31 @@
           </DataGrid.Styles>
 
           <DataGrid.Columns>
-            <DataGridTextColumn Width="120"
-                                Binding="{Binding Type}"
-                                Header="Type" IsReadOnly="True" SortMemberPath="Type" />
+            <!--  无法使用 ToolTip.Tip="xxx"，报错 Error AVLN2000 Avalonia: Unable to resolve suitable regular or attached property Tip on type Avalonia.Controls:Avalonia.Controls.ToolTip Line 118, position 14.  -->
+            <!--  <DataGridTextColumn Width="120"  -->
+            <!--  Binding="{Binding Type}"  -->
+            <!--  Header="Type" IsReadOnly="True" SortMemberPath="Type"  -->
+            <!--  ToolTip.Tip="{Binding Binding, RelativeSource={RelativeSource Self}}" />  -->
+
+            <DataGridTemplateColumn Header="Type" SortMemberPath="Type">
+              <DataGridTemplateColumn.CellTemplate>
+                <DataTemplate>
+                  <TextBlock Width="120" Margin="10,0,0,0" VerticalAlignment="Center"
+                             Background="Transparent"
+                             Text="{Binding Type}"
+                             ToolTip.Tip="{Binding Type}" />
+                </DataTemplate>
+              </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
 
             <DataGridTemplateColumn Header="Printer Name" SortMemberPath="PrinterName">
               <DataGridTemplateColumn.CellTemplate>
                 <DataTemplate>
-                  <ComboBox Width="150" Margin="0"
+                  <ComboBox Width="160" Margin="0"
                             DisplayMemberBinding="{Binding}"
                             ItemsSource="{Binding PrinterNameOptions}"
-                            SelectedItem="{Binding PrinterName}" />
+                            SelectedItem="{Binding PrinterName}"
+                            ToolTip.Tip="{Binding PrinterName}" />
                 </DataTemplate>
               </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
@@ -133,10 +147,11 @@
             <DataGridTemplateColumn Header="Paper Size" SortMemberPath="PaperSize">
               <DataGridTemplateColumn.CellTemplate>
                 <DataTemplate>
-                  <ComboBox Width="150" Margin="0"
+                  <ComboBox Width="160" Margin="0"
                             DisplayMemberBinding="{Binding}"
                             ItemsSource="{Binding PaperSizeOptions}"
-                            SelectedItem="{Binding PaperSize}" />
+                            SelectedItem="{Binding PaperSize}"
+                            ToolTip.Tip="{Binding PaperSize}" />
                 </DataTemplate>
               </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
@@ -146,6 +161,7 @@
                 <DataTemplate>
                   <NumericUpDown Width="80" Margin="0" VerticalContentAlignment="Center"
                                  ShowButtonSpinner="False"
+                                 ToolTip.Tip="{Binding Width}"
                                  Value="{Binding Width}" />
                 </DataTemplate>
               </DataGridTemplateColumn.CellTemplate>
@@ -156,6 +172,7 @@
                 <DataTemplate>
                   <NumericUpDown Width="80" Margin="0" VerticalContentAlignment="Center"
                                  ShowButtonSpinner="False"
+                                 ToolTip.Tip="{Binding Height}"
                                  Value="{Binding Height}" />
                 </DataTemplate>
               </DataGridTemplateColumn.CellTemplate>
@@ -167,7 +184,8 @@
                   <ComboBox Width="120" Margin="0"
                             DisplayMemberBinding="{Binding}"
                             ItemsSource="{Binding OrientationOptions}"
-                            SelectedItem="{Binding Orientation}" />
+                            SelectedItem="{Binding Orientation}"
+                            ToolTip.Tip="{Binding Orientation}" />
                 </DataTemplate>
               </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
@@ -178,7 +196,8 @@
                   <ComboBox Width="120" Margin="0"
                             DisplayMemberBinding="{Binding}"
                             ItemsSource="{Binding SourceTrayOptions}"
-                            SelectedItem="{Binding SourceTray}" />
+                            SelectedItem="{Binding SourceTray}"
+                            ToolTip.Tip="{Binding SourceTray}" />
                 </DataTemplate>
               </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
@@ -189,7 +208,8 @@
                   <ComboBox Width="160" Margin="0"
                             DisplayMemberBinding="{Binding}"
                             ItemsSource="{Binding DrawingColorOptions}"
-                            SelectedItem="{Binding DrawingColor}" />
+                            SelectedItem="{Binding DrawingColor}"
+                            ToolTip.Tip="{Binding DrawingColor}" />
                 </DataTemplate>
               </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
@@ -199,7 +219,7 @@
             <DataGridTemplateColumn Header="Scale to Fit" SortMemberPath="ScaleToFil">
               <DataGridTemplateColumn.CellTemplate>
                 <DataTemplate>
-                  <CheckBox Margin="0" HorizontalAlignment="Center" IsChecked="{Binding ScaleToFil}" />
+                  <CheckBox Margin="0" HorizontalAlignment="Center" IsChecked="{Binding ScaleToFil}" ToolTip.Tip="{Binding ScaleToFil}" />
                 </DataTemplate>
               </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>

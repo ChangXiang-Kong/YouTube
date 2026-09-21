@@ -38,8 +38,13 @@
               <Button Grid.Column="1" Margin="0,0,-8,0" Padding="0"
                       VerticalAlignment="Center" ava:ToolTip.Tip="Delete" Classes="smaller danger"
                       Command="{Binding $parent[ListBox].((vm:ActionsPageViewModel)DataContext).DeletePrintItemCommand}"
-                      CommandParameter="{Binding Id}"
-                      IsVisible="{Binding $parent[ListBoxItem].IsSelected}">
+                      CommandParameter="{Binding Id}">
+                <Button.IsVisible>
+                  <MultiBinding Converter="{StaticResource BoolOrMultiConverter}">
+                    <Binding Path="$parent[ListBoxItem].IsPointerOver" />
+                    <Binding Path="$parent[ListBoxItem].IsSelected" />
+                  </MultiBinding>
+                </Button.IsVisible>
                 <Label Classes="icon-only icon-outline" Content="&#xe4a6;" />
               </Button>
             </Grid>
@@ -117,15 +122,25 @@
                   <Button Margin="0,0,5,0" Padding="0" VerticalAlignment="Center"
                           ava:ToolTip.Tip="Edit" Classes="smaller alert"
                           Command="{Binding $parent[ListBox].((vm:ActionsPageViewModel)DataContext).EditPrintSettingsCommand}"
-                          CommandParameter="{Binding Id}"
-                          IsVisible="{Binding $parent[ListBoxItem].IsSelected}">
+                          CommandParameter="{Binding Id}">
+                    <Button.IsVisible>
+                      <MultiBinding Converter="{StaticResource BoolOrMultiConverter}">
+                        <Binding Path="$parent[ListBoxItem].IsPointerOver" />
+                        <Binding Path="$parent[ListBoxItem].IsSelected" />
+                      </MultiBinding>
+                    </Button.IsVisible>
                     <Label Classes="icon-only icon-outline" Content="&#xe3b2;" />
                   </Button>
                   <Button Margin="0,0,-8,0" Padding="0" VerticalAlignment="Center"
                           ava:ToolTip.Tip="Delete" Classes="smaller danger"
                           Command="{Binding $parent[ListBox].((vm:ActionsPageViewModel)DataContext).DeletePrintSettingsCommand}"
-                          CommandParameter="{Binding Id}"
-                          IsVisible="{Binding $parent[ListBoxItem].IsSelected}">
+                          CommandParameter="{Binding Id}">
+                    <Button.IsVisible>
+                      <MultiBinding Converter="{StaticResource BoolOrMultiConverter}">
+                        <Binding Path="$parent[ListBoxItem].IsPointerOver" />
+                        <Binding Path="$parent[ListBoxItem].IsSelected" />
+                      </MultiBinding>
+                    </Button.IsVisible>
                     <Label Classes="icon-only icon-outline" Content="&#xe4a6;" />
                   </Button>
                 </StackPanel>

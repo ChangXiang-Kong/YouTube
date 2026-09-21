@@ -183,5 +183,6 @@ public partial class App : Application
         });
         services.AddSingleton<PageFactory>();
         services.AddSingleton<DialogService>();
+        services.AddTransient<PrinterService>();
     }
 }

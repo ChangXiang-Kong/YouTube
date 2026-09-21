@@ -52,7 +52,9 @@
       </ResourceDictionary.MergedDictionaries>
     </ResourceDictionary>
 
+    <cvt:BoolOrMultiConverter x:Key="BoolOrMultiConverter" />
     <cvt:BoolToBoldFontConverter x:Key="BoolToBoldFontConverter" />
+    <cvt:StreamGeometryConverter x:Key="StreamGeometryConverter" />
 
     <Thickness x:Key="BorderThickness_09">0.9</Thickness>
     <Thickness x:Key="BorderThickness_1">1</Thickness>
