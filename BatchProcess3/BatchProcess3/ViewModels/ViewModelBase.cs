@@ -26,10 +26,12 @@ public class ViewModelBase : ObservableObject
     // 可多看账几遍，视频中出现多次错误与解决思路，有助于了解 Json 的使用
     protected readonly JsonSerializerOptions JsonSerializerOptions = new JsonSerializerOptions
     {
-        WriteIndented = true,
         PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-        IgnoreReadOnlyFields = true,
-        IgnoreReadOnlyProperties = true,
+        WriteIndented = true,
+        // KeyValuePair 是 只读的，若想要进行序列化，这里不能为 true
+        // public readonly struct KeyValuePair<TKey, TValue>(TKey key, TValue value)
+        IgnoreReadOnlyFields = false,
+        IgnoreReadOnlyProperties = false,
         NumberHandling = JsonNumberHandling.AllowNamedFloatingPointLiterals,    // 处理 如 double.NaN 之类的无限数对象
         // Converters = { new StreamGeometryConverter() }, // 添加自定义转换器
     };
@@ -66,7 +68,7 @@ public class ViewModelBase : ObservableObject
     public string GetState()
     {
         var state = JsonSerializer.Serialize(this, GetType().DeclaringType ?? GetType(), JsonSerializerOptions);
-        // System.Diagnostics.Debug.WriteLine($"Serialized State: {state}");
+        // System.Diagnostics.Debug.WriteLine($"===== Serialized State: {state}");
         return state;
     }
     
@@ -77,7 +79,7 @@ public class ViewModelBase : ObservableObject
         var type = GetType().DeclaringType ?? GetType();
         
         var savedState = JsonSerializer.Deserialize(stateToRestore, type, JsonSerializerOptions);
-        // System.Diagnostics.Debug.WriteLine($"Serialized State: {savedState}");
+        // System.Diagnostics.Debug.WriteLine($"===== Serialized SavedState: {savedState}");
         
         // 反射
         foreach (var propertyInfo in type.GetProperties())

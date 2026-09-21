@@ -28,7 +28,7 @@
       <DropShadowEffect Color="{DynamicResource PrimaryBackgroundColor1}" />
     </Border.Effect>
 
-    <Grid Margin="15" RowDefinitions="Auto, 10, *, 10, AUto">
+    <Grid Margin="15" RowDefinitions="Auto, 10, *, 10, Auto">
       <!--  Title  -->
       <DockPanel Grid.Row="0">
         <!--  Icon  -->
@@ -69,45 +69,146 @@
       </DockPanel>
 
       <!--  Content Body  -->
-      <ScrollViewer Grid.Row="2" AllowAutoHide="False">
-        <Grid RowDefinitions="Auto, 10, Auto, 10, *">
-          <!--  Message  -->
-          <TextBlock Grid.Row="0" Margin="10,0" VerticalAlignment="Top"
-                     FontSize="{DynamicResource FontSize_16}"
-                     Text="{Binding Message}"
-                     TextWrapping="Wrap" />
+      <!-- <ScrollViewer Grid.Row="2" AllowAutoHide="False"> -->
+      <Grid Grid.Row="2" RowDefinitions="Auto, 10, Auto, 10, *">
+        <!--  Message  -->
+        <TextBlock Grid.Row="0" Margin="10,0" VerticalAlignment="Top"
+                   FontSize="{DynamicResource FontSize_16}"
+                   Text="{Binding Message}"
+                   TextWrapping="Wrap" />
 
-          <StackPanel Grid.Row="2">
-            <!--  Name  -->
-            <DockPanel Margin="0,0,0,10">
-              <TextBlock Width="100" VerticalAlignment="Center" Text="Name" />
-              <TextBox Name="TextBox_Name" DockPanel.Dock="Right" Text="{Binding Name}" />
-            </DockPanel>
-            <!--  Description  -->
-            <DockPanel Margin="0,0,0,10">
-              <TextBlock Width="100" VerticalAlignment="Center" Text="Description" />
-              <TextBox MaxHeight="65" AcceptsReturn="True" DockPanel.Dock="Right"
-                       ScrollViewer.AllowAutoHide="False"
-                       Text="{Binding Description}" />
-            </DockPanel>
-            <!--  Copies  -->
-            <StackPanel Margin="0,0,0,10" Orientation="Horizontal">
-              <TextBlock Width="100" VerticalAlignment="Center" Text="Copies" />
-              <NumericUpDown Width="180" VerticalContentAlignment="Center" ButtonSpinnerLocation="Right"
-                             FormatString="0" Increment="1" InnerLeftContent=""
-                             InnerRightContent="" Maximum="100" Minimum="1"
-                             ScrollViewer.AllowAutoHide="False"
-                             Value="{Binding Copies}" />
-              <TextBlock Margin="10,0,0,0" VerticalAlignment="Center" Foreground="#AAA" Text="( Maximum=100, Minimum=1 )" />
-            </StackPanel>
+        <StackPanel Grid.Row="2">
+          <!--  Name  -->
+          <DockPanel Margin="0,0,0,10">
+            <TextBlock Width="100" VerticalAlignment="Center" Text="Name" />
+            <TextBox Name="TextBox_Name" DockPanel.Dock="Right" Text="{Binding Name}" />
+          </DockPanel>
+          <!--  Description  -->
+          <DockPanel Margin="0,0,0,10">
+            <TextBlock Width="100" VerticalAlignment="Center" Text="Description" />
+            <TextBox MaxHeight="65" AcceptsReturn="True" DockPanel.Dock="Right"
+                     ScrollViewer.AllowAutoHide="False"
+                     Text="{Binding Description}" />
+          </DockPanel>
+          <!--  Copies  -->
+          <StackPanel Margin="0,0,0,10" Orientation="Horizontal">
+            <TextBlock Width="100" VerticalAlignment="Center" Text="Copies" />
+            <NumericUpDown Width="180" VerticalContentAlignment="Center" ButtonSpinnerLocation="Right"
+                           FormatString="0" Increment="1" InnerLeftContent=""
+                           InnerRightContent="" Maximum="100" Minimum="1"
+                           ScrollViewer.AllowAutoHide="False"
+                           Value="{Binding Copies}" />
+            <TextBlock Margin="10,0,0,0" VerticalAlignment="Center" Foreground="#AAA" Text="( Maximum=100, Minimum=1 )" />
           </StackPanel>
+        </StackPanel>
 
-          <!--  Printer Settings  -->
-          <DataGrid Grid.Row="4" ItemsSource="{Binding PrinterSettings}" />
-        </Grid>
-      </ScrollViewer>
+        <!--  Printer Settings  -->
+        <DataGrid Grid.Row="4" AutoGenerateColumns="False" Background="{DynamicResource PrimaryBackgroundColor2}" ItemsSource="{Binding PrinterSettings}">
+          <DataGrid.Styles>
+            <Style Selector="DataGrid DataGridColumnHeader">
+              <Setter Property="Background" Value="{DynamicResource PrimaryBackgroundColor1}" />
+              <Setter Property="Foreground" Value="{DynamicResource PrimaryForeground}" />
+            </Style>
+            <Style Selector="DataGrid DataGridRow:selected /template/ Rectangle#BackgroundRectangle">
+              <Setter Property="Fill" Value="{DynamicResource ActiveHoverGradient}" />
+            </Style>
+          </DataGrid.Styles>
 
-      <!--  Fotter  -->
+          <DataGrid.Columns>
+            <DataGridTextColumn Width="120"
+                                Binding="{Binding Type}"
+                                Header="Type" IsReadOnly="True" SortMemberPath="Type" />
+
+            <DataGridTemplateColumn Header="Printer Name" SortMemberPath="PrinterName">
+              <DataGridTemplateColumn.CellTemplate>
+                <DataTemplate>
+                  <ComboBox Width="150" Margin="0"
+                            DisplayMemberBinding="{Binding}"
+                            ItemsSource="{Binding PrinterNameOptions}"
+                            SelectedItem="{Binding PrinterName}" />
+                </DataTemplate>
+              </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+
+            <DataGridTemplateColumn Header="Paper Size" SortMemberPath="PaperSize">
+              <DataGridTemplateColumn.CellTemplate>
+                <DataTemplate>
+                  <ComboBox Width="150" Margin="0"
+                            DisplayMemberBinding="{Binding}"
+                            ItemsSource="{Binding PaperSizeOptions}"
+                            SelectedItem="{Binding PaperSize}" />
+                </DataTemplate>
+              </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+
+            <DataGridTemplateColumn Header="Width" SortMemberPath="Width">
+              <DataGridTemplateColumn.CellTemplate>
+                <DataTemplate>
+                  <NumericUpDown Width="80" Margin="0" VerticalContentAlignment="Center"
+                                 ShowButtonSpinner="False"
+                                 Value="{Binding Width}" />
+                </DataTemplate>
+              </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+
+            <DataGridTemplateColumn Header="Height" SortMemberPath="Height">
+              <DataGridTemplateColumn.CellTemplate>
+                <DataTemplate>
+                  <NumericUpDown Width="80" Margin="0" VerticalContentAlignment="Center"
+                                 ShowButtonSpinner="False"
+                                 Value="{Binding Height}" />
+                </DataTemplate>
+              </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+
+            <DataGridTemplateColumn Header="Orientation" SortMemberPath="Orientation">
+              <DataGridTemplateColumn.CellTemplate>
+                <DataTemplate>
+                  <ComboBox Width="120" Margin="0"
+                            DisplayMemberBinding="{Binding}"
+                            ItemsSource="{Binding OrientationOptions}"
+                            SelectedItem="{Binding Orientation}" />
+                </DataTemplate>
+              </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+
+            <DataGridTemplateColumn Header="Tray" SortMemberPath="SourceTray">
+              <DataGridTemplateColumn.CellTemplate>
+                <DataTemplate>
+                  <ComboBox Width="120" Margin="0"
+                            DisplayMemberBinding="{Binding}"
+                            ItemsSource="{Binding SourceTrayOptions}"
+                            SelectedItem="{Binding SourceTray}" />
+                </DataTemplate>
+              </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+
+            <DataGridTemplateColumn Header="Drawing Color" SortMemberPath="DrawingColor">
+              <DataGridTemplateColumn.CellTemplate>
+                <DataTemplate>
+                  <ComboBox Width="160" Margin="0"
+                            DisplayMemberBinding="{Binding}"
+                            ItemsSource="{Binding DrawingColorOptions}"
+                            SelectedItem="{Binding DrawingColor}" />
+                </DataTemplate>
+              </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+
+            <!--  有问题：不能直接点击到 CheckBox，只有当选中这行时才能点击到 CheckBox  -->
+            <!-- <DataGridCheckBoxColumn Binding="{Binding ScaleToFil}" Header="Scale to Fit" /> -->
+            <DataGridTemplateColumn Header="Scale to Fit" SortMemberPath="ScaleToFil">
+              <DataGridTemplateColumn.CellTemplate>
+                <DataTemplate>
+                  <CheckBox Margin="0" HorizontalAlignment="Center" IsChecked="{Binding ScaleToFil}" />
+                </DataTemplate>
+              </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+          </DataGrid.Columns>
+        </DataGrid>
+      </Grid>
+      <!-- </ScrollViewer> -->
+
+      <!--  Footer  -->
       <StackPanel Grid.Row="4">
         <!--  StatusText  -->
         <TextBlock Margin="0,0,0,5" HorizontalAlignment="Right"

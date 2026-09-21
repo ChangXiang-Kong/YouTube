@@ -124,6 +124,7 @@ public partial class App : Application
                     // DataContext = serviceProvider.GetService<MainViewModel>()          // 参数 T 可为空，为空时不会报错
                     DataContext = serviceProvider.GetRequiredService<MainViewModel>() // 参数 T 为空时报错
                 };
+                // desktop.MainWindow = new TestWindow() { DataContext = new TestViewModel() };
                 break;
             case ISingleViewApplicationLifetime singleViewPlatform:
                 singleViewPlatform.MainView = new MainView

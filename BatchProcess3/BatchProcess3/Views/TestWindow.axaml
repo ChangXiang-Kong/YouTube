@@ -1,15 +1,38 @@
-﻿<Window xmlns="https://github.com/avaloniaui"
+﻿<Window x:Class="BatchProcess3.Views.TestWindow"
+        xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-        x:Class="BatchProcess3.Views.TestWindow" Background="#EFEFEF"
-        Title="TestWindow">
-  <Grid HorizontalAlignment="Center">
-    <StackPanel>
-      <ToggleButton Content="ToggleButton"></ToggleButton>
-      <ToggleSwitch Content="ToggleSwitch"></ToggleSwitch>
-      <ToggleSplitButton Content="ToggleSplitButton"></ToggleSplitButton>
+        xmlns:vm="clr-namespace:BatchProcess3.ViewModels"
+        Title="TestWindow"
+        d:DesignHeight="450"
+        d:DesignWidth="800"
+        x:DataType="vm:TestViewModel"
+        Background="#EFEFEF"
+        mc:Ignorable="d">
+  <Design.DataContext>
+    <vm:TestViewModel />
+  </Design.DataContext>
+
+  <Grid RowDefinitions="Auto, 10, *" ShowGridLines="True">
+    <StackPanel Grid.Row="0">
+      <ToggleButton Content="ToggleButton" />
+      <ToggleSwitch Content="ToggleSwitch" />
+      <ToggleSplitButton Content="ToggleSplitButton" />
+      <Button Command="{Binding TestCommand}" Content="TestCommand" />
+      <TextBlock Text="{Binding TestItemsList.Count}" />
     </StackPanel>
+    <!--  增加GridLinesVisibility方便调试，确认自动生成列  -->
+    <!--  <DataGrid Grid.Row="2" Width="600" Height="400"  -->
+    <!--  AutoGenerateColumns="True" Background="Red" GridLinesVisibility="All"  -->
+    <!--  ItemsSource="{Binding TestItemsList}" />  -->
+    <DataGrid Grid.Row="2" AutoGenerateColumns="True" ItemsSource="{Binding TestItemsList}">
+      <DataGrid.Columns>
+        <DataGridTextColumn Binding="{Binding Id}" Header="Id" />
+        <DataGridTextColumn Binding="{Binding Name}" Header="Name" />
+        <DataGridTextColumn Binding="{Binding Copies}" Header="Copies" />
+        <DataGridCheckBoxColumn Binding="{Binding Auto}" Header="Auto" />
+      </DataGrid.Columns>
+    </DataGrid>
   </Grid>
 </Window>

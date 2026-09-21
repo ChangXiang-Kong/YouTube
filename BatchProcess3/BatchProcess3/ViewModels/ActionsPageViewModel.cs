@@ -126,6 +126,20 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
     private void FetchPrinterProfiles()
     {
         // TODO: Pull from database
+        var printerSettingsItem = new ActionsPrinterSettingsViewModel()
+        {
+            Id = "2",
+            Height = 200,
+            Width = 140,
+            ScaleToFil = true
+        };
+        var printerSettings = new ObservableCollection<ActionsPrinterSettingsViewModel>
+        {
+            printerSettingsItem, printerSettingsItem, printerSettingsItem, printerSettingsItem, printerSettingsItem,
+            printerSettingsItem, printerSettingsItem, printerSettingsItem, printerSettingsItem, printerSettingsItem,
+            printerSettingsItem, printerSettingsItem, printerSettingsItem, printerSettingsItem, printerSettingsItem,
+            printerSettingsItem, printerSettingsItem, printerSettingsItem, printerSettingsItem, printerSettingsItem,
+        };
         
         PrinterProfilesList =
         [
@@ -136,7 +150,7 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
                 Name = "Print Landscape",
                 Description = "Print all files in landscape mode",
                 Copies = 1,
-                // TODO: Populate PrintSettings
+                PrinterSettings = printerSettings
             },
             new PrintProfileViewModel
             {
@@ -144,7 +158,7 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
                 Name = "Print Portrait",
                 Description = "Print all files in portrait mode",
                 Copies = 3,
-                // TODO: Populate PrintSettings
+                PrinterSettings = printerSettings
             },
             new PrintProfileViewModel
             {
@@ -152,7 +166,7 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
                 Name = "A3 Black & White",
                 Description = "Make all A3 prints black and white",
                 Copies = 5,
-                // TODO: Populate PrintSettings
+                PrinterSettings = printerSettings
             },
         ];
 

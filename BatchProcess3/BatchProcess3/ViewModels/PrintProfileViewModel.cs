@@ -2,6 +2,7 @@
 using BatchProcess3.Data;
 using BatchProcess3.ViewModels.Actions;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 
 namespace BatchProcess3.ViewModels;
 
@@ -21,6 +22,9 @@ public partial class PrintProfileViewModel : ConfirmDialogViewModel
         DialogHeight = 700;
         ConfirmText = "Save";
         CancelText = "Cancel";
+        
+        // TODO: Remove once we pull from database
+        OnDesignTimeConstructor();
     }
     
     [ObservableProperty]
@@ -37,4 +41,16 @@ public partial class PrintProfileViewModel : ConfirmDialogViewModel
     
     [ObservableProperty]
     private int _copies;
+
+    protected override void OnDesignTimeConstructor()
+    {
+        var printerSettingsItem = new ActionsPrinterSettingsViewModel()
+        {
+            Id = "2",
+            Height = 200,
+            Width = 140,
+            ScaleToFil = true
+        };
+        PrinterSettings = new ObservableCollection<ActionsPrinterSettingsViewModel> { printerSettingsItem, printerSettingsItem, printerSettingsItem, printerSettingsItem, printerSettingsItem, printerSettingsItem };
+    }
 }
