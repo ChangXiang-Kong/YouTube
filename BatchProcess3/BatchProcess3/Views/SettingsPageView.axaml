@@ -45,13 +45,11 @@
 
           <!--  Skip Files  -->
           <TextBlock Grid.Row="2" Grid.Column="0" Text="Skip files if only Open, Save (Optional) and Close are valid actions." TextWrapping="Wrap" />
-          <CheckBox Grid.Row="2" Grid.Column="2" Content="        " />
-          <!--<CheckBox Grid.Row="2" Grid.Column="2" IsChecked="{Binding SkipNoActionFiles}" />-->
+          <CheckBox Grid.Row="2" Grid.Column="2" Content="        " IsChecked="{Binding SkipNoActionFiles}" />
 
           <!--  Duplicate Entries  -->
           <TextBlock Grid.Row="4" Grid.Column="0" Text="Allow duplicate entries of the same file in project list" TextWrapping="Wrap" />
-          <CheckBox Grid.Row="4" Grid.Column="2" Content="        " />
-          <!--<CheckBox Grid.Row="4" Grid.Column="2" IsChecked="{Binding AllowDuplicateEntries}" />-->
+          <CheckBox Grid.Row="4" Grid.Column="2" Content="        " IsChecked="{Binding AllowDuplicateEntries}" />
         </Grid>
       </StackPanel>
 
@@ -71,9 +69,7 @@
                   Command="{Binding AddLocationPathCommand}"
                   Content="+ Folder" />-->
         </Grid>
-
       </StackPanel>
-
     </StackPanel>
 
     <ListBox Grid.Row="2" Grid.Column="0" Margin="25,0,25,25" ItemsSource="{Binding LocationPaths}">
@@ -100,7 +96,7 @@
           BatchProcess can work locally on the current machine, or on any machine accessible
           over the network or even internet.<LineBreak /><LineBreak />
           Enter the machines IP address, network name or localhost for this machine.</TextBlock>
-        <ComboBox Width="200" ItemsSource="{Binding LocationPaths}" />
+        <ComboBox Width="200" Margin="0,5" ItemsSource="{Binding SolidWorksHosts}" SelectedItem="{Binding SolidWorksHost}" />
         <!--<ComboBox Width="200" ItemsSource="{Binding SolidWorksHosts}" SelectedItem="{Binding SolidWorksHost}"/>-->
         <Label Classes="sub1 success" Content="Connection established" />
       </StackPanel>
@@ -110,30 +106,28 @@
         <Label Classes="h2" Content="PDM Enterprise" />
         <TextBlock Text="If you are using PDM Enterprise enter the credentials below and test login. BatchProcess can then automatically handle checking in and out files from PDM Enterprise." TextWrapping="Wrap" />
         <Grid Margin="0,10" ColumnDefinitions="*,*,*" RowDefinitions="Auto, Auto">
+          <!--  PdmeVaultName  -->
           <Label Grid.Row="0" Grid.Column="0" Classes="sub2" Content="Vault Name" />
-          <ComboBox Grid.Row="1" Grid.Column="0" Margin="0,0,10,0" HorizontalAlignment="Stretch" />
-          <!--<ComboBox Grid.Row="1" Grid.Column="0" Margin="0,0,10,0"
+          <ComboBox Grid.Row="1" Grid.Column="0" Margin="0,0,10,0"
                     HorizontalAlignment="Stretch"
                     ItemsSource="{Binding PdmeVaultNames}"
-                    SelectedItem="{Binding PdmeVaultName}" />-->
+                    SelectedItem="{Binding PdmeVaultName}" />
+          <!--  Username  -->
           <Label Grid.Row="0" Grid.Column="1" Classes="sub2" Content="Username" />
           <TextBox Grid.Row="1" Grid.Column="1" Margin="0,0,10,0"
-                   VerticalContentAlignment="Center" Text="Binding PdmeUsername}" />
-          <!--<TextBox Grid.Row="1" Grid.Column="1" Margin="0,0,10,0" VerticalContentAlignment="Center"  Text="{Binding PdmeUsername}" />-->
+                   VerticalContentAlignment="Center"
+                   Text="{Binding PdmeUserName}" />
+          <!--  Password  -->
           <Label Grid.Row="0" Grid.Column="2" Classes="sub2" Content="Password" />
           <TextBox Grid.Row="1" Grid.Column="2" VerticalContentAlignment="Center"
-                   PasswordChar="*" Text="Binding PdmePassword}" />
-          <!--<TextBox Grid.Row="1" Grid.Column="2" PasswordChar="*"  VerticalContentAlignment="Center" Text="{Binding PdmePassword}" />-->
+                   PasswordChar="*"
+                   Text="{Binding PdmePassword}" />
         </Grid>
         <StackPanel Orientation="Horizontal" Spacing="10">
-          <IconButton Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch"
-                      Classes="small" Content="Login" IconText="&#xe23e;" />
-          <!--<IconButton Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch"
-                      Classes="small"
+          <IconButton HorizontalAlignment="Stretch" Classes="small"
                       Command="{Binding PdmeLoginCommand}"
-                      Content="Login" IconText="&#xe23e;" />-->
-          <IconButton Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch"
-                      Classes="outline small" Content="Refresh Vault" IconText="&#xe094;" />
+                      Content="Login" IconText="&#xe23e;" />
+          <IconButton HorizontalAlignment="Stretch" Classes="outline small" Content="Refresh Vault" IconText="&#xe094;" />
         </StackPanel>
         <Label Margin="0,0,0,0" Classes="sub1 success" Content="Connection Established" />
       </StackPanel>

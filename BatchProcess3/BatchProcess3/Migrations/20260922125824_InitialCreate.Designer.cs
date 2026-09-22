@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BatchProcess3.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260922081625_InitialCreate")]
+    [Migration("20260922125824_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -54,7 +54,7 @@ namespace BatchProcess3.Migrations
                     b.Property<bool>("SkipNoActionFiles")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("SolidWorksHostIp")
+                    b.Property<string>("SolidWorksHost")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("TEXT");

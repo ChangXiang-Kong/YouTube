@@ -19,7 +19,7 @@ namespace BatchProcess3.Migrations
                     SkipNoActionFiles = table.Column<bool>(type: "INTEGER", nullable: false),
                     AllowDuplicateEntries = table.Column<bool>(type: "INTEGER", nullable: false),
                     LocationPaths = table.Column<string>(type: "TEXT", nullable: false),
-                    SolidWorksHostIp = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
+                    SolidWorksHost = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
                     PdmeVaultName = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
                     PdmeUserName = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
                     PdmePassword = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),

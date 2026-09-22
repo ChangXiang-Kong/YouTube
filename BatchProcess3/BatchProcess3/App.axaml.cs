@@ -9,6 +9,9 @@ using BatchProcess3.Views;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Reflection;
 using BatchProcess3.Data;
 using BatchProcess3.EntityFramework;
 using BatchProcess3.Tools.Extensions;
@@ -88,9 +91,85 @@ public partial class App : Application
     /// </summary>
     public static Dictionary<Type, Type> ViewModelMappings { get; } = new();
 
+    #region App Path
+    /// <summary>
+    /// 程序名称，有扩展名
+    /// </summary>
+    public static string AppName => Path.GetFileName(AppExePath); // 等于 Process.GetCurrentProcess().MainModule.ModuleName;❌ 等于 System.IO.Path.GetFileName(System.Reflection.Assembly.GetEntryAssembly().GetName().ConstraintName);❌
+    /// <summary>
+    /// 程序名称，无扩展名
+    /// </summary>
+    public static string AppNameWithoutExtension => Path.GetFileNameWithoutExtension(AppExePath);
+    //private static string AppFrameworkName => AppDomain.CurrentDomain.SetupInformation.TargetFrameworkName;  // 高版本可用⚠️
+    /// <summary>
+    /// 当前程序所在目录，程序自启时有效，后面两个方式无法自启
+    /// </summary>
+    public static string AppExeDir => AppContext.BaseDirectory; // 等于 AppDomain.CurrentDomain.BaseDirectory;    // 等于 Directory.GetCurrentDirectory();❌  // 等于 Environment.CurrentDirectory;❌
+    /// <summary>
+    /// 当前程序完整路径
+    /// </summary>
+    public static string AppExePath => Process.GetCurrentProcess().MainModule.FileName; // 等于 Environment.ProcessPath，高版本可用
+    /// <summary>
+    /// 当前程序版本相关信息
+    /// </summary>
+    public static FileVersionInfo AppVersionInfo => Process.GetCurrentProcess().MainModule.FileVersionInfo;
+    /// <summary>
+    /// 当前程序 .Dll 完整路径
+    /// </summary>
+    public static string AppDllPath => Assembly.GetExecutingAssembly().Location;  // 等于 GetType().Assembly.Location;
+    /// <summary>
+    /// 当前程序的 .Dll 名称
+    /// </summary>
+    public static string AppDllName => AppVersionInfo.InternalName; // ❌ 或者 AppVersionInfo.OriginalFilename;❌
+
+    /// <summary>
+    /// 当前用户的系统自动启动目录路径
+    /// </summary>
+    public static string SystemStartDirPath => Environment.GetFolderPath(Environment.SpecialFolder.Startup);
+    /// <summary>
+    /// 桌面目录路径
+    /// </summary>
+    public static string DesktopPath => Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+    /// <summary>
+    /// 注册表路径
+    /// </summary>
+    public static string RegistryPath => @"Software\Microsoft\Windows\CurrentVersion\Run";
+    #endregion App Path
+    
+    private void Test()
+    {
+        // var appName =  AppName;                                  // BatchProcess3.Desktop.exe
+        // var appNameWithoutExtension =  AppNameWithoutExtension;  // BatchProcess3.Desktop
+        // var appExeDir =  AppExeDir;                              // D:\Desktop\YouTube\BatchProcess3\BatchProcess3.Desktop\bin\Debug\net10.0\
+        // var appExePath =  AppExeDir;                             // D:\Desktop\YouTube\BatchProcess3\BatchProcess3.Desktop\bin\Debug\net10.0\
+        // var appVersionInfo =  AppVersionInfo;                             /*
+        //     File:             D:\Desktop\YouTube\BatchProcess3\BatchProcess3.Desktop\bin\Debug\net10.0\BatchProcess3.Desktop.exe
+        //     InternalName:     BatchProcess3.Desktop.dll
+        //     OriginalFilename: BatchProcess3.Desktop.dll
+        //     FileVersion:      1.0.0.0
+        //     FileDescription:  BatchProcess3.Desktop
+        //     Product:          BatchProcess3.Desktop
+        //     ProductVersion:   1.0.0+6c0b0333b1a4272467c3986bf85e1502c24c1f14
+        //     Debug:            False
+        //     Patched:          False
+        //     PreRelease:       False
+        //     PrivateBuild:     False
+        //     SpecialBuild:     False
+        //     Language:         语言中性
+        //  */
+        // var appDllPath =  AppDllPath;                   // D:\Desktop\YouTube\BatchProcess3\BatchProcess3.Desktop\bin\Debug\net10.0\BatchProcess3.dll
+        // var appDllName =  AppDllName;                   // BatchProcess3.Desktop.dll
+        // var systemStartDirPath =  SystemStartDirPath;   // C:\Users\38287\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup
+        // var desktopPath =  DesktopPath;                 // D:\Desktop
+        // var registryPath =  RegistryPath;               // Software\Microsoft\Windows\CurrentVersion\Run
+        
+        
+    }
+    
     public override void Initialize()
     {
         AvaloniaXamlLoader.Load(this);
+        Test();
 #if DEBUG
         /* 第三方F12诊断工具：
         光头哥的 ProDiagnostics,

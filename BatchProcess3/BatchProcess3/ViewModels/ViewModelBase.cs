@@ -22,6 +22,8 @@ public class ViewModelBase : ObservableObject
 
     protected virtual void OnDesignTimeConstructor() { }
     
+    public virtual void OnViewLoaded() { }
+    
     // 参考视频：https://www.youtube.com/watch?v=xR5115U_RdI&list=PLrW43fNmjaQWwIdZxjZrx5FSXcNzaucOO&index=31
     // 可多看账几遍，视频中出现多次错误与解决思路，有助于了解 Json 的使用
     protected readonly JsonSerializerOptions JsonSerializerOptions = new JsonSerializerOptions

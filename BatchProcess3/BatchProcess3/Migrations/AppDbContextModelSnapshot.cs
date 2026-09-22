@@ -51,7 +51,7 @@ namespace BatchProcess3.Migrations
                     b.Property<bool>("SkipNoActionFiles")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("SolidWorksHostIp")
+                    b.Property<string>("SolidWorksHost")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("TEXT");

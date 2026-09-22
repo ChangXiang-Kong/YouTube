@@ -23,6 +23,19 @@ public class AppDbContext : DbContext
             string tableName = $"{ResourceToken.AppName}.db";
             //string dbPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, tableName);  // 旧（.NET Framework）
             string dbPath = Path.Combine(AppContext.BaseDirectory, tableName);  // 新（.NET 6+）
+            // 以上两种方式的结果都是：dbPath = D:\Desktop\YouTube\BatchProcess3\BatchProcess3.Desktop\bin\Debug\net10.0\
+            
+            // // 路径去掉 .Desktop\bin\Debug\net10.0\ 的原因：
+            // //      在使用了
+            // //          $ dotnet ef migrations add InitialCreate -v
+            // //          $ dotnet ef database Update
+            // //      命令后，会生成数据库文件 D:\Desktop\YouTube\BatchProcess3\BatchProcess3\bin\Debug\net10.0\BatchProcess3.db
+            // //      命令后，会生成数据库文件 D:\Desktop\YouTube\BatchProcess3\BatchProcess3
+            // //      而在执行数据库保存操作时，若不替换掉 .Desktop，
+            // //      则会将数据保存到 D:\Desktop\YouTube\BatchProcess3\BatchProcess3.Desktop\bin\Debug\net10.0\BatchProcess3.db 中，
+            // //      这样就会有两个数据库文件
+            // string dbPath = Path.Combine(AppContext.BaseDirectory.Replace(@".Desktop\bin\Debug\net10.0\", ""), tableName);
+            
             optionsBuilder.UseSqlite($"Data Source={dbPath}")
                 .EnableSensitiveDataLogging()
                 .EnableDetailedErrors();

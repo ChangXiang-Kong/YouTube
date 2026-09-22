@@ -12,7 +12,7 @@ public class SettingsEntity : BaseEntity
     public List<string> LocationPaths { get; set; } = [];
 
     [MaxLength(100)]
-    public string SolidWorksHostIp { get; set; } = "";
+    public string SolidWorksHost { get; set; } = "";    // 全部都要有默认值
 
     [MaxLength(100)]
     public string PdmeVaultName { get; set; } = "";
