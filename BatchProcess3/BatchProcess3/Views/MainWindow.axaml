@@ -5,7 +5,7 @@
         xmlns:local="clr-namespace:BatchProcess3.Views"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:BatchProcess3.ViewModels"
-        Title="BatchProcess3"
+        Title="BatchProcess v3.0.0"
         Width="1400"
         Height="800"
         MinWidth="1400"

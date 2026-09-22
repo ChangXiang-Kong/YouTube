@@ -18,6 +18,12 @@
         <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
         <PackageReference Include="ClassicDiagnostics.Avalonia" />
         <PackageReference Include="CommunityToolkit.Mvvm"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
         <PackageReference Include="Svg.Controls.Skia.Avalonia" />
         <PackageReference Include="System.Drawing.Common" />
@@ -33,13 +39,10 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Compile Update="Views\PrintProfileView.axaml.cs">
-        <DependentUpon>PrinterSettingsView.axaml</DependentUpon>
-        <SubType>Code</SubType>
-      </Compile>
+      <PackageVersion Update="Avalonia.Controls.DataGrid" Version="12.1.2" />
     </ItemGroup>
 
     <ItemGroup>
-      <PackageVersion Update="Avalonia.Controls.DataGrid" Version="12.1.2" />
+      <Folder Include="EntityFramework\Dtos\" />
     </ItemGroup>
 </Project>

@@ -240,11 +240,27 @@ public partial class ActionsPageViewModel(
         var test = profileViewModel.GetState();
         copiedProfileViewModel.RestoreState(profileViewModel.GetState());
 
+        InjectPrinterDetails(copiedProfileViewModel);
+        
+        await dialogService.ShowDialogAsync(mainViewModel, copiedProfileViewModel);
+        
+        // Ignore if we clicked cancel
+        if (!copiedProfileViewModel.IsConfirmed)
+            return;
+        
+        // TODO: Database stuff
+        
+        // Commit copied view model back
+        profileViewModel.RestoreState(copiedProfileViewModel.GetState());
+    }
+
+    private void InjectPrinterDetails(PrintProfileViewModel viewModel)
+    {
         // Fetch live printers available on machine
         var availablePrinters = printerService.GetAvailablePrinters();
         var printerNameOptions = new ObservableCollection<string>(availablePrinters.Select(x => x.Name));
 
-        foreach (var printerSettingsItem in copiedProfileViewModel.PrinterSettings)
+        foreach (var printerSettingsItem in viewModel.PrinterSettings)
         {
             printerSettingsItem.PrinterNameOptions = printerNameOptions;
             
@@ -267,17 +283,6 @@ public partial class ActionsPageViewModel(
                 printerSettingsItem.SourceTray = printerSettingsItem.SourceTrayOptions.FirstOrDefault() ?? "-";
             };
         }
-
-        await dialogService.ShowDialogAsync(mainViewModel, copiedProfileViewModel);
-        
-        // Ignore if we clicked cancel
-        if (!copiedProfileViewModel.IsConfirmed)
-            return;
-        
-        // TODO: Database stuff
-        
-        // Commit copied view model back
-        profileViewModel.RestoreState(copiedProfileViewModel.GetState());
     }
 
     [RelayCommand]
@@ -304,6 +309,7 @@ public partial class ActionsPageViewModel(
     {
         var confirmDialogViewModel = new PrintProfileViewModel()
         {
+            Title = "New Printer Settings",
             // 图标方式一：
             // GeometryIcon = GeometryIcon.PrinterPosCog,                  // 不需要了，内部构造函数已有 IconGeometry 与 IconForeground 替代
             // // 图标方式二：
@@ -328,7 +334,12 @@ public partial class ActionsPageViewModel(
             //     return true;
             // },
         };
-            
+        
+        // TODO: Remove once we confirm view model dialog is pulled from database
+        confirmDialogViewModel.RestoreState(confirmDialogViewModel.GetState());
+        
+        InjectPrinterDetails(confirmDialogViewModel);
+        
         // Wait for click button
         await dialogService.ShowDialogAsync(mainViewModel, confirmDialogViewModel);
             
@@ -336,6 +347,7 @@ public partial class ActionsPageViewModel(
         if (!confirmDialogViewModel.IsConfirmed)
             return;
         
+        PrinterProfilesList.Add(confirmDialogViewModel);
     }
 
     [RelayCommand]

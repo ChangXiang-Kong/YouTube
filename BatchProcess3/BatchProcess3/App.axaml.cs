@@ -102,11 +102,12 @@ public partial class App : Application
 
     public override void OnFrameworkInitializationCompleted()
     {
+        // ==========  依赖注入 ==========
         var services = new ServiceCollection();
-        // =====  依赖注入 =====
         RegisterViewModels(services);
         RegisterServices(services);
         var serviceProvider = services.BuildServiceProvider();
+        // ==============================
 
         switch (ApplicationLifetime)
         {
