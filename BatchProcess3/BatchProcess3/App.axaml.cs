@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using BatchProcess3.Data;
+using BatchProcess3.EntityFramework;
 using BatchProcess3.Tools.Extensions;
 using BatchProcess3.Tools.Services;
 using BatchProcess3.ViewModels.Actions;
@@ -156,6 +157,8 @@ public partial class App : Application
 
     private void RegisterServices(IServiceCollection services)
     {
+        #region Page Navigation Services
+        services.AddSingleton<PageFactory>();
         // 使用 PageFactory0 或 PageFactory1 时的依赖注入写法
         // services.AddSingleton<Func<ApplicationPageName, PageViewModel>>(x => name => name switch
         // {
@@ -182,8 +185,20 @@ public partial class App : Application
             _ when type == typeof(SettingsPageViewModel) => x.GetRequiredService<SettingsPageViewModel>(),
             _ => throw new InvalidOperationException(),
         });
-        services.AddSingleton<PageFactory>();
+        #endregion Page Navigation Services
+        
         services.AddSingleton<DialogService>();
+        
         services.AddTransient<PrinterService>();
+        
+        #region Database services
+        services.AddTransient<AppDbContext>();
+        services.AddTransient<DatabaseService>();
+        // 添加下面两个的原因：
+        //      在 Transient 的 ViewModel 中（如 HomePageViewModel），依赖注入时使用 Transient 的 DatabaseService 没有问题，
+        //      但在 Singleton 的 ViewModel 中（如 MainViewModel），依赖注入时使用 Transient 的 DatabaseService，这个 DatabaseService 就变成了 Singleton，因为 MainViewModel 是 Singleton
+        services.AddSingleton<DatabaseFactory>();
+        services.AddSingleton<Func<DatabaseService>>(x => x.GetRequiredService<DatabaseService>);
+        #endregion Database services
     }
 }

@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BatchProcess3.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260922041152_InitialCreate")]
+    [Migration("20260922081625_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -26,11 +26,37 @@ namespace BatchProcess3.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
+                    b.Property<bool>("AllowDuplicateEntries")
+                        .HasColumnType("INTEGER");
+
                     b.Property<DateTimeOffset>("CreateTime")
                         .HasColumnType("TEXT");
 
                     b.PrimitiveCollection<string>("LocationPaths")
                         .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PdmePassword")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PdmeUserName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PdmeVaultName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("SkipNoActionFiles")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("SolidWorksHostIp")
+                        .IsRequired()
+                        .HasMaxLength(100)
                         .HasColumnType("TEXT");
 
                     b.Property<DateTimeOffset?>("UpdateTime")

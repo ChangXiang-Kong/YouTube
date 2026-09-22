@@ -16,7 +16,13 @@ namespace BatchProcess3.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    SkipNoActionFiles = table.Column<bool>(type: "INTEGER", nullable: false),
+                    AllowDuplicateEntries = table.Column<bool>(type: "INTEGER", nullable: false),
                     LocationPaths = table.Column<string>(type: "TEXT", nullable: false),
+                    SolidWorksHostIp = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
+                    PdmeVaultName = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
+                    PdmeUserName = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
+                    PdmePassword = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
                     UpdateTime = table.Column<DateTimeOffset>(type: "TEXT", nullable: true),
                     CreateTime = table.Column<DateTimeOffset>(type: "TEXT", nullable: false)
                 },

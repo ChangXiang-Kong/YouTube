@@ -8,7 +8,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BatchProcess3.EntityFramework;
 using BatchProcess3.Tools.Interfaces;
+using BatchProcess3.Tools.Services;
 
 namespace BatchProcess3.ViewModels
 {
@@ -19,23 +21,28 @@ namespace BatchProcess3.ViewModels
         /// </summary>
         public MainViewModel()
         {
-            CurrentPage = new SettingsPageViewModel();
+            CurrentPage = new SettingsPageViewModel(new DatabaseFactory(() => new DatabaseService(new AppDbContext())));
         }
 
         // 获取依赖
-        public MainViewModel(PageFactory pageFactory)
+        public MainViewModel(PageFactory pageFactory, DatabaseFactory  databaseFactory)
         {
             // _pageFactory0 = pageFactory0;
             // _pageFactory1 = pageFactory1;
-            _pageFactory = pageFactory;
+            _pageFactory = pageFactory ?? throw new ArgumentNullException(nameof(pageFactory));
+            _databaseFactory = databaseFactory ?? throw new ArgumentNullException(nameof(databaseFactory));
 
+            using var dbContext = _databaseFactory.GetDatabaseService();
+            dbContext.ApplyMigrations();
+            
             // GoToPage1("HomePage");
             GoToPage(ApplicationPageName.Home);
         }
 
-        private PageFactory0 _pageFactory0;
-        private PageFactory1 _pageFactory1;
-        private PageFactory _pageFactory;
+        private readonly PageFactory0 _pageFactory0;
+        private readonly PageFactory1 _pageFactory1;
+        private readonly PageFactory _pageFactory;
+        private readonly DatabaseFactory _databaseFactory;
 
         public SvgImage SideMenuImage => new SvgImage { Source = SvgSource.Load($"avares://{nameof(BatchProcess3)}/Assets/Images/{(SideMenuExpanded ? "logo" : "icon")}.svg") };
         public int SomeWidth => SideMenuExpanded ? 220 : 65;
