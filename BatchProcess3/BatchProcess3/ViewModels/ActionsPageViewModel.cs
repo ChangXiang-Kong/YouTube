@@ -128,10 +128,6 @@ public partial class ActionsPageViewModel(
     [RelayCommand]
     private void FetchPrinterProfiles()
     {
-        // Fetch live printers available on machine
-        var availablePrinters = printerService.GetAvailablePrinters();
-        var printerNameOptions = new ObservableCollection<string>(availablePrinters.Select(x => x.Name));
-        
         // TODO: Pull from database
         var printerSettingsItem = new ActionsPrinterSettingsViewModel()
         {
@@ -139,8 +135,8 @@ public partial class ActionsPageViewModel(
             Height = 200,
             Width = 140,
             ScaleToFil = true,
-            PrinterNameOptions = printerNameOptions,
         };
+
         var printerSettings = new ObservableCollection<ActionsPrinterSettingsViewModel>
         {
             printerSettingsItem, printerSettingsItem, printerSettingsItem, printerSettingsItem, printerSettingsItem,
@@ -241,8 +237,36 @@ public partial class ActionsPageViewModel(
         // };
         // var a = JsonSerializer.Serialize(this, GetType().DeclaringType ?? GetType(), _jsonSerializerOptions);
         // =====================
-        var b = profileViewModel.GetState();
+        var test = profileViewModel.GetState();
         copiedProfileViewModel.RestoreState(profileViewModel.GetState());
+
+        // Fetch live printers available on machine
+        var availablePrinters = printerService.GetAvailablePrinters();
+        var printerNameOptions = new ObservableCollection<string>(availablePrinters.Select(x => x.Name));
+
+        foreach (var printerSettingsItem in copiedProfileViewModel.PrinterSettings)
+        {
+            printerSettingsItem.PrinterNameOptions = printerNameOptions;
+            
+            printerSettingsItem.PropertyChanged += (s, e) =>
+            {
+                if (e.PropertyName != nameof(ActionsPrinterSettingsViewModel.PrinterName))
+                    return;
+                
+                // Printer changed, update paper size and tray
+                printerSettingsItem.PaperSizeOptions = new ObservableCollection<string>(
+                    availablePrinters.FirstOrDefault(x => x.Name == printerSettingsItem.PrinterName)?.PaperSizes ?? []
+                );
+                
+                printerSettingsItem.SourceTrayOptions = new ObservableCollection<string>(
+                    availablePrinters.FirstOrDefault(x => x.Name == printerSettingsItem.PrinterName)?.SourceTrays ?? []
+                );
+                
+                // Change paper size and source tray to first item
+                printerSettingsItem.PaperSize = printerSettingsItem.PaperSizeOptions.FirstOrDefault() ?? "-";
+                printerSettingsItem.SourceTray = printerSettingsItem.SourceTrayOptions.FirstOrDefault() ?? "-";
+            };
+        }
 
         await dialogService.ShowDialogAsync(mainViewModel, copiedProfileViewModel);
         

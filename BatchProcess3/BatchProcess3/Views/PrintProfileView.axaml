@@ -135,7 +135,7 @@
             <DataGridTemplateColumn Header="Printer Name" SortMemberPath="PrinterName">
               <DataGridTemplateColumn.CellTemplate>
                 <DataTemplate>
-                  <ComboBox Width="160" Margin="0"
+                  <ComboBox Width="180" Margin="0"
                             DisplayMemberBinding="{Binding}"
                             ItemsSource="{Binding PrinterNameOptions}"
                             SelectedItem="{Binding PrinterName}"
@@ -147,7 +147,7 @@
             <DataGridTemplateColumn Header="Paper Size" SortMemberPath="PaperSize">
               <DataGridTemplateColumn.CellTemplate>
                 <DataTemplate>
-                  <ComboBox Width="160" Margin="0"
+                  <ComboBox Width="180" Margin="0"
                             DisplayMemberBinding="{Binding}"
                             ItemsSource="{Binding PaperSizeOptions}"
                             SelectedItem="{Binding PaperSize}"

@@ -20,11 +20,25 @@ public class PrinterService
             
             foreach (string printerName in PrinterSettings.InstalledPrinters)
             {
-                printers.Add(new PrinterDetailViewModel() { Name = printerName });
-                
                 printDocument.PrinterSettings.PrinterName = printerName;
-                // printDocument.PrinterSettings.PaperSizes = printerName;
                 
+                var printerDetailsViewModel = new PrinterDetailViewModel() { Name = printerName };
+                
+                // Add PaperSizes option
+                printerDetailsViewModel.PaperSizes.Add("(Default)");
+                foreach (PaperSize paperSize in printDocument.PrinterSettings.PaperSizes)
+                {
+                    printerDetailsViewModel.PaperSizes.Add(paperSize.PaperName);
+                }
+                
+                // Add SourceTrays option
+                printerDetailsViewModel.SourceTrays.Add("(Default)");
+                foreach (PaperSource sourceTray in printDocument.PrinterSettings.PaperSources)
+                {
+                    printerDetailsViewModel.SourceTrays.Add(sourceTray.SourceName);
+                }
+                
+                printers.Add(printerDetailsViewModel);
             }
         }
         
