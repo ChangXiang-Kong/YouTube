@@ -12,13 +12,27 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
+using Avalonia.Controls;
 using BatchProcess3.Data;
 using BatchProcess3.EntityFramework;
 using BatchProcess3.Tools.Extensions;
 using BatchProcess3.Tools.Services;
 using BatchProcess3.ViewModels.Actions;
+using BatchProcess3.ViewModels.MainMenus;
 using BatchProcess3.Views.Actions;
 using ClassicDiagnostics.Avalonia;
+using ActionsPageView = BatchProcess3.Views.MainMenus.ActionsPageView;
+using ActionsPageViewModel = BatchProcess3.ViewModels.MainMenus.ActionsPageViewModel;
+using HistoryPageView = BatchProcess3.Views.MainMenus.HistoryPageView;
+using HistoryPageViewModel = BatchProcess3.ViewModels.MainMenus.HistoryPageViewModel;
+using HomePageView = BatchProcess3.Views.MainMenus.HomePageView;
+using MacrosPageView = BatchProcess3.Views.MainMenus.MacrosPageView;
+using MacrosPageViewModel = BatchProcess3.ViewModels.MainMenus.MacrosPageViewModel;
+using ProcessPageView = BatchProcess3.Views.MainMenus.ProcessPageView;
+using ReporterPageView = BatchProcess3.Views.MainMenus.ReporterPageView;
+using ReporterPageViewModel = BatchProcess3.ViewModels.MainMenus.ReporterPageViewModel;
+using SettingsPageView = BatchProcess3.Views.MainMenus.SettingsPageView;
+using SettingsPageViewModel = BatchProcess3.ViewModels.MainMenus.SettingsPageViewModel;
 
 // 自定义 XML Namespace 参考链接：https://docs.avaloniaui.net/docs/guides/custom-controls/how-to-create-a-custom-controls-library#xml-namespace-definitions
 // 参考视频：https://www.youtube.com/watch?v=M3CFj0x-tts&list=PLrW43fNmjaQWwIdZxjZrx5FSXcNzaucOO&index=7
@@ -231,7 +245,7 @@ public partial class App : Application
         services.AddTransientViewModel<SettingsPageView, SettingsPageViewModel>();
         // Dialog
         services.AddTransientViewModel<ConfirmDialogView, ConfirmDialogViewModel>();
-        services.AddTransientViewModel<PrintProfileView, PrintProfileViewModel>();
+        services.AddTransientViewModel<PrintSettingsView, PrintSettingsViewModel>();
     }
 
     private void RegisterServices(IServiceCollection services)
@@ -279,5 +293,17 @@ public partial class App : Application
         services.AddSingleton<DatabaseFactory>();
         services.AddSingleton<Func<DatabaseService>>(x => x.GetRequiredService<DatabaseService>);
         #endregion Database services
+        
+        // TopLevel provider
+        services.AddSingleton<Func<TopLevel?>>(x => () =>
+        {
+            return ApplicationLifetime switch
+            {
+                IClassicDesktopStyleApplicationLifetime desktopLifetime => TopLevel.GetTopLevel(desktopLifetime.MainWindow),
+                ISingleViewApplicationLifetime singleView => TopLevel.GetTopLevel(singleView.MainView),
+                _ => null
+            };
+        });
+
     }
 }

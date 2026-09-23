@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using BatchProcess3.EntityFramework;
 using BatchProcess3.Tools.Interfaces;
 using BatchProcess3.Tools.Services;
+using BatchProcess3.ViewModels.MainMenus;
 
 namespace BatchProcess3.ViewModels
 {
@@ -21,7 +22,7 @@ namespace BatchProcess3.ViewModels
         /// </summary>
         public MainViewModel()
         {
-            CurrentPage = new SettingsPageViewModel(new DatabaseFactory(() => new DatabaseService(new AppDbContext())));
+            CurrentPage = new MainMenus.SettingsPageViewModel(new DialogService(() => null), new DatabaseFactory(() => new DatabaseService(new AppDbContext())));
         }
 
         // 获取依赖
@@ -121,11 +122,11 @@ namespace BatchProcess3.ViewModels
                 // 可传入参数
                 ApplicationPageName.Home => _pageFactory.GetPageViewModel<HomePageViewModel>(vm => vm.Test = "Test Home (Parameters can be passed in here)"),
                 ApplicationPageName.Process => _pageFactory.GetPageViewModel<ProcessPageViewModel>(),
-                ApplicationPageName.Actions => _pageFactory.GetPageViewModel<ActionsPageViewModel>(),
-                ApplicationPageName.Macros => _pageFactory.GetPageViewModel<MacrosPageViewModel>(),
-                ApplicationPageName.Reporter => _pageFactory.GetPageViewModel<ReporterPageViewModel>(),
-                ApplicationPageName.History => _pageFactory.GetPageViewModel<HistoryPageViewModel>(),
-                ApplicationPageName.Settings => _pageFactory.GetPageViewModel<SettingsPageViewModel>(),
+                ApplicationPageName.Actions => _pageFactory.GetPageViewModel<MainMenus.ActionsPageViewModel>(),
+                ApplicationPageName.Macros => _pageFactory.GetPageViewModel<MainMenus.MacrosPageViewModel>(),
+                ApplicationPageName.Reporter => _pageFactory.GetPageViewModel<MainMenus.ReporterPageViewModel>(),
+                ApplicationPageName.History => _pageFactory.GetPageViewModel<MainMenus.HistoryPageViewModel>(),
+                ApplicationPageName.Settings => _pageFactory.GetPageViewModel<MainMenus.SettingsPageViewModel>(),
                 // _ => _pageFactory.GetPageViewModel(ApplicationPageName.Unknown),
             };
         }

@@ -16,9 +16,9 @@ public static class ResourceHelper
         if (app is null)
             return null;
         
-        return Application.Current?.ApplicationLifetime switch
+        return app.ApplicationLifetime switch
         {
-            IClassicDesktopStyleApplicationLifetime desktopLifetime => desktopLifetime.MainWindow,
+            IClassicDesktopStyleApplicationLifetime desktopLifetime => TopLevel.GetTopLevel(desktopLifetime.MainWindow),
             ISingleViewApplicationLifetime singleView => TopLevel.GetTopLevel(singleView.MainView),
             _ => null
         };
@@ -46,7 +46,7 @@ public static class ResourceHelper
         if (app is null)
             return default;
         
-        return Application.Current?.FindResource(Application.Current.ActualThemeVariant, resourceKey) is T res ? res : default;
+        return app.FindResource(app.ActualThemeVariant, resourceKey) is T res ? res : default;
     }
 
     /// <summary>
@@ -84,7 +84,7 @@ public static class ResourceHelper
         if (app is null)
             return default;
         
-        return Application.Current?.FindResource(Application.Current.ActualThemeVariant, resourceKey) is T res ? res : default;
+        return app.FindResource(app.ActualThemeVariant, resourceKey) is T res ? res : default;
     }
 
     /// <summary>

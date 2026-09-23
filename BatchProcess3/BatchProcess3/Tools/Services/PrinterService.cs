@@ -2,16 +2,17 @@
 using System.Collections.ObjectModel;
 using System.Drawing.Printing;
 using BatchProcess3.ViewModels;
+using BatchProcess3.ViewModels.Actions;
 
 namespace BatchProcess3.Tools.Services;
 
 public class PrinterService
 {
-    public ObservableCollection<PrinterDetailViewModel> GetAvailablePrinters()
+    public ObservableCollection<PrintersViewModel> GetAvailablePrinters()
     {
-        var printers = new ObservableCollection<PrinterDetailViewModel>();
+        var printers = new ObservableCollection<PrintersViewModel>();
 
-        printers.Add(new PrinterDetailViewModel() { Name = "(Default)" });
+        printers.Add(new PrintersViewModel() { Name = "(Default)" });
 
         // if (OperatingSystem.IsWindows())
         if (OperatingSystem.IsWindowsVersionAtLeast(6, 1))
@@ -22,7 +23,7 @@ public class PrinterService
             {
                 printDocument.PrinterSettings.PrinterName = printerName;
                 
-                var printerDetailsViewModel = new PrinterDetailViewModel() { Name = printerName };
+                var printerDetailsViewModel = new PrintersViewModel() { Name = printerName };
                 
                 // Add PaperSizes option
                 printerDetailsViewModel.PaperSizes.Add("(Default)");

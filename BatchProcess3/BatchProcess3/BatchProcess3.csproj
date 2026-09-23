@@ -45,4 +45,39 @@
     <ItemGroup>
       <Folder Include="EntityFramework\Dtos\" />
     </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Views\MainMenus\ActionsPageView.axaml.cs">
+        <DependentUpon>ActionsPageView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\MainMenus\HistoryPageView.axaml.cs">
+        <DependentUpon>HistoryPageView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\MainMenus\HomePageView.axaml.cs">
+        <DependentUpon>HomePageView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\MainMenus\MacrosPageView.axaml.cs">
+        <DependentUpon>MacrosPageView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\MainMenus\ProcessPageView.axaml.cs">
+        <DependentUpon>ProcessPageView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\MainMenus\ReporterPageView.axaml.cs">
+        <DependentUpon>ReporterPageView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\MainMenus\SettingsPageView.axaml.cs">
+        <DependentUpon>SettingsPageView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\Actions\PrintSettingsView.axaml.cs">
+        <DependentUpon>PrintProfileView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+    </ItemGroup>
 </Project>

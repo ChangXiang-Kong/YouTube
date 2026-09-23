@@ -22,6 +22,25 @@ public class ViewModelBase : ObservableObject
 
     protected virtual void OnDesignTimeConstructor() { }
     
+    /// <summary>
+    /// <code>
+    /// 在 ViewModel 中重写：
+    ///     public override void OnViewLoaded()
+    ///     {
+    ///         // some logic
+    ///     }
+    /// 在 View 中调用：
+    ///     public TestPageView()
+    ///     {
+    ///         InitializeComponent();
+    ///         Loaded += OnLoaded;
+    ///     }
+    ///     private void OnLoaded(object? sender, RoutedEventArgs e)
+    ///     {
+    ///         ((ViewModelBase)DataContext)?.OnViewLoaded();
+    ///     }
+    /// </code>
+    /// </summary>
     public virtual void OnViewLoaded() { }
     
     // 参考视频：https://www.youtube.com/watch?v=xR5115U_RdI&list=PLrW43fNmjaQWwIdZxjZrx5FSXcNzaucOO&index=31

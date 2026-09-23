@@ -1,0 +1,267 @@
+﻿<UserControl x:Class="BatchProcess3.Views.Actions.PrintSettingsView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:actions="clr-namespace:BatchProcess3.ViewModels.Actions"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:BatchProcess3.ViewModels"
+             Width="{Binding DialogWidth}"
+             Height="{Binding DialogHeight}"
+             MinWidth="{Binding MinWidth}"
+             MinHeight="{Binding MinHeight}"
+             MaxWidth="{Binding MaxWidth}"
+             MaxHeight="{Binding MaxHeight}"
+             x:DataType="actions:PrintSettingsViewModel"
+             Background="Transparent"
+             Foreground="{DynamicResource PrimaryForeground}"
+             mc:Ignorable="d">
+  <Design.DataContext>
+    <actions:PrintSettingsViewModel />
+  </Design.DataContext>
+
+  <!--  Main Dialog Window  -->
+  <Border Margin="10"
+          Background="{DynamicResource PrimaryBackground}"
+          BorderBrush="{DynamicResource DefaultGradient}"
+          BorderThickness="{DynamicResource BorderThickness_2}"
+          ClipToBounds="True" CornerRadius="20">
+    <Border.Effect>
+      <DropShadowEffect Color="{DynamicResource PrimaryBackgroundColor1}" />
+    </Border.Effect>
+
+    <Grid Margin="15" RowDefinitions="Auto, 10, *, 10, Auto">
+      <!--  Title  -->
+      <DockPanel Grid.Row="0">
+        <!--  Icon  -->
+        <!--  <Label Margin="0,0,15,0" Classes="icon"  -->
+        <!--  Content="{Binding IconText}"  -->
+        <!--  FontSize="40"  -->
+        <!--  Foreground="{Binding IconForeground}" />  -->
+        <Viewbox Width="{Binding IconWidth}"
+                 Height="{Binding IconHeight}"
+                 Margin="0,0,10,0" VerticalAlignment="Center"
+                 ToolTip.Tip="{Binding IconMessage}">
+          <PathIcon Data="{Binding IconGeometry}" Foreground="{Binding IconForeground}" />
+          <!-- <PathIcon Data="{Binding IconGeometry}" Foreground="{DynamicResource HoverGradient}" />  可直接引用已定义的资源 -->
+        </Viewbox>
+        <!--  测试用：Foreground 的值使用 IBrush 类型  -->
+        <Viewbox Width="{Binding IconWidth}"
+                 Height="{Binding IconHeight}"
+                 Margin="0,0,10,0" VerticalAlignment="Center" IsVisible="False"
+                 ToolTip.Tip="{Binding IconMessage}">
+          <PathIcon Data="{Binding IconGeometry}" Foreground="{Binding IconForeground1}" />
+        </Viewbox>
+        <!--  测试用：Foreground 的值使用 IBrush 类型，且来自 App.axaml 中定义的资源  -->
+        <Viewbox Width="{Binding IconWidth}"
+                 Height="{Binding IconHeight}"
+                 Margin="0,0,10,0" VerticalAlignment="Center" IsVisible="False"
+                 ToolTip.Tip="{Binding IconMessage}">
+          <PathIcon Data="{Binding IconGeometry}" Foreground="{Binding IconForeground2}" />
+        </Viewbox>
+
+        <!--  Title  -->
+        <TextBlock VerticalAlignment="Center" FontSize="{DynamicResource FontSize_18}" FontWeight="Bold" Text="{Binding Title}" />
+
+        <!--  Close Button  -->
+        <Button Width="40" Margin="10,0,0,0" HorizontalAlignment="Right"
+                HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Classes="subtle"
+                Command="{Binding CancelCommand}"
+                Content="✕" DockPanel.Dock="Right" FontWeight="Normal" />
+      </DockPanel>
+
+      <!--  Content Body  -->
+      <!-- <ScrollViewer Grid.Row="2" AllowAutoHide="False"> -->
+      <Grid Grid.Row="2" RowDefinitions="Auto, 10, Auto, 10, *">
+        <!--  Message  -->
+        <TextBlock Grid.Row="0" Margin="10,0" VerticalAlignment="Top"
+                   FontSize="{DynamicResource FontSize_16}"
+                   Text="{Binding Message}"
+                   TextWrapping="Wrap" />
+
+        <StackPanel Grid.Row="2">
+          <!--  Name  -->
+          <DockPanel Margin="0,0,0,10">
+            <TextBlock Width="100" VerticalAlignment="Center" Text="Name" />
+            <TextBox Name="TextBox_Name" DockPanel.Dock="Right" Text="{Binding Name}" />
+          </DockPanel>
+          <!--  Description  -->
+          <DockPanel Margin="0,0,0,10">
+            <TextBlock Width="100" VerticalAlignment="Center" Text="Description" />
+            <TextBox MaxHeight="65" AcceptsReturn="True" DockPanel.Dock="Right"
+                     ScrollViewer.AllowAutoHide="False"
+                     Text="{Binding Description}" />
+          </DockPanel>
+          <!--  Copies  -->
+          <StackPanel Margin="0,0,0,10" Orientation="Horizontal">
+            <TextBlock Width="100" VerticalAlignment="Center" Text="Copies" />
+            <NumericUpDown Width="180" VerticalContentAlignment="Center" ButtonSpinnerLocation="Right"
+                           FormatString="0" Increment="1" InnerLeftContent=""
+                           InnerRightContent="" Maximum="100" Minimum="1"
+                           ScrollViewer.AllowAutoHide="False"
+                           Value="{Binding Copies}" />
+            <TextBlock Margin="10,0,0,0" VerticalAlignment="Center" Foreground="#AAA" Text="( Maximum=100, Minimum=1 )" />
+          </StackPanel>
+        </StackPanel>
+
+        <!--  Printer Settings  -->
+        <DataGrid Grid.Row="4" AutoGenerateColumns="False" Background="{DynamicResource PrimaryBackgroundColor2}" ItemsSource="{Binding PrinterSettings}">
+          <DataGrid.Styles>
+            <Style Selector="DataGrid DataGridColumnHeader">
+              <Setter Property="Background" Value="{DynamicResource PrimaryBackgroundColor1}" />
+              <Setter Property="Foreground" Value="{DynamicResource PrimaryForeground}" />
+            </Style>
+            <Style Selector="DataGrid DataGridRow:selected /template/ Rectangle#BackgroundRectangle">
+              <Setter Property="Fill" Value="{DynamicResource ActiveHoverGradient}" />
+            </Style>
+          </DataGrid.Styles>
+
+          <DataGrid.Columns>
+            <!--  无法使用 ToolTip.Tip="xxx"，报错 Error AVLN2000 Avalonia: Unable to resolve suitable regular or attached property Tip on type Avalonia.Controls:Avalonia.Controls.ToolTip Line 118, position 14.  -->
+            <!--  <DataGridTextColumn Width="120"  -->
+            <!--  Binding="{Binding Type}"  -->
+            <!--  Header="Type" IsReadOnly="True" SortMemberPath="Type"  -->
+            <!--  ToolTip.Tip="{Binding Binding, RelativeSource={RelativeSource Self}}" />  -->
+
+            <DataGridTemplateColumn Header="Type" SortMemberPath="Type">
+              <DataGridTemplateColumn.CellTemplate>
+                <DataTemplate>
+                  <TextBlock Width="120" Margin="10,0,0,0" VerticalAlignment="Center"
+                             Background="Transparent"
+                             Text="{Binding Type}"
+                             ToolTip.Tip="{Binding Type}" />
+                </DataTemplate>
+              </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+
+            <DataGridTemplateColumn Header="Printer Name" SortMemberPath="PrinterName">
+              <DataGridTemplateColumn.CellTemplate>
+                <DataTemplate>
+                  <ComboBox Width="180" Margin="0"
+                            DisplayMemberBinding="{Binding}"
+                            ItemsSource="{Binding PrinterNameOptions}"
+                            SelectedItem="{Binding PrinterName}"
+                            ToolTip.Tip="{Binding PrinterName}" />
+                </DataTemplate>
+              </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+
+            <DataGridTemplateColumn Header="Paper Size" SortMemberPath="PaperSize">
+              <DataGridTemplateColumn.CellTemplate>
+                <DataTemplate>
+                  <ComboBox Width="180" Margin="0"
+                            DisplayMemberBinding="{Binding}"
+                            ItemsSource="{Binding PaperSizeOptions}"
+                            SelectedItem="{Binding PaperSize}"
+                            ToolTip.Tip="{Binding PaperSize}" />
+                </DataTemplate>
+              </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+
+            <DataGridTemplateColumn Header="Width" SortMemberPath="Width">
+              <DataGridTemplateColumn.CellTemplate>
+                <DataTemplate>
+                  <NumericUpDown Width="80" Margin="0" VerticalContentAlignment="Center"
+                                 ShowButtonSpinner="False"
+                                 ToolTip.Tip="{Binding Width}"
+                                 Value="{Binding Width}" />
+                </DataTemplate>
+              </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+
+            <DataGridTemplateColumn Header="Height" SortMemberPath="Height">
+              <DataGridTemplateColumn.CellTemplate>
+                <DataTemplate>
+                  <NumericUpDown Width="80" Margin="0" VerticalContentAlignment="Center"
+                                 ShowButtonSpinner="False"
+                                 ToolTip.Tip="{Binding Height}"
+                                 Value="{Binding Height}" />
+                </DataTemplate>
+              </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+
+            <DataGridTemplateColumn Header="Orientation" SortMemberPath="Orientation">
+              <DataGridTemplateColumn.CellTemplate>
+                <DataTemplate>
+                  <ComboBox Width="120" Margin="0"
+                            DisplayMemberBinding="{Binding}"
+                            ItemsSource="{Binding OrientationOptions}"
+                            SelectedItem="{Binding Orientation}"
+                            ToolTip.Tip="{Binding Orientation}" />
+                </DataTemplate>
+              </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+
+            <DataGridTemplateColumn Header="Tray" SortMemberPath="SourceTray">
+              <DataGridTemplateColumn.CellTemplate>
+                <DataTemplate>
+                  <ComboBox Width="120" Margin="0"
+                            DisplayMemberBinding="{Binding}"
+                            ItemsSource="{Binding SourceTrayOptions}"
+                            SelectedItem="{Binding SourceTray}"
+                            ToolTip.Tip="{Binding SourceTray}" />
+                </DataTemplate>
+              </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+
+            <DataGridTemplateColumn Header="Drawing Color" SortMemberPath="DrawingColor">
+              <DataGridTemplateColumn.CellTemplate>
+                <DataTemplate>
+                  <ComboBox Width="160" Margin="0"
+                            DisplayMemberBinding="{Binding}"
+                            ItemsSource="{Binding DrawingColorOptions}"
+                            SelectedItem="{Binding DrawingColor}"
+                            ToolTip.Tip="{Binding DrawingColor}" />
+                </DataTemplate>
+              </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+
+            <!--  有问题：不能直接点击到 CheckBox，只有当选中这行时才能点击到 CheckBox  -->
+            <!-- <DataGridCheckBoxColumn Binding="{Binding ScaleToFil}" Header="Scale to Fit" /> -->
+            <DataGridTemplateColumn Header="Scale to Fit" SortMemberPath="ScaleToFil">
+              <DataGridTemplateColumn.CellTemplate>
+                <DataTemplate>
+                  <CheckBox Margin="0" HorizontalAlignment="Center" IsChecked="{Binding ScaleToFil}" ToolTip.Tip="{Binding ScaleToFil}" />
+                </DataTemplate>
+              </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+          </DataGrid.Columns>
+        </DataGrid>
+      </Grid>
+      <!-- </ScrollViewer> -->
+
+      <!--  Footer  -->
+      <StackPanel Grid.Row="4">
+        <!--  StatusText  -->
+        <TextBlock Margin="0,0,0,5" HorizontalAlignment="Right"
+                   FontSize="{DynamicResource FontSize_16}"
+                   Foreground="{DynamicResource AlertGradient}"
+                   Text="{Binding StatusText}"
+                   TextWrapping="Wrap" />
+
+        <!--  Yes/No Buttons  -->
+        <StackPanel HorizontalAlignment="Right" IsVisible="{Binding !IsBusy}" Orientation="Horizontal" Spacing="10">
+          <Button MinWidth="70" HorizontalContentAlignment="Center" Classes="success"
+                  Command="{Binding ConfirmCommand}"
+                  Content="{Binding ConfirmText}" />
+          <Button MinWidth="70" HorizontalContentAlignment="Center" Classes="outline danger"
+                  Command="{Binding CancelCommand}"
+                  Content="{Binding CancelText}" />
+          <Button MinWidth="70" HorizontalContentAlignment="Center" Classes="outline"
+                  Command="{Binding ApplyCommand}"
+                  Content="{Binding ApplyText}"
+                  IsVisible="False" />
+        </StackPanel>
+
+        <!--  ProgressText  -->
+        <StackPanel IsVisible="{Binding IsBusy}">
+          <TextBlock Margin="0,0,0,5" HorizontalAlignment="Right"
+                     FontSize="{DynamicResource FontSize_16}"
+                     Foreground="{DynamicResource HoverGradient}"
+                     Text="{Binding ProgressText}"
+                     TextWrapping="Wrap" />
+          <ProgressBar Foreground="{DynamicResource HoverGradient}" Maximum="100" Minimum="0" Value="{Binding ProgressValue}" />
+        </StackPanel>
+      </StackPanel>
+    </Grid>
+  </Border>
+</UserControl>
