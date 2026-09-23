@@ -41,12 +41,12 @@ namespace BatchProcess3.ViewModels.MainMenus
         
         [ObservableProperty] private bool _skipNoActionFiles;
         [ObservableProperty] private bool _allowDuplicateEntries;
-        [ObservableProperty] private ObservableCollection<string> _locationPaths = [];
+        [ObservableProperty] private ObservableCollection<string> _locationPathsList = [];
         [ObservableProperty] private string _solidWorksHost = "";
         // TODO: Fetch from network pings
-        [ObservableProperty] private ObservableCollection<string> _solidWorksHosts = [ "localhost", "127.0.0.1", "192.168.0.10" ];
+        [ObservableProperty] private ObservableCollection<string> _solidWorksHostsList = [ "localhost", "127.0.0.1", "192.168.0.10" ];
         // TODO: Fetch from PDME
-        [ObservableProperty] private ObservableCollection<string> _pdmeVaultNames = [ "vault 1", "vault 2", "vault 3" ];
+        [ObservableProperty] private ObservableCollection<string> _pdmeVaultNamesList = [ "vault 1", "vault 2", "vault 3" ];
         [ObservableProperty] private string _pdmeVaultName = "";    // 若无默认值，保存到数据库时会报错：SQLite Error 19: 'NOT NULL constraint failed: Settings.PdmeVaultName'.
         [ObservableProperty] private string _pdmeUserName = "";
         [ObservableProperty] private string _pdmePassword = "";
@@ -63,7 +63,7 @@ namespace BatchProcess3.ViewModels.MainMenus
         [RelayCommand]
         private void DeleteLocationPath(string path)
         {
-            LocationPaths.Remove(path);
+            LocationPathsList.Remove(path);
             
             // Commit to database
             SaveSettings();
@@ -75,14 +75,14 @@ namespace BatchProcess3.ViewModels.MainMenus
             var res = await _dialogService.ShowSelectFolderDialogAsync();
             
             // Dot not add if duplicate or cancelled
-            if (res == null || LocationPaths.Any(x => string.Equals(x, res, StringComparison.InvariantCultureIgnoreCase)))
+            if (res == null || LocationPathsList.Any(x => string.Equals(x, res, StringComparison.InvariantCultureIgnoreCase)))
                 return;
             
             // Add to locations
-            LocationPaths.Add(res);
+            LocationPathsList.Add(res);
             
             // Sort alphabetically
-            LocationPaths = new ObservableCollection<string>(LocationPaths.Order());
+            LocationPathsList = new ObservableCollection<string>(LocationPathsList.Order());
             
             // Save to database
             SaveSettings();
@@ -109,7 +109,7 @@ namespace BatchProcess3.ViewModels.MainMenus
             // Update view model
             SolidWorksHost = settings.SolidWorksHost;
             SkipNoActionFiles = settings.SkipNoActionFiles;
-            LocationPaths = new ObservableCollection<string>(dbContext.GetSettings().LocationPaths);
+            LocationPathsList = new ObservableCollection<string>(dbContext.GetSettings().LocationPathsList);
             AllowDuplicateEntries = settings.AllowDuplicateEntries;
             PdmePassword = settings.PdmePassword;
             PdmeVaultName = settings.PdmeVaultName;
@@ -126,7 +126,7 @@ namespace BatchProcess3.ViewModels.MainMenus
         {
             SkipNoActionFiles = SkipNoActionFiles,
             AllowDuplicateEntries = AllowDuplicateEntries,
-            LocationPaths = LocationPaths.ToList(),
+            LocationPathsList = LocationPathsList.ToList(),
             SolidWorksHost = SolidWorksHost,
             PdmeVaultName = PdmeVaultName,
             PdmeUserName = PdmeUserName,

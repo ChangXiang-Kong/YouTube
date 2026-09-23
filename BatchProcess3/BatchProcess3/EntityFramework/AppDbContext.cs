@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using BatchProcess3.Data;
 using BatchProcess3.EntityFramework.Entities;
+using BatchProcess3.EntityFramework.Entities.Actions;
 using Microsoft.EntityFrameworkCore;
 
 namespace BatchProcess3.EntityFramework;
@@ -12,6 +13,11 @@ public class AppDbContext : DbContext
 {
     // 每个 DbSet 会映射一张表到数据库中，属性名为表名
     public DbSet<SettingsEntity> Settings { get; set; }
+    
+    // Actions
+    public DbSet<PrintTabEntity> PrintTab { get; set; }
+    public DbSet<PrintSettingsEntity> PrintSettings { get; set; }
+    public DbSet<PrintSettingsProfileEntity> PrintSettingsProfile { get; set; }
     
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -70,8 +76,29 @@ public class AppDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);     // 调用与否没有影响
+
+        // SettingsEntity
+        // modelBuilder.Entity<SettingsEntity>().HasKey(x => x.Id);    // 显式标记 主键 为 Id。若 xxxEntity 已添加 名为 Id 的 属性，EFCore会自动将其识别为 主键，这里就不需要了
         
+        // PrintTabEntity
+        // modelBuilder.Entity<PrintTabEntity>().HasKey(x => x.Id);    // 显式标记 主键 为 Id。若 xxxEntity 已添加 名为 Id 的 属性，EFCore会自动将其识别为 主键，这里就不需要了
         
+        // TODO: 以下代码需要查资料，搞明白 HasMany、WithOne、HasOne、WithMany 等如何用，Cascade 与 ClientCascade 的区别
+        // PrintSettingsEntity
+        // modelBuilder.Entity<PrintSettingsEntity>().HasKey(x => x.Id);    // 显式标记 主键 为 Id。若 xxxEntity 已添加 名为 Id 的 属性，EFCore会自动将其识别为 主键，这里就不需要了
+        modelBuilder.Entity<PrintSettingsEntity>()
+            .HasMany(x => x.PrintTabsList)
+            .WithOne(x => x.PrintSettings)
+            .HasForeignKey(x => x.PrintSettingsId)
+            .OnDelete(DeleteBehavior.ClientCascade);
+        
+        // PrintSettingsProfileEntity
+        // modelBuilder.Entity<PrintSettingsProfileEntity>().HasKey(x => x.Id);    // 显式标记 主键 为 Id。若 xxxEntity 已添加 名为 Id 的 属性，EFCore会自动将其识别为 主键，这里就不需要了
+        modelBuilder.Entity<PrintSettingsProfileEntity>()
+            .HasOne(x => x.PrintSettings)
+            .WithMany(x => x.PrintSettingsProfilesList)
+            .HasForeignKey(x => x.PrintSettingsId)
+            .OnDelete(DeleteBehavior.ClientCascade);
     }
 
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)

@@ -1,13 +1,9 @@
 ﻿using System;
 
-namespace BatchProcess3.EntityFramework.Entities;
+namespace BatchProcess3.EntityFramework.Entities.Actions;
 
 public class PrintTabEntity : BaseEntity
 {
-    public Guid PrintSettingsId { get; set; }
-
-    public PrintSettingsEntity PrintSettings { get; set; } = new();
-    
     public string JobName { get; set; } = "";
 
     public string Description { get; set; } = "";
@@ -21,4 +17,11 @@ public class PrintTabEntity : BaseEntity
     public bool DrawingExclusionIsWhiteList { get; set; }
 
     public string DrawingExclusionList { get; set; } = "";
+
+    public Guid PrintSettingsId { get; set; }
+
+    // 不能 new()，初次启动时，会添加两条数据
+    // https://www.youtube.com/watch?v=ZV4-4PgnGKY&list=PLrW43fNmjaQWwIdZxjZrx5FSXcNzaucOO    37:00
+    // public PrintSettingsEntity PrintSettings { get; set; } = new();  
+    public PrintSettingsEntity PrintSettings { get; set; }
 }

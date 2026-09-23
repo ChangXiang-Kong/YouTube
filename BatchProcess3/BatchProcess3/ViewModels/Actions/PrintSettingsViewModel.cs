@@ -38,17 +38,24 @@ public partial class PrintSettingsViewModel : ConfirmDialogViewModel
     private int _copies;
     
     [ObservableProperty]
-    private ObservableCollection<PrintSettingsProfileViewModel> _printSettingsProfiles;
+    private bool _canEdit = true;
+    
+    [ObservableProperty]
+    private bool _canDelete = true;
+    
+    [ObservableProperty]
+    private ObservableCollection<PrintSettingsProfileViewModel> _printSettingsProfilesList;
 
     protected override void OnDesignTimeConstructor()
     {
-        var printerSettingsItem = new PrintSettingsProfileViewModel()
+        var printSettingsProfileViewModel = new PrintSettingsProfileViewModel()
         {
             Id = "2",
             Height = 200,
             Width = 140,
             ScaleToFil = true
         };
-        PrintSettingsProfiles = new ObservableCollection<PrintSettingsProfileViewModel> { printerSettingsItem, printerSettingsItem, printerSettingsItem, printerSettingsItem, printerSettingsItem, printerSettingsItem };
+        
+        PrintSettingsProfilesList = new ObservableCollection<PrintSettingsProfileViewModel> { printSettingsProfileViewModel, printSettingsProfileViewModel, printSettingsProfileViewModel, printSettingsProfileViewModel, printSettingsProfileViewModel, printSettingsProfileViewModel };
     }
 }

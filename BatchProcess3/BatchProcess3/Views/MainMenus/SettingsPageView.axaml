@@ -70,7 +70,7 @@
       </StackPanel>
     </StackPanel>
 
-    <ListBox Grid.Row="2" Grid.Column="0" Margin="25,-20,25,25" ItemsSource="{Binding LocationPaths}">
+    <ListBox Grid.Row="2" Grid.Column="0" Margin="25,-20,25,25" ItemsSource="{Binding LocationPathsList}">
       <ListBox.ItemTemplate>
         <DataTemplate x:DataType="x:String">
           <Grid ColumnDefinitions="*, Auto">
@@ -102,7 +102,7 @@
           BatchProcess can work locally on the current machine, or on any machine accessible
           over the network or even internet.<LineBreak /><LineBreak />
           Enter the machines IP address, network name or localhost for this machine.</TextBlock>
-        <ComboBox Width="200" Margin="0,5" ItemsSource="{Binding SolidWorksHosts}" SelectedItem="{Binding SolidWorksHost}" />
+        <ComboBox Width="200" Margin="0,5" ItemsSource="{Binding SolidWorksHostsList}" SelectedItem="{Binding SolidWorksHost}" />
         <!--<ComboBox Width="200" ItemsSource="{Binding SolidWorksHosts}" SelectedItem="{Binding SolidWorksHost}"/>-->
         <Label Classes="sub1 success" Content="Connection established" />
       </StackPanel>
@@ -116,7 +116,7 @@
           <Label Grid.Row="0" Grid.Column="0" Classes="sub2" Content="Vault Name" />
           <ComboBox Grid.Row="1" Grid.Column="0" Margin="0,0,10,0"
                     HorizontalAlignment="Stretch"
-                    ItemsSource="{Binding PdmeVaultNames}"
+                    ItemsSource="{Binding PdmeVaultNamesList}"
                     SelectedItem="{Binding PdmeVaultName}" />
           <!--  Username  -->
           <Label Grid.Row="0" Grid.Column="1" Classes="sub2" Content="Username" />
