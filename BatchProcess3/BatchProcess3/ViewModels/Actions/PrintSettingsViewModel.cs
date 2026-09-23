@@ -35,10 +35,10 @@ public partial class PrintSettingsViewModel : ConfirmDialogViewModel
     private string _description;
     
     [ObservableProperty]
-    private ObservableCollection<PrintSettingsProfileViewModel> _printerSettings;
+    private int _copies;
     
     [ObservableProperty]
-    private int _copies;
+    private ObservableCollection<PrintSettingsProfileViewModel> _printSettingsProfiles;
 
     protected override void OnDesignTimeConstructor()
     {
@@ -49,6 +49,6 @@ public partial class PrintSettingsViewModel : ConfirmDialogViewModel
             Width = 140,
             ScaleToFil = true
         };
-        PrinterSettings = new ObservableCollection<PrintSettingsProfileViewModel> { printerSettingsItem, printerSettingsItem, printerSettingsItem, printerSettingsItem, printerSettingsItem, printerSettingsItem };
+        PrintSettingsProfiles = new ObservableCollection<PrintSettingsProfileViewModel> { printerSettingsItem, printerSettingsItem, printerSettingsItem, printerSettingsItem, printerSettingsItem, printerSettingsItem };
     }
 }

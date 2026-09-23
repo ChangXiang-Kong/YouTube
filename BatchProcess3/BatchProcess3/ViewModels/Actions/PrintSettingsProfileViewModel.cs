@@ -67,7 +67,7 @@ public partial class PrintSettingsProfileViewModel : ViewModelBase
     private double _height;
     
     [ObservableProperty]
-    private string  _orientation = "(Default)";
+    private string _orientation = "(Default)";
     
     [ObservableProperty]
     private ObservableCollection<string> _orientationOptions = 

@@ -111,7 +111,7 @@
                 Command="{Binding AddNewPrintSettingsCommand}"
                 Content="New Printer Settings" />
         <!--  绑定Model中的Id而不是Model本身  -->
-        <ListBox Grid.Row="12" ItemsSource="{Binding PrinterProfilesList}" SelectedValue="{Binding SelectedPrintListItem.PrinterProfileId}" SelectedValueBinding="{Binding Id}">
+        <ListBox Grid.Row="12" ItemsSource="{Binding PrinterSettingsList}" SelectedValue="{Binding SelectedPrintListItem.PrintSettingsId}" SelectedValueBinding="{Binding Id}">
           <ListBox.ItemTemplate>
             <DataTemplate x:DataType="vmActions:PrintSettingsViewModel">
               <Grid ColumnDefinitions="*, Auto">

@@ -104,7 +104,7 @@
         </StackPanel>
 
         <!--  Printer Settings  -->
-        <DataGrid Grid.Row="4" AutoGenerateColumns="False" Background="{DynamicResource PrimaryBackgroundColor2}" ItemsSource="{Binding PrinterSettings}">
+        <DataGrid Grid.Row="4" AutoGenerateColumns="False" Background="{DynamicResource PrimaryBackgroundColor2}" ItemsSource="{Binding PrintSettingsProfiles}">
           <DataGrid.Styles>
             <Style Selector="DataGrid DataGridColumnHeader">
               <Setter Property="Background" Value="{DynamicResource PrimaryBackgroundColor1}" />

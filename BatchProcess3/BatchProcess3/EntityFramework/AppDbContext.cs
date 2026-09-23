@@ -25,17 +25,18 @@ public class AppDbContext : DbContext
             string dbPath = Path.Combine(AppContext.BaseDirectory, tableName);  // 新（.NET 6+）
             // 以上两种方式的结果都是：dbPath = D:\Desktop\YouTube\BatchProcess3\BatchProcess3.Desktop\bin\Debug\net10.0\
             
-            // 注意：
-            //      在使用了
-            //          $ dotnet ef migrations add InitialCreate -v
-            //          $ dotnet ef database Update
-            //      命令后，
-            //      会生成数据库文件 D:\Desktop\YouTube\BatchProcess3\BatchProcess3\bin\Debug\net10.0\BatchProcess3.db，
-            //      其中有 __EFMigrationsHistory、__EFMigrationsLock、Settings 表，
-            //      但数据不会保存在该数据库文件
-            //      
-            //      而在执行数据库保存操作时，则会将数据保存到 D:\Desktop\YouTube\BatchProcess3\BatchProcess3.Desktop\bin\Debug\net10.0\BatchProcess3.db 中，
-            //      其中只有 Settings 表
+            /* 注意：
+                在使用了
+                     $ dotnet ef migrations add InitialCreate -v
+                     $ dotnet ef database Update
+                 命令后，
+                 会生成数据库文件 D:\Desktop\YouTube\BatchProcess3\BatchProcess3\bin\Debug\net10.0\BatchProcess3.db，
+                 其中有 __EFMigrationsHistory、__EFMigrationsLock、Settings 表，
+                 但数据不会保存在该数据库文件
+                 
+                 而在执行数据库保存操作时，则会将数据保存到 D:\Desktop\YouTube\BatchProcess3\BatchProcess3.Desktop\bin\Debug\net10.0\BatchProcess3.db 中，
+                 其中只有 Settings 表
+             */
             
             optionsBuilder.UseSqlite($"Data Source={dbPath}")
                 .EnableSensitiveDataLogging()

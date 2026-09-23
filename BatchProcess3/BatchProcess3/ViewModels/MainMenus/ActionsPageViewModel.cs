@@ -38,21 +38,22 @@ public partial class ActionsPageViewModel(
     };
 
     // 使用 [] 进行初始化以消除警告，当误写 PrintList = null; 时会提示 Cannot convert null literal to non-nullable reference type
-    [ObservableProperty] [NotifyPropertyChangedFor(nameof(PrintListHasItems))]
+    [ObservableProperty] 
+    [NotifyPropertyChangedFor(nameof(PrintListHasItems))]
     private ObservableCollection<PrintTabViewModel> _printList = [];
 
     // 因为 PrintList 是 ObservableCollection 类型，
     // 需要添加 PrintList.CollectionChanged += (_, _) => OnPropertyChanged(nameof(PrintListHasItems)); 才能生效
-    public bool PrintListHasItems => Enumerable.Any<PrintTabViewModel>(PrintList);
+    public bool PrintListHasItems => PrintList.Any();
 
     [ObservableProperty] 
     [NotifyPropertyChangedFor(nameof(SelectedPrintListItem))]
     private string _selectedPrintListItemId = "";
 
     public PrintTabViewModel? SelectedPrintListItem =>
-        Enumerable.FirstOrDefault<PrintTabViewModel>(PrintList, x => x.Id == SelectedPrintListItemId);
+        PrintList.FirstOrDefault(x => x.Id == SelectedPrintListItemId);
 
-    [ObservableProperty] private ObservableCollection<Actions.PrintSettingsViewModel> _printerProfilesList = [];
+    [ObservableProperty] private ObservableCollection<PrintSettingsViewModel> _printerSettingsList = [];
 
     [RelayCommand]
     public void RefreshActionsPage(ActionsPageName actionsPageName)
@@ -112,7 +113,7 @@ public partial class ActionsPageViewModel(
         if (PrintList.Count > 0)
         {
             // Select first item
-            SelectedPrintListItemId = Enumerable.First<PrintTabViewModel>(PrintList).Id;
+            SelectedPrintListItemId = PrintList.First().Id;
 
             // Store last fetched database save states
             foreach (var printItem in PrintList)
@@ -143,7 +144,7 @@ public partial class ActionsPageViewModel(
 
         _defaultPrinterSettings.PrinterSettings = printerSettings;
         
-        PrinterProfilesList =
+        PrinterSettingsList =
         [
             _defaultPrinterSettings,
             new Actions.PrintSettingsViewModel
@@ -181,7 +182,7 @@ public partial class ActionsPageViewModel(
     {
         // TODO: Pass this logic to a service that handles the database/storage/fetching
         //       For now just do it direct in here
-        if (Enumerable.Count<PrintTabViewModel>(PrintList, x => x.Id == id) != 1)
+        if (PrintList.Count(x => x.Id == id) != 1)
             // TODO: Throw/Warn?
             return;
 
@@ -193,7 +194,7 @@ public partial class ActionsPageViewModel(
     {
         // TODO: Pass this logic to a service that handles the database/storage/fetching
         //       For now just do it direct in here
-        if (Enumerable.Count<Actions.PrintSettingsViewModel>(PrinterProfilesList, x => x.Id == id) != 1)
+        if (PrinterSettingsList.Count(x => x.Id == id) != 1)
             // TODO: Throw/Warn?
             return;
         
@@ -209,7 +210,7 @@ public partial class ActionsPageViewModel(
     {
         // TODO: Pass this logic to a service that handles database etc...
 
-        var profileViewModel = Enumerable.FirstOrDefault<Actions.PrintSettingsViewModel>(PrinterProfilesList, x => x.Id == id);
+        var profileViewModel = PrinterSettingsList.FirstOrDefault(x => x.Id == id);
 
         if (profileViewModel == null)
             // TODO: Throw/Warn?
@@ -343,7 +344,7 @@ public partial class ActionsPageViewModel(
         if (!confirmDialogViewModel.IsConfirmed)
             return;
         
-        PrinterProfilesList.Add(confirmDialogViewModel);
+        PrinterSettingsList.Add(confirmDialogViewModel);
     }
 
     [RelayCommand]
@@ -364,7 +365,7 @@ public partial class ActionsPageViewModel(
     // ReSharper disable once InconsistentNaming
     private async Task DeletePrintItemFromUIAsync(string id, bool warn = true)
     {
-        var index = PrintList.IndexOf(Enumerable.First<PrintTabViewModel>(PrintList, x => x.Id == id));
+        var index = PrintList.IndexOf(PrintList.First(x => x.Id == id));
         if (index == -1)
             return;
         
@@ -417,7 +418,7 @@ public partial class ActionsPageViewModel(
     // ReSharper disable once InconsistentNaming
     private async Task DeletePrinterProfileFromUIAsync(string id, bool warn = true)
     {
-        var index = PrinterProfilesList.IndexOf(Enumerable.First<Actions.PrintSettingsViewModel>(PrinterProfilesList, x => x.Id == id));
+        var index = PrinterSettingsList.IndexOf(PrinterSettingsList.First(x => x.Id == id));
         if (index == -1)
             return;
         
@@ -432,7 +433,7 @@ public partial class ActionsPageViewModel(
                 // IconForeground = "#fc8800";
                 // IconGeometry = StreamGeometry.Parse("M943.644188 827.215696l-351.176649-608.204749c-42.945473-74.36249-113.147387-74.36249-156.092861 0l-351.176649 608.204749c-42.946498 74.431167-7.811716 135.14955 78.012605 135.14955l702.420949 0C951.455904 962.36422 986.555836 901.645838 943.644188 827.215696zM466.187532 391.579035c12.621133-13.644108 28.66175-20.466675 48.233578-20.466675 19.580028 0 35.612444 6.75389 48.241778 20.194018 12.544256 13.473954 18.820484 30.325365 18.820484 50.587035 0 17.430551-26.19759 145.621205-34.929778 238.882082l-63.105666 0c-7.666162-93.259852-36.090106-221.450507-36.090106-238.882082C447.358847 421.938226 453.643275 405.155491 466.187532 391.579035zM561.76804 835.026386c-13.268949 12.928641-29.062535 19.375023-47.345906 19.375023-18.275171 0-34.076957-6.447407-47.346931-19.375023-13.235123-12.89379-19.818859-28.517221-19.818859-46.869269 0-18.249546 6.583736-34.043131 19.818859-47.278254 13.268949-13.235123 29.07176-19.852685 47.346931-19.852685 18.283371 0 34.076957 6.617562 47.345906 19.852685 13.235123 13.235123 19.827059 29.028709 19.827059 47.278254C581.595099 806.51019 575.003163 822.132597 561.76804 835.026386z");
                 Title = $"Delete Printer Profile?",
-                Message = $"Are you sure you want to delete {PrinterProfilesList[index].Name}?",
+                Message = $"Are you sure you want to delete {PrinterSettingsList[index].Name}?",
                 DialogWidth = 500,
             };
             
@@ -445,12 +446,12 @@ public partial class ActionsPageViewModel(
         }
         
         // Remove item
-        PrinterProfilesList.RemoveAt(index);
+        PrinterSettingsList.RemoveAt(index);
 
         // Select the item before the deleted one
         if (index > 0)
             index--;
-        if (PrinterProfilesList.Count > 0)
-            SelectedPrintListItem!.PrinterProfileId = PrinterProfilesList[index].Id;
+        if (PrinterSettingsList.Count > 0)
+            SelectedPrintListItem!.PrinterProfileId = PrinterSettingsList[index].Id;
     }
 }

@@ -47,7 +47,7 @@ public partial class PrintTabViewModel : ViewModelBase
     
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(HasChanged))]
-    private string _printerProfileId = "";
+    private string _printSettingsId = "";
 
     [JsonIgnore]
     public new bool HasChanged => IsNewItem || (SavedState != "" && SavedState != JsonSerializer.Serialize(this, JsonSerializerOptions));
