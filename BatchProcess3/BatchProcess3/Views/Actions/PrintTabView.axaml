@@ -29,7 +29,7 @@
       <!--  绑定Model中的Id而不是Model本身  -->
       <ListBox Grid.Row="6"
                ItemsSource="{Binding PrintTabsList}"
-               SelectedValue="{Binding SelectedPrintTabsListItemId}"
+               SelectedValue="{Binding SelectedPrintTabItemId}"
                SelectedValueBinding="{Binding Id}"
                SelectionChanged="SelectingItemsControl_OnSelectionChanged">
         <ListBox.ItemTemplate>
@@ -89,17 +89,17 @@
         <TextBlock Grid.Row="2" Margin="0,-10,0,0" Text="Set the main properties of the print job." />
         <Grid Grid.Row="4" ColumnDefinitions="130, 10, *" RowDefinitions="Auto, 10, Auto, 10 Auto">
           <Label Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Content="Job Name" />
-          <TextBox Name="TextBox_JobName" Grid.Row="0" Grid.Column="2" Text="{Binding SelectedPrintTabsListItem.JobName}" />
+          <TextBox Name="TextBox_JobName" Grid.Row="0" Grid.Column="2" Text="{Binding SelectedPrintTabItem.JobName}" />
           <Label Grid.Row="2" Grid.Column="0" VerticalAlignment="Top" Content="Description" />
           <TextBox Grid.Row="2" Grid.Column="2" Height="90"
                    AcceptsReturn="True"
-                   Text="{Binding SelectedPrintTabsListItem.Description}"
+                   Text="{Binding SelectedPrintTabItem.Description}"
                    TextWrapping="Wrap" />
 
           <Label Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" Content="Print" />
           <StackPanel Grid.Row="4" Grid.Column="2" Orientation="Horizontal" Spacing="10">
-            <CheckBox Content="Models" IsChecked="{Binding SelectedPrintTabsListItem.PrintModels}" />
-            <CheckBox Content="Drawings" IsChecked="{Binding SelectedPrintTabsListItem.PrintDrawings}" />
+            <CheckBox Content="Models" IsChecked="{Binding SelectedPrintTabItem.PrintModels}" />
+            <CheckBox Content="Drawings" IsChecked="{Binding SelectedPrintTabItem.PrintDrawings}" />
           </StackPanel>
         </Grid>
 
@@ -111,7 +111,7 @@
                 Command="{Binding AddNewPrintSettingsCommand}"
                 Content="New Printer Settings" />
         <!--  绑定Model中的Id而不是Model本身  -->
-        <ListBox Grid.Row="12" ItemsSource="{Binding PrintSettingsList}" SelectedValue="{Binding SelectedPrintTabsListItem.PrintSettingsId}" SelectedValueBinding="{Binding Id}">
+        <ListBox Grid.Row="12" ItemsSource="{Binding PrintSettingsList}" SelectedValue="{Binding SelectedPrintTabItem.PrintSettingsId}" SelectedValueBinding="{Binding Id}">
           <ListBox.ItemTemplate>
             <DataTemplate x:DataType="vmActions:PrintSettingsViewModel">
               <Grid ColumnDefinitions="*, Auto">
@@ -158,24 +158,24 @@
         <TextBlock Grid.Row="2" Margin="0,-10,0,0" Text="Set the properties that apply only to drawings." />
         <Grid Grid.Row="4" ColumnDefinitions="130, 10, *" RowDefinitions="Auto, 10, Auto, 10, Auto">
           <Label Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Content="Print Range" />
-          <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding SelectedPrintTabsListItem.PrintDrawingRange}" />
+          <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding SelectedPrintTabItem.PrintDrawingRange}" />
 
           <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal">
             <!--  方式一 使用 ToggleButton 的 样式1  -->
             <!-- <ToggleButton VerticalAlignment="Top" Content="{Binding SelectedPrintListItem.DrawingExclusionListTitle}" IsChecked="{Binding SelectedPrintListItem.DrawingExclusionIsWhiteList}" /> -->
             <!--  方式二 使用 ToggleSwitch  -->
             <ToggleSwitch VerticalAlignment="Top" FontSize="14" FontWeight="Normal"
-                          IsChecked="{Binding SelectedPrintTabsListItem.DrawingExclusionIsWhiteList}"
+                          IsChecked="{Binding SelectedPrintTabItem.DrawingExclusionIsWhiteList}"
                           OffContent="Black List" OnContent="White List" />
           </StackPanel>
           <TextBox Grid.Row="2" Grid.Column="2" Height="90"
                    AcceptsReturn="True"
-                   Text="{Binding SelectedPrintTabsListItem.DrawingExclusionList}"
+                   Text="{Binding SelectedPrintTabItem.DrawingExclusionList}"
                    TextWrapping="Wrap" />
         </Grid>
 
         <StackPanel Grid.Row="6" HorizontalAlignment="Right" VerticalAlignment="Bottom"
-                    Opacity="{Binding SelectedPrintTabsListItem.HasChanged, FallbackValue=0}"
+                    Opacity="{Binding SelectedPrintTabItem.HasChanged, FallbackValue=0}"
                     Orientation="Horizontal" Spacing="10">
           <!--
             FallbackValue = 绑定失败时的 “备胎值” ，当绑定找不到对象、找不到值、或者值为 null 时 → 自动使用 FallbackValue 指定的值。
@@ -193,7 +193,9 @@
               </Setter>
             </Style>
           </StackPanel.Styles>
-          <Button Width="70" HorizontalContentAlignment="Center" Classes="success" Content="Save" />
+          <Button Width="70" HorizontalContentAlignment="Center" Classes="success"
+                  Command="{Binding SavePrintTabItemCommand}"
+                  Content="Save" />
           <Button Width="70" HorizontalContentAlignment="Center" Classes="outline"
                   Command="{Binding CancelPrintTabItemCommand}"
                   Content="Cancel" />

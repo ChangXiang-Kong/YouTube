@@ -39,33 +39,33 @@ public partial class ActionsPageViewModel(
     public bool PrintTabsListHasItems => PrintTabsList.Any();
 
     [ObservableProperty] 
-    [NotifyPropertyChangedFor(nameof(SelectedPrintTabsListItem))]
-    private string _selectedPrintTabsListItemId = "";
+    [NotifyPropertyChangedFor(nameof(SelectedPrintTabItem))]
+    private string _selectedPrintTabItemId = "";
 
-    public PrintTabViewModel? SelectedPrintTabsListItem =>
-        PrintTabsList.FirstOrDefault(x => x.Id == SelectedPrintTabsListItemId);
+    public PrintTabViewModel? SelectedPrintTabItem =>
+        PrintTabsList.FirstOrDefault(x => x.Id == SelectedPrintTabItemId);
 
     [ObservableProperty] private ObservableCollection<PrintSettingsViewModel> _printSettingsList = [];
 
-    protected override void OnDesignTimeConstructor() => FetchPrintTabs();
+    protected override void OnDesignTimeConstructor() => FetchPrintTab();
 
     [RelayCommand]
     public void RefreshActionsPage(ActionsPageName actionsPageName)
     {
         switch (actionsPageName)
         {
-            case ActionsPageName.Print: FetchPrintTabs(); break;
+            case ActionsPageName.Print: FetchPrintTab(); break;
         }
     }
 
     [RelayCommand]
-    private void FetchPrintTabs()
+    private void FetchPrintTab()
     {
         // 将 PrinterProfilesList = ... 放到 PrintTabsList = ... 之前，
         // 因为 PrinterProfilesList 会引用到 PrintTabsList 中的项
         FetchPrintSettings();
 
-        var printTabs = databaseService.GetPrintTabs();
+        var printTabs = databaseService.GetPrintTab();
         // TODO: Convert from entity to view model
         PrintTabsList = new ObservableCollection<PrintTabViewModel>(printTabs.Select(x => new PrintTabViewModel()
         {
@@ -86,7 +86,7 @@ public partial class ActionsPageViewModel(
         if (PrintTabsList.Count > 0)
         {
             // Select first item
-            SelectedPrintTabsListItemId = PrintTabsList.First().Id;
+            SelectedPrintTabItemId = PrintTabsList.First().Id;
 
             // Store last fetched database save states
             foreach (var printItem in PrintTabsList)
@@ -126,13 +126,14 @@ public partial class ActionsPageViewModel(
     [RelayCommand]
     private async Task DeletePrintTabItemAsync(string id)
     {
-        // TODO: Pass this logic to a service that handles the database/storage/fetching
-        //       For now just do it direct in here
         if (PrintTabsList.Count(x => x.Id == id) != 1)
             // TODO: Throw/Warn?
             return;
 
-        await DeletePrintTabItemFromUIAsync(id);
+        // If user selected to remove from UI (via confirm dialog)
+        if (await DeletePrintTabItemFromUIAsync(id))
+            // Delete from database
+            databaseService.DeletePrintTab(id);
     }
 
     [RelayCommand]
@@ -231,20 +232,24 @@ public partial class ActionsPageViewModel(
     [RelayCommand]
     private void AddNewPrintTabItem()
     {
+        // Fetch print Settings
+        var printSettings = databaseService.GetPrintSettings();
+        
         // Crate a new item
         var newItem = new PrintTabViewModel
         {
-            Id = Guid.NewGuid().ToString("N"),
+            Id = Guid.CreateVersion7().ToString(),
             JobName = "New Print Item",
+            Description = "New Print Item",
             IsNewItem = true,
-            PrintSettingsId = "0",
+            PrintSettingsId = printSettings.FirstOrDefault().Id.ToString(),
         };
 
         // Add to the print list
         PrintTabsList.Add(newItem);
 
         // Select item
-        SelectedPrintTabsListItemId = newItem.Id;
+        SelectedPrintTabItemId = newItem.Id;
     }
 
     [RelayCommand]
@@ -297,25 +302,44 @@ public partial class ActionsPageViewModel(
     private async Task CancelPrintTabItemAsync()
     {
         // Ignore if nothing is selected
-        if (SelectedPrintTabsListItem == null)
+        if (SelectedPrintTabItem == null)
             return;
 
         // If the selected item is new, delete it
         // Otherwise, restore from save state
-        if (SelectedPrintTabsListItem.IsNewItem)
-            await DeletePrintTabItemFromUIAsync(SelectedPrintTabsListItem.Id, false);
+        if (SelectedPrintTabItem.IsNewItem)
+            await DeletePrintTabItemFromUIAsync(SelectedPrintTabItem.Id, false);
         else
-            SelectedPrintTabsListItem.RestoreState();
+            SelectedPrintTabItem.RestoreState();
+    }
+
+    [RelayCommand]
+    private async Task SavePrintTabItemAsync()
+    {
+        // Ignore if no selection
+        if (SelectedPrintTabItem == null)
+            return;
+        
+        // If the selected item is new
+        if (SelectedPrintTabItem.IsNewItem)
+            databaseService.AddPrintTab(SelectedPrintTabItem.ToEntity());
+        else
+            databaseService.UpdatePrintTab(SelectedPrintTabItem.ToEntity());
+
+        // Flag new item as not new
+        SelectedPrintTabItem.IsNewItem = false;
+        // 保存状态以隐藏 Save 按钮
+        SelectedPrintTabItem.SetSaveState();
     }
 
     // ReSharper disable once InconsistentNaming
-    private async Task DeletePrintTabItemFromUIAsync(string id, bool warn = true)
+    private async Task<bool> DeletePrintTabItemFromUIAsync(string id, bool popupDialog = true)
     {
         var index = PrintTabsList.IndexOf(PrintTabsList.First(x => x.Id == id));
         if (index == -1)
-            return;
+            return false;
         
-        if (warn)
+        if (popupDialog)
         {
             var confirmDialogViewModel = new ConfirmDialogViewModel
             {
@@ -348,7 +372,7 @@ public partial class ActionsPageViewModel(
             
             // Ignore if we clicked cancel
             if (!confirmDialogViewModel.IsConfirmed)
-                return;
+                return false;
         }
         
         // Remove item
@@ -358,17 +382,19 @@ public partial class ActionsPageViewModel(
         if (index > 0)
             index--;
         if (PrintTabsList.Count > 0)
-            SelectedPrintTabsListItemId = PrintTabsList[index].Id;
+            SelectedPrintTabItemId = PrintTabsList[index].Id;
+
+        return true;
     }
 
     // ReSharper disable once InconsistentNaming
-    private async Task DeletePrintSettingsFromUIAsync(string id, bool warn = true)
+    private async Task DeletePrintSettingsFromUIAsync(string id, bool popupDialog = true)
     {
         var index = PrintSettingsList.IndexOf(PrintSettingsList.First(x => x.Id == id));
         if (index == -1)
             return;
         
-        if (warn)
+        if (popupDialog)
         {
             var confirmDialogViewModel = new ConfirmDialogViewModel
             {
@@ -398,6 +424,6 @@ public partial class ActionsPageViewModel(
         if (index > 0)
             index--;
         if (PrintSettingsList.Count > 0)
-            SelectedPrintTabsListItem!.PrintSettingsId = PrintSettingsList[index].Id;
+            SelectedPrintTabItem!.PrintSettingsId = PrintSettingsList[index].Id;
     }
 }

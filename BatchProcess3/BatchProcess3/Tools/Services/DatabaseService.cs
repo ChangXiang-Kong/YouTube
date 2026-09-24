@@ -33,24 +33,48 @@ public class DatabaseService(AppDbContext dbContext) : IDisposable
             LocationPathsList = ["Initial Path 1", "Initial Path 2", "Initial Path 3",]
         };
         
-        SaveSettings(entity);
+        AddSettings(entity);
         
         return entity;
     }
 
-    public int SaveSettings(SettingsEntity entity)
+    public bool AddSettings(SettingsEntity entity)
     {
         // Remove all settings
         _dbContext.Settings.RemoveRange(_dbContext.Settings);
         
         _dbContext.Settings.Add(entity);
         
-         return _dbContext.SaveChanges();
+         return _dbContext.SaveChanges() > 0;
+    }
+
+    public bool DeleteSettings(string id)
+    {
+        // if (!Guid.TryParse(id, out Guid guid))
+        //     throw  new ArgumentException("Invalid print tab id");
+
+        // Remove existing
+        var existingEntity = _dbContext.Settings.FirstOrDefault(x => x.Id == id);
+        if (existingEntity == null)
+            return false;
+        
+        _dbContext.Settings.Remove(existingEntity);
+        return _dbContext.SaveChanges() > 0;
+    }
+
+    public bool UpdateSettings(SettingsEntity entity)
+    {
+        // Remove existing
+        if (!DeleteSettings(entity.Id))
+            return false;
+        
+        // Add new
+        return AddSettings(entity);
     }
     #endregion Settings
 
-    #region PrintTabs
-    public List<PrintTabEntity> GetPrintTabs()
+    #region PrintTab
+    public List<PrintTabEntity> GetPrintTab()
     {
         var res = _dbContext.PrintTab.ToList();
 
@@ -79,7 +103,37 @@ public class DatabaseService(AppDbContext dbContext) : IDisposable
         
         return res;
     }
-    #endregion PrintTabs
+
+    public bool AddPrintTab(PrintTabEntity entity)
+    {
+        _dbContext.PrintTab.Add(entity);
+        return _dbContext.SaveChanges() > 0;
+    }
+
+    public bool DeletePrintTab(string id)
+    {
+        // if (!Guid.TryParse(id, out Guid guid))
+        //     throw  new ArgumentException("Invalid print tab id");
+
+        // Remove existing
+        var existingEntity = _dbContext.PrintTab.FirstOrDefault(x => x.Id == id);
+        if (existingEntity == null)
+            return false;
+        
+        _dbContext.PrintTab.Remove(existingEntity);
+        return _dbContext.SaveChanges() > 0;
+    }
+
+    public bool UpdatePrintTab(PrintTabEntity entity)
+    {
+        // Remove existing
+        if (!DeletePrintTab(entity.Id))
+            return false;
+        
+        // Add new
+        return AddPrintTab(entity);
+    }
+    #endregion PrintTab
     
     #region PrintSettings
     public List<PrintSettingsProfileEntity> GetPrintSettingsProfiles()
@@ -138,10 +192,39 @@ public class DatabaseService(AppDbContext dbContext) : IDisposable
         
         return res;
     }
-    
-    
+
+    public bool AddPrintSettings(PrintSettingsEntity entity)
+    {
+        _dbContext.PrintSettings.Add(entity);
+        return _dbContext.SaveChanges() > 0;
+    }
+
+    public bool DeletePrintSettings(string id)
+    {
+        // if (!Guid.TryParse(id, out Guid guid))
+        //     throw  new ArgumentException("Invalid print tab id");
+
+        // Remove existing
+        var existingEntity = _dbContext.PrintSettings.FirstOrDefault(x => x.Id == id);
+        if (existingEntity == null)
+            return false;
+        
+        _dbContext.PrintSettings.Remove(existingEntity);
+        return _dbContext.SaveChanges() > 0;
+    }
+
+    public bool UpdatePrintSettings(PrintSettingsEntity entity)
+    {
+        // Remove existing
+        if (!DeletePrintSettings(entity.Id))
+            return false;
+        
+        // Add new
+        return AddPrintSettings(entity);
+    }
     #endregion PrintSettings
 
+    
 
     public void Dispose()
     {

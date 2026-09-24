@@ -27,7 +27,7 @@ public partial class TestViewModel : ObservableObject
 
 public partial class TestModel : ObservableObject
 {
-    [ObservableProperty] private string _Id  = Guid.CreateVersion7().ToString("N");
+    [ObservableProperty] private string _Id  = Guid.CreateVersion7().ToString();
 
     [ObservableProperty] private string _Name;
 

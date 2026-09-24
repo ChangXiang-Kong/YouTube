@@ -26,9 +26,6 @@ public partial class PrintSettingsViewModel : ConfirmDialogViewModel
     }
     
     [ObservableProperty]
-    private string _id;
-    
-    [ObservableProperty]
     private string _name;
     
     [ObservableProperty]

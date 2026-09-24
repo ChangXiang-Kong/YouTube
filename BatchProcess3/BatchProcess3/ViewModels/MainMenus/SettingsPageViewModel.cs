@@ -116,10 +116,10 @@ namespace BatchProcess3.ViewModels.MainMenus
             PdmeUserName = settings.PdmeUserName;
         }
 
-        private int SaveSettings()
+        private bool SaveSettings()
         {
             using var dbContext = _databaseFactory.GetDatabaseService();
-            return dbContext.SaveSettings(ToEntity());
+            return dbContext.AddSettings(ToEntity());
         }
 
         private SettingsEntity ToEntity() => new()

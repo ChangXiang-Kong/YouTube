@@ -11,7 +11,7 @@ using BatchProcess3.ViewModels.Actions;
 
 namespace BatchProcess3.ViewModels;
 
-public class ViewModelBase : ObservableObject
+public partial class ViewModelBase : ObservableObject
 {
     public ViewModelBase()
     {
@@ -56,6 +56,10 @@ public class ViewModelBase : ObservableObject
         NumberHandling = JsonNumberHandling.AllowNamedFloatingPointLiterals,    // 处理 如 double.NaN 之类的无限数对象
         // Converters = { new StreamGeometryConverter() }, // 添加自定义转换器
     };
+    
+    // TODO: 使用 Guid 类型 还是 string 类型？
+    [ObservableProperty] 
+    public virtual partial string Id { get; set; } = Guid.CreateVersion7().ToString();
 
     /* [JsonIgnore] 与 [property: JsonIgnore] 的区别
         [JsonIgnore]            → 默认作用于 字段（Field）

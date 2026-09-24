@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BatchProcess3.EntityFramework.Entities.Actions;
 
+[Table("ActionsPrintSettings")]
 public class PrintSettingsEntity : BaseEntity
 {
     public string Name { get; set; } = "";

@@ -7,9 +7,6 @@ namespace BatchProcess3.ViewModels.Actions;
 public partial class PrintSettingsProfileViewModel : ViewModelBase
 {
     [ObservableProperty]
-    private string _id = "-1";
-    
-    [ObservableProperty]
     private string _type = "A Size";
     
     [ObservableProperty]

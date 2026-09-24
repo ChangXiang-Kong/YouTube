@@ -1,6 +1,8 @@
+using System;
 using System.Collections.ObjectModel;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using BatchProcess3.EntityFramework.Entities.Actions;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace BatchProcess3.ViewModels.Actions;
@@ -9,7 +11,7 @@ public partial class PrintTabViewModel : ViewModelBase
 {
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(HasChanged))]
-    private string _id = "";
+    private new string _id = "";
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(HasChanged))]
@@ -47,9 +49,23 @@ public partial class PrintTabViewModel : ViewModelBase
     
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(HasChanged))]
-    private string _printSettingsId = "";
+    private string? _printSettingsId = "";
 
     [JsonIgnore]
     public new bool HasChanged => IsNewItem || (SavedState != "" && SavedState != JsonSerializer.Serialize(this, JsonSerializerOptions));
 
+    public PrintTabEntity ToEntity() => new()
+    {
+        // Id = Guid.Parse(Id),
+        Id = Id,
+        JobName = JobName,
+        Description = Description,
+        PrintDrawingRange = PrintDrawingRange,
+        DrawingExclusionList = DrawingExclusionList,
+        DrawingExclusionIsWhiteList = DrawingExclusionIsWhiteList,
+        PrintModels = PrintModels,
+        PrintDrawings = PrintDrawings,
+        // PrintSettingsId = Guid.TryParse(PrintSettingsId, out Guid res) ? res : Guid.Empty,
+        PrintSettingsId = PrintSettingsId ?? "null",
+    };
 }

@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BatchProcess3.EntityFramework.Entities;
 
+[Table("Settings")]
 public class SettingsEntity : BaseEntity
 {
     public bool SkipNoActionFiles { get; set; }
