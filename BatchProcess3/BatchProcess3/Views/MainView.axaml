@@ -106,6 +106,7 @@
     <Grid Name="Grid_DialogOverlay" Column="0" ColumnSpan="2"
           IsVisible="{Binding #Grid_DialogOverlay.Opacity}"
           Opacity="{Binding Dialog.IsDialogOpen, FallbackValue=0}">
+      <!--  IsVisible="{Binding Opacity, RelativeSource={RelativeSource Self}}"  -->
       <Grid.Styles>
         <Style Selector="Grid">
           <Setter Property="Transitions">

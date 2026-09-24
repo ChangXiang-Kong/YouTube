@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
@@ -20,29 +21,6 @@ public partial class ViewModelBase : ObservableObject
             OnDesignTimeConstructor();
     }
 
-    protected virtual void OnDesignTimeConstructor() { }
-    
-    /// <summary>
-    /// <code>
-    /// 在 ViewModel 中重写：
-    ///     public override void OnViewLoaded()
-    ///     {
-    ///         // some logic
-    ///     }
-    /// 在 View 中调用：
-    ///     public TestPageView()
-    ///     {
-    ///         InitializeComponent();
-    ///         Loaded += OnLoaded;
-    ///     }
-    ///     private void OnLoaded(object? sender, RoutedEventArgs e)
-    ///     {
-    ///         ((ViewModelBase)DataContext)?.OnViewLoaded();
-    ///     }
-    /// </code>
-    /// </summary>
-    public virtual void OnViewLoaded() { }
-    
     // 参考视频：https://www.youtube.com/watch?v=xR5115U_RdI&list=PLrW43fNmjaQWwIdZxjZrx5FSXcNzaucOO&index=31
     // 可多看账几遍，视频中出现多次错误与解决思路，有助于了解 Json 的使用
     protected readonly JsonSerializerOptions JsonSerializerOptions = new JsonSerializerOptions
@@ -50,7 +28,7 @@ public partial class ViewModelBase : ObservableObject
         PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
         WriteIndented = true,
         // KeyValuePair 是 只读的，若想要进行序列化，这里不能为 true
-        // public readonly struct KeyValuePair<TKey, TValue>(TKey key, TValue value)
+        // 参考定义：public readonly struct KeyValuePair<TKey, TValue>(TKey key, TValue value)
         IgnoreReadOnlyFields = false,
         IgnoreReadOnlyProperties = false,
         NumberHandling = JsonNumberHandling.AllowNamedFloatingPointLiterals,    // 处理 如 double.NaN 之类的无限数对象
@@ -78,11 +56,42 @@ public partial class ViewModelBase : ObservableObject
             public string SavedState { get; set; }
      */
     [property: JsonIgnore]
-    public string SavedState = "";
+    public string SavedState { get; set; } = "";
 
     [JsonIgnore]
     public virtual bool HasChanged => SavedState != "" && SavedState != JsonSerializer.Serialize(this, JsonSerializerOptions);
     
+    protected virtual void OnDesignTimeConstructor() { }
+    
+    /// <summary>
+    /// <code>
+    /// 在 ViewModel 中重写：
+    ///     public override void OnViewLoaded()
+    ///     {
+    ///         // some logic
+    ///     }
+    /// 在 View 中调用：
+    ///     public TestPageView()
+    ///     {
+    ///         InitializeComponent();
+    ///         Loaded += OnLoaded;
+    ///     }
+    ///     private void OnLoaded(object? sender, RoutedEventArgs e)
+    ///     {
+    ///         ((ViewModelBase)DataContext)?.OnViewLoaded();
+    ///     }
+    /// </code>
+    /// </summary>
+    public virtual void OnViewLoaded() { }
+
+    /// <summary>
+    /// 因为 ViewModelBase 的 子类 有时需要调用 OnPropertyChanged() 方法，<br/>
+    /// 而 父类 ObservableObject 的 OnPropertyChanged() 方法 为 protected，<br/>
+    /// 因此在 ViewModelBase 中添加 OnPropertyChanged() 方法
+    /// </summary>
+    /// <param name="propertyName"></param>
+    public new void OnPropertyChanged(string propertyName) => base.OnPropertyChanged(propertyName);
+
     public void SetSaveState()
     {
         SavedState = GetState();

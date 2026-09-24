@@ -1,5 +1,9 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using BatchProcess3.Data;
+using BatchProcess3.EntityFramework.Entities.Actions;
+using BatchProcess3.Tools.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace BatchProcess3.ViewModels.Actions;
@@ -20,9 +24,9 @@ public partial class PrintSettingsViewModel : ConfirmDialogViewModel
         DialogHeight = 700;
         ConfirmText = "Save";
         CancelText = "Cancel";
-        
-        // TODO: Remove once we pull from database
-        OnDesignTimeConstructor();
+
+        // TODO: Think of a better place to do this
+        // PrintSettingsProfilesList = _databaseService.GetPrintSettingsProfiles().ToEntity();
     }
     
     [ObservableProperty]
@@ -32,7 +36,7 @@ public partial class PrintSettingsViewModel : ConfirmDialogViewModel
     private string _description;
     
     [ObservableProperty]
-    private int _copies;
+    private int _copies = 1;
     
     [ObservableProperty]
     private bool _canEdit = true;
@@ -54,5 +58,66 @@ public partial class PrintSettingsViewModel : ConfirmDialogViewModel
         };
         
         PrintSettingsProfilesList = new ObservableCollection<PrintSettingsProfileViewModel> { printSettingsProfileViewModel, printSettingsProfileViewModel, printSettingsProfileViewModel, printSettingsProfileViewModel, printSettingsProfileViewModel, printSettingsProfileViewModel };
+    }
+}
+
+public static class PrintSettingsViewModelExtensions
+{
+    public static PrintSettingsEntity ToEntity(this PrintSettingsViewModel viewModel)
+    {
+        return new PrintSettingsEntity()
+        {
+            Id = viewModel.Id,
+            Name = viewModel.Name,
+            Description = viewModel.Description,
+            Copies = viewModel.Copies,
+            CanEdit = viewModel.CanEdit,
+            CanDelete = viewModel.CanDelete,
+            PrintSettingsProfilesList = viewModel.PrintSettingsProfilesList.ToEntities(),
+        };
+    }
+
+    public static List<PrintSettingsEntity> ToEntities(this ObservableCollection<PrintSettingsViewModel> viewModels)
+    {
+        return viewModels.Select(ToEntity).ToList();
+        // 等于
+        // return viewModel.Select(x => x.ToEntity()).ToList();
+    }
+
+    public static PrintSettingsViewModel ToViewModel(this PrintSettingsEntity entity)
+    {
+        return new PrintSettingsViewModel()
+        {
+            Id = entity.Id,
+            Name = entity.Name,
+            Description = entity.Description,
+            Copies = entity.Copies,
+            CanEdit = entity.CanEdit,
+            CanDelete = entity.CanDelete,
+            PrintSettingsProfilesList = new ObservableCollection<PrintSettingsProfileViewModel>(
+                entity.PrintSettingsProfilesList
+                    .OrderBy(profile => profile.Type)
+                    .Select(profile => new PrintSettingsProfileViewModel()
+                    {
+                        Id = profile.Id,
+                        Type =  profile.Type,
+                        PrinterName = profile.PrinterName,
+                        PaperSize = profile.PaperSize,
+                        Width = profile.Width,
+                        Height = profile.Height,
+                        Orientation = profile.Orientation,
+                        SourceTray = profile.SourceTray,
+                        DrawingColor = profile.DrawingColor,
+                        ScaleToFil = profile.ScaleToFil,
+                    })
+            )
+        };
+    }
+
+    public static ObservableCollection<PrintSettingsViewModel> ToViewModels(this List<PrintSettingsEntity> entities)
+    {
+        return new ObservableCollection<PrintSettingsViewModel>(entities.OrderBy(x => x.Name).Select(ToViewModel));
+        // 等于
+        // return new ObservableCollection<PrintSettingsViewModel>(entities.OrderBy(x => x.Name).Select(x => x.ToViewModel()));
     }
 }

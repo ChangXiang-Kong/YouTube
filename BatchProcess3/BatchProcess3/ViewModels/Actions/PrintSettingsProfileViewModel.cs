@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using BatchProcess3.EntityFramework.Entities.Actions;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace BatchProcess3.ViewModels.Actions;
@@ -98,4 +100,59 @@ public partial class PrintSettingsProfileViewModel : ViewModelBase
     [ObservableProperty]
     private bool _scaleToFil;
 
+}
+public static class PrintSettingsProfileViewModelExtensions
+{
+    public static PrintSettingsProfileEntity ToEntity(this PrintSettingsProfileViewModel viewModel)
+    {
+        return new PrintSettingsProfileEntity()
+        {
+            Id =  viewModel.Id,
+            Type =   viewModel.Type,
+            PrinterName = viewModel.PrinterName,
+            PaperSize = viewModel.PaperSize,
+            Width =  viewModel.Width,
+            Height = viewModel.Height,
+            Orientation = viewModel.Orientation,
+            SourceTray = viewModel.SourceTray,
+            DrawingColor =  viewModel.DrawingColor,
+            ScaleToFil =  viewModel.ScaleToFil,
+            // PrintSettingsId =    // 不需要手动赋值
+            // PrintSettings =      // 不需要手动赋值
+            // 为什么 ToEntity() 里不用赋值这两个？
+            //     `ToEntity` 的职责：ViewModel → 实体数据映射，只映射【属于 Profile 本身业务字段】。
+            //     `PrintSettingsId` 代表：这个 Profile 归属哪一条 PrintSettings 记录，这是 关联关系信息，不属于 Profile 自己的业务属性。
+        };
+    }
+
+    public static List<PrintSettingsProfileEntity> ToEntities(this ObservableCollection<PrintSettingsProfileViewModel> viewModels)
+    {
+        return viewModels.Select(ToEntity).ToList();
+        // 等于
+        // return viewModels.Select(x => x.ToEntity()).ToList();
+    }
+
+    public static PrintSettingsProfileViewModel ToViewModel(this PrintSettingsProfileEntity entity)
+    {
+        return new PrintSettingsProfileViewModel()
+        {
+            Id =  entity.Id,
+            Type =  entity.Type,
+            PrinterName = entity.PrinterName,
+            PaperSize = entity.PaperSize,
+            Width = entity.Width,
+            Height = entity.Height,
+            Orientation = entity.Orientation,
+            SourceTray = entity.SourceTray,
+            DrawingColor = entity.DrawingColor,
+            ScaleToFil = entity.ScaleToFil,
+        };
+    }
+
+    public static ObservableCollection<PrintSettingsProfileViewModel> ToViewModels(this List<PrintSettingsProfileEntity> entities)
+    {
+        return new ObservableCollection<PrintSettingsProfileViewModel>(entities.Select(ToViewModel));
+        // 等于
+        // return new ObservableCollection<PrintSettingsProfileViewModel>(entities.Select(x => x.ToViewModel()));
+    }
 }

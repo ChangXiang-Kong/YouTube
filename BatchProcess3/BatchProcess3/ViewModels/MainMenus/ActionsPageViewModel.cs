@@ -67,9 +67,11 @@ public partial class ActionsPageViewModel(
 
         var printTabs = databaseService.GetPrintTab();
         // TODO: Convert from entity to view model
-        PrintTabsList = new ObservableCollection<PrintTabViewModel>(printTabs.Select(x => new PrintTabViewModel()
+        PrintTabsList = new ObservableCollection<PrintTabViewModel>(printTabs
+            .OrderBy(x => x.JobName)
+            .Select(x => new PrintTabViewModel()
         {
-            Id = x.Id.ToString(),
+            Id = x.Id,
             JobName = x.JobName,
             Description = x.Description,
             DrawingExclusionIsWhiteList = x.DrawingExclusionIsWhiteList,
@@ -98,29 +100,8 @@ public partial class ActionsPageViewModel(
     private void FetchPrintSettings()
     {
         var printSettings = databaseService.GetPrintSettings();
-        
-        PrintSettingsList = new ObservableCollection<PrintSettingsViewModel>(printSettings.Select(x => new PrintSettingsViewModel()
-        {
-            Id = x.Id.ToString(),
-            Name = x.Name,
-            Description = x.Description,
-            Copies = x.Copies,
-            CanEdit = x.CanEdit,
-            CanDelete = x.CanDelete,
-            PrintSettingsProfilesList = new ObservableCollection<PrintSettingsProfileViewModel>(x.PrintSettingsProfilesList.Select(profile => new PrintSettingsProfileViewModel()
-            {
-                Id = profile.Id.ToString(),
-                Type =  profile.Type,
-                PrinterName = profile.PrinterName,
-                PaperSize = profile.PaperSize,
-                Width = profile.Width,
-                Height = profile.Height,
-                Orientation = profile.Orientation,
-                SourceTray = profile.SourceTray,
-                DrawingColor = profile.DrawingColor,
-                ScaleToFil = profile.ScaleToFil,
-            }))
-        }));
+
+        PrintSettingsList = printSettings.ToViewModels();
     }
 
     [RelayCommand]
@@ -139,30 +120,22 @@ public partial class ActionsPageViewModel(
     [RelayCommand]
     private async Task DeletePrintSettingsAsync(string id)
     {
-        // TODO: Pass this logic to a service that handles the database/storage/fetching
-        //       For now just do it direct in here
         if (PrintSettingsList.Count(x => x.Id == id) != 1)
             // TODO: Throw/Warn?
             return;
-        
-        // TODO: Delete from database, then re-fetch to update UI
-        //       1. Delete from database
-        //       2. FetchPrintProfiles();
 
-        await DeletePrintSettingsFromUIAsync(id);
+        if (await DeletePrintSettingsFromUIAsync(id))
+            databaseService.DeletePrintSettings(id);
     }
 
     [RelayCommand]
     private async Task EditPrintSettingsAsync(string id)
     {
-        // TODO: Pass this logic to a service that handles database etc...
-
         var profileViewModel = PrintSettingsList.FirstOrDefault(x => x.Id == id);
-
         if (profileViewModel == null)
             // TODO: Throw/Warn?
             return;
-
+        
         // Copy view model
         var copiedProfileViewModel = new PrintSettingsViewModel
         {
@@ -192,10 +165,9 @@ public partial class ActionsPageViewModel(
         if (!copiedProfileViewModel.IsConfirmed)
             return;
         
-        // TODO: Database stuff
-        
         // Commit copied view model back
         profileViewModel.RestoreState(copiedProfileViewModel.GetState());
+        databaseService.UpdatePrintSettings(copiedProfileViewModel.ToEntity());
     }
 
     private void InjectPrintSettingsDetails(PrintSettingsViewModel viewModel)
@@ -217,15 +189,24 @@ public partial class ActionsPageViewModel(
                 item.PaperSizeOptions = new ObservableCollection<string>(
                     availablePrinters.FirstOrDefault(x => x.Name == item.PrinterName)?.PaperSizesList ?? []
                 );
+                item.PaperSizeOptions.Insert(0, "(Default)");
                 
                 item.SourceTrayOptions = new ObservableCollection<string>(
                     availablePrinters.FirstOrDefault(x => x.Name == item.PrinterName)?.SourceTraysList ?? []
                 );
+                item.SourceTrayOptions.Insert(0, "(Default)");
                 
                 // Change paper size and source tray to first item
-                item.PaperSize = item.PaperSizeOptions.FirstOrDefault() ?? "-";
-                item.SourceTray = item.SourceTrayOptions.FirstOrDefault() ?? "-";
+                if (!item.PaperSizeOptions.Any(x => x == item.PaperSize))
+                    item.PaperSize = item.PaperSizeOptions.FirstOrDefault() ?? "-";
+                
+                if (item.SourceTrayOptions.All(x => x != item.SourceTray))
+                    item.SourceTray = item.SourceTrayOptions.FirstOrDefault() ?? "-";
             };
+            
+            // Force a printer name change for initial list
+            // Otherwise, the ComboBox will not select PaperSize, Orientation, Tray, DrawingColor that already saved in database when editing a print settings
+            item.OnPropertyChanged(nameof(item.PrinterName));
         }
     }
 
@@ -242,7 +223,7 @@ public partial class ActionsPageViewModel(
             JobName = "New Print Item",
             Description = "New Print Item",
             IsNewItem = true,
-            PrintSettingsId = printSettings.FirstOrDefault().Id.ToString(),
+            PrintSettingsId = printSettings.FirstOrDefault().Id,
         };
 
         // Add to the print list
@@ -264,6 +245,9 @@ public partial class ActionsPageViewModel(
             // // IconMessage = "PrinterPosCog";
             // // IconForeground = "DodgerBlue";
             // // IconGeometry = StreamGeometry.Parse("M505.6512 39.0144c-261.2224 3.4816-470.1184 218.112-466.6368 479.4368 3.4816 261.12 218.112 470.1184 479.3344 466.6368 261.2224-3.4816 470.1184-218.112 466.7392-479.3344C981.504 244.4288 766.8736 35.5328 505.6512 39.0144zM558.08 196.608c48.128 0 62.2592 27.9552 62.2592 59.8016 0 39.8336-31.9488 76.6976-86.3232 76.6976-45.568 0-67.1744-22.9376-65.9456-60.8256C468.0704 240.4352 494.7968 196.608 558.08 196.608zM434.7904 807.6288c-32.8704 0-56.9344-19.968-33.8944-107.6224l37.6832-155.5456c6.5536-24.8832 7.68-34.9184 0-34.9184-9.8304 0-52.5312 17.2032-77.7216 34.2016l-16.384-26.9312c79.9744-66.7648 171.8272-105.8816 211.2512-105.8816 32.8704 0 38.2976 38.912 21.9136 98.6112l-43.2128 163.5328c-7.68 28.8768-4.4032 38.912 3.2768 38.912 9.9328 0 42.1888-11.9808 73.9328-36.9664l18.6368 24.8832C552.5504 777.728 467.6608 807.6288 434.7904 807.6288z");
+            Name = "New Printer Settings",
+            Description = "New Printer Settings",
+            PrintSettingsProfilesList = databaseService.GetPrintSettingsProfiles().ToViewModels(),
 
             // Title = $"Printer Settings",                                // 不需要了，内部构造函数已有
             // Message = "Are you sure you want to delete this print?",    // 不需要了，内部构造函数已有
@@ -296,6 +280,7 @@ public partial class ActionsPageViewModel(
             return;
         
         PrintSettingsList.Add(confirmDialogViewModel);
+        databaseService.AddPrintSettings(confirmDialogViewModel.ToEntity());
     }
 
     [RelayCommand]
@@ -388,11 +373,11 @@ public partial class ActionsPageViewModel(
     }
 
     // ReSharper disable once InconsistentNaming
-    private async Task DeletePrintSettingsFromUIAsync(string id, bool popupDialog = true)
+    private async Task<bool> DeletePrintSettingsFromUIAsync(string id, bool popupDialog = true)
     {
         var index = PrintSettingsList.IndexOf(PrintSettingsList.First(x => x.Id == id));
         if (index == -1)
-            return;
+            return false;
         
         if (popupDialog)
         {
@@ -414,7 +399,7 @@ public partial class ActionsPageViewModel(
             
             // Ignore if we clicked cancel
             if (!confirmDialogViewModel.IsConfirmed)
-                return;
+                return false;
         }
         
         // Remove item
@@ -425,5 +410,7 @@ public partial class ActionsPageViewModel(
             index--;
         if (PrintSettingsList.Count > 0)
             SelectedPrintTabItem!.PrintSettingsId = PrintSettingsList[index].Id;
+
+        return true;
     }
 }
