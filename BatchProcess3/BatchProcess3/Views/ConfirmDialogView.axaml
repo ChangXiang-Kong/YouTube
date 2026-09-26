@@ -96,14 +96,16 @@
         <StackPanel HorizontalAlignment="Right" IsVisible="{Binding !IsBusy}" Orientation="Horizontal" Spacing="10">
           <Button MinWidth="70" HorizontalContentAlignment="Center" Classes="success"
                   Command="{Binding ConfirmCommand}"
-                  Content="{Binding ConfirmText}" />
+                  Content="{Binding ConfirmText}"
+                  IsVisible="{Binding ConfirmIsVisible}" />
           <Button MinWidth="70" HorizontalContentAlignment="Center" Classes="outline danger"
                   Command="{Binding CancelCommand}"
-                  Content="{Binding CancelText}" />
+                  Content="{Binding CancelText}"
+                  IsVisible="{Binding CancelIsVisible}" />
           <Button MinWidth="70" HorizontalContentAlignment="Center" Classes="outline"
                   Command="{Binding ApplyCommand}"
                   Content="{Binding ApplyText}"
-                  IsVisible="False" />
+                  IsVisible="{Binding ApplyIsVisible}" />
         </StackPanel>
 
         <!--  ProgressText  -->

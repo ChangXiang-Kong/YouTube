@@ -1,0 +1,42 @@
+﻿
+<UserControl x:Class="BatchProcess3.Views.ErrorView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:BatchProcess3.ViewModels"
+             d:DesignHeight="400"
+             d:DesignWidth="600"
+             x:DataType="vm:ErrorViewModel"
+             Background="{DynamicResource PrimaryBackground}"
+             Foreground="{DynamicResource PrimaryForeground}"
+             mc:Ignorable="d">
+  <Design.DataContext>
+    <vm:ErrorViewModel />
+  </Design.DataContext>
+
+  <Grid Margin="15" RowDefinitions="Auto, 0, *">
+    <StackPanel Grid.Row="0">
+      <!--  Title  -->
+      <DockPanel>
+        <Viewbox Width="32" Height="32" Margin="0,0,10,0" VerticalAlignment="Center">
+          <PathIcon Data="{StaticResource GeometryError}" Foreground="#f93920" />
+          <!-- <PathIcon Data="{Binding GeometryError}" Foreground="{DynamicResource HoverGradient}" />  可直接引用已定义的资源 -->
+        </Viewbox>
+
+        <TextBlock VerticalAlignment="Center" Classes="h2 sub1" FontWeight="Bold" Text="An Error Has Occurred" />
+      </DockPanel>
+
+      <TextBlock Margin="0,5,0,0" VerticalAlignment="Center" FontStyle="Italic" Text="BatchProcess has experienced an unexpected error. Please report it to us." />
+    </StackPanel>
+
+    <!--  Description  -->
+    <DockPanel Grid.Row="2">
+      <TextBlock Margin="0,5" VerticalAlignment="Center" DockPanel.Dock="Top"
+                 FontSize="{DynamicResource FontSize_24}"
+                 FontWeight="Bold"
+                 Text="{Binding Title}" />
+      <TextBox FontSize="{DynamicResource FontSize_16}" Foreground="{DynamicResource PrimaryForegroundSubtle}" Text="{Binding Description}" TextWrapping="Wrap" />
+    </DockPanel>
+  </Grid>
+</UserControl>

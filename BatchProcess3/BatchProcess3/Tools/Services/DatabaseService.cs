@@ -199,7 +199,7 @@ public class DatabaseService(AppDbContext dbContext) : IDisposable
         return _dbContext.SaveChanges() > 0;
     }
 
-    public bool DeletePrintSettings(string id)
+    public bool DeletePrintSettings(string id, bool bypass = false, bool saveChanges = true)
     {
         // if (!Guid.TryParse(id, out Guid guid))
         //     throw  new ArgumentException("Invalid print tab id");
@@ -209,14 +209,24 @@ public class DatabaseService(AppDbContext dbContext) : IDisposable
         if (existingEntity == null)
             return false;
         
+        // If this item is not deletable
+        if (!bypass && !existingEntity.CanDelete)
+            throw new InvalidOperationException($"This print setting cannot be deleted. {existingEntity.Name}");
+        
         _dbContext.PrintSettings.Remove(existingEntity);
-        return _dbContext.SaveChanges() > 0;
+        if (saveChanges)
+            return _dbContext.SaveChanges() > 0;
+        return true;
     }
 
     public bool UpdatePrintSettings(PrintSettingsEntity entity)
     {
+        // If it is not editable
+        if (!entity.CanEdit)
+            throw new InvalidOperationException($"This print setting cannot be edited. {entity.Name}");
+        
         // Remove existing
-        if (!DeletePrintSettings(entity.Id))
+        if (!DeletePrintSettings(entity.Id, bypass: true, saveChanges: false))
             return false;
         
         // Add new
