@@ -11,8 +11,8 @@ public partial class ErrorViewModel : ViewModelBase
         
     }
     
-    [ObservableProperty] private string _title = "Unknown Error";
-    [ObservableProperty] private string _description = "Unknown error description";
+    [ObservableProperty] private string _message = "Unknown Error";
+    [ObservableProperty] private string _stackTrace = "Unknown error description";
 
     
 }

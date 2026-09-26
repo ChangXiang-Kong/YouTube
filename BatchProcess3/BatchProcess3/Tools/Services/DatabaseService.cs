@@ -211,7 +211,7 @@ public class DatabaseService(AppDbContext dbContext) : IDisposable
         
         // If this item is not deletable
         if (!bypass && !existingEntity.CanDelete)
-            throw new InvalidOperationException($"This print setting cannot be deleted. {existingEntity.Name}");
+            throw new InvalidOperationException($"The print setting {existingEntity.Name} cannot be deleted.");
         
         _dbContext.PrintSettings.Remove(existingEntity);
         if (saveChanges)
@@ -223,7 +223,7 @@ public class DatabaseService(AppDbContext dbContext) : IDisposable
     {
         // If it is not editable
         if (!entity.CanEdit)
-            throw new InvalidOperationException($"This print setting cannot be edited. {entity.Name}");
+            throw new InvalidOperationException($"The print setting {entity.Name} cannot be edited.");
         
         // Remove existing
         if (!DeletePrintSettings(entity.Id, bypass: true, saveChanges: false))

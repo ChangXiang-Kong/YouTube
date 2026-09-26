@@ -12,7 +12,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
+using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using Avalonia.Controls;
+using Avalonia.Threading;
 using BatchProcess3.Data;
 using BatchProcess3.EntityFramework;
 using BatchProcess3.Tools.Extensions;
@@ -152,33 +155,10 @@ public partial class App : Application
     
     private void Test()
     {
-        // var appName =  AppName;                                  // BatchProcess3.Desktop.exe
-        // var appNameWithoutExtension =  AppNameWithoutExtension;  // BatchProcess3.Desktop
-        // var appExeDir =  AppExeDir;                              // D:\Desktop\YouTube\BatchProcess3\BatchProcess3.Desktop\bin\Debug\net10.0\
-        // var appExePath =  AppExeDir;                             // D:\Desktop\YouTube\BatchProcess3\BatchProcess3.Desktop\bin\Debug\net10.0\
-        // var appVersionInfo =  AppVersionInfo;                             /*
-        //     File:             D:\Desktop\YouTube\BatchProcess3\BatchProcess3.Desktop\bin\Debug\net10.0\BatchProcess3.Desktop.exe
-        //     InternalName:     BatchProcess3.Desktop.dll
-        //     OriginalFilename: BatchProcess3.Desktop.dll
-        //     FileVersion:      1.0.0.0
-        //     FileDescription:  BatchProcess3.Desktop
-        //     Product:          BatchProcess3.Desktop
-        //     ProductVersion:   1.0.0+6c0b0333b1a4272467c3986bf85e1502c24c1f14
-        //     Debug:            False
-        //     Patched:          False
-        //     PreRelease:       False
-        //     PrivateBuild:     False
-        //     SpecialBuild:     False
-        //     Language:         语言中性
-        //  */
-        // var appDllPath =  AppDllPath;                   // D:\Desktop\YouTube\BatchProcess3\BatchProcess3.Desktop\bin\Debug\net10.0\BatchProcess3.dll
-        // var appDllName =  AppDllName;                   // BatchProcess3.Desktop.dll
-        // var systemStartDirPath =  SystemStartDirPath;   // C:\Users\38287\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup
-        // var desktopPath =  DesktopPath;                 // D:\Desktop
-        // var registryPath =  RegistryPath;               // Software\Microsoft\Windows\CurrentVersion\Run
-        
         
     }
+    
+    
     
     public override void Initialize()
     {
@@ -196,6 +176,13 @@ public partial class App : Application
 
     public override void OnFrameworkInitializationCompleted()
     {
+        // UI线程未捕获异常处理事件，用于捕获 WPF UI 线程中的未处理异常。
+        this.Dispatcher.UnhandledException += App_DispatcherUnhandledException;
+        // 非UI线程未捕获异常处理事件，用于捕获所有非 UI 线程和非 Task 线程的未处理异常。
+        AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+        // Task线程内未捕获异常处理事件，用于捕获 Task 中未处理的异常。
+        TaskScheduler.UnobservedTaskException += TaskScheduler_UnobservedTaskException;
+        
         // ==========  依赖注入 ==========
         var services = new ServiceCollection();
         RegisterViewModels(services);
@@ -224,9 +211,9 @@ public partial class App : Application
                 // desktop.MainWindow = new TestWindow() { DataContext = new TestViewModel() };
                 
                 // ErrorWindow
-                var errorWindow = new ErrorWindow();
-                errorWindow.DataContext = new ErrorViewModel();
-                errorWindow.Show();
+                // var errorWindow = new ErrorWindow();
+                // errorWindow.DataContext = new ErrorViewModel();
+                // errorWindow.Show();
                 break;
             case ISingleViewApplicationLifetime singleViewPlatform:
                 singleViewPlatform.MainView = new MainView
@@ -238,7 +225,7 @@ public partial class App : Application
 
         base.OnFrameworkInitializationCompleted();
     }
-
+    
     private void RegisterViewModels(IServiceCollection services)
     {
         // Menu 相关
@@ -313,4 +300,137 @@ public partial class App : Application
         });
 
     }
+
+    // UI线程未捕获异常处理事件
+    private void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
+    {
+        var logContent = LogException(e.Exception);
+        e.Handled = true;   // 将 e.Handled 设为 true，标识异常已被处理，防止程序崩溃。
+        ShowCrashMessageInErrorWindow(e.Exception, logContent);
+        //NLogger.Logger.AddFatal(e.Exception, "UI线程未处理异常");
+        //Logger.AddFatal(e.Exception, "UI线程未处理异常");
+        // ShowErrorDialog("发生未处理的错误");
+    }
+
+    // 非UI线程未捕获异常处理事件
+    private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+    {
+        var logContent = LogException(e.ExceptionObject as Exception);
+        ShowCrashMessageInErrorWindow(e.ExceptionObject as Exception, logContent);
+        // EmergencySave();
+    }
+
+    // Task线程内未捕获异常处理事件
+    private void TaskScheduler_UnobservedTaskException(object? sender, UnobservedTaskExceptionEventArgs e)
+    {
+        var logContent = LogException(e.Exception);
+        ShowCrashMessageInErrorWindow(e.Exception, logContent);
+        e.SetObserved();    // e.SetObserved() 表示异常已处理，避免程序崩溃。设置该异常已察觉（这样处理后就不会引起程序崩溃）
+    }
+
+    private static string LogException(Exception ex)
+    {
+        /*
+            Environment.SpecialFolder 所有路径示例：
+                // Debug.WriteLine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop));                // D:\Desktop
+                // Debug.WriteLine(Environment.GetFolderPath(Environment.SpecialFolder.Programs));             // C:\Users\38287\AppData\Roaming\Microsoft\Windows\Start Menu\Programs
+                // Debug.WriteLine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));           // C:\Users\38287\Documents
+                // Debug.WriteLine(Environment.GetFolderPath(Environment.SpecialFolder.Personal));             // C:\Users\38287\Documents
+                // Debug.WriteLine(Environment.GetFolderPath(Environment.SpecialFolder.Favorites));            // C:\Users\38287\Favorites
+                // Debug.WriteLine(Environment.GetFolderPath(Environment.SpecialFolder.Startup));             // C:\Users\38287\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup
+                // Debug.WriteLine(Environment.GetFolderPath(Environment.SpecialFolder.Recent));               // C:\Users\38287\AppData\Roaming\Microsoft\Windows\Recent
+                // Debug.WriteLine(Environment.GetFolderPath(Environment.SpecialFolder.SendTo));               // C:\Users\38287\AppData\Roaming\Microsoft\Windows\SendTo
+                // Debug.WriteLine(Environment.GetFolderPath(Environment.SpecialFolder.StartMenu));           // C:\Users\38287\AppData\Roaming\Microsoft\Windows\Start Menu
+                // Debug.WriteLine(Environment.GetFolderPath(Environment.SpecialFolder.MyMusic));             // C:\Users\38287\Music
+                // Debug.WriteLine(Environment.GetFolderPath(Environment.SpecialFolder.MyVideos));            // C:\Users\38287\Videos
+                // Debug.WriteLine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory));     // D:\Desktop
+                // Debug.WriteLine(Environment.GetFolderPath(Environment.SpecialFolder.MyComputer));           // 
+                // Debug.WriteLine(Environment.GetFolderPath(Environment.SpecialFolder.NetworkShortcuts));     // C:\Users\38287\AppData\Roaming\Microsoft\Windows\Network Shortcuts
+                // Debug.WriteLine(Environment.GetFolderPath(Environment.SpecialFolder.Fonts));               // C:\Windows\Fonts
+                // Debug.WriteLine(Environment.GetFolderPath(Environment.SpecialFolder.Templates));           // C:\Users\38287\AppData\Roaming\Microsoft\Windows\Templates
+                // Debug.WriteLine(Environment.GetFolderPath(Environment.SpecialFolder.CommonStartMenu));      // C:\ProgramData\Microsoft\Windows\Start Menu
+                // Debug.WriteLine(Environment.GetFolderPath(Environment.SpecialFolder.CommonPrograms));       // C:\ProgramData\Microsoft\Windows\Start Menu\Programs
+                // Debug.WriteLine(Environment.GetFolderPath(Environment.SpecialFolder.CommonStartup));        // C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Startup
+                // Debug.WriteLine(Environment.GetFolderPath(Environment.SpecialFolder.CommonDesktopDirectory));// C:\Users\Public\Desktop
+                // Debug.WriteLine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData));      // C:\Users\38287\AppData\Roaming
+                // Debug.WriteLine(Environment.GetFolderPath(Environment.SpecialFolder.PrinterShortcuts));     // 
+                // Debug.WriteLine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)); // C:\Users\38287\AppData\Local
+                // Debug.WriteLine(Environment.GetFolderPath(Environment.SpecialFolder.InternetCache));        // C:\Users\38287\AppData\Local\Microsoft\Windows\INetCache
+                // Debug.WriteLine(Environment.GetFolderPath(Environment.SpecialFolder.Cookies));              // C:\Users\38287\AppData\Local\Microsoft\Windows\INetCookies
+                // Debug.WriteLine(Environment.GetFolderPath(Environment.SpecialFolder.History));              // C:\Users\38287\AppData\Local\Microsoft\Windows\History
+                // Debug.WriteLine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData));// C:\ProgramData
+                // Debug.WriteLine(Environment.GetFolderPath(Environment.SpecialFolder.Windows));              // C:\Windows
+                // Debug.WriteLine(Environment.GetFolderPath(Environment.SpecialFolder.System));              // C:\Windows\system32
+                // Debug.WriteLine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles));        // C:\Program Files
+                // Debug.WriteLine(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures));           // C:\Users\38287\Pictures
+                // Debug.WriteLine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile));          // C:\Users\38287
+                // Debug.WriteLine(Environment.GetFolderPath(Environment.SpecialFolder.SystemX86));            // C:\Windows\SysWOW64
+                // Debug.WriteLine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86));      // C:\Program Files (x86)
+                // Debug.WriteLine(Environment.GetFolderPath(Environment.SpecialFolder.CommonProgramFiles));   // C:\Program Files\Common Files
+                // Debug.WriteLine(Environment.GetFolderPath(Environment.SpecialFolder.CommonProgramFilesX86));// C:\Program Files (x86)\Common Files
+                // Debug.WriteLine(Environment.GetFolderPath(Environment.SpecialFolder.CommonTemplates));      // C:\ProgramData\Microsoft\Windows\Templates
+                // Debug.WriteLine(Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments));      // C:\Users\Public\Documents
+                // Debug.WriteLine(Environment.GetFolderPath(Environment.SpecialFolder.CommonAdminTools));     // C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Administrative Tools
+                // Debug.WriteLine(Environment.GetFolderPath(Environment.SpecialFolder.AdminTools));           // C:\Users\38287\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Administrative Tools
+                // Debug.WriteLine(Environment.GetFolderPath(Environment.SpecialFolder.CommonMusic));          // C:\Users\Public\Music
+                // Debug.WriteLine(Environment.GetFolderPath(Environment.SpecialFolder.CommonPictures));       // C:\Users\Public\Pictures
+                // Debug.WriteLine(Environment.GetFolderPath(Environment.SpecialFolder.CommonVideos));         // C:\Users\Public\Videos
+                // Debug.WriteLine(Environment.GetFolderPath(Environment.SpecialFolder.Resources));             // C:\Windows\resources
+                // Debug.WriteLine(Environment.GetFolderPath(Environment.SpecialFolder.LocalizedResources));    // 
+                // Debug.WriteLine(Environment.GetFolderPath(Environment.SpecialFolder.CommonOemLinks));        // 
+                // Debug.WriteLine(Environment.GetFolderPath(Environment.SpecialFolder.CDBurning));            // C:\Users\38287\AppData\Local\Microsoft\Windows\Burn\Burn
+         */
+        var homeDirectory = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
+        var logDirectory = Path.Combine(homeDirectory, Path.Combine(ResourceToken.AppName, "AppCrashLogs"));
+        Directory.CreateDirectory(logDirectory);
+
+        var now = DateTime.Now;
+        var logFileName = $"CrashLog_{now:yyyyMMdd_HHmmssffff}.log";
+        var logFilePath = Path.Combine(logDirectory, logFileName);
+
+        var logContent = $"CrashTime: {now:yyyy-MM-dd HH:mm:ss:ffff}{Environment.NewLine}" +
+                         $"Exception Type: {ex.GetType().Name}{Environment.NewLine}" +
+                         $"Exception Message: {ex.Message}{Environment.NewLine}" +
+                         $"Stack Info: {Environment.NewLine}{ex.StackTrace}";
+        
+        File.WriteAllText(logFilePath, logContent);
+        return logContent;
+    }
+
+    private static void ShowCrashMessageInErrorWindow(Exception ex, string logContent)
+    {
+        if (Application.Current != null)
+        {
+            Avalonia.Threading.Dispatcher.CurrentDispatcher.InvokeAsync(() =>
+            {
+                var vm = new ErrorViewModel
+                {
+                    // Message = $"{ex.GetType().Name}: {ex.Message}",
+                    // StackTrace = ex.StackTrace ?? "No StackTrace."
+                    Message = $"{ex.Message}",
+                    StackTrace = logContent
+                };
+
+                var errorWin = new ErrorWindow { DataContext = vm };
+
+                // 显示窗口，阻塞等待用户关闭
+                // errorWin.ShowDialogAsync(null).Wait();
+                errorWin.Show();
+            });
+        }
+        else
+        {
+            // 启动阶段崩溃，Avalonia未初始化，使用Win32原生MessageBox兜底
+            MessageBoxW(
+                0,
+                $"程序启动失败：\n\n{ex.Message}\n\n详细日志已保存至CrashLogs目录",
+                "致命错误",
+                0x10); // MB_ICONERROR
+        }
+    }
+    
+    // Win32 MessageBox 导入
+    [DllImport("user32.dll", CharSet = CharSet.Unicode)]
+    private static extern int MessageBoxW(nint hWnd, string text, string caption, uint iconType);
+
 }

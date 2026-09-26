@@ -124,6 +124,10 @@ public partial class ActionsPageViewModel(
             // TODO: Throw/Warn?
             return;
 
+        var item = PrintSettingsList.First(x => x.Id == id);
+        if (!item.CanDelete)
+            throw new InvalidOperationException($"The print setting {item.Name} cannot be deleted.");
+        
         if (await DeletePrintSettingsFromUIAsync(id))
             databaseService.DeletePrintSettings(id);
     }

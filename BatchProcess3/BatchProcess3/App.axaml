@@ -43,6 +43,7 @@
         <MergeResourceInclude Source="/Controls/CheckBox.axaml" />
         <MergeResourceInclude Source="/Controls/ComboBox.axaml" />
         <MergeResourceInclude Source="/Controls/ComboBoxItem.axaml" />
+        <MergeResourceInclude Source="/Controls/Expander.axaml" />
         <MergeResourceInclude Source="/Controls/ListBoxItem.axaml" />
         <MergeResourceInclude Source="/Controls/NumericUpDown.axaml" />
         <MergeResourceInclude Source="/Controls/TabControl.axaml" />
