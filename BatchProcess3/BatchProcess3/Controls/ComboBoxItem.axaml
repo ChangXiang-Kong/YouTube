@@ -7,7 +7,7 @@
               Padding="{DynamicResource ComboBoxDropdownBorderPadding}"
               Background="{DynamicResource PrimaryBackgroundGradient}"
               BorderBrush="{DynamicResource HoverGradient}"
-              BorderThickness="{DynamicResource BorderThickness_2}"
+              BorderThickness="{DynamicResource BorderThickness_1}"
               CornerRadius="{DynamicResource OverlayCornerRadius}">
         <StackPanel HorizontalAlignment="Stretch">
           <ComboBoxItem>Item 1</ComboBoxItem>
@@ -86,7 +86,7 @@
 <!--     <Border Padding="20" Background="{DynamicResource PrimaryBackground}"> -->
 <!--  <Border Background="{DynamicResource PrimaryBackgroundGradient}"  -->
 <!--  BorderBrush="{DynamicResource PrimaryForeground}"  -->
-<!--  BorderThickness="{DynamicResource PrimaryBorderThickness_2}" Margin="0,-1,0,-1"  -->
+<!--  BorderThickness="{DynamicResource PrimaryBorderThickness_1}" Margin="0,-1,0,-1"  -->
 <!--  Padding="{DynamicResource ComboBoxDropdownBorderPadding}"  -->
 <!--  CornerRadius="{DynamicResource OverlayCornerRadius}">  -->
 <!--         <StackPanel HorizontalAlignment="Stretch"> -->

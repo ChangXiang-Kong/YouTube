@@ -8,11 +8,11 @@ namespace BatchProcess3.Tools.Services;
 
 public class PrinterService
 {
-    public ObservableCollection<PrintersViewModel> GetAvailablePrinters()
+    public ObservableCollection<ActionsPrintersViewModel> GetAvailablePrinters()
     {
-        var printers = new ObservableCollection<PrintersViewModel>();
+        var printers = new ObservableCollection<ActionsPrintersViewModel>();
 
-        printers.Add(new PrintersViewModel() { Name = "(Default)" });
+        printers.Add(new ActionsPrintersViewModel() { Name = "(Default)" });
 
         // if (OperatingSystem.IsWindows())
         if (OperatingSystem.IsWindowsVersionAtLeast(6, 1))
@@ -23,7 +23,7 @@ public class PrinterService
             {
                 printDocument.PrinterSettings.PrinterName = printerName;
                 
-                var printerDetailsViewModel = new PrintersViewModel() { Name = printerName };
+                var printerDetailsViewModel = new ActionsPrintersViewModel() { Name = printerName };
                 
                 // Add PaperSizes option
                 printerDetailsViewModel.PaperSizesList.Add("(Default)");

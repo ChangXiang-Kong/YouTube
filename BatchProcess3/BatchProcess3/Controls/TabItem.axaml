@@ -28,7 +28,7 @@
     <Setter Property="VerticalContentAlignment" Value="Center" />
     <Setter Property="CornerRadius" Value="10 10 0 0" />
     <Setter Property="BorderBrush" Value="{DynamicResource PrimaryHoverBackground}" />
-    <Setter Property="BorderThickness" Value="2" />
+    <Setter Property="BorderThickness" Value="{DynamicResource BorderThickness_2}" />
     <Setter Property="Template">
       <ControlTemplate>
         <Panel>

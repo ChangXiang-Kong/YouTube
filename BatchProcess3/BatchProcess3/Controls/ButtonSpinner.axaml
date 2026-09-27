@@ -8,8 +8,8 @@
       <StackPanel Spacing="20">
         <ButtonSpinner Content="Right spinner" />
         <ButtonSpinner ButtonSpinnerLocation="Left" Content="Left spinner" />
-        <ButtonSpinner BorderBrush="Blue" BorderThickness="2" Content="Right Border" />
-        <ButtonSpinner BorderBrush="Blue" BorderThickness="2" ButtonSpinnerLocation="Left" Content="Left Border" />
+        <ButtonSpinner BorderBrush="Blue" BorderThickness="{DynamicResource BorderThickness_1}" Content="Right Border" />
+        <ButtonSpinner BorderBrush="Blue" BorderThickness="{DynamicResource BorderThickness_1}" ButtonSpinnerLocation="Left" Content="Left Border" />
         <ButtonSpinner AllowSpin="False" Content="Right disabled" />
         <ButtonSpinner AllowSpin="False" ButtonSpinnerLocation="Left" Content="Left disabled" />
         <ButtonSpinner Content="Hide spinner" ShowButtonSpinner="False" />
@@ -65,7 +65,7 @@
     <Setter Property="Padding" Value="10, 0" />
     <Setter Property="Background" Value="{DynamicResource PrimaryBackground}" />
     <Setter Property="BorderBrush" Value="{DynamicResource DefaultGradient}" />
-    <Setter Property="BorderThickness" Value="{DynamicResource BorderThickness_2}" />
+    <Setter Property="BorderThickness" Value="{DynamicResource BorderThickness_1}" />
     <Setter Property="CornerRadius" Value="{DynamicResource CornerRadius_5}" />
     <Setter Property="MinHeight" Value="{DynamicResource TextControlThemeMinHeight}" />
     <Setter Property="MinWidth" Value="{DynamicResource TextControlThemeMinWidth}" />

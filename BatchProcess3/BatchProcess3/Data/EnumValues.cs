@@ -8,41 +8,48 @@ using BatchProcess3.CustomAttributes;
 
 namespace BatchProcess3.Data
 {
-    public enum ApplicationPageName
+    #region Global
+    /// <summary>
+    /// 枚举值 用于RichTextBox与TextBox的消息分类
+    /// </summary>
+    public enum LogType
     {
-        Unknown = 0,
-        Home = 1,
-        Process = 2,
-        Actions = 3,
-        Macros = 4,
-        Reporter = 5,
-        History = 6,
-        Settings = 7,
-        Detail = 8,
-    }
-    
-    public enum ActionsPageName
-    {
-        Unknown = 0,
-        Print = 1,
-        CustomProperties = 2,
-        FileInfo = 3,
-        SaveModelAs = 4,
-        SaveDrawingAs = 5,
-        ImportFile = 6,
-        DrawingTemplates = 7,
-        Macros = 8,
+        /// <summary> 全部消息 </summary>
+        Total = 0,
+        /// <summary> 提示消息 灰色 </summary>
+        Tip = 1,
+        /// <summary> 默认消息 黑色 </summary>
+        Default = 2,
+        /// <summary> 信息消息 蓝色 </summary>
+        Info = 3,
+        /// <summary> 成功消息 绿色 </summary>
+        Success = 4,
+        /// <summary> 警告消息 橙色 </summary>
+        Warning = 5,
+        /// <summary> 错误消息 红色 </summary>
+        Error = 6,
+        /// <summary> 致命/严重消息 紫色 </summary>
+        Fatal = 7,
     }
     
     public enum InfoType
     {
-        Ask,
-        Info,
-        Success,
-        Warning,
-        Error,
-        Fatal,
+        Ask = 0,
+        Info = 1,
+        Success = 2,
+        Warning = 3,
+        Error = 4,
+        Fatal = 5,
     }
+    
+    /// <summary>
+    /// 枚举值 数据类型
+    /// </summary>
+    public enum DataType
+    {
+        Byte, SByte, Bool, Char, Short, UShort, Int, UInt, Long, ULong, Float, Double, Decimal, String
+    }
+    
     /// <summary>
     /// 特性 Description 格式：Type|Color|GeometryIcon
     /// </summary>
@@ -69,4 +76,43 @@ namespace BatchProcess3.Data
         [GeometryIcon(nameof(PrinterSettings), "DodgerBlue", "M875 750V687.5H823C821.1 680.8 818.5 674.6 815.4 668.5L852.5 631.4L808.2 587.2L771.8 623.7C764.9 619.8 757.7 616.8 750 614.5V562.5H687.5V614.4C680.4 616.6 673.6 619.4 667.2 622.9L631.5 587.3L587.3 631.5L622.9 667.1C619.4 673.6 616.6 680.3 614.4 687.5H562.5V750H614.4C616.7 757.7 619.8 765 623.7 771.8L587.3 808.2L631.4 852.4L668.5 815.3C674.5 818.5 680.8 821 687.4 823V875H750V823C757.2 820.8 763.9 818 770.3 814.5L808.2 852.4L852.4 808.2L814.5 770.3C818 763.9 820.8 757.1 823 750H875ZM718.7 765.6C692.8 765.5 671.9 744.6 671.8 718.7C671.9 692.8 692.8 671.9 718.7 671.8C744.6 671.9 765.5 692.8 765.6 718.7C765.5 744.6 744.6 765.5 718.7 765.6ZM937.5 542.2V500H895.3C870.8 480.2 842.8 464.6 812.5 453.8V62.5H187.5V500H62.5V812.5H139.6L72.9 937.5H542.2C590.4 976.5 651.8 1000 718.8 1000C874.1 999.9 999.9 874.1 1000 718.8C1000 651.8 976.5 590.4 937.5 542.2ZM250 125H750V439.3C739.7 438.2 729.3 437.5 718.8 437.5C651.8 437.5 590.4 461 542.1 500H250V125ZM243.7 750H439.3C444.4 795.9 460.5 838.5 484.9 875H177.1L243.7 750ZM718.8 933.8C600 933.6 503.9 837.5 503.6 718.8C503.9 600 600 503.9 718.8 503.6C837.5 503.9 933.6 600 933.8 718.8C933.6 837.5 837.5 933.6 718.8 933.8Z")]
         PrinterSettings,
     }
+    #endregion Global
+    
+    public enum ApplicationPageName
+    {
+        Unknown = 0,
+        Home = 1,
+        Process = 2,
+        Actions = 3,
+        Macros = 4,
+        Reporter = 5,
+        History = 6,
+        Settings = 7,
+        Detail = 8,
+    }
+    
+    public enum ActionsPageName
+    {
+        Unknown = 0,
+        Print = 1,
+        CustomProperties = 2,
+        FileInfo = 3,
+        SaveModelAs = 4,
+        SaveDrawingAs = 5,
+        ImportFile = 6,
+        DrawingTemplates = 7,
+        Macros = 8,
+    }
+
+    #region ActionsMenu CustomPropertiesTab
+    public enum CustomPropertyRuleType
+    {
+        Unknown = 0,
+        Add = 1,
+        Remove = 2,
+        Update = 3,
+        Copy = 4,
+        Clear = 5,
+    }
+    #endregion ActionsMenu CustomPropertiesTab
 }

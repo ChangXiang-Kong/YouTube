@@ -97,13 +97,13 @@
             <Border x:Name="OuterBorder" Grid.Row="1" Width="45"
                     Height="22" Background="Transparent"
                     BorderBrush="{DynamicResource ActiveGradient}"
-                    BorderThickness="{DynamicResource BorderThickness_2}"
+                    BorderThickness="{DynamicResource BorderThickness_1}"
                     CornerRadius="{DynamicResource CornerRadius_5}" />
 
             <Border x:Name="SwitchKnobBounds" Grid.Row="1" Width="45"
                     Height="22" Background="Transparent"
                     BorderBrush="{DynamicResource ActiveGradient}"
-                    BorderThickness="{DynamicResource BorderThickness_2}"
+                    BorderThickness="{DynamicResource BorderThickness_1}"
                     CornerRadius="{DynamicResource CornerRadius_5}" />
 
             <Canvas x:Name="PART_SwitchKnob" Grid.Row="1" Width="25"

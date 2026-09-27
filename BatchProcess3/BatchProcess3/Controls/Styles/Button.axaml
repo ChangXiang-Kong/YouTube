@@ -46,7 +46,7 @@
     <Setter Property="FontSize" Value="{DynamicResource FontSize_14}" />
     <Setter Property="CornerRadius" Value="{DynamicResource CornerRadius_5}" />
     <Setter Property="FontWeight" Value="Bold" />
-    <Setter Property="BorderThickness" Value="{DynamicResource BorderThickness_2}" />
+    <Setter Property="BorderThickness" Value="{DynamicResource BorderThickness_1}" />
     <Setter Property="Effect">
       <DropShadowEffect BlurRadius="30" Opacity="0.3" />
     </Setter>

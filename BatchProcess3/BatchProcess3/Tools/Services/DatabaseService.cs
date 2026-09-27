@@ -73,10 +73,12 @@ public class DatabaseService(AppDbContext dbContext) : IDisposable
     }
     #endregion Settings
 
+    #region Actions
+    
     #region PrintTab
-    public List<PrintTabEntity> GetPrintTab()
+    public List<ActionsTabPrintEntity> GetPrintTab()
     {
-        var res = _dbContext.PrintTab.ToList();
+        var res = _dbContext.ActionsTabPrint.ToList();
 
         if (!res.Any())
         {
@@ -85,7 +87,7 @@ public class DatabaseService(AppDbContext dbContext) : IDisposable
             
             // Create a default item
             // res.Add(new PrintTabEntity()    // 报错：Sequence contains no elements
-            _dbContext.PrintTab.Add(new PrintTabEntity()
+            _dbContext.ActionsTabPrint.Add(new ActionsTabPrintEntity()
             {
                 JobName = "Print Only Drawings",
                 Description = "Prints only drawing files",
@@ -94,19 +96,22 @@ public class DatabaseService(AppDbContext dbContext) : IDisposable
                 PrintModels = false,
                 PrintDrawings = true,
                 DrawingExclusionList = $"Some item 1{Environment.NewLine}Some item 2{Environment.NewLine}Some item 3",
-                PrintSettingsId = _dbContext.PrintSettings.First().Id,
+                PrintSettingsId = _dbContext.ActionsPrintSettings.First().Id,
             });
             
             // Save changes to database
             _dbContext.SaveChanges();
+            
+            // Refresh from DB to include ID
+            res = _dbContext.ActionsTabPrint.ToList();
         }
         
         return res;
     }
 
-    public bool AddPrintTab(PrintTabEntity entity)
+    public bool AddPrintTab(ActionsTabPrintEntity entity)
     {
-        _dbContext.PrintTab.Add(entity);
+        _dbContext.ActionsTabPrint.Add(entity);
         return _dbContext.SaveChanges() > 0;
     }
 
@@ -116,15 +121,15 @@ public class DatabaseService(AppDbContext dbContext) : IDisposable
         //     throw  new ArgumentException("Invalid print tab id");
 
         // Remove existing
-        var existingEntity = _dbContext.PrintTab.FirstOrDefault(x => x.Id == id);
+        var existingEntity = _dbContext.ActionsTabPrint.FirstOrDefault(x => x.Id == id);
         if (existingEntity == null)
             return false;
         
-        _dbContext.PrintTab.Remove(existingEntity);
+        _dbContext.ActionsTabPrint.Remove(existingEntity);
         return _dbContext.SaveChanges() > 0;
     }
 
-    public bool UpdatePrintTab(PrintTabEntity entity)
+    public bool UpdatePrintTab(ActionsTabPrintEntity entity)
     {
         // Remove existing
         if (!DeletePrintTab(entity.Id))
@@ -136,40 +141,40 @@ public class DatabaseService(AppDbContext dbContext) : IDisposable
     #endregion PrintTab
     
     #region PrintSettings
-    public List<PrintSettingsProfileEntity> GetPrintSettingsProfiles()
+    public List<ActionsPrintSettingsProfileEntity> GetPrintSettingsProfiles()
     {
         return
         [
-            new PrintSettingsProfileEntity(){ Type = "A0Size" },
-            new PrintSettingsProfileEntity(){ Type = "A1Size" },
-            new PrintSettingsProfileEntity(){ Type = "A2Size" },
-            new PrintSettingsProfileEntity(){ Type = "A3Size" },
-            new PrintSettingsProfileEntity(){ Type = "A4Size" },
-            new PrintSettingsProfileEntity(){ Type = "A4VerticalSize" },
-            new PrintSettingsProfileEntity(){ Type = "ASize" },
-            new PrintSettingsProfileEntity(){ Type = "AVerticalSize" },
-            new PrintSettingsProfileEntity(){ Type = "BSize" },
-            new PrintSettingsProfileEntity(){ Type = "CSize" },
-            new PrintSettingsProfileEntity(){ Type = "DSize" },
-            new PrintSettingsProfileEntity(){ Type = "ESize" },
-            new PrintSettingsProfileEntity(){ Type = "UserSize1" },
-            new PrintSettingsProfileEntity(){ Type = "UserSize2" },
-            new PrintSettingsProfileEntity(){ Type = "UserSize3" },
-            new PrintSettingsProfileEntity(){ Type = "UserSize4" },
-            new PrintSettingsProfileEntity(){ Type = "UserSize5" },
-            new PrintSettingsProfileEntity(){ Type = "UserSize6" },
-            new PrintSettingsProfileEntity(){ Type = "UserSize7" },
-            new PrintSettingsProfileEntity(){ Type = "UserSize8" },
-            new PrintSettingsProfileEntity(){ Type = "UserSize9" },
-            new PrintSettingsProfileEntity(){ Type = "UserSize10" },
-            new PrintSettingsProfileEntity(){ Type = "UserSize11" },
-            new PrintSettingsProfileEntity(){ Type = "UserSize12" },
+            new ActionsPrintSettingsProfileEntity(){ Type = "A0Size" },
+            new ActionsPrintSettingsProfileEntity(){ Type = "A1Size" },
+            new ActionsPrintSettingsProfileEntity(){ Type = "A2Size" },
+            new ActionsPrintSettingsProfileEntity(){ Type = "A3Size" },
+            new ActionsPrintSettingsProfileEntity(){ Type = "A4Size" },
+            new ActionsPrintSettingsProfileEntity(){ Type = "A4VerticalSize" },
+            new ActionsPrintSettingsProfileEntity(){ Type = "ASize" },
+            new ActionsPrintSettingsProfileEntity(){ Type = "AVerticalSize" },
+            new ActionsPrintSettingsProfileEntity(){ Type = "BSize" },
+            new ActionsPrintSettingsProfileEntity(){ Type = "CSize" },
+            new ActionsPrintSettingsProfileEntity(){ Type = "DSize" },
+            new ActionsPrintSettingsProfileEntity(){ Type = "ESize" },
+            new ActionsPrintSettingsProfileEntity(){ Type = "UserSize1" },
+            new ActionsPrintSettingsProfileEntity(){ Type = "UserSize2" },
+            new ActionsPrintSettingsProfileEntity(){ Type = "UserSize3" },
+            new ActionsPrintSettingsProfileEntity(){ Type = "UserSize4" },
+            new ActionsPrintSettingsProfileEntity(){ Type = "UserSize5" },
+            new ActionsPrintSettingsProfileEntity(){ Type = "UserSize6" },
+            new ActionsPrintSettingsProfileEntity(){ Type = "UserSize7" },
+            new ActionsPrintSettingsProfileEntity(){ Type = "UserSize8" },
+            new ActionsPrintSettingsProfileEntity(){ Type = "UserSize9" },
+            new ActionsPrintSettingsProfileEntity(){ Type = "UserSize10" },
+            new ActionsPrintSettingsProfileEntity(){ Type = "UserSize11" },
+            new ActionsPrintSettingsProfileEntity(){ Type = "UserSize12" },
         ];
     }
     
-    public List<PrintSettingsEntity> GetPrintSettings()
+    public List<ActionsPrintSettingsEntity> GetPrintSettings()
     {
-        var res = _dbContext.PrintSettings
+        var res = _dbContext.ActionsPrintSettings
             // 注意：需要调用 Include() 才能自动获取 PrintSettingsProfilesList
             .Include(x => x.PrintSettingsProfilesList)
             .ToList();
@@ -178,7 +183,7 @@ public class DatabaseService(AppDbContext dbContext) : IDisposable
         {
             // Add default settings
             // res.Add(new PrintSettingsEntity()   // 报错：Sequence contains no elements
-            _dbContext.PrintSettings.Add(new PrintSettingsEntity()
+            _dbContext.ActionsPrintSettings.Add(new ActionsPrintSettingsEntity()
             {
                 Name = "(Default)",
                 Description = "Use all default settings",
@@ -188,14 +193,16 @@ public class DatabaseService(AppDbContext dbContext) : IDisposable
 
             // Save changes to database
             _dbContext.SaveChanges();
+            
+            res =  _dbContext.ActionsPrintSettings.ToList();
         }
         
         return res;
     }
 
-    public bool AddPrintSettings(PrintSettingsEntity entity)
+    public bool AddPrintSettings(ActionsPrintSettingsEntity entity)
     {
-        _dbContext.PrintSettings.Add(entity);
+        _dbContext.ActionsPrintSettings.Add(entity);
         return _dbContext.SaveChanges() > 0;
     }
 
@@ -205,7 +212,7 @@ public class DatabaseService(AppDbContext dbContext) : IDisposable
         //     throw  new ArgumentException("Invalid print tab id");
 
         // Remove existing
-        var existingEntity = _dbContext.PrintSettings.FirstOrDefault(x => x.Id == id);
+        var existingEntity = _dbContext.ActionsPrintSettings.FirstOrDefault(x => x.Id == id);
         if (existingEntity == null)
             return false;
         
@@ -213,13 +220,13 @@ public class DatabaseService(AppDbContext dbContext) : IDisposable
         if (!bypass && !existingEntity.CanDelete)
             throw new InvalidOperationException($"The print setting {existingEntity.Name} cannot be deleted.");
         
-        _dbContext.PrintSettings.Remove(existingEntity);
+        _dbContext.ActionsPrintSettings.Remove(existingEntity);
         if (saveChanges)
             return _dbContext.SaveChanges() > 0;
         return true;
     }
 
-    public bool UpdatePrintSettings(PrintSettingsEntity entity)
+    public bool UpdatePrintSettings(ActionsPrintSettingsEntity entity)
     {
         // If it is not editable
         if (!entity.CanEdit)
@@ -234,6 +241,44 @@ public class DatabaseService(AppDbContext dbContext) : IDisposable
     }
     #endregion PrintSettings
 
+    #region CustomProperties
+    public List<ActionsTabCustomPropertiesEntity> GetCustomProperties()
+    {
+        return _dbContext.ActionsTabCustomProperties.ToList();
+    }
+
+    public bool AddCustomProperty(ActionsTabCustomPropertiesEntity entity)
+    {
+        _dbContext.ActionsTabCustomProperties.Add(entity);
+        return _dbContext.SaveChanges() > 0;
+    }
+
+    public bool DeleteCustomProperty(string id)
+    {
+        // if (!Guid.TryParse(id, out Guid guid))
+        //     throw  new ArgumentException("Invalid print tab id");
+
+        // Remove existing
+        var existingEntity = _dbContext.ActionsTabCustomProperties.FirstOrDefault(x => x.Id == id);
+        if (existingEntity == null)
+            return false;
+        
+        _dbContext.ActionsTabCustomProperties.Remove(existingEntity);
+        return _dbContext.SaveChanges() > 0;
+    }
+
+    public bool UpdateCustomProperty(ActionsTabCustomPropertiesEntity entity)
+    {
+        // Remove existing
+        if (!DeleteCustomProperty(entity.Id))
+            return false;
+        
+        // Add new
+        return AddCustomProperty(entity);
+    }
+    #endregion CustomProperties
+
+    #endregion Actions
     
 
     public void Dispose()

@@ -239,7 +239,7 @@ public partial class App : Application
         services.AddTransientViewModel<SettingsPageView, SettingsPageViewModel>();
         // Dialog
         services.AddTransientViewModel<ConfirmDialogView, ConfirmDialogViewModel>();
-        services.AddTransientViewModel<PrintSettingsView, PrintSettingsViewModel>();
+        services.AddTransientViewModel<ActionsPrintSettingsView, ActionsPrintSettingsViewModel>();
     }
 
     private void RegisterServices(IServiceCollection services)
@@ -305,11 +305,11 @@ public partial class App : Application
     private void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
     {
         var logContent = LogException(e.Exception);
-        e.Handled = true;   // 将 e.Handled 设为 true，标识异常已被处理，防止程序崩溃。
         ShowCrashMessageInErrorWindow(e.Exception, logContent);
         //NLogger.Logger.AddFatal(e.Exception, "UI线程未处理异常");
         //Logger.AddFatal(e.Exception, "UI线程未处理异常");
         // ShowErrorDialog("发生未处理的错误");
+        e.Handled = true;   // 将 e.Handled 设为 true，标识异常已被处理，防止程序崩溃。
     }
 
     // 非UI线程未捕获异常处理事件

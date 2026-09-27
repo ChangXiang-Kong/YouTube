@@ -13,14 +13,14 @@
   <!--  Add Styles Here  -->
   <Style Selector="TextBox">
     <Setter Property="BorderBrush" Value="{DynamicResource PrimaryHoverBackground}" />
-    <Setter Property="BorderThickness" Value="{DynamicResource BorderThickness_2}" />
+    <Setter Property="BorderThickness" Value="{DynamicResource BorderThickness_1}" />
     <Setter Property="Background" Value="{DynamicResource PrimaryBackground}" />
     <Setter Property="Foreground" Value="{DynamicResource PrimaryForeground}" />
   </Style>
 
   <Style Selector="TextBox:pointerover /template/ Border#PART_BorderElement">
     <Setter Property="BorderBrush" Value="{DynamicResource HoverGradient}" />
-    <Setter Property="BorderThickness" Value="{DynamicResource BorderThickness_2}" />
+    <Setter Property="BorderThickness" Value="{DynamicResource BorderThickness_1}" />
     <Setter Property="Background" Value="{DynamicResource PrimaryHoverBackground}" />
   </Style>
 
@@ -34,7 +34,7 @@
   </Style>
   <Style Selector="TextBox:focus /template/ Border#PART_BorderElement">
     <Setter Property="BorderBrush" Value="{DynamicResource HoverGradient}" />
-    <Setter Property="BorderThickness" Value="{DynamicResource BorderThickness_2}" />
+    <Setter Property="BorderThickness" Value="{DynamicResource BorderThickness_1}" />
     <Setter Property="Background" Value="{DynamicResource PrimaryHoverBackground}" />
   </Style>
 </Styles>

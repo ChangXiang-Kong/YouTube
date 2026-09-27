@@ -15,9 +15,10 @@ public class AppDbContext : DbContext
     public DbSet<SettingsEntity> Settings { get; set; }
     
     // Actions
-    public DbSet<PrintTabEntity> PrintTab { get; set; }
-    public DbSet<PrintSettingsEntity> PrintSettings { get; set; }
-    public DbSet<PrintSettingsProfileEntity> PrintSettingsProfile { get; set; }
+    public DbSet<ActionsTabPrintEntity> ActionsTabPrint { get; set; }
+    public DbSet<ActionsPrintSettingsEntity> ActionsPrintSettings { get; set; }
+    public DbSet<ActionsPrintSettingsProfileEntity> ActionsPrintSettingsProfile { get; set; }
+    public DbSet<ActionsTabCustomPropertiesEntity> ActionsTabCustomProperties { get; set; }
     
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -87,9 +88,9 @@ public class AppDbContext : DbContext
         // TODO: 以下代码需要查资料，搞明白 HasMany、WithOne、HasOne、WithMany 等如何用，Cascade 与 ClientCascade 的区别
         // PrintSettingsEntity
         // modelBuilder.Entity<PrintSettingsEntity>().HasKey(x => x.Id);    // 显式标记 主键 为 Id。若 xxxEntity 已添加 名为 Id 的 属性，EFCore会自动将其识别为 主键，这里就不需要了
-        modelBuilder.Entity<PrintSettingsEntity>()
+        modelBuilder.Entity<ActionsPrintSettingsEntity>()
             .HasMany(x => x.PrintTabsList)
-            .WithOne(x => x.PrintSettings)
+            .WithOne(x => x.ActionsPrintSettings)
             .HasForeignKey(x => x.PrintSettingsId)
             .OnDelete(DeleteBehavior.ClientCascade);
         
@@ -152,11 +153,14 @@ public class AppDbContext : DbContext
         
         // PrintSettingsProfileEntity
         // modelBuilder.Entity<PrintSettingsProfileEntity>().HasKey(x => x.Id);    // 显式标记 主键 为 Id。若 xxxEntity 已添加 名为 Id 的 属性，EFCore会自动将其识别为 主键，这里就不需要了
-        modelBuilder.Entity<PrintSettingsProfileEntity>()
-            .HasOne(x => x.PrintSettings)
+        modelBuilder.Entity<ActionsPrintSettingsProfileEntity>()
+            .HasOne(x => x.ActionsPrintSettings)
             .WithMany(x => x.PrintSettingsProfilesList)
             .HasForeignKey(x => x.PrintSettingsId)
             .OnDelete(DeleteBehavior.ClientCascade);
+        
+        // ActionsTabCustomPropertiesEntity
+        // modelBuilder.Entity<ActionsTabCustomPropertiesEntity>().HasKey(x => x.Id);    // 显式标记 主键 为 Id。若 xxxEntity 已添加 名为 Id 的 属性，EFCore会自动将其识别为 主键，这里就不需要了
     }
 
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)

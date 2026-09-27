@@ -17,7 +17,7 @@
   <Style Selector="ListBox">
     <Setter Property="Background" Value="{DynamicResource PrimaryBackgroundGradient}" />
     <Setter Property="BorderBrush" Value="{DynamicResource DefaultGradient}" />
-    <Setter Property="BorderThickness" Value="{DynamicResource BorderThickness_2}" />
+    <Setter Property="BorderThickness" Value="{DynamicResource BorderThickness_1}" />
     <Setter Property="Foreground" Value="{DynamicResource PrimaryForeground}" />
     <Setter Property="CornerRadius" Value="{DynamicResource CornerRadius_5}" />
   </Style>

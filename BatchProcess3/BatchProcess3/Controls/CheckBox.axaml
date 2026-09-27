@@ -46,7 +46,7 @@
             <Border x:Name="NormalRectangle" Width="22" Height="22"
                     Background="Transparent"
                     BorderBrush="{TemplateBinding BorderBrush}"
-                    BorderThickness="2"
+                    BorderThickness="{DynamicResource BorderThickness_2}"
                     CornerRadius="{TemplateBinding CornerRadius}"
                     UseLayoutRounding="False">
               <Border.Transitions>

@@ -75,7 +75,7 @@
         <DependentUpon>SettingsPageView.axaml</DependentUpon>
         <SubType>Code</SubType>
       </Compile>
-      <Compile Update="Views\Actions\PrintSettingsView.axaml.cs">
+      <Compile Update="Views\Actions\ActionsPrintSettingsView.axaml.cs">
         <DependentUpon>PrintProfileView.axaml</DependentUpon>
         <SubType>Code</SubType>
       </Compile>
