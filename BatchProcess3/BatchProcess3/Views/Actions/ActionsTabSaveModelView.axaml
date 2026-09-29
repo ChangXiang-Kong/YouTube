@@ -18,27 +18,27 @@
   </Design.DataContext>
 
   <Grid ColumnDefinitions="*, 30, 3*">
-    <!--  Custom Properties List Column  -->
+    <!--  SaveModel List Column  -->
     <Grid RowDefinitions="Auto, 10, Auto, 10, Auto, 10, *">
-      <Label Classes="h2" Content="Custom Properties" />
-      <TextBlock Grid.Row="2" Margin="0,-10,0,0" Text="Updating, deleting and editing of custom properties with advanced logic." TextWrapping="Wrap" />
+      <Label Classes="h2" Content="Save Model Actions" />
+      <TextBlock Grid.Row="2" Margin="0,-10,0,0" Text="Save Model actions can be used to export models in various formats." TextWrapping="Wrap" />
       <Button Grid.Row="4" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"
               Classes="small outline"
-              Command="{Binding AddNewCustomPropertyItemCommand}"
-              Content="New Custom Property Action" />
+              Command="{Binding AddNewSaveModelItemCommand}"
+              Content="New Save Model Action" />
       <!--  绑定Model中的Id而不是Model本身  -->
       <ListBox Grid.Row="6"
-               ItemsSource="{Binding CustomPropertiesList}"
-               SelectedValue="{Binding SelectedCustomPropertyItemId}"
+               ItemsSource="{Binding SaveModelList}"
+               SelectedValue="{Binding SelectedSaveModelItemId}"
                SelectedValueBinding="{Binding Id}"
                SelectionChanged="SelectingItemsControl_OnSelectionChanged">
         <ListBox.ItemTemplate>
-          <DataTemplate x:DataType="vmActions:ActionsTabCustomPropertyViewModel">
+          <DataTemplate x:DataType="vmActions:ActionsTabSaveModelViewModel">
             <Grid ColumnDefinitions="*, Auto">
               <Label Grid.Column="0" VerticalAlignment="Center" Content="{Binding JobName}" FontWeight="{Binding HasChanged, Converter={StaticResource BoolToBoldFontConverter}}" />
               <Button Grid.Column="1" Margin="0,0,-8,0" Padding="0"
                       VerticalAlignment="Center" ava:ToolTip.Tip="Delete" Classes="smaller danger"
-                      Command="{Binding $parent[ListBox].((mainMenus:ActionsPageViewModel)DataContext).DeleteCustomPropertyItemCommand}"
+                      Command="{Binding $parent[ListBox].((mainMenus:ActionsPageViewModel)DataContext).DeleteSaveModelItemCommand}"
                       CommandParameter="{Binding Id}">
                 <Button.IsVisible>
                   <MultiBinding Converter="{StaticResource BoolOrMultiConverter}">
@@ -55,7 +55,7 @@
     </Grid>
 
     <StackPanel Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center"
-                Opacity="{Binding !CustomPropertiesListHasItems}"
+                Opacity="{Binding !SaveModelListHasItems}"
                 Spacing="10">
       <StackPanel.Styles>
         <Style Selector="StackPanel">
@@ -67,12 +67,12 @@
         </Style>
       </StackPanel.Styles>
 
-      <TextBlock HorizontalAlignment="Center" Text="Custom Property actions can be used to update, delete, and manipulate custom properties with advanced rules." />
-      <TextBlock HorizontalAlignment="Center" Text="To get started, creat a new Custom Properties Action." />
-      <Button Margin="10" HorizontalAlignment="Center" Command="{Binding AddNewCustomPropertyItemCommand}" Content="New Custom properties Action" />
+      <TextBlock HorizontalAlignment="Center" Text="Save Model actions can be used to export models in various formats." />
+      <TextBlock HorizontalAlignment="Center" Text="To get started, create a new Save Model Action." />
+      <Button Margin="10" HorizontalAlignment="Center" Command="{Binding AddNewSaveModelItemCommand}" Content="New Save Model Action" />
     </StackPanel>
 
-    <Grid Column="2" ColumnDefinitions="*, 30, *" Opacity="{Binding CustomPropertiesListHasItems}">
+    <Grid Column="2" ColumnDefinitions="*, 30, *" Opacity="{Binding SaveModelListHasItems}">
       <Grid.Styles>
         <Style Selector="Grid">
           <Setter Property="Transitions">
@@ -86,98 +86,31 @@
       <!--  General Settings Column  -->
       <Grid Grid.Column="0" RowDefinitions="Auto, 10, Auto, 10, Auto, 10, Auto, 10, Auto, 10, Auto, 10, *">
         <Label Grid.Row="0" Classes="h2" Content="General Settings" />
-        <TextBlock Grid.Row="2" Margin="0,-10,0,0" Text="Set the main properties of the custom property job." />
+        <TextBlock Grid.Row="2" Margin="0,-10,0,0" Text="Set the main properties of the Save Model job." />
         <Grid Grid.Row="4" ColumnDefinitions="130, 10, *" RowDefinitions="Auto, 10, Auto">
           <Label Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Content="Job Name" />
           <TextBox Name="TextBox_JobName" Grid.Row="0" Grid.Column="2"
-                   Text="{Binding SelectedCustomPropertyItem.JobName}"
-                   ToolTip.Tip="{Binding SelectedCustomPropertyItem.JobName}" />
+                   Text="{Binding SelectedSaveModelItem.JobName}"
+                   ToolTip.Tip="{Binding SelectedSaveModelItem.JobName}" />
           <Label Grid.Row="2" Grid.Column="0" VerticalAlignment="Top" Content="Description" />
           <TextBox Grid.Row="2" Grid.Column="2" Height="90"
                    AcceptsReturn="True"
-                   Text="{Binding SelectedCustomPropertyItem.Description}"
+                   Text="{Binding SelectedSaveModelItem.Description}"
                    TextWrapping="Wrap" />
-        </Grid>
-
-        <!--  Rule action  -->
-        <Label Grid.Row="6" Classes="h2" Content="Rule Action" />
-        <TextBlock Grid.Row="8" Margin="0,-10,0,0" Text="Select the type of action and then the appropriate fields for that type." TextWrapping="Wrap" />
-
-        <Grid Grid.Row="10" ColumnDefinitions="130, 10, *" RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, Auto">
-          <Label Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Content="Rule Type" />
-          <ComboBox Grid.Row="0" Grid.Column="2" Margin="0,5"
-                    HorizontalAlignment="Stretch"
-                    ItemsSource="{Binding CustomPropertyRuleTypes}"
-                    SelectedItem="{Binding SelectedCustomPropertyItem.RuleType}" />
-
-          <Label Grid.Row="1" Grid.Column="0" VerticalAlignment="Center"
-                 Content="Field Name"
-                 IsVisible="{Binding SelectedCustomPropertyItem.FieldNameIsVisible}" />
-          <TextBox Grid.Row="1" Grid.Column="2" Margin="0,5"
-                   HorizontalAlignment="Stretch"
-                   IsVisible="{Binding SelectedCustomPropertyItem.FieldNameIsVisible}"
-                   Text="{Binding SelectedCustomPropertyItem.FieldName}" />
-
-          <Label Grid.Row="2" Grid.Column="0" VerticalAlignment="Center"
-                 Content="Field Type"
-                 IsVisible="{Binding SelectedCustomPropertyItem.FieldTypeIsVisible}" />
-          <ComboBox Grid.Row="2" Grid.Column="2" Margin="0,5"
-                    HorizontalAlignment="Stretch"
-                    IsVisible="{Binding SelectedCustomPropertyItem.FieldTypeIsVisible}"
-                    ItemsSource="{Binding CustomPropertyFieldTypes}"
-                    SelectedItem="{Binding SelectedCustomPropertyItem.FieldType}" />
-
-          <Label Grid.Row="3" Grid.Column="0" VerticalAlignment="Center"
-                 Content="Change Name To"
-                 IsVisible="{Binding SelectedCustomPropertyItem.ChangeNameToIsVisible}" />
-          <TextBox Grid.Row="3" Grid.Column="2" Margin="0,5"
-                   HorizontalAlignment="Stretch"
-                   IsVisible="{Binding SelectedCustomPropertyItem.ChangeNameToIsVisible}"
-                   Text="{Binding SelectedCustomPropertyItem.ChangeNameTo}" />
-
-          <Label Grid.Row="4" Grid.Column="0" VerticalAlignment="Center"
-                 Content="Value Rule"
-                 IsVisible="{Binding SelectedCustomPropertyItem.ValueRuleIsVisible}" />
-          <TextBox Grid.Row="4" Grid.Column="2" Margin="0,5"
-                   HorizontalAlignment="Stretch"
-                   IsVisible="{Binding SelectedCustomPropertyItem.ValueRuleIsVisible}"
-                   Text="{Binding SelectedCustomPropertyItem.ValueRule}" />
-
-          <Label Grid.Row="5" Grid.Column="0" VerticalAlignment="Center"
-                 Content="Copy From Config"
-                 IsVisible="{Binding SelectedCustomPropertyItem.CopyFromConfigurationIsVisible}" />
-          <TextBox Grid.Row="5" Grid.Column="2" Margin="0,5"
-                   HorizontalAlignment="Stretch"
-                   IsVisible="{Binding SelectedCustomPropertyItem.CopyFromConfigurationIsVisible}"
-                   Text="{Binding SelectedCustomPropertyItem.CopyFromConfiguration}" />
-
-          <Label Grid.Row="6" Grid.Column="0" VerticalAlignment="Center"
-                 Content="Copy To Field"
-                 IsVisible="{Binding SelectedCustomPropertyItem.CopyToFieldIsVisible}" />
-          <TextBox Grid.Row="6" Grid.Column="2" Margin="0,5"
-                   HorizontalAlignment="Stretch"
-                   IsVisible="{Binding SelectedCustomPropertyItem.CopyToFieldIsVisible}"
-                   Text="{Binding SelectedCustomPropertyItem.CopyToField}" />
         </Grid>
       </Grid>
 
-      <!--  Configuration Column  -->
+      <!--  Details Column  -->
       <Grid Grid.Column="2" RowDefinitions="Auto, 10, Auto, 10, Auto, 10, *">
-        <Label Grid.Row="0" Classes="h2" Content="Configuration" />
-        <TextBlock Grid.Row="2" Margin="0,-10,0,0" Text="Set the specific options on configuring how the custom property rule is applied." TextWrapping="Wrap" />
+        <Label Grid.Row="0" Classes="h2" Content="Details" />
+        <TextBlock Grid.Row="2" Margin="0,-10,0,0" Text="Specify the additional details." TextWrapping="Wrap" />
 
-        <StackPanel Grid.Row="4" Spacing="10">
-          <CheckBox Content="Set Custom properties" IsChecked="{Binding SelectedCustomPropertyItem.SetCustomProperty}" />
-          <CheckBox Content="Set Configuration Specific Properties" IsChecked="{Binding SelectedCustomPropertyItem.SetConfigSpecificProperties}" />
-          <TextBox IsVisible="{Binding SelectedCustomPropertyItem.SetConfigSpecificProperties}" Text="{Binding SelectedCustomPropertyItem.SetConfigurationPropertiesFilter}" />
-          <CheckBox Content="Exclude Parts" IsChecked="{Binding SelectedCustomPropertyItem.ExcludeParts}" />
-          <CheckBox Content="Exclude Assemblies" IsChecked="{Binding SelectedCustomPropertyItem.ExcludeAssemblies}" />
-          <CheckBox Content="Exclude Drawings" IsChecked="{Binding SelectedCustomPropertyItem.ExcludeDrawings}" />
-        </StackPanel>
+        <!--  Extra details here  -->
+        <StackPanel Grid.Row="4" />
 
         <!--  Save and Cancel state Button  -->
         <StackPanel Grid.Row="6" HorizontalAlignment="Right" VerticalAlignment="Bottom"
-                    Opacity="{Binding SelectedCustomPropertyItem.HasChanged, FallbackValue=0}"
+                    Opacity="{Binding SelectedSaveModelItem.HasChanged, FallbackValue=0}"
                     Orientation="Horizontal" Spacing="10">
           <!--
             FallbackValue = 绑定失败时的 “备胎值” ，当绑定找不到对象、找不到值、或者值为 null 时 → 自动使用 FallbackValue 指定的值。
@@ -196,10 +129,10 @@
             </Style>
           </StackPanel.Styles>
           <Button Width="70" HorizontalContentAlignment="Center" Classes="success"
-                  Command="{Binding SaveCustomPropertyItemCommand}"
+                  Command="{Binding SaveSaveModelItemCommand}"
                   Content="Save" />
           <Button Width="70" HorizontalContentAlignment="Center" Classes="outline"
-                  Command="{Binding CancelCustomPropertyItemCommand}"
+                  Command="{Binding CancelSaveModelItemCommand}"
                   Content="Cancel" />
         </StackPanel>
       </Grid>
