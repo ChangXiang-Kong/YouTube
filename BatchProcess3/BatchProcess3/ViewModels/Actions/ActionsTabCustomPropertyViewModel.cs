@@ -48,7 +48,7 @@ public partial class ActionsTabCustomPropertyViewModel : ViewModelBase
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(HasChanged))]
-    private string _setConfigurationPropertiesFilter;
+    private string _setConfigurationPropertiesFilter = "";
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(HasChanged))]

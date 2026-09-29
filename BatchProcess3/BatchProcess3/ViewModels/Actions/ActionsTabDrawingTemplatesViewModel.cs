@@ -6,7 +6,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace BatchProcess3.ViewModels.Actions;
 
-public partial class ActionsTabDrawingTemplateViewModel : ViewModelBase
+public partial class ActionsTabDrawingTemplatesViewModel : ViewModelBase
 {
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(HasChanged))]
@@ -42,7 +42,7 @@ public partial class ActionsTabDrawingTemplateViewModel : ViewModelBase
 
 public static class ActionsTabDrawingTemplateViewModelExtensions
 {
-    public static ActionsTabDrawingTemplateEntity ToEntity(this ActionsTabDrawingTemplateViewModel viewModel) => new()
+    public static ActionsTabDrawingTemplateEntity ToEntity(this ActionsTabDrawingTemplatesViewModel viewModel) => new()
     {
         Id = viewModel.Id,
         Description = viewModel.Description,
@@ -52,7 +52,7 @@ public static class ActionsTabDrawingTemplateViewModelExtensions
         NewTemplatePath = viewModel.NewTemplatePath
     };
 
-    public static ActionsTabDrawingTemplateViewModel ToViewModel(this ActionsTabDrawingTemplateEntity entity) => new()
+    public static ActionsTabDrawingTemplatesViewModel ToViewModel(this ActionsTabDrawingTemplateEntity entity) => new()
     {
         Id = entity.Id,
         Description = entity.Description,

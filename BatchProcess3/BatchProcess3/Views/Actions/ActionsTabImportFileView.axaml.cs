@@ -36,14 +36,14 @@ public partial class ActionsTabImportFileView : UserControl
             对象?[索引]	    对象不为 null 才访问索引器
          */
         // if (e.AddedItems?.Count > 0 && e.AddedItems?[0] is ActionsPrintViewModel { IsNewItem: true } viewModel)
-        // if (e.AddedItems?.Count > 0 && e.AddedItems?[0] is ActionsTabImportFileViewModel viewModel)
-        // {
-        //     // When it is newly crated item
-        //     if (viewModel.IsNewItem)
-        //     {
-        //         TextBox_JobName.SelectAll();
-        //         TextBox_JobName.Focus();
-        //     }
-        // }
+        if (e.AddedItems?.Count > 0 && e.AddedItems?[0] is ActionsTabImportFileViewModel viewModel)
+        {
+            // When it is newly crated item
+            if (viewModel.IsNewItem)
+            {
+                TextBox_JobName.SelectAll();
+                TextBox_JobName.Focus();
+            }
+        }
     }
 }

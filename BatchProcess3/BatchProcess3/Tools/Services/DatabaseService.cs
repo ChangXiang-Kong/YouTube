@@ -30,7 +30,7 @@ public class DatabaseService(AppDbContext dbContext) : IDisposable
         entity = new SettingsEntity
         {
             SkipNoActionFiles =  true,
-            LocationPathsList = ["Initial Path 1", "Initial Path 2", "Initial Path 3",]
+            LocationPathsList = ["Initial Path 1", "Initial Path 2", "Initial Path 3",],
         };
         
         AddSettings(entity);

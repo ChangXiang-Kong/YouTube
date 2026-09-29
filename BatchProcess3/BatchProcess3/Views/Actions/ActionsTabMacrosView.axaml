@@ -1,10 +1,209 @@
 <UserControl x:Class="BatchProcess3.Views.Actions.ActionsTabMacrosView"
              xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ava="clr-namespace:Avalonia.Controls;assembly=Avalonia.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mainMenus="clr-namespace:BatchProcess3.ViewModels.MainMenus"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             d:DesignHeight="450"
-             d:DesignWidth="800"
+             xmlns:vm="clr-namespace:BatchProcess3.ViewModels"
+             xmlns:vmActions="clr-namespace:BatchProcess3.ViewModels.Actions"
+             d:DesignHeight="620"
+             d:DesignWidth="1000"
+             x:DataType="mainMenus:ActionsPageViewModel"
+             Background="{DynamicResource PrimaryBackground}"
+             Foreground="{DynamicResource PrimaryForeground}"
              mc:Ignorable="d">
-  Welcome to Avalonia!  ActionMacrosView
+  <Design.DataContext>
+    <mainMenus:ActionsPageViewModel />
+  </Design.DataContext>
+
+  <Grid ColumnDefinitions="*, 30, 3*">
+    <!--  Custom Properties List Column  -->
+    <Grid RowDefinitions="Auto, 10, Auto, 10, Auto, 10, *">
+      <Label Classes="h2" Content="Custom Properties" />
+      <TextBlock Grid.Row="2" Margin="0,-10,0,0" Text="Updating, deleting and editing of custom properties with advanced logic." TextWrapping="Wrap" />
+      <Button Grid.Row="4" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"
+              Classes="small outline"
+              Command="{Binding AddNewCustomPropertyItemCommand}"
+              Content="New Custom Property Action" />
+      <!--  绑定Model中的Id而不是Model本身  -->
+      <ListBox Grid.Row="6"
+               ItemsSource="{Binding CustomPropertiesList}"
+               SelectedValue="{Binding SelectedCustomPropertyItemId}"
+               SelectedValueBinding="{Binding Id}"
+               SelectionChanged="SelectingItemsControl_OnSelectionChanged">
+        <ListBox.ItemTemplate>
+          <DataTemplate x:DataType="vmActions:ActionsTabCustomPropertyViewModel">
+            <Grid ColumnDefinitions="*, Auto">
+              <Label Grid.Column="0" VerticalAlignment="Center" Content="{Binding JobName}" FontWeight="{Binding HasChanged, Converter={StaticResource BoolToBoldFontConverter}}" />
+              <Button Grid.Column="1" Margin="0,0,-8,0" Padding="0"
+                      VerticalAlignment="Center" ava:ToolTip.Tip="Delete" Classes="smaller danger"
+                      Command="{Binding $parent[ListBox].((mainMenus:ActionsPageViewModel)DataContext).DeleteCustomPropertyItemCommand}"
+                      CommandParameter="{Binding Id}">
+                <Button.IsVisible>
+                  <MultiBinding Converter="{StaticResource BoolOrMultiConverter}">
+                    <Binding Path="$parent[ListBoxItem].IsPointerOver" />
+                    <Binding Path="$parent[ListBoxItem].IsSelected" />
+                  </MultiBinding>
+                </Button.IsVisible>
+                <Label Classes="icon-only icon-outline" Content="&#xe4a6;" />
+              </Button>
+            </Grid>
+          </DataTemplate>
+        </ListBox.ItemTemplate>
+      </ListBox>
+    </Grid>
+
+    <StackPanel Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center"
+                Opacity="{Binding !CustomPropertiesListHasItems}"
+                Spacing="10">
+      <StackPanel.Styles>
+        <Style Selector="StackPanel">
+          <Setter Property="Transitions">
+            <Transitions>
+              <DoubleTransition Property="Opacity" Duration="0:0:0.1" />
+            </Transitions>
+          </Setter>
+        </Style>
+      </StackPanel.Styles>
+
+      <TextBlock HorizontalAlignment="Center" Text="Custom Property actions can be used to update, delete, and manipulate custom properties with advanced rules." />
+      <TextBlock HorizontalAlignment="Center" Text="To get started, creat a new Custom Properties Action." />
+      <Button Margin="10" HorizontalAlignment="Center" Command="{Binding AddNewCustomPropertyItemCommand}" Content="New Custom properties Action" />
+    </StackPanel>
+
+    <Grid Column="2" ColumnDefinitions="*, 30, *" Opacity="{Binding CustomPropertiesListHasItems}">
+      <Grid.Styles>
+        <Style Selector="Grid">
+          <Setter Property="Transitions">
+            <Transitions>
+              <DoubleTransition Property="Opacity" Duration="0:0:0.1" />
+            </Transitions>
+          </Setter>
+        </Style>
+      </Grid.Styles>
+
+      <!--  General Settings Column  -->
+      <Grid Grid.Column="0" RowDefinitions="Auto, 10, Auto, 10, Auto, 10, Auto, 10, Auto, 10, Auto, 10, *">
+        <Label Grid.Row="0" Classes="h2" Content="General Settings" />
+        <TextBlock Grid.Row="2" Margin="0,-10,0,0" Text="Set the main properties of the custom property job." />
+        <Grid Grid.Row="4" ColumnDefinitions="130, 10, *" RowDefinitions="Auto, 10, Auto">
+          <Label Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Content="Job Name" />
+          <TextBox Name="TextBox_JobName" Grid.Row="0" Grid.Column="2"
+                   Text="{Binding SelectedCustomPropertyItem.JobName}"
+                   ToolTip.Tip="{Binding SelectedCustomPropertyItem.JobName}" />
+          <Label Grid.Row="2" Grid.Column="0" VerticalAlignment="Top" Content="Description" />
+          <TextBox Grid.Row="2" Grid.Column="2" Height="90"
+                   AcceptsReturn="True"
+                   Text="{Binding SelectedCustomPropertyItem.Description}"
+                   TextWrapping="Wrap" />
+        </Grid>
+
+        <!--  Rule action  -->
+        <Label Grid.Row="6" Classes="h2" Content="Rule Action" />
+        <TextBlock Grid.Row="8" Margin="0,-10,0,0" Text="Select the type of action and then the appropriate fields for that type." TextWrapping="Wrap" />
+
+        <Grid Grid.Row="10" ColumnDefinitions="130, 10, *" RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, Auto">
+          <Label Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Content="Rule Type" />
+          <ComboBox Grid.Row="0" Grid.Column="2" Margin="0,5"
+                    HorizontalAlignment="Stretch"
+                    ItemsSource="{Binding CustomPropertyRuleTypes}"
+                    SelectedItem="{Binding SelectedCustomPropertyItem.RuleType}" />
+
+          <Label Grid.Row="1" Grid.Column="0" VerticalAlignment="Center"
+                 Content="Field Name"
+                 IsVisible="{Binding SelectedCustomPropertyItem.FieldNameIsVisible}" />
+          <TextBox Grid.Row="1" Grid.Column="2" Margin="0,5"
+                   HorizontalAlignment="Stretch"
+                   IsVisible="{Binding SelectedCustomPropertyItem.FieldNameIsVisible}"
+                   Text="{Binding SelectedCustomPropertyItem.FieldName}" />
+
+          <Label Grid.Row="2" Grid.Column="0" VerticalAlignment="Center"
+                 Content="Field Type"
+                 IsVisible="{Binding SelectedCustomPropertyItem.FieldTypeIsVisible}" />
+          <ComboBox Grid.Row="2" Grid.Column="2" Margin="0,5"
+                    HorizontalAlignment="Stretch"
+                    IsVisible="{Binding SelectedCustomPropertyItem.FieldTypeIsVisible}"
+                    ItemsSource="{Binding CustomPropertyFieldTypes}"
+                    SelectedItem="{Binding SelectedCustomPropertyItem.FieldType}" />
+
+          <Label Grid.Row="3" Grid.Column="0" VerticalAlignment="Center"
+                 Content="Change Name To"
+                 IsVisible="{Binding SelectedCustomPropertyItem.ChangeNameToIsVisible}" />
+          <TextBox Grid.Row="3" Grid.Column="2" Margin="0,5"
+                   HorizontalAlignment="Stretch"
+                   IsVisible="{Binding SelectedCustomPropertyItem.ChangeNameToIsVisible}"
+                   Text="{Binding SelectedCustomPropertyItem.ChangeNameTo}" />
+
+          <Label Grid.Row="4" Grid.Column="0" VerticalAlignment="Center"
+                 Content="Value Rule"
+                 IsVisible="{Binding SelectedCustomPropertyItem.ValueRuleIsVisible}" />
+          <TextBox Grid.Row="4" Grid.Column="2" Margin="0,5"
+                   HorizontalAlignment="Stretch"
+                   IsVisible="{Binding SelectedCustomPropertyItem.ValueRuleIsVisible}"
+                   Text="{Binding SelectedCustomPropertyItem.ValueRule}" />
+
+          <Label Grid.Row="5" Grid.Column="0" VerticalAlignment="Center"
+                 Content="Copy From Config"
+                 IsVisible="{Binding SelectedCustomPropertyItem.CopyFromConfigurationIsVisible}" />
+          <TextBox Grid.Row="5" Grid.Column="2" Margin="0,5"
+                   HorizontalAlignment="Stretch"
+                   IsVisible="{Binding SelectedCustomPropertyItem.CopyFromConfigurationIsVisible}"
+                   Text="{Binding SelectedCustomPropertyItem.CopyFromConfiguration}" />
+
+          <Label Grid.Row="6" Grid.Column="0" VerticalAlignment="Center"
+                 Content="Copy To Field"
+                 IsVisible="{Binding SelectedCustomPropertyItem.CopyToFieldIsVisible}" />
+          <TextBox Grid.Row="6" Grid.Column="2" Margin="0,5"
+                   HorizontalAlignment="Stretch"
+                   IsVisible="{Binding SelectedCustomPropertyItem.CopyToFieldIsVisible}"
+                   Text="{Binding SelectedCustomPropertyItem.CopyToField}" />
+        </Grid>
+      </Grid>
+
+      <!--  Configuration Column  -->
+      <Grid Grid.Column="2" RowDefinitions="Auto, 10, Auto, 10, Auto, 10, *">
+        <Label Grid.Row="0" Classes="h2" Content="Configuration" />
+        <TextBlock Grid.Row="2" Margin="0,-10,0,0" Text="Set the specific options on configuring how the custom property rule is applied." TextWrapping="Wrap" />
+
+        <StackPanel Grid.Row="4" Spacing="10">
+          <CheckBox Content="Set Custom properties" IsChecked="{Binding SelectedCustomPropertyItem.SetCustomProperty}" />
+          <CheckBox Content="Set Configuration Specific Properties" IsChecked="{Binding SelectedCustomPropertyItem.SetConfigSpecificProperties}" />
+          <TextBox IsVisible="{Binding SelectedCustomPropertyItem.SetConfigSpecificProperties}" Text="{Binding SelectedCustomPropertyItem.SetConfigurationPropertiesFilter}" />
+          <CheckBox Content="Exclude Parts" IsChecked="{Binding SelectedCustomPropertyItem.ExcludeParts}" />
+          <CheckBox Content="Exclude Assemblies" IsChecked="{Binding SelectedCustomPropertyItem.ExcludeAssemblies}" />
+          <CheckBox Content="Exclude Drawings" IsChecked="{Binding SelectedCustomPropertyItem.ExcludeDrawings}" />
+        </StackPanel>
+
+        <!--  Save and Cancel state Button  -->
+        <StackPanel Grid.Row="6" HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                    Opacity="{Binding SelectedCustomPropertyItem.HasChanged, FallbackValue=0}"
+                    Orientation="Horizontal" Spacing="10">
+          <!--
+            FallbackValue = 绑定失败时的 “备胎值” ，当绑定找不到对象、找不到值、或者值为 null 时 → 自动使用 FallbackValue 指定的值。
+            场景 1：绑定对象可能为 null                      例如：SelectedPrintListItem 没选中时 = null → 便用 FallbackValue 给一个默认值
+            场景 2：界面设计时（Designer 预览）              Designer 里没有 DataContext → 绑定全部失败 → 使用 FallbackValue 让界面显示正常
+            场景 3：值类型不能为 null（bool /int/double）    如果绑定的是 bool，但对象是 null → 无法转换 → 使用 FallbackValue 提供默认值
+          -->
+          <!--  注意：WPF 与 Avalonia 的 IsVisible 不能绑定动画。Avalonia已经内置了 BoolToDouble值转换器，因此上面的 Opacity 可以直接绑定 HasChanged 布尔值  -->
+          <StackPanel.Styles>
+            <Style Selector="StackPanel">
+              <Setter Property="Transitions">
+                <Transitions>
+                  <DoubleTransition Property="Opacity" Duration="0:0:0.1" />
+                </Transitions>
+              </Setter>
+            </Style>
+          </StackPanel.Styles>
+          <Button Width="70" HorizontalContentAlignment="Center" Classes="success"
+                  Command="{Binding SaveCustomPropertyItemCommand}"
+                  Content="Save" />
+          <Button Width="70" HorizontalContentAlignment="Center" Classes="outline"
+                  Command="{Binding CancelCustomPropertyItemCommand}"
+                  Content="Cancel" />
+        </StackPanel>
+      </Grid>
+    </Grid>
+  </Grid>
+
 </UserControl>

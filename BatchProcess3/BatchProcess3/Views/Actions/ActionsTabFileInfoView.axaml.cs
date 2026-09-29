@@ -39,11 +39,11 @@ public partial class ActionsTabFileInfoView : UserControl
         if (e.AddedItems?.Count > 0 && e.AddedItems?[0] is ActionsTabFileInfoViewModel viewModel)
         {
             // When it is newly crated item
-            // if (viewModel.IsNewItem)
-            // {
-            //     TextBox_JobName.SelectAll();
-            //     TextBox_JobName.Focus();
-            // }
+            if (viewModel.IsNewItem)
+            {
+                TextBox_JobName.SelectAll();
+                TextBox_JobName.Focus();
+            }
         }
     }
 }

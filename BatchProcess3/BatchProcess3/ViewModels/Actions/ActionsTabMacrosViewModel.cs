@@ -1,10 +1,50 @@
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using BatchProcess3.EntityFramework.Entities.Actions;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace BatchProcess3.ViewModels.Actions;
 
 public partial class ActionsTabMacrosViewModel : ViewModelBase
 {
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(HasChanged))]
+    private string _id = "";
     
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(HasChanged))]
+    private string _jobName = "";
+    
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(HasChanged))]
+    private string _description = "";
+    
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(HasChanged))]
+    private string _macroPath = "";
+    
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(HasChanged))]
+    private string _moduleName = "";
+    
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(HasChanged))]
+    private bool _excludeParts;
+    
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(HasChanged))]
+    private bool _excludeDrawings;
+    
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(HasChanged))]
+    private bool _excludeAssemblies;
+    
+    [ObservableProperty]
+    private bool _isNewItem;
+    
+    [JsonIgnore]
+    public new bool HasChanged => IsNewItem || (SavedState != "" && SavedState != JsonSerializer.Serialize(this, JsonSerializerOptions));
+
 }
 
 public static class ActionsTabMacrosViewModelExtensions
@@ -12,42 +52,24 @@ public static class ActionsTabMacrosViewModelExtensions
     public static ActionsTabMacrosEntity ToEntity(this ActionsTabMacrosViewModel viewModel) => new()
     {
         Id = viewModel.Id,
-        // JobName = viewModel.JobName,
-        // Description = viewModel.Description,
-        // RuleType = viewModel.RuleType,
-        // FilterLogic = viewModel.FilterLogic,
-        // SetCustomProperty = viewModel.SetCustomProperty,
-        // SetConfigSpecificProperties = viewModel.SetConfigSpecificProperties,
-        // SetConfigurationPropertiesFilter = viewModel.SetConfigurationPropertiesFilter,
-        // ExcludeParts = viewModel.ExcludeParts,
-        // ExcludeAssemblies = viewModel.ExcludeAssemblies,
-        // ExcludeDrawings = viewModel.ExcludeDrawings,
-        // FieldType = viewModel.FieldType,
-        // FieldName = viewModel.FieldName,
-        // ValueRule = viewModel.ValueRule,
-        // ChangeNameTo = viewModel.ChangeNameTo,
-        // CopyFromConfiguration = viewModel.CopyFromConfiguration,
-        // CopyToField = viewModel.CopyToField,
+        Description = viewModel.Description,
+        JobName = viewModel.JobName,
+        MacroPath = viewModel.MacroPath,
+        ModuleName = viewModel.ModuleName,
+        ExcludeParts = viewModel.ExcludeParts,
+        ExcludeDrawings = viewModel.ExcludeDrawings,
+        ExcludeAssemblies = viewModel.ExcludeAssemblies
     };
 
     public static ActionsTabMacrosViewModel ToViewModel(this ActionsTabMacrosEntity entity) => new()
     {
         Id = entity.Id,
-        // JobName = entity.JobName,
-        // Description = entity.Description,
-        // RuleType = entity.RuleType,
-        // FilterLogic = entity.FilterLogic,
-        // SetCustomProperty = entity.SetCustomProperty,
-        // SetConfigSpecificProperties = entity.SetConfigSpecificProperties,
-        // SetConfigurationPropertiesFilter = entity.SetConfigurationPropertiesFilter,
-        // ExcludeParts = entity.ExcludeParts,
-        // ExcludeAssemblies = entity.ExcludeAssemblies,
-        // ExcludeDrawings = entity.ExcludeDrawings,
-        // FieldType = entity.FieldType,
-        // FieldName = entity.FieldName,
-        // ValueRule = entity.ValueRule,
-        // ChangeNameTo = entity.ChangeNameTo,
-        // CopyFromConfiguration = entity.CopyFromConfiguration,
-        // CopyToField = entity.CopyToField,
+        Description = entity.Description,
+        JobName = entity.JobName,
+        MacroPath = entity.MacroPath,
+        ModuleName = entity.ModuleName,
+        ExcludeParts = entity.ExcludeParts,
+        ExcludeDrawings = entity.ExcludeDrawings,
+        ExcludeAssemblies = entity.ExcludeAssemblies
     };
 }

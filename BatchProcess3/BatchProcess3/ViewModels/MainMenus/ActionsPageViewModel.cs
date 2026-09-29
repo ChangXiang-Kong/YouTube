@@ -93,6 +93,91 @@ public partial class ActionsPageViewModel(
         => FileInfoList.FirstOrDefault(x => x.Id == SelectedFileInfoItemId);
     
     #endregion File Info
+    
+    #region Save Model
+    
+    [ObservableProperty] 
+    [NotifyPropertyChangedFor(nameof(SaveModelListHasItems))]
+    private ObservableCollection<ActionsTabSaveModelViewModel> _saveModelList = [];
+    
+    public bool SaveModelListHasItems => SaveModelList.Any();
+    
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(SelectedSaveModelItem))]
+    private string _selectedSaveModelItemId = "";
+    
+    public ActionsTabSaveModelViewModel? SelectedSaveModelItem
+        => SaveModelList.FirstOrDefault(x => x.Id == SelectedSaveModelItemId);
+    
+    #endregion Save Model
+    
+    #region Save Drawing
+    
+    [ObservableProperty] 
+    [NotifyPropertyChangedFor(nameof(SaveDrawingListHasItems))]
+    private ObservableCollection<ActionsTabSaveDrawingViewModel> _saveDrawingList = [];
+    
+    public bool SaveDrawingListHasItems => SaveDrawingList.Any();
+    
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(SelectedSaveDrawingItem))]
+    private string _selectedSaveDrawingItemId = "";
+    
+    public ActionsTabSaveDrawingViewModel? SelectedSaveDrawingItem
+        => SaveDrawingList.FirstOrDefault(x => x.Id == SelectedSaveDrawingItemId);
+    
+    #endregion Save Drawing
+    
+    #region Import File
+    
+    [ObservableProperty] 
+    [NotifyPropertyChangedFor(nameof(ImportFileListHasItems))]
+    private ObservableCollection<ActionsTabImportFileViewModel> _importFileList = [];
+    
+    public bool ImportFileListHasItems => ImportFileList.Any();
+    
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(SelectedImportFileItem))]
+    private string _selectedImportFileItemId = "";
+    
+    public ActionsTabImportFileViewModel? SelectedImportFileItem
+        => ImportFileList.FirstOrDefault(x => x.Id == SelectedImportFileItemId);
+    
+    #endregion Import File
+    
+    #region Drawing Templates
+    
+    [ObservableProperty] 
+    [NotifyPropertyChangedFor(nameof(DrawingTemplatesListHasItems))]
+    private ObservableCollection<ActionsTabDrawingTemplatesViewModel> _drawingTemplatesList = [];
+    
+    public bool DrawingTemplatesListHasItems => DrawingTemplatesList.Any();
+    
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(SelectedDrawingTemplatesItem))]
+    private string _selectedDrawingTemplatesItemId = "";
+    
+    public ActionsTabDrawingTemplatesViewModel? SelectedDrawingTemplatesItem
+        => DrawingTemplatesList.FirstOrDefault(x => x.Id == SelectedDrawingTemplatesItemId);
+    
+    #endregion Drawing Templates
+    
+    #region Macros
+    
+    [ObservableProperty] 
+    [NotifyPropertyChangedFor(nameof(MacrosListHasItems))]
+    private ObservableCollection<ActionsTabMacrosViewModel> _MacrosList = [];
+    
+    public bool MacrosListHasItems => MacrosList.Any();
+    
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(SelectedMacrosItem))]
+    private string _selectedMacrosItemId = "";
+    
+    public ActionsTabMacrosViewModel? SelectedMacrosItem
+        => MacrosList.FirstOrDefault(x => x.Id == SelectedMacrosItemId);
+    
+    #endregion Macros
 
     #endregion Members
 
@@ -112,6 +197,11 @@ public partial class ActionsPageViewModel(
             case ActionsPageName.Print: FetchPrintTabList(); break;
             case ActionsPageName.CustomProperties: FetchCustomPropertiesList(); break;
             case ActionsPageName.FileInfo: FetchCustomPropertiesList(); break;
+            case ActionsPageName.SaveModelAs: FetchSaveModelList(); break;
+            case ActionsPageName.SaveDrawingAs: FetchSaveDrawingList(); break;
+            case ActionsPageName.ImportFile: FetchImportFileList(); break;
+            case ActionsPageName.DrawingTemplates: FetchDrawingTemplatesList(); break;
+            case ActionsPageName.Macros: FetchMacrosList(); break;
         }
     }
     
@@ -135,15 +225,15 @@ public partial class ActionsPageViewModel(
         // Update PrintTabsListHasItems when collection changes
         PrintTabsList.CollectionChanged += (_, _) => OnPropertyChanged(nameof(PrintTabsListHasItems));
 
-        if (PrintTabsList.Count > 0)
-        {
-            // Select first item
-            SelectedPrintTabItemId = PrintTabsList.First().Id;
+        if (PrintTabsList.Count < 0)
+            return;
+        
+        // Select first item
+        SelectedPrintTabItemId = PrintTabsList.First().Id;
 
-            // Store last fetched database save states
-            foreach (var printItem in PrintTabsList)
-                printItem.SetSaveState();
-        }
+        // Store last fetched database save states
+        foreach (var item in PrintTabsList)
+            item.SetSaveState();
     }
 
     [RelayCommand]
@@ -488,15 +578,15 @@ public partial class ActionsPageViewModel(
         // Update CustomPropertiesListHasItems when collection changes
         CustomPropertiesList.CollectionChanged += (_, _) => OnPropertyChanged(nameof(CustomPropertiesListHasItems));
 
-        if (CustomPropertiesList.Count > 0)
-        {
-            // Select first item
-            SelectedCustomPropertyItemId = CustomPropertiesList.First().Id;
+        if (CustomPropertiesList.Count < 0)
+            return;
+        
+        // Select first item
+        SelectedCustomPropertyItemId = CustomPropertiesList.First().Id;
 
-            // Store last fetched database save states
-            foreach (var customProperty in CustomPropertiesList)
-                customProperty.SetSaveState();
-        }
+        // Store last fetched database save states
+        foreach (var item in CustomPropertiesList)
+            item.SetSaveState();
     }
 
     [RelayCommand]
@@ -617,25 +707,25 @@ public partial class ActionsPageViewModel(
     [RelayCommand]
     private void FetchFileInfoList()
     {
-        var FileInfo = databaseService.GetFileInfo();
+        var fileInfos = databaseService.GetFileInfo();
         
         // TODO: Move this logic to a service / provider
-        FileInfoList = new ObservableCollection<ActionsTabFileInfoViewModel>(FileInfo
+        FileInfoList = new ObservableCollection<ActionsTabFileInfoViewModel>(fileInfos
             .OrderBy(x => x.JobName)
             .Select(x => x.ToViewModel()));
         
         // Update FileInfoListHasItems when collection changes
         FileInfoList.CollectionChanged += (_, _) => OnPropertyChanged(nameof(FileInfoListHasItems));
 
-        if (FileInfoList.Count > 0)
-        {
-            // Select first item
-            SelectedFileInfoItemId = FileInfoList.First().Id;
+        if (FileInfoList.Count < 0)
+            return;
+        
+        // Select first item
+        SelectedFileInfoItemId = FileInfoList.First().Id;
 
-            // Store last fetched database save states
-            foreach (var fileInfo in FileInfoList)
-                fileInfo.SetSaveState();
-        }
+        // Store last fetched database save states
+        foreach (var item in FileInfoList)
+            item.SetSaveState();
     }
 
     [RelayCommand]
@@ -648,9 +738,9 @@ public partial class ActionsPageViewModel(
         var newItem = new ActionsTabFileInfoViewModel()
         {
             Id = Guid.CreateVersion7().ToString(),
-            // JobName = "New Custom Property Action",
-            // Description = "New Custom Property Action",
-            // IsNewItem = true,
+            JobName = "New File Info Job",
+            Description = "New File Info Job",
+            IsNewItem = true,
         };
 
         // Add to the print list
@@ -724,7 +814,7 @@ public partial class ActionsPageViewModel(
                 // IconMessage = "Warning";
                 // IconForeground = "#fc8800";
                 // IconGeometry = StreamGeometry.Parse("M943.644188 827.215696l-351.176649-608.204749c-42.945473-74.36249-113.147387-74.36249-156.092861 0l-351.176649 608.204749c-42.946498 74.431167-7.811716 135.14955 78.012605 135.14955l702.420949 0C951.455904 962.36422 986.555836 901.645838 943.644188 827.215696zM466.187532 391.579035c12.621133-13.644108 28.66175-20.466675 48.233578-20.466675 19.580028 0 35.612444 6.75389 48.241778 20.194018 12.544256 13.473954 18.820484 30.325365 18.820484 50.587035 0 17.430551-26.19759 145.621205-34.929778 238.882082l-63.105666 0c-7.666162-93.259852-36.090106-221.450507-36.090106-238.882082C447.358847 421.938226 453.643275 405.155491 466.187532 391.579035zM561.76804 835.026386c-13.268949 12.928641-29.062535 19.375023-47.345906 19.375023-18.275171 0-34.076957-6.447407-47.346931-19.375023-13.235123-12.89379-19.818859-28.517221-19.818859-46.869269 0-18.249546 6.583736-34.043131 19.818859-47.278254 13.268949-13.235123 29.07176-19.852685 47.346931-19.852685 18.283371 0 34.076957 6.617562 47.345906 19.852685 13.235123 13.235123 19.827059 29.028709 19.827059 47.278254C581.595099 806.51019 575.003163 822.132597 561.76804 835.026386z");
-                Title = $"Delete Custom Property Job?",
+                Title = $"Delete File Info Item?",
                 Message = $"Are you sure you want to delete {FileInfoList[index].JobName}?",
                 DialogWidth = 500,
             };
@@ -750,6 +840,686 @@ public partial class ActionsPageViewModel(
     }
     
     #endregion File Info Methods
+    
+    #region Save Model Methods 
+    
+    [RelayCommand]
+    private void FetchSaveModelList()
+    {
+        var saveModels = databaseService.GetSaveModel();
+        
+        // TODO: Move this logic to a service / provider
+        SaveModelList = new ObservableCollection<ActionsTabSaveModelViewModel>(saveModels
+            .OrderBy(x => x.JobName)
+            .Select(x => x.ToViewModel()));
+        
+        // Update SaveModelListHasItems when collection changes
+        SaveModelList.CollectionChanged += (_, _) => OnPropertyChanged(nameof(SaveModelListHasItems));
+
+        if (SaveModelList.Count < 0)
+            return;
+        
+        // Select first item
+        SelectedSaveModelItemId = SaveModelList.First().Id;
+
+        // Store last fetched database save states
+        foreach (var item in SaveModelList)
+            item.SetSaveState();
+    }
+
+    [RelayCommand]
+    private void AddNewSaveModelItem()
+    {
+        // Crate a new item
+        var newItem = new ActionsTabSaveModelViewModel()
+        {
+            Id = Guid.CreateVersion7().ToString(),
+            JobName = "New Save Model Job",
+            Description = "New Save Model Job",
+            IsNewItem = true,
+        };
+
+        // Add to the print list
+        SaveModelList.Add(newItem);
+
+        // Select item
+        SelectedSaveModelItemId = newItem.Id;
+    }
+
+    [RelayCommand]
+    private async Task SaveSaveModelItemAsync()
+    {
+        // Ignore if no selection
+        if (SelectedSaveModelItem == null)
+            return;
+        
+        // If the selected item is new
+        if (SelectedSaveModelItem.IsNewItem)
+            databaseService.AddSaveModel(SelectedSaveModelItem.ToEntity());
+        else
+            databaseService.UpdateSaveModel(SelectedSaveModelItem.ToEntity());
+
+        // Flag new item as not new
+        SelectedSaveModelItem.IsNewItem = false;
+        // 保存状态以隐藏 Save 按钮
+        SelectedSaveModelItem.SetSaveState();
+    }
+
+    [RelayCommand]
+    private async Task CancelSaveModelItemAsync()
+    {
+        // Ignore if nothing is selected
+        if (SelectedSaveModelItem == null)
+            return;
+
+        // If the selected item is new, delete it
+        // Otherwise, restore from save state
+        if (SelectedSaveModelItem.IsNewItem)
+            await DeleteSaveModelItemFromUIAsync(SelectedSaveModelItem.Id, false);
+        else
+            SelectedSaveModelItem.RestoreState();
+    }
+
+    [RelayCommand]
+    private async Task DeleteSaveModelItemAsync(string id)
+    {
+        if (SaveModelList.Count(x => x.Id == id) != 1)
+            // TODO: Throw/Warn?
+            return;
+
+        // If user selected to remove from UI (via confirm dialog)
+        if (await DeleteSaveModelItemFromUIAsync(id))
+            // Delete from database
+            databaseService.DeleteSaveModel(id);
+    }
+
+    // ReSharper disable once InconsistentNaming
+    private async Task<bool> DeleteSaveModelItemFromUIAsync(string id, bool popupDialog = true)
+    {
+        var index = SaveModelList.IndexOf(SaveModelList.First(x => x.Id == id));
+        if (index == -1)
+            return false;
+        
+        if (popupDialog)
+        {
+            var confirmDialogViewModel = new ConfirmDialogViewModel
+            {
+                // 图标方式一：
+                GeometryIcon = GeometryIcon.Warning,
+                // 图标方式二：
+                // IconMessage = "Warning";
+                // IconForeground = "#fc8800";
+                // IconGeometry = StreamGeometry.Parse("M943.644188 827.215696l-351.176649-608.204749c-42.945473-74.36249-113.147387-74.36249-156.092861 0l-351.176649 608.204749c-42.946498 74.431167-7.811716 135.14955 78.012605 135.14955l702.420949 0C951.455904 962.36422 986.555836 901.645838 943.644188 827.215696zM466.187532 391.579035c12.621133-13.644108 28.66175-20.466675 48.233578-20.466675 19.580028 0 35.612444 6.75389 48.241778 20.194018 12.544256 13.473954 18.820484 30.325365 18.820484 50.587035 0 17.430551-26.19759 145.621205-34.929778 238.882082l-63.105666 0c-7.666162-93.259852-36.090106-221.450507-36.090106-238.882082C447.358847 421.938226 453.643275 405.155491 466.187532 391.579035zM561.76804 835.026386c-13.268949 12.928641-29.062535 19.375023-47.345906 19.375023-18.275171 0-34.076957-6.447407-47.346931-19.375023-13.235123-12.89379-19.818859-28.517221-19.818859-46.869269 0-18.249546 6.583736-34.043131 19.818859-47.278254 13.268949-13.235123 29.07176-19.852685 47.346931-19.852685 18.283371 0 34.076957 6.617562 47.345906 19.852685 13.235123 13.235123 19.827059 29.028709 19.827059 47.278254C581.595099 806.51019 575.003163 822.132597 561.76804 835.026386z");
+                Title = $"Delete Save Model Item?",
+                Message = $"Are you sure you want to delete {SaveModelList[index].JobName}?",
+                DialogWidth = 500,
+            };
+            
+            // Wait for click button
+            await dialogService.ShowDialogAsync(mainViewModel, confirmDialogViewModel);
+            
+            // Ignore if we clicked cancel
+            if (!confirmDialogViewModel.IsConfirmed)
+                return false;
+        }
+        
+        // Remove item
+        SaveModelList.RemoveAt(index);
+
+        // Select the item before the deleted one
+        if (index > 0)
+            index--;
+        if (SaveModelList.Count > 0)
+            SelectedSaveModelItemId = SaveModelList[index].Id;
+
+        return true;
+    }
+    
+    #endregion Save Model Methods
+    
+    #region Save Drawing Methods 
+    
+    [RelayCommand]
+    private void FetchSaveDrawingList()
+    {
+        var saveDrawings = databaseService.GetSaveDrawing();
+        
+        // TODO: Move this logic to a service / provider
+        SaveDrawingList = new ObservableCollection<ActionsTabSaveDrawingViewModel>(saveDrawings
+            .OrderBy(x => x.JobName)
+            .Select(x => x.ToViewModel()));
+        
+        // Update SaveDrawingListHasItems when collection changes
+        SaveDrawingList.CollectionChanged += (_, _) => OnPropertyChanged(nameof(SaveDrawingListHasItems));
+
+        if (SaveDrawingList.Count < 0)
+            return;
+        
+        // Select first item
+        SelectedSaveDrawingItemId = SaveDrawingList.First().Id;
+
+        // Store last fetched database save states
+        foreach (var item in SaveDrawingList)
+            item.SetSaveState();
+    }
+
+    [RelayCommand]
+    private void AddNewSaveDrawingItem()
+    {
+        // Crate a new item
+        var newItem = new ActionsTabSaveDrawingViewModel()
+        {
+            Id = Guid.CreateVersion7().ToString(),
+            JobName = "New Save Drawing Job",
+            Description = "New Save Drawing Job",
+            IsNewItem = true,
+        };
+
+        // Add to the print list
+        SaveDrawingList.Add(newItem);
+
+        // Select item
+        SelectedSaveDrawingItemId = newItem.Id;
+    }
+
+    [RelayCommand]
+    private async Task SaveSaveDrawingItemAsync()
+    {
+        // Ignore if no selection
+        if (SelectedSaveDrawingItem == null)
+            return;
+        
+        // If the selected item is new
+        if (SelectedSaveDrawingItem.IsNewItem)
+            databaseService.AddSaveDrawing(SelectedSaveDrawingItem.ToEntity());
+        else
+            databaseService.UpdateSaveDrawing(SelectedSaveDrawingItem.ToEntity());
+
+        // Flag new item as not new
+        SelectedSaveDrawingItem.IsNewItem = false;
+        // 保存状态以隐藏 Save 按钮
+        SelectedSaveDrawingItem.SetSaveState();
+    }
+
+    [RelayCommand]
+    private async Task CancelSaveDrawingItemAsync()
+    {
+        // Ignore if nothing is selected
+        if (SelectedSaveDrawingItem == null)
+            return;
+
+        // If the selected item is new, delete it
+        // Otherwise, restore from save state
+        if (SelectedSaveDrawingItem.IsNewItem)
+            await DeleteSaveDrawingItemFromUIAsync(SelectedSaveDrawingItem.Id, false);
+        else
+            SelectedSaveDrawingItem.RestoreState();
+    }
+
+    [RelayCommand]
+    private async Task DeleteSaveDrawingItemAsync(string id)
+    {
+        if (SaveDrawingList.Count(x => x.Id == id) != 1)
+            // TODO: Throw/Warn?
+            return;
+
+        // If user selected to remove from UI (via confirm dialog)
+        if (await DeleteSaveDrawingItemFromUIAsync(id))
+            // Delete from database
+            databaseService.DeleteSaveDrawing(id);
+    }
+
+    // ReSharper disable once InconsistentNaming
+    private async Task<bool> DeleteSaveDrawingItemFromUIAsync(string id, bool popupDialog = true)
+    {
+        var index = SaveDrawingList.IndexOf(SaveDrawingList.First(x => x.Id == id));
+        if (index == -1)
+            return false;
+        
+        if (popupDialog)
+        {
+            var confirmDialogViewModel = new ConfirmDialogViewModel
+            {
+                // 图标方式一：
+                GeometryIcon = GeometryIcon.Warning,
+                // 图标方式二：
+                // IconMessage = "Warning";
+                // IconForeground = "#fc8800";
+                // IconGeometry = StreamGeometry.Parse("M943.644188 827.215696l-351.176649-608.204749c-42.945473-74.36249-113.147387-74.36249-156.092861 0l-351.176649 608.204749c-42.946498 74.431167-7.811716 135.14955 78.012605 135.14955l702.420949 0C951.455904 962.36422 986.555836 901.645838 943.644188 827.215696zM466.187532 391.579035c12.621133-13.644108 28.66175-20.466675 48.233578-20.466675 19.580028 0 35.612444 6.75389 48.241778 20.194018 12.544256 13.473954 18.820484 30.325365 18.820484 50.587035 0 17.430551-26.19759 145.621205-34.929778 238.882082l-63.105666 0c-7.666162-93.259852-36.090106-221.450507-36.090106-238.882082C447.358847 421.938226 453.643275 405.155491 466.187532 391.579035zM561.76804 835.026386c-13.268949 12.928641-29.062535 19.375023-47.345906 19.375023-18.275171 0-34.076957-6.447407-47.346931-19.375023-13.235123-12.89379-19.818859-28.517221-19.818859-46.869269 0-18.249546 6.583736-34.043131 19.818859-47.278254 13.268949-13.235123 29.07176-19.852685 47.346931-19.852685 18.283371 0 34.076957 6.617562 47.345906 19.852685 13.235123 13.235123 19.827059 29.028709 19.827059 47.278254C581.595099 806.51019 575.003163 822.132597 561.76804 835.026386z");
+                Title = $"Delete Save Drawing Item?",
+                Message = $"Are you sure you want to delete {SaveDrawingList[index].JobName}?",
+                DialogWidth = 500,
+            };
+            
+            // Wait for click button
+            await dialogService.ShowDialogAsync(mainViewModel, confirmDialogViewModel);
+            
+            // Ignore if we clicked cancel
+            if (!confirmDialogViewModel.IsConfirmed)
+                return false;
+        }
+        
+        // Remove item
+        SaveDrawingList.RemoveAt(index);
+
+        // Select the item before the deleted one
+        if (index > 0)
+            index--;
+        if (SaveDrawingList.Count > 0)
+            SelectedSaveDrawingItemId = SaveDrawingList[index].Id;
+
+        return true;
+    }
+    
+    #endregion Save Drawing Methods
+    
+    #region Import File Methods 
+    
+    [RelayCommand]
+    private void FetchImportFileList()
+    {
+        var importFiles = databaseService.GetImportFile();
+        
+        // TODO: Move this logic to a service / provider
+        ImportFileList = new ObservableCollection<ActionsTabImportFileViewModel>(importFiles
+            .OrderBy(x => x.JobName)
+            .Select(x => x.ToViewModel()));
+        
+        // Update ImportFileListHasItems when collection changes
+        ImportFileList.CollectionChanged += (_, _) => OnPropertyChanged(nameof(ImportFileListHasItems));
+
+        if (ImportFileList.Count < 0)
+            return;
+        
+        // Select first item
+        SelectedImportFileItemId = ImportFileList.First().Id;
+
+        // Store last fetched database save states
+        foreach (var item in ImportFileList)
+            item.SetSaveState();
+    }
+
+    [RelayCommand]
+    private void AddNewImportFileItem()
+    {
+        // Crate a new item
+        var newItem = new ActionsTabImportFileViewModel()
+        {
+            Id = Guid.CreateVersion7().ToString(),
+            JobName = "New Import File Job",
+            Description = "New Import File Job",
+            IsNewItem = true,
+        };
+
+        // Add to the print list
+        ImportFileList.Add(newItem);
+
+        // Select item
+        SelectedImportFileItemId = newItem.Id;
+    }
+
+    [RelayCommand]
+    private async Task SaveImportFileItemAsync()
+    {
+        // Ignore if no selection
+        if (SelectedImportFileItem == null)
+            return;
+        
+        // If the selected item is new
+        if (SelectedImportFileItem.IsNewItem)
+            databaseService.AddImportFile(SelectedImportFileItem.ToEntity());
+        else
+            databaseService.UpdateImportFile(SelectedImportFileItem.ToEntity());
+
+        // Flag new item as not new
+        SelectedImportFileItem.IsNewItem = false;
+        // 保存状态以隐藏 Save 按钮
+        SelectedImportFileItem.SetSaveState();
+    }
+
+    [RelayCommand]
+    private async Task CancelImportFileItemAsync()
+    {
+        // Ignore if nothing is selected
+        if (SelectedImportFileItem == null)
+            return;
+
+        // If the selected item is new, delete it
+        // Otherwise, restore from save state
+        if (SelectedImportFileItem.IsNewItem)
+            await DeleteImportFileItemFromUIAsync(SelectedImportFileItem.Id, false);
+        else
+            SelectedImportFileItem.RestoreState();
+    }
+
+    [RelayCommand]
+    private async Task DeleteImportFileItemAsync(string id)
+    {
+        if (ImportFileList.Count(x => x.Id == id) != 1)
+            // TODO: Throw/Warn?
+            return;
+
+        // If user selected to remove from UI (via confirm dialog)
+        if (await DeleteImportFileItemFromUIAsync(id))
+            // Delete from database
+            databaseService.DeleteImportFile(id);
+    }
+
+    // ReSharper disable once InconsistentNaming
+    private async Task<bool> DeleteImportFileItemFromUIAsync(string id, bool popupDialog = true)
+    {
+        var index = ImportFileList.IndexOf(ImportFileList.First(x => x.Id == id));
+        if (index == -1)
+            return false;
+        
+        if (popupDialog)
+        {
+            var confirmDialogViewModel = new ConfirmDialogViewModel
+            {
+                // 图标方式一：
+                GeometryIcon = GeometryIcon.Warning,
+                // 图标方式二：
+                // IconMessage = "Warning";
+                // IconForeground = "#fc8800";
+                // IconGeometry = StreamGeometry.Parse("M943.644188 827.215696l-351.176649-608.204749c-42.945473-74.36249-113.147387-74.36249-156.092861 0l-351.176649 608.204749c-42.946498 74.431167-7.811716 135.14955 78.012605 135.14955l702.420949 0C951.455904 962.36422 986.555836 901.645838 943.644188 827.215696zM466.187532 391.579035c12.621133-13.644108 28.66175-20.466675 48.233578-20.466675 19.580028 0 35.612444 6.75389 48.241778 20.194018 12.544256 13.473954 18.820484 30.325365 18.820484 50.587035 0 17.430551-26.19759 145.621205-34.929778 238.882082l-63.105666 0c-7.666162-93.259852-36.090106-221.450507-36.090106-238.882082C447.358847 421.938226 453.643275 405.155491 466.187532 391.579035zM561.76804 835.026386c-13.268949 12.928641-29.062535 19.375023-47.345906 19.375023-18.275171 0-34.076957-6.447407-47.346931-19.375023-13.235123-12.89379-19.818859-28.517221-19.818859-46.869269 0-18.249546 6.583736-34.043131 19.818859-47.278254 13.268949-13.235123 29.07176-19.852685 47.346931-19.852685 18.283371 0 34.076957 6.617562 47.345906 19.852685 13.235123 13.235123 19.827059 29.028709 19.827059 47.278254C581.595099 806.51019 575.003163 822.132597 561.76804 835.026386z");
+                Title = $"Delete Import File Item?",
+                Message = $"Are you sure you want to delete {ImportFileList[index].JobName}?",
+                DialogWidth = 500,
+            };
+            
+            // Wait for click button
+            await dialogService.ShowDialogAsync(mainViewModel, confirmDialogViewModel);
+            
+            // Ignore if we clicked cancel
+            if (!confirmDialogViewModel.IsConfirmed)
+                return false;
+        }
+        
+        // Remove item
+        ImportFileList.RemoveAt(index);
+
+        // Select the item before the deleted one
+        if (index > 0)
+            index--;
+        if (ImportFileList.Count > 0)
+            SelectedImportFileItemId = ImportFileList[index].Id;
+
+        return true;
+    }
+    
+    #endregion Import File Methods
+    
+    #region Drawing Templates Methods 
+    
+    [RelayCommand]
+    private void FetchDrawingTemplatesList()
+    {
+        var drawingTemplatess = databaseService.GetDrawingTemplates();
+        
+        // TODO: Move this logic to a service / provider
+        DrawingTemplatesList = new ObservableCollection<ActionsTabDrawingTemplatesViewModel>(drawingTemplatess
+            .OrderBy(x => x.JobName)
+            .Select(x => x.ToViewModel()));
+        
+        // Update DrawingTemplatesListHasItems when collection changes
+        DrawingTemplatesList.CollectionChanged += (_, _) => OnPropertyChanged(nameof(DrawingTemplatesListHasItems));
+
+        if (DrawingTemplatesList.Count < 0)
+            return;
+        
+        // Select first item
+        SelectedDrawingTemplatesItemId = DrawingTemplatesList.First().Id;
+
+        // Store last fetched database save states
+        foreach (var item in DrawingTemplatesList)
+            item.SetSaveState();
+    }
+
+    [RelayCommand]
+    private void AddNewDrawingTemplatesItem()
+    {
+        // Crate a new item
+        var newItem = new ActionsTabDrawingTemplatesViewModel()
+        {
+            Id = Guid.CreateVersion7().ToString(),
+            JobName = "New Drawing Templates Job",
+            Description = "New Drawing Templates Job",
+            IsNewItem = true,
+        };
+
+        // Add to the print list
+        DrawingTemplatesList.Add(newItem);
+
+        // Select item
+        SelectedDrawingTemplatesItemId = newItem.Id;
+    }
+
+    [RelayCommand]
+    private async Task SaveDrawingTemplatesItemAsync()
+    {
+        // Ignore if no selection
+        if (SelectedDrawingTemplatesItem == null)
+            return;
+        
+        // If the selected item is new
+        if (SelectedDrawingTemplatesItem.IsNewItem)
+            databaseService.AddDrawingTemplates(SelectedDrawingTemplatesItem.ToEntity());
+        else
+            databaseService.UpdateDrawingTemplates(SelectedDrawingTemplatesItem.ToEntity());
+
+        // Flag new item as not new
+        SelectedDrawingTemplatesItem.IsNewItem = false;
+        // 保存状态以隐藏 Save 按钮
+        SelectedDrawingTemplatesItem.SetSaveState();
+    }
+
+    [RelayCommand]
+    private async Task CancelDrawingTemplatesItemAsync()
+    {
+        // Ignore if nothing is selected
+        if (SelectedDrawingTemplatesItem == null)
+            return;
+
+        // If the selected item is new, delete it
+        // Otherwise, restore from save state
+        if (SelectedDrawingTemplatesItem.IsNewItem)
+            await DeleteDrawingTemplatesItemFromUIAsync(SelectedDrawingTemplatesItem.Id, false);
+        else
+            SelectedDrawingTemplatesItem.RestoreState();
+    }
+
+    [RelayCommand]
+    private async Task DeleteDrawingTemplatesItemAsync(string id)
+    {
+        if (DrawingTemplatesList.Count(x => x.Id == id) != 1)
+            // TODO: Throw/Warn?
+            return;
+
+        // If user selected to remove from UI (via confirm dialog)
+        if (await DeleteDrawingTemplatesItemFromUIAsync(id))
+            // Delete from database
+            databaseService.DeleteDrawingTemplates(id);
+    }
+
+    // ReSharper disable once InconsistentNaming
+    private async Task<bool> DeleteDrawingTemplatesItemFromUIAsync(string id, bool popupDialog = true)
+    {
+        var index = DrawingTemplatesList.IndexOf(DrawingTemplatesList.First(x => x.Id == id));
+        if (index == -1)
+            return false;
+        
+        if (popupDialog)
+        {
+            var confirmDialogViewModel = new ConfirmDialogViewModel
+            {
+                // 图标方式一：
+                GeometryIcon = GeometryIcon.Warning,
+                // 图标方式二：
+                // IconMessage = "Warning";
+                // IconForeground = "#fc8800";
+                // IconGeometry = StreamGeometry.Parse("M943.644188 827.215696l-351.176649-608.204749c-42.945473-74.36249-113.147387-74.36249-156.092861 0l-351.176649 608.204749c-42.946498 74.431167-7.811716 135.14955 78.012605 135.14955l702.420949 0C951.455904 962.36422 986.555836 901.645838 943.644188 827.215696zM466.187532 391.579035c12.621133-13.644108 28.66175-20.466675 48.233578-20.466675 19.580028 0 35.612444 6.75389 48.241778 20.194018 12.544256 13.473954 18.820484 30.325365 18.820484 50.587035 0 17.430551-26.19759 145.621205-34.929778 238.882082l-63.105666 0c-7.666162-93.259852-36.090106-221.450507-36.090106-238.882082C447.358847 421.938226 453.643275 405.155491 466.187532 391.579035zM561.76804 835.026386c-13.268949 12.928641-29.062535 19.375023-47.345906 19.375023-18.275171 0-34.076957-6.447407-47.346931-19.375023-13.235123-12.89379-19.818859-28.517221-19.818859-46.869269 0-18.249546 6.583736-34.043131 19.818859-47.278254 13.268949-13.235123 29.07176-19.852685 47.346931-19.852685 18.283371 0 34.076957 6.617562 47.345906 19.852685 13.235123 13.235123 19.827059 29.028709 19.827059 47.278254C581.595099 806.51019 575.003163 822.132597 561.76804 835.026386z");
+                Title = $"Delete Drawing Templates Item?",
+                Message = $"Are you sure you want to delete {DrawingTemplatesList[index].JobName}?",
+                DialogWidth = 500,
+            };
+            
+            // Wait for click button
+            await dialogService.ShowDialogAsync(mainViewModel, confirmDialogViewModel);
+            
+            // Ignore if we clicked cancel
+            if (!confirmDialogViewModel.IsConfirmed)
+                return false;
+        }
+        
+        // Remove item
+        DrawingTemplatesList.RemoveAt(index);
+
+        // Select the item before the deleted one
+        if (index > 0)
+            index--;
+        if (DrawingTemplatesList.Count > 0)
+            SelectedDrawingTemplatesItemId = DrawingTemplatesList[index].Id;
+
+        return true;
+    }
+    
+    #endregion Drawing Templates Methods
+    
+    #region Macros Methods 
+    
+    [RelayCommand]
+    private void FetchMacrosList()
+    {
+        var macros = databaseService.GetMacros();
+        
+        // TODO: Move this logic to a service / provider
+        MacrosList = new ObservableCollection<ActionsTabMacrosViewModel>(macros
+            .OrderBy(x => x.JobName)
+            .Select(x => x.ToViewModel()));
+        
+        // Update MacrosListHasItems when collection changes
+        MacrosList.CollectionChanged += (_, _) => OnPropertyChanged(nameof(MacrosListHasItems));
+
+        if (MacrosList.Count < 0)
+            return;
+        
+        // Select first item
+        SelectedMacrosItemId = MacrosList.First().Id;
+
+        // Store last fetched database save states
+        foreach (var item in MacrosList)
+            item.SetSaveState();
+    }
+
+    [RelayCommand]
+    private void AddNewMacrosItem()
+    {
+        // Crate a new item
+        var newItem = new ActionsTabMacrosViewModel()
+        {
+            Id = Guid.CreateVersion7().ToString(),
+            JobName = "New Macros Job",
+            Description = "New Macros Job",
+            IsNewItem = true,
+        };
+
+        // Add to the print list
+        MacrosList.Add(newItem);
+
+        // Select item
+        SelectedMacrosItemId = newItem.Id;
+    }
+
+    [RelayCommand]
+    private async Task SaveMacrosItemAsync()
+    {
+        // Ignore if no selection
+        if (SelectedMacrosItem == null)
+            return;
+        
+        // If the selected item is new
+        if (SelectedMacrosItem.IsNewItem)
+            databaseService.AddMacros(SelectedMacrosItem.ToEntity());
+        else
+            databaseService.UpdateMacros(SelectedMacrosItem.ToEntity());
+
+        // Flag new item as not new
+        SelectedMacrosItem.IsNewItem = false;
+        // 保存状态以隐藏 Save 按钮
+        SelectedMacrosItem.SetSaveState();
+    }
+
+    [RelayCommand]
+    private async Task CancelMacrosItemAsync()
+    {
+        // Ignore if nothing is selected
+        if (SelectedMacrosItem == null)
+            return;
+
+        // If the selected item is new, delete it
+        // Otherwise, restore from save state
+        if (SelectedMacrosItem.IsNewItem)
+            await DeleteMacrosItemFromUIAsync(SelectedMacrosItem.Id, false);
+        else
+            SelectedMacrosItem.RestoreState();
+    }
+
+    [RelayCommand]
+    private async Task DeleteMacrosItemAsync(string id)
+    {
+        if (MacrosList.Count(x => x.Id == id) != 1)
+            // TODO: Throw/Warn?
+            return;
+
+        // If user selected to remove from UI (via confirm dialog)
+        if (await DeleteMacrosItemFromUIAsync(id))
+            // Delete from database
+            databaseService.DeleteMacros(id);
+    }
+
+    // ReSharper disable once InconsistentNaming
+    private async Task<bool> DeleteMacrosItemFromUIAsync(string id, bool popupDialog = true)
+    {
+        var index = MacrosList.IndexOf(MacrosList.First(x => x.Id == id));
+        if (index == -1)
+            return false;
+        
+        if (popupDialog)
+        {
+            var confirmDialogViewModel = new ConfirmDialogViewModel
+            {
+                // 图标方式一：
+                GeometryIcon = GeometryIcon.Warning,
+                // 图标方式二：
+                // IconMessage = "Warning";
+                // IconForeground = "#fc8800";
+                // IconGeometry = StreamGeometry.Parse("M943.644188 827.215696l-351.176649-608.204749c-42.945473-74.36249-113.147387-74.36249-156.092861 0l-351.176649 608.204749c-42.946498 74.431167-7.811716 135.14955 78.012605 135.14955l702.420949 0C951.455904 962.36422 986.555836 901.645838 943.644188 827.215696zM466.187532 391.579035c12.621133-13.644108 28.66175-20.466675 48.233578-20.466675 19.580028 0 35.612444 6.75389 48.241778 20.194018 12.544256 13.473954 18.820484 30.325365 18.820484 50.587035 0 17.430551-26.19759 145.621205-34.929778 238.882082l-63.105666 0c-7.666162-93.259852-36.090106-221.450507-36.090106-238.882082C447.358847 421.938226 453.643275 405.155491 466.187532 391.579035zM561.76804 835.026386c-13.268949 12.928641-29.062535 19.375023-47.345906 19.375023-18.275171 0-34.076957-6.447407-47.346931-19.375023-13.235123-12.89379-19.818859-28.517221-19.818859-46.869269 0-18.249546 6.583736-34.043131 19.818859-47.278254 13.268949-13.235123 29.07176-19.852685 47.346931-19.852685 18.283371 0 34.076957 6.617562 47.345906 19.852685 13.235123 13.235123 19.827059 29.028709 19.827059 47.278254C581.595099 806.51019 575.003163 822.132597 561.76804 835.026386z");
+                Title = $"Delete Macros Item?",
+                Message = $"Are you sure you want to delete {MacrosList[index].JobName}?",
+                DialogWidth = 500,
+            };
+            
+            // Wait for click button
+            await dialogService.ShowDialogAsync(mainViewModel, confirmDialogViewModel);
+            
+            // Ignore if we clicked cancel
+            if (!confirmDialogViewModel.IsConfirmed)
+                return false;
+        }
+        
+        // Remove item
+        MacrosList.RemoveAt(index);
+
+        // Select the item before the deleted one
+        if (index > 0)
+            index--;
+        if (MacrosList.Count > 0)
+            SelectedMacrosItemId = MacrosList[index].Id;
+
+        return true;
+    }
+    
+    #endregion Macros Methods
     
     
     
