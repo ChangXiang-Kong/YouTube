@@ -36,9 +36,10 @@ public partial class ActionsPageView : UserControl
             return;
 
         // Convert to ActionsPageName
-        var actionsPage = selectedPage switch
+        var actionsPageName = selectedPage switch
         {
             ActionsTabPrintView => ActionsPageName.Print,
+            ActionsTabCustomPropertiesView => ActionsPageName.CustomProperties,
             _ => ActionsPageName.Unknown
         };
 
@@ -46,6 +47,6 @@ public partial class ActionsPageView : UserControl
         var viewModel = selectedPage.DataContext as ActionsPageViewModel;
 
         // Type check
-        viewModel?.RefreshActionsPage(actionsPage);
+        viewModel?.RefreshActionsPage(actionsPageName);
     }
 }

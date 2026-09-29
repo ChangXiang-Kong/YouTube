@@ -304,7 +304,7 @@ public partial class App : Application
     // UI线程未捕获异常处理事件
     private void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
     {
-        var logContent = LogException(e.Exception);
+        var logContent = LogException(e.Exception.InnerException ?? e.Exception);
         ShowCrashMessageInErrorWindow(e.Exception, logContent);
         //NLogger.Logger.AddFatal(e.Exception, "UI线程未处理异常");
         //Logger.AddFatal(e.Exception, "UI线程未处理异常");
@@ -323,7 +323,7 @@ public partial class App : Application
     // Task线程内未捕获异常处理事件
     private void TaskScheduler_UnobservedTaskException(object? sender, UnobservedTaskExceptionEventArgs e)
     {
-        var logContent = LogException(e.Exception);
+        var logContent = LogException(e.Exception.InnerException ?? e.Exception);
         ShowCrashMessageInErrorWindow(e.Exception, logContent);
         e.SetObserved();    // e.SetObserved() 表示异常已处理，避免程序崩溃。设置该异常已察觉（这样处理后就不会引起程序崩溃）
     }

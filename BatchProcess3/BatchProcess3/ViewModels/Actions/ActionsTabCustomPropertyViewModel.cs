@@ -25,49 +25,84 @@ public partial class ActionsTabCustomPropertyViewModel : ViewModelBase
     private bool _isNewItem;
 
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(HasChanged))]
+    [NotifyPropertyChangedFor(nameof(FieldNameIsVisible))]
+    [NotifyPropertyChangedFor(nameof(FieldTypeIsVisible))]
+    [NotifyPropertyChangedFor(nameof(ChangeNameToIsVisible))]
+    [NotifyPropertyChangedFor(nameof(ValueRuleIsVisible))]
+    [NotifyPropertyChangedFor(nameof(CopyFromConfigurationIsVisible))]
+    [NotifyPropertyChangedFor(nameof(CopyToFieldIsVisible))]
     private CustomPropertyRuleType _ruleType;
 
     [ObservableProperty]
-    private string _filterLogic;
+    [NotifyPropertyChangedFor(nameof(HasChanged))]
+    private string _filterLogic = "";
 
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(HasChanged))]
     private bool _setCustomProperty;
 
     [ObservableProperty]
-    private bool _setAllConfigSpecificProperties;
+    [NotifyPropertyChangedFor(nameof(HasChanged))]
+    private bool _setConfigSpecificProperties;
 
     [ObservableProperty]
-    private bool _setNamedConfigurationProperties;
+    [NotifyPropertyChangedFor(nameof(HasChanged))]
+    private string _setConfigurationPropertiesFilter;
 
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(HasChanged))]
     private bool _excludeParts;
 
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(HasChanged))]
     private bool _excludeAssemblies;
 
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(HasChanged))]
     private bool _excludeDrawings;
 
     [ObservableProperty]
-    private string _fieldType;
+    [NotifyPropertyChangedFor(nameof(HasChanged))]
+    private CustomPropertyFieldType _fieldType;
+
+    [JsonIgnore]
+    public bool FieldTypeIsVisible => RuleType is CustomPropertyRuleType.Add or CustomPropertyRuleType.Update;
+    
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(HasChanged))]
+    private string _fieldName = "";
+
+    [JsonIgnore]
+    public bool FieldNameIsVisible => RuleType is not CustomPropertyRuleType.Clear;
+    
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(HasChanged))]
+    private string _valueRule = "";
+    
+    [JsonIgnore]
+    public bool ValueRuleIsVisible => RuleType is CustomPropertyRuleType.Add or CustomPropertyRuleType.Update;
 
     [ObservableProperty]
-    private ObservableCollection<string> _fieldTypeOptions = [];
+    [NotifyPropertyChangedFor(nameof(HasChanged))]
+    private string _changeNameTo = "";
     
+    [JsonIgnore]
+    public bool ChangeNameToIsVisible => RuleType is CustomPropertyRuleType.Update;
+
     [ObservableProperty]
-    private string _fieldName;
+    [NotifyPropertyChangedFor(nameof(HasChanged))]
+    private string _copyFromConfiguration = "";
     
+    [JsonIgnore]
+    public bool CopyFromConfigurationIsVisible => RuleType is CustomPropertyRuleType.Copy;
+
     [ObservableProperty]
-    private string _valueRule;
-    
-    [ObservableProperty]
-    private string _changeNameTo;
-    
-    [ObservableProperty]
-    private string _copyFromConfiguration;
-    
-    [ObservableProperty]
-    private string _copyToField;
+    [NotifyPropertyChangedFor(nameof(HasChanged))]
+    private string _copyToField = "";
+
+    [JsonIgnore]
+    public bool CopyToFieldIsVisible => RuleType is CustomPropertyRuleType.Copy;
 
     [JsonIgnore]
     public new bool HasChanged => IsNewItem || (SavedState != "" && SavedState != JsonSerializer.Serialize(this, JsonSerializerOptions));
@@ -84,8 +119,8 @@ public static class ActionsTabCustomPropertiesViewModelExtensions
         RuleType = viewModel.RuleType,
         FilterLogic = viewModel.FilterLogic,
         SetCustomProperty = viewModel.SetCustomProperty,
-        SetAllConfigSpecificProperties = viewModel.SetAllConfigSpecificProperties,
-        SetNamedConfigurationProperties = viewModel.SetNamedConfigurationProperties,
+        SetConfigSpecificProperties = viewModel.SetConfigSpecificProperties,
+        SetConfigurationPropertiesFilter = viewModel.SetConfigurationPropertiesFilter,
         ExcludeParts = viewModel.ExcludeParts,
         ExcludeAssemblies = viewModel.ExcludeAssemblies,
         ExcludeDrawings = viewModel.ExcludeDrawings,
@@ -105,8 +140,8 @@ public static class ActionsTabCustomPropertiesViewModelExtensions
         RuleType = entity.RuleType,
         FilterLogic = entity.FilterLogic,
         SetCustomProperty = entity.SetCustomProperty,
-        SetAllConfigSpecificProperties = entity.SetAllConfigSpecificProperties,
-        SetNamedConfigurationProperties = entity.SetNamedConfigurationProperties,
+        SetConfigSpecificProperties = entity.SetConfigSpecificProperties,
+        SetConfigurationPropertiesFilter = entity.SetConfigurationPropertiesFilter,
         ExcludeParts = entity.ExcludeParts,
         ExcludeAssemblies = entity.ExcludeAssemblies,
         ExcludeDrawings = entity.ExcludeDrawings,

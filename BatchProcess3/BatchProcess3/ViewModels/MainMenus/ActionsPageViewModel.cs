@@ -68,6 +68,12 @@ public partial class ActionsPageViewModel(
     
     public ActionsTabCustomPropertyViewModel? SelectedCustomPropertyItem
         => CustomPropertiesList.FirstOrDefault(x => x.Id == SelectedCustomPropertyItemId);
+
+    public ObservableCollection<CustomPropertyRuleType> CustomPropertyRuleTypes 
+        => new(Enum.GetValues<CustomPropertyRuleType>());
+    
+    public ObservableCollection<CustomPropertyFieldType> CustomPropertyFieldTypes 
+        => new(Enum.GetValues<CustomPropertyFieldType>());
     
     #endregion CustomProperties
 
@@ -457,17 +463,15 @@ public partial class ActionsPageViewModel(
         var customProperties = databaseService.GetCustomProperties();
         
         // TODO: Move this logic to a service / provider
-        string[] fieldTypeOptions =
-        [
-            "Text",
-            "Number",
-            "Date",
-            "YesNo",
-        ]; 
-
         CustomPropertiesList = new ObservableCollection<ActionsTabCustomPropertyViewModel>(customProperties
             .OrderBy(x => x.JobName)
             .Select(x => x.ToViewModel()));
+
+        // foreach (var item in CustomPropertiesList)
+        // {
+        //     item.FieldTypeOptions = new(fieldTypeOptions);
+        //     item.FieldType = fieldTypeOptions.First();
+        // }
         
         // Update CustomPropertiesListHasItems when collection changes
         CustomPropertiesList.CollectionChanged += (_, _) => OnPropertyChanged(nameof(CustomPropertiesListHasItems));
@@ -493,8 +497,8 @@ public partial class ActionsPageViewModel(
         var newItem = new ActionsTabCustomPropertyViewModel()
         {
             Id = Guid.CreateVersion7().ToString(),
-            JobName = "New Custom Property Job",
-            Description = "New Custom Property Job",
+            JobName = "New Custom Property Action",
+            Description = "New Custom Property Action",
             IsNewItem = true,
         };
 

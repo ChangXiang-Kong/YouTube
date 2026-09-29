@@ -18,27 +18,27 @@
   </Design.DataContext>
 
   <Grid ColumnDefinitions="*, 30, 3*">
-    <!--  Print List Column  -->
+    <!--  Custom Properties List Column  -->
     <Grid RowDefinitions="Auto, 10, Auto, 10, Auto, 10, *">
       <Label Classes="h2" Content="Custom Properties" />
       <TextBlock Grid.Row="2" Margin="0,-10,0,0" Text="Updating, deleting and editing of custom properties with advanced logic." TextWrapping="Wrap" />
       <Button Grid.Row="4" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"
               Classes="small outline"
-              Command="{Binding AddNewPrintTabItemCommand}"
-              Content="New Custom Property Job" />
+              Command="{Binding AddNewCustomPropertyItemCommand}"
+              Content="New Custom Property Action" />
       <!--  绑定Model中的Id而不是Model本身  -->
       <ListBox Grid.Row="6"
-               ItemsSource="{Binding PrintTabsList}"
-               SelectedValue="{Binding SelectedPrintTabItemId}"
+               ItemsSource="{Binding CustomPropertiesList}"
+               SelectedValue="{Binding SelectedCustomPropertyItemId}"
                SelectedValueBinding="{Binding Id}"
                SelectionChanged="SelectingItemsControl_OnSelectionChanged">
         <ListBox.ItemTemplate>
-          <DataTemplate x:DataType="vmActions:ActionsTabPrintViewModel">
+          <DataTemplate x:DataType="vmActions:ActionsTabCustomPropertyViewModel">
             <Grid ColumnDefinitions="*, Auto">
               <Label Grid.Column="0" VerticalAlignment="Center" Content="{Binding JobName}" FontWeight="{Binding HasChanged, Converter={StaticResource BoolToBoldFontConverter}}" />
               <Button Grid.Column="1" Margin="0,0,-8,0" Padding="0"
                       VerticalAlignment="Center" ava:ToolTip.Tip="Delete" Classes="smaller danger"
-                      Command="{Binding $parent[ListBox].((mainMenus:ActionsPageViewModel)DataContext).DeletePrintTabItemCommand}"
+                      Command="{Binding $parent[ListBox].((mainMenus:ActionsPageViewModel)DataContext).DeleteCustomPropertyItemCommand}"
                       CommandParameter="{Binding Id}">
                 <Button.IsVisible>
                   <MultiBinding Converter="{StaticResource BoolOrMultiConverter}">
@@ -55,7 +55,7 @@
     </Grid>
 
     <StackPanel Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center"
-                Opacity="{Binding !PrintTabsListHasItems}"
+                Opacity="{Binding !CustomPropertiesListHasItems}"
                 Spacing="10">
       <StackPanel.Styles>
         <Style Selector="StackPanel">
@@ -67,12 +67,12 @@
         </Style>
       </StackPanel.Styles>
 
-      <TextBlock HorizontalAlignment="Center" Text="Print actions can be used to print drawings and models with specific printer settings." />
-      <TextBlock HorizontalAlignment="Center" Text="To get started, creat a new Print Action." />
-      <Button Margin="10" HorizontalAlignment="Center" Command="{Binding AddNewPrintTabItemCommand}" Content="New Print Action" />
+      <TextBlock HorizontalAlignment="Center" Text="Custom Property actions can be used to update, delete, and manipulate custom properties with advanced rules." />
+      <TextBlock HorizontalAlignment="Center" Text="To get started, creat a new Custom Properties Action." />
+      <Button Margin="10" HorizontalAlignment="Center" Command="{Binding AddNewCustomPropertyItemCommand}" Content="New Custom properties Action" />
     </StackPanel>
 
-    <Grid Column="2" ColumnDefinitions="*, 30, *" Opacity="{Binding PrintTabsListHasItems}">
+    <Grid Column="2" ColumnDefinitions="*, 30, *" Opacity="{Binding CustomPropertiesListHasItems}">
       <Grid.Styles>
         <Style Selector="Grid">
           <Setter Property="Transitions">
@@ -86,102 +86,98 @@
       <!--  General Settings Column  -->
       <Grid Grid.Column="0" RowDefinitions="Auto, 10, Auto, 10, Auto, 10, Auto, 10, Auto, 10, Auto, 10, *">
         <Label Grid.Row="0" Classes="h2" Content="General Settings" />
-        <TextBlock Grid.Row="2" Margin="0,-10,0,0" Text="Set the main properties of the print job." />
-        <Grid Grid.Row="4" ColumnDefinitions="130, 10, *" RowDefinitions="Auto, 10, Auto, 10 Auto">
+        <TextBlock Grid.Row="2" Margin="0,-10,0,0" Text="Set the main properties of the custom property job." />
+        <Grid Grid.Row="4" ColumnDefinitions="130, 10, *" RowDefinitions="Auto, 10, Auto">
           <Label Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Content="Job Name" />
-          <TextBox Name="TextBox_JobName" Grid.Row="0" Grid.Column="2" Text="{Binding SelectedPrintTabItem.JobName}" />
+          <TextBox Name="TextBox_JobName" Grid.Row="0" Grid.Column="2"
+                   Text="{Binding SelectedCustomPropertyItem.JobName}"
+                   ToolTip.Tip="{Binding SelectedCustomPropertyItem.JobName}" />
           <Label Grid.Row="2" Grid.Column="0" VerticalAlignment="Top" Content="Description" />
           <TextBox Grid.Row="2" Grid.Column="2" Height="90"
                    AcceptsReturn="True"
-                   Text="{Binding SelectedPrintTabItem.Description}"
+                   Text="{Binding SelectedCustomPropertyItem.Description}"
                    TextWrapping="Wrap" />
-
-          <Label Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" Content="Print" />
-          <StackPanel Grid.Row="4" Grid.Column="2" Orientation="Horizontal" Spacing="10">
-            <CheckBox Content="Models" IsChecked="{Binding SelectedPrintTabItem.PrintModels}" />
-            <CheckBox Content="Drawings" IsChecked="{Binding SelectedPrintTabItem.PrintDrawings}" />
-          </StackPanel>
         </Grid>
 
-        <!--  Printer Settings  -->
-        <Label Grid.Row="6" Classes="h2" Content="Printer Settings" />
-        <TextBlock Grid.Row="8" Margin="0,-10,0,0" Text="Select the profiles to use for paper sizes." TextWrapping="Wrap" />
-        <Button Grid.Row="10" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"
-                Classes="small outline"
-                Command="{Binding AddNewPrintSettingsCommand}"
-                Content="New Printer Settings" />
-        <!--  绑定Model中的Id而不是Model本身  -->
-        <ListBox Grid.Row="12" ItemsSource="{Binding PrintSettingsList}" SelectedValue="{Binding SelectedPrintTabItem.PrintSettingsId}" SelectedValueBinding="{Binding Id}">
-          <ListBox.ItemTemplate>
-            <DataTemplate x:DataType="vmActions:ActionsPrintSettingsViewModel">
-              <Grid ColumnDefinitions="*, Auto">
-                <StackPanel>
-                  <TextBlock FontWeight="Black" Text="{Binding Name}" />
-                  <TextBlock Text="{Binding Description}" />
-                </StackPanel>
-                <!--  Edit  -->
-                <StackPanel Grid.Column="1" Orientation="Horizontal">
-                  <Panel IsVisible="{Binding CanEdit}">
-                    <Button Margin="0,0,5,0" Padding="0" VerticalAlignment="Center"
-                            ava:ToolTip.Tip="Edit" Classes="smaller alert"
-                            Command="{Binding $parent[ListBox].((mainMenus:ActionsPageViewModel)DataContext).EditPrintSettingsCommand}"
-                            CommandParameter="{Binding Id}">
-                      <Button.IsVisible>
-                        <MultiBinding Converter="{StaticResource BoolOrMultiConverter}">
-                          <Binding Path="$parent[ListBoxItem].IsPointerOver" />
-                          <Binding Path="$parent[ListBoxItem].IsSelected" />
-                        </MultiBinding>
-                      </Button.IsVisible>
-                      <Label Classes="icon-only icon-outline" Content="&#xe3b2;" />
-                    </Button>
-                  </Panel>
-                  <!--  Delete  -->
-                  <Panel IsVisible="{Binding CanDelete}">
-                    <Button Margin="0,0,-8,0" Padding="0" VerticalAlignment="Center"
-                            ava:ToolTip.Tip="Delete" Classes="smaller danger"
-                            Command="{Binding $parent[ListBox].((mainMenus:ActionsPageViewModel)DataContext).DeletePrintSettingsCommand}"
-                            CommandParameter="{Binding Id}">
-                      <Button.IsVisible>
-                        <MultiBinding Converter="{StaticResource BoolOrMultiConverter}">
-                          <Binding Path="$parent[ListBoxItem].IsPointerOver" />
-                          <Binding Path="$parent[ListBoxItem].IsSelected" />
-                        </MultiBinding>
-                      </Button.IsVisible>
-                      <Label Classes="icon-only icon-outline" Content="&#xe4a6;" />
-                    </Button>
-                  </Panel>
-                </StackPanel>
-              </Grid>
-            </DataTemplate>
-          </ListBox.ItemTemplate>
-        </ListBox>
+        <!--  Rule action  -->
+        <Label Grid.Row="6" Classes="h2" Content="Rule Action" />
+        <TextBlock Grid.Row="8" Margin="0,-10,0,0" Text="Select the type of action and then the appropriate fields for that type." TextWrapping="Wrap" />
 
+        <Grid Grid.Row="10" ColumnDefinitions="130, 10, *" RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, Auto">
+          <Label Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Content="Rule Type" />
+          <ComboBox Grid.Row="0" Grid.Column="2" Margin="0,5"
+                    HorizontalAlignment="Stretch"
+                    ItemsSource="{Binding CustomPropertyRuleTypes}"
+                    SelectedItem="{Binding SelectedCustomPropertyItem.RuleType}" />
+
+          <Label Grid.Row="1" Grid.Column="0" VerticalAlignment="Center"
+                 Content="Field Name"
+                 IsVisible="{Binding SelectedCustomPropertyItem.FieldNameIsVisible}" />
+          <TextBox Grid.Row="1" Grid.Column="2" Margin="0,5"
+                   HorizontalAlignment="Stretch"
+                   IsVisible="{Binding SelectedCustomPropertyItem.FieldNameIsVisible}"
+                   Text="{Binding SelectedCustomPropertyItem.FieldName}" />
+
+          <Label Grid.Row="2" Grid.Column="0" VerticalAlignment="Center"
+                 Content="Field Type"
+                 IsVisible="{Binding SelectedCustomPropertyItem.FieldTypeIsVisible}" />
+          <ComboBox Grid.Row="2" Grid.Column="2" Margin="0,5"
+                    HorizontalAlignment="Stretch"
+                    IsVisible="{Binding SelectedCustomPropertyItem.FieldTypeIsVisible}"
+                    ItemsSource="{Binding CustomPropertyFieldTypes}"
+                    SelectedItem="{Binding SelectedCustomPropertyItem.FieldType}" />
+
+          <Label Grid.Row="3" Grid.Column="0" VerticalAlignment="Center"
+                 Content="Change Name To"
+                 IsVisible="{Binding SelectedCustomPropertyItem.ChangeNameToIsVisible}" />
+          <TextBox Grid.Row="3" Grid.Column="2" Margin="0,5"
+                   HorizontalAlignment="Stretch"
+                   IsVisible="{Binding SelectedCustomPropertyItem.ChangeNameToIsVisible}"
+                   Text="{Binding SelectedCustomPropertyItem.ChangeNameTo}" />
+
+          <Label Grid.Row="4" Grid.Column="0" VerticalAlignment="Center"
+                 Content="Value Rule"
+                 IsVisible="{Binding SelectedCustomPropertyItem.ValueRuleIsVisible}" />
+          <TextBox Grid.Row="4" Grid.Column="2" Margin="0,5"
+                   HorizontalAlignment="Stretch"
+                   IsVisible="{Binding SelectedCustomPropertyItem.ValueRuleIsVisible}"
+                   Text="{Binding SelectedCustomPropertyItem.ValueRule}" />
+
+          <Label Grid.Row="5" Grid.Column="0" VerticalAlignment="Center"
+                 Content="Copy From Config"
+                 IsVisible="{Binding SelectedCustomPropertyItem.CopyFromConfigurationIsVisible}" />
+          <TextBox Grid.Row="5" Grid.Column="2" Margin="0,5"
+                   HorizontalAlignment="Stretch"
+                   IsVisible="{Binding SelectedCustomPropertyItem.CopyFromConfigurationIsVisible}"
+                   Text="{Binding SelectedCustomPropertyItem.CopyFromConfiguration}" />
+
+          <Label Grid.Row="6" Grid.Column="0" VerticalAlignment="Center"
+                 Content="Copy To Field"
+                 IsVisible="{Binding SelectedCustomPropertyItem.CopyToFieldIsVisible}" />
+          <TextBox Grid.Row="6" Grid.Column="2" Margin="0,5"
+                   HorizontalAlignment="Stretch"
+                   IsVisible="{Binding SelectedCustomPropertyItem.CopyToFieldIsVisible}"
+                   Text="{Binding SelectedCustomPropertyItem.CopyToField}" />
+        </Grid>
       </Grid>
 
-      <!--  Drawings Column  -->
+      <!--  Configuration Column  -->
       <Grid Grid.Column="2" RowDefinitions="Auto, 10, Auto, 10, Auto, 10, *">
-        <Label Grid.Row="0" Classes="h2" Content="Drawings" />
-        <TextBlock Grid.Row="2" Margin="0,-10,0,0" Text="Set the properties that apply only to drawings." />
-        <Grid Grid.Row="4" ColumnDefinitions="130, 10, *" RowDefinitions="Auto, 10, Auto, 10, Auto">
-          <Label Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Content="Print Range" />
-          <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding SelectedPrintTabItem.PrintDrawingRange}" />
+        <Label Grid.Row="0" Classes="h2" Content="Configuration" />
+        <TextBlock Grid.Row="2" Margin="0,-10,0,0" Text="Set the specific options on configuring how the custom property rule is applied." TextWrapping="Wrap" />
 
-          <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal">
-            <!--  方式一 使用 ToggleButton 的 样式1  -->
-            <!-- <ToggleButton VerticalAlignment="Top" Content="{Binding SelectedPrintListItem.DrawingExclusionListTitle}" IsChecked="{Binding SelectedPrintListItem.DrawingExclusionIsWhiteList}" /> -->
-            <!--  方式二 使用 ToggleSwitch  -->
-            <ToggleSwitch VerticalAlignment="Top" FontSize="14" FontWeight="Normal"
-                          IsChecked="{Binding SelectedPrintTabItem.DrawingExclusionIsWhiteList}"
-                          OffContent="Black List" OnContent="White List" />
-          </StackPanel>
-          <TextBox Grid.Row="2" Grid.Column="2" Height="90"
-                   AcceptsReturn="True"
-                   Text="{Binding SelectedPrintTabItem.DrawingExclusionList}"
-                   TextWrapping="Wrap" />
-        </Grid>
+        <StackPanel Grid.Row="4" Spacing="10">
+          <CheckBox Content="Set Custom properties" IsChecked="{Binding SelectedCustomPropertyItem.SetCustomProperty}" />
+          <CheckBox Content="Set Configuration Specific Properties" IsChecked="{Binding SelectedCustomPropertyItem.SetConfigSpecificProperties}" />
+          <TextBox IsVisible="{Binding SelectedCustomPropertyItem.SetConfigSpecificProperties}" Text="{Binding SelectedCustomPropertyItem.SetConfigurationPropertiesFilter}" />
+          <CheckBox Content="Exclude Parts" IsChecked="{Binding SelectedCustomPropertyItem.ExcludeParts}" />
+          <CheckBox Content="Exclude Assemblies" IsChecked="{Binding SelectedCustomPropertyItem.ExcludeAssemblies}" />
+          <CheckBox Content="Exclude Drawings" IsChecked="{Binding SelectedCustomPropertyItem.ExcludeDrawings}" />
+        </StackPanel>
 
+        <!--  Save and Cancel state Button  -->
         <StackPanel Grid.Row="6" HorizontalAlignment="Right" VerticalAlignment="Bottom"
-                    Opacity="{Binding SelectedPrintTabItem.HasChanged, FallbackValue=0}"
+                    Opacity="{Binding SelectedCustomPropertyItem.HasChanged, FallbackValue=0}"
                     Orientation="Horizontal" Spacing="10">
           <!--
             FallbackValue = 绑定失败时的 “备胎值” ，当绑定找不到对象、找不到值、或者值为 null 时 → 自动使用 FallbackValue 指定的值。
@@ -200,10 +196,10 @@
             </Style>
           </StackPanel.Styles>
           <Button Width="70" HorizontalContentAlignment="Center" Classes="success"
-                  Command="{Binding SavePrintTabItemCommand}"
+                  Command="{Binding SaveCustomPropertyItemCommand}"
                   Content="Save" />
           <Button Width="70" HorizontalContentAlignment="Center" Classes="outline"
-                  Command="{Binding CancelPrintTabItemCommand}"
+                  Command="{Binding CancelCustomPropertyItemCommand}"
                   Content="Cancel" />
         </StackPanel>
       </Grid>

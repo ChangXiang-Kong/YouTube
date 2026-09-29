@@ -107,12 +107,18 @@ namespace BatchProcess3.Data
     #region ActionsMenu CustomPropertiesTab
     public enum CustomPropertyRuleType
     {
-        Unknown = 0,
-        Add = 1,
-        Remove = 2,
-        Update = 3,
-        Copy = 4,
-        Clear = 5,
+        Add = 0,
+        Remove = 1,
+        Update = 2,
+        Copy = 3,
+        Clear = 4,
+    }
+    public enum CustomPropertyFieldType
+    {
+        Text = 0,
+        Number = 1,
+        Date = 2,
+        YesNo = 3,
     }
     #endregion ActionsMenu CustomPropertiesTab
 }
