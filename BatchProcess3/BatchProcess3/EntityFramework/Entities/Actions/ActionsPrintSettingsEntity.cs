@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BatchProcess3.EntityFramework.Entities.Actions;
@@ -12,8 +13,10 @@ namespace BatchProcess3.EntityFramework.Entities.Actions;
 [Table("ActionsTabPrintSettings")]
 public class ActionsPrintSettingsEntity : BaseEntity
 {
-    public string Name { get; set; } = "";
+    [MaxLength(200)]
+    public string JobName { get; set; } = "";
 
+    [MaxLength(5000)]
     public string Description { get; set; } = "";
     
     public int Copies { get; set; } = 1;

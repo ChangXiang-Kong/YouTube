@@ -40,7 +40,7 @@ public partial class ActionsPageView : UserControl
         {
             ActionsTabPrintView => ActionsPageName.Print,
             ActionsTabCustomPropertiesView => ActionsPageName.CustomProperties,
-            _ => ActionsPageName.Unknown
+            _ => ActionsPageName.Print
         };
 
         // Get view model

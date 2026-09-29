@@ -68,7 +68,7 @@ public static class PrintSettingsViewModelExtensions
         return new ActionsPrintSettingsEntity()
         {
             Id = viewModel.Id,
-            Name = viewModel.Name,
+            JobName = viewModel.Name,
             Description = viewModel.Description,
             Copies = viewModel.Copies,
             CanEdit = viewModel.CanEdit,
@@ -89,7 +89,7 @@ public static class PrintSettingsViewModelExtensions
         return new ActionsPrintSettingsViewModel()
         {
             Id = entity.Id,
-            Name = entity.Name,
+            Name = entity.JobName,
             Description = entity.Description,
             Copies = entity.Copies,
             CanEdit = entity.CanEdit,
@@ -116,7 +116,7 @@ public static class PrintSettingsViewModelExtensions
 
     public static ObservableCollection<ActionsPrintSettingsViewModel> ToViewModels(this List<ActionsPrintSettingsEntity> entities)
     {
-        return new ObservableCollection<ActionsPrintSettingsViewModel>(entities.OrderBy(x => x.Name).Select(ToViewModel));
+        return new ObservableCollection<ActionsPrintSettingsViewModel>(entities.OrderBy(x => x.JobName).Select(ToViewModel));
         // 等于
         // return new ObservableCollection<PrintSettingsViewModel>(entities.OrderBy(x => x.Name).Select(x => x.ToViewModel()));
     }

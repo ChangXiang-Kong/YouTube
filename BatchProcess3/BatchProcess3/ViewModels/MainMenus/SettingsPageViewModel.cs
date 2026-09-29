@@ -42,6 +42,7 @@ namespace BatchProcess3.ViewModels.MainMenus
         [ObservableProperty] private bool _skipNoActionFiles;
         [ObservableProperty] private bool _allowDuplicateEntries;
         [ObservableProperty] private ObservableCollection<string> _locationPathsList = [];
+        [ObservableProperty] private ObservableCollection<string> _drawingTemplateSearchPaths = [];
         [ObservableProperty] private string _solidWorksHost = "";
         // TODO: Fetch from network pings
         [ObservableProperty] private ObservableCollection<string> _solidWorksHostsList = [ "localhost", "127.0.0.1", "192.168.0.10" ];
@@ -127,6 +128,7 @@ namespace BatchProcess3.ViewModels.MainMenus
             SkipNoActionFiles = SkipNoActionFiles,
             AllowDuplicateEntries = AllowDuplicateEntries,
             LocationPathsList = LocationPathsList.ToList(),
+            DrawingTemplateSearchPaths = DrawingTemplateSearchPaths.ToList(),
             SolidWorksHost = SolidWorksHost,
             PdmeVaultName = PdmeVaultName,
             PdmeUserName = PdmeUserName,

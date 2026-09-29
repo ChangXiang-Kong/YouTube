@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BatchProcess3.EntityFramework.Entities.Actions;
@@ -12,24 +13,31 @@ namespace BatchProcess3.EntityFramework.Entities.Actions;
 [Table("ActionsTabPrintSettingsProfile")]
 public class ActionsPrintSettingsProfileEntity : BaseEntity
 {
+    [MaxLength(100)]
     public string Type { get; set; } = "";
     
+    [MaxLength(500)]
     public string PrinterName { get; set; } = "(Default)";  // 给默认值，否则编辑 Edit Printer Settings 页面时， Printer Name 不会自动选中 "(Default)"
     
+    [MaxLength(100)]
     public string PaperSize { get; set; } = "(Default)";
 
     public double Width { get; set; } = -1;
 
     public double Height { get; set; } = -1;
     
+    [MaxLength(100)]
     public string Orientation { get; set; } = "(Default)";
     
+    [MaxLength(100)]
     public string SourceTray { get; set; } = "(Default)";
     
+    [MaxLength(100)]
     public string DrawingColor { get; set; } = "(Default)";
     
     public bool ScaleToFil { get; set; }
     
+    [MaxLength(100)]
     // public Guid PrintSettingsId { get; set; }
     public string PrintSettingsId { get; set; } = "";   // （外键属性）
 

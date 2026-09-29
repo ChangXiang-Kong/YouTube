@@ -185,7 +185,7 @@ public class DatabaseService(AppDbContext dbContext) : IDisposable
             // res.Add(new PrintSettingsEntity()   // 报错：Sequence contains no elements
             _dbContext.ActionsPrintSettings.Add(new ActionsPrintSettingsEntity()
             {
-                Name = "(Default)",
+                JobName = "(Default)",
                 Description = "Use all default settings",
                 Copies = 1,
                 PrintSettingsProfilesList = GetPrintSettingsProfiles()
@@ -218,7 +218,7 @@ public class DatabaseService(AppDbContext dbContext) : IDisposable
         
         // If this item is not deletable
         if (!bypass && !existingEntity.CanDelete)
-            throw new InvalidOperationException($"The print setting {existingEntity.Name} cannot be deleted.");
+            throw new InvalidOperationException($"The print setting {existingEntity.JobName} cannot be deleted.");
         
         _dbContext.ActionsPrintSettings.Remove(existingEntity);
         if (saveChanges)
@@ -230,7 +230,7 @@ public class DatabaseService(AppDbContext dbContext) : IDisposable
     {
         // If it is not editable
         if (!entity.CanEdit)
-            throw new InvalidOperationException($"The print setting {entity.Name} cannot be edited.");
+            throw new InvalidOperationException($"The print setting {entity.JobName} cannot be edited.");
         
         // Remove existing
         if (!DeletePrintSettings(entity.Id, bypass: true, saveChanges: false))
@@ -241,7 +241,7 @@ public class DatabaseService(AppDbContext dbContext) : IDisposable
     }
     #endregion PrintSettings
 
-    #region CustomProperties
+    #region Custom Properties
     public List<ActionsTabCustomPropertiesEntity> GetCustomProperties()
     {
         return _dbContext.ActionsTabCustomProperties.ToList();
@@ -276,7 +276,229 @@ public class DatabaseService(AppDbContext dbContext) : IDisposable
         // Add new
         return AddCustomProperty(entity);
     }
-    #endregion CustomProperties
+    #endregion Custom Properties
+
+    #region File Info
+    public List<ActionsTabFileInfoEntity> GetFileInfo()
+    {
+        return _dbContext.ActionsTabFileInfo.ToList();
+    }
+
+    public bool AddFileInfo(ActionsTabFileInfoEntity entity)
+    {
+        _dbContext.ActionsTabFileInfo.Add(entity);
+        return _dbContext.SaveChanges() > 0;
+    }
+
+    public bool DeleteFileInfo(string id)
+    {
+        // if (!Guid.TryParse(id, out Guid guid))
+        //     throw  new ArgumentException("Invalid print tab id");
+
+        // Remove existing
+        var existingEntity = _dbContext.ActionsTabFileInfo.FirstOrDefault(x => x.Id == id);
+        if (existingEntity == null)
+            return false;
+        
+        _dbContext.ActionsTabFileInfo.Remove(existingEntity);
+        return _dbContext.SaveChanges() > 0;
+    }
+
+    public bool UpdateFileInfo(ActionsTabFileInfoEntity entity)
+    {
+        // Remove existing
+        if (!DeleteFileInfo(entity.Id))
+            return false;
+        
+        // Add new
+        return AddFileInfo(entity);
+    }
+    #endregion File Info
+
+    #region Save Model
+    public List<ActionsTabSaveModelEntity> GetSaveModel()
+    {
+        return _dbContext.ActionsTabSaveModel.ToList();
+    }
+
+    public bool AddSaveModel(ActionsTabSaveModelEntity entity)
+    {
+        _dbContext.ActionsTabSaveModel.Add(entity);
+        return _dbContext.SaveChanges() > 0;
+    }
+
+    public bool DeleteSaveModel(string id)
+    {
+        // if (!Guid.TryParse(id, out Guid guid))
+        //     throw  new ArgumentException("Invalid print tab id");
+
+        // Remove existing
+        var existingEntity = _dbContext.ActionsTabSaveModel.FirstOrDefault(x => x.Id == id);
+        if (existingEntity == null)
+            return false;
+        
+        _dbContext.ActionsTabSaveModel.Remove(existingEntity);
+        return _dbContext.SaveChanges() > 0;
+    }
+
+    public bool UpdateSaveModel(ActionsTabSaveModelEntity entity)
+    {
+        // Remove existing
+        if (!DeleteSaveModel(entity.Id))
+            return false;
+        
+        // Add new
+        return AddSaveModel(entity);
+    }
+    #endregion Save Model
+
+    #region Save Drawing
+    public List<ActionsTabSaveDrawingEntity> GetSaveDrawing()
+    {
+        return _dbContext.ActionsTabSaveDrawing.ToList();
+    }
+
+    public bool AddSaveDrawing(ActionsTabSaveDrawingEntity entity)
+    {
+        _dbContext.ActionsTabSaveDrawing.Add(entity);
+        return _dbContext.SaveChanges() > 0;
+    }
+
+    public bool DeleteSaveDrawing(string id)
+    {
+        // if (!Guid.TryParse(id, out Guid guid))
+        //     throw  new ArgumentException("Invalid print tab id");
+
+        // Remove existing
+        var existingEntity = _dbContext.ActionsTabSaveDrawing.FirstOrDefault(x => x.Id == id);
+        if (existingEntity == null)
+            return false;
+        
+        _dbContext.ActionsTabSaveDrawing.Remove(existingEntity);
+        return _dbContext.SaveChanges() > 0;
+    }
+
+    public bool UpdateSaveDrawing(ActionsTabSaveDrawingEntity entity)
+    {
+        // Remove existing
+        if (!DeleteSaveDrawing(entity.Id))
+            return false;
+        
+        // Add new
+        return AddSaveDrawing(entity);
+    }
+    #endregion Save Drawing
+
+    #region Import File
+    public List<ActionsTabImportFileEntity> GetImportFile()
+    {
+        return _dbContext.ActionsTabImportFile.ToList();
+    }
+
+    public bool AddImportFile(ActionsTabImportFileEntity entity)
+    {
+        _dbContext.ActionsTabImportFile.Add(entity);
+        return _dbContext.SaveChanges() > 0;
+    }
+
+    public bool DeleteImportFile(string id)
+    {
+        // if (!Guid.TryParse(id, out Guid guid))
+        //     throw  new ArgumentException("Invalid print tab id");
+
+        // Remove existing
+        var existingEntity = _dbContext.ActionsTabImportFile.FirstOrDefault(x => x.Id == id);
+        if (existingEntity == null)
+            return false;
+        
+        _dbContext.ActionsTabImportFile.Remove(existingEntity);
+        return _dbContext.SaveChanges() > 0;
+    }
+
+    public bool UpdateImportFile(ActionsTabImportFileEntity entity)
+    {
+        // Remove existing
+        if (!DeleteImportFile(entity.Id))
+            return false;
+        
+        // Add new
+        return AddImportFile(entity);
+    }
+    #endregion Import File
+
+    #region Drawing Templates
+    public List<ActionsTabDrawingTemplateEntity> GetDrawingTemplates()
+    {
+        return _dbContext.ActionsTabDrawingTemplate.ToList();
+    }
+
+    public bool AddDrawingTemplates(ActionsTabDrawingTemplateEntity entity)
+    {
+        _dbContext.ActionsTabDrawingTemplate.Add(entity);
+        return _dbContext.SaveChanges() > 0;
+    }
+
+    public bool DeleteDrawingTemplates(string id)
+    {
+        // if (!Guid.TryParse(id, out Guid guid))
+        //     throw  new ArgumentException("Invalid print tab id");
+
+        // Remove existing
+        var existingEntity = _dbContext.ActionsTabDrawingTemplate.FirstOrDefault(x => x.Id == id);
+        if (existingEntity == null)
+            return false;
+        
+        _dbContext.ActionsTabDrawingTemplate.Remove(existingEntity);
+        return _dbContext.SaveChanges() > 0;
+    }
+
+    public bool UpdateDrawingTemplates(ActionsTabDrawingTemplateEntity entity)
+    {
+        // Remove existing
+        if (!DeleteDrawingTemplates(entity.Id))
+            return false;
+        
+        // Add new
+        return AddDrawingTemplates(entity);
+    }
+    #endregion Drawing Templates
+
+    #region Macros
+    public List<ActionsTabMacrosEntity> GetMacros()
+    {
+        return _dbContext.ActionsTabMacros.ToList();
+    }
+
+    public bool AddMacros(ActionsTabMacrosEntity entity)
+    {
+        _dbContext.ActionsTabMacros.Add(entity);
+        return _dbContext.SaveChanges() > 0;
+    }
+
+    public bool DeleteMacros(string id)
+    {
+        // if (!Guid.TryParse(id, out Guid guid))
+        //     throw  new ArgumentException("Invalid print tab id");
+
+        // Remove existing
+        var existingEntity = _dbContext.ActionsTabMacros.FirstOrDefault(x => x.Id == id);
+        if (existingEntity == null)
+            return false;
+        
+        _dbContext.ActionsTabMacros.Remove(existingEntity);
+        return _dbContext.SaveChanges() > 0;
+    }
+
+    public bool UpdateMacros(ActionsTabMacrosEntity entity)
+    {
+        // Remove existing
+        if (!DeleteMacros(entity.Id))
+            return false;
+        
+        // Add new
+        return AddMacros(entity);
+    }
+    #endregion Macros
 
     #endregion Actions
     

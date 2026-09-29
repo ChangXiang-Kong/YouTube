@@ -19,6 +19,12 @@ public class AppDbContext : DbContext
     public DbSet<ActionsPrintSettingsEntity> ActionsPrintSettings { get; set; }
     public DbSet<ActionsPrintSettingsProfileEntity> ActionsPrintSettingsProfile { get; set; }
     public DbSet<ActionsTabCustomPropertiesEntity> ActionsTabCustomProperties { get; set; }
+    public DbSet<ActionsTabFileInfoEntity> ActionsTabFileInfo { get; set; }
+    public DbSet<ActionsTabSaveModelEntity> ActionsTabSaveModel { get; set; }
+    public DbSet<ActionsTabSaveDrawingEntity> ActionsTabSaveDrawing { get; set; }
+    public DbSet<ActionsTabImportFileEntity> ActionsTabImportFile { get; set; }
+    public DbSet<ActionsTabDrawingTemplateEntity> ActionsTabDrawingTemplate { get; set; }
+    public DbSet<ActionsTabMacrosEntity> ActionsTabMacros { get; set; }
     
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -161,6 +167,25 @@ public class AppDbContext : DbContext
         
         // ActionsTabCustomPropertiesEntity
         // modelBuilder.Entity<ActionsTabCustomPropertiesEntity>().HasKey(x => x.Id);    // 显式标记 主键 为 Id。若 xxxEntity 已添加 名为 Id 的 属性，EFCore会自动将其识别为 主键，这里就不需要了
+    
+        // ActionsTabFileInfoEntity
+        // modelBuilder.Entity<ActionsTabFileInfoEntity>().HasKey(x => x.Id);    // 显式标记 主键 为 Id。若 xxxEntity 已添加 名为 Id 的 属性，EFCore会自动将其识别为 主键，这里就不需要了
+        
+        // ActionsTabSaveModelEntity
+        // modelBuilder.Entity<ActionsTabSaveModelEntity>().HasKey(x => x.Id);    // 显式标记 主键 为 Id。若 xxxEntity 已添加 名为 Id 的 属性，EFCore会自动将其识别为 主键，这里就不需要了
+        
+        // ActionsTabSaveDrawingEntity
+        // modelBuilder.Entity<ActionsTabSaveDrawingEntity>().HasKey(x => x.Id);    // 显式标记 主键 为 Id。若 xxxEntity 已添加 名为 Id 的 属性，EFCore会自动将其识别为 主键，这里就不需要了
+        
+        // ActionsTabImportFileEntity
+        // modelBuilder.Entity<ActionsTabImportFileEntity>().HasKey(x => x.Id);    // 显式标记 主键 为 Id。若 xxxEntity 已添加 名为 Id 的 属性，EFCore会自动将其识别为 主键，这里就不需要了
+        
+        // ActionsTabDrawingTemplateEntity
+        // modelBuilder.Entity<ActionsTabDrawingTemplateEntity>().HasKey(x => x.Id);    // 显式标记 主键 为 Id。若 xxxEntity 已添加 名为 Id 的 属性，EFCore会自动将其识别为 主键，这里就不需要了
+        
+        // ActionsTabMacrosEntity
+        // modelBuilder.Entity<ActionsTabMacrosEntity>().HasKey(x => x.Id);    // 显式标记 主键 为 Id。若 xxxEntity 已添加 名为 Id 的 属性，EFCore会自动将其识别为 主键，这里就不需要了
+        
     }
 
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)

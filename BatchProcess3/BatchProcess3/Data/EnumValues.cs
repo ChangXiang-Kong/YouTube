@@ -80,31 +80,28 @@ namespace BatchProcess3.Data
     
     public enum ApplicationPageName
     {
-        Unknown = 0,
-        Home = 1,
-        Process = 2,
-        Actions = 3,
-        Macros = 4,
-        Reporter = 5,
-        History = 6,
-        Settings = 7,
-        Detail = 8,
+        Home = 0,
+        Process = 1,
+        Actions = 2,
+        Macros = 3,
+        Reporter = 4,
+        History = 5,
+        Settings = 6,
+        Detail = 7,
     }
     
     public enum ActionsPageName
     {
-        Unknown = 0,
-        Print = 1,
-        CustomProperties = 2,
-        FileInfo = 3,
-        SaveModelAs = 4,
-        SaveDrawingAs = 5,
-        ImportFile = 6,
-        DrawingTemplates = 7,
-        Macros = 8,
+        Print = 0,
+        CustomProperties = 1,
+        FileInfo = 2,
+        SaveModelAs = 3,
+        SaveDrawingAs = 4,
+        ImportFile = 5,
+        DrawingTemplates = 6,
+        Macros = 7,
     }
 
-    #region ActionsMenu CustomPropertiesTab
     public enum CustomPropertyRuleType
     {
         Add = 0,
@@ -120,5 +117,11 @@ namespace BatchProcess3.Data
         Date = 2,
         YesNo = 3,
     }
-    #endregion ActionsMenu CustomPropertiesTab
+    
+    public enum DrawingTemplateOperation
+    {
+        Reload = 0,
+        Set = 1,
+        Replace = 2
+    }
 }

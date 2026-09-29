@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using BatchProcess3.Data;
 
 namespace BatchProcess3.EntityFramework.Entities.Actions;
@@ -12,18 +13,22 @@ namespace BatchProcess3.EntityFramework.Entities.Actions;
 [Table("ActionsTabCustomProperties")]
 public class ActionsTabCustomPropertiesEntity : BaseEntity
 {
+    [MaxLength(200)]
     public string JobName { get; set; } = "";
     
+    [MaxLength(500)]
     public string Description { get; set; } = "";
     
     public CustomPropertyRuleType RuleType { get; set; }
 
+    [MaxLength(5000)]
     public string FilterLogic { get; set; } = "";
 
     public bool SetCustomProperty { get; set; }
 
     public bool SetConfigSpecificProperties { get; set; }
 
+    [MaxLength(1000)]
     public string SetConfigurationPropertiesFilter { get; set; } = "";
 
     public bool ExcludeParts { get; set; }
@@ -34,14 +39,19 @@ public class ActionsTabCustomPropertiesEntity : BaseEntity
 
     public CustomPropertyFieldType FieldType { get; set; }
     
+    [MaxLength(500)]
     public string FieldName { get; set; } = "";
     
+    [MaxLength(5000)]
     public string ValueRule { get; set; } = "";
     
+    [MaxLength(500)]
     public string ChangeNameTo { get; set; } = "";
     
+    [MaxLength(100)]
     public string CopyFromConfiguration { get; set; } = "";
     
+    [MaxLength(500)]
     public string CopyToField { get; set; } = "";
 
 }

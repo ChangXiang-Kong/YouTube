@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BatchProcess3.EntityFramework.Entities.Actions;
@@ -12,20 +13,25 @@ namespace BatchProcess3.EntityFramework.Entities.Actions;
 [Table("ActionsTabPrint")]
 public class ActionsTabPrintEntity : BaseEntity
 {
+    [MaxLength(200)]
     public string JobName { get; set; } = "";
 
+    [MaxLength(5000)]
     public string Description { get; set; } = "";
 
     public bool PrintModels { get; set; }
 
     public bool PrintDrawings { get; set; }
 
+    [MaxLength(500)]
     public string PrintDrawingRange { get; set; } = "";
 
     public bool DrawingExclusionIsWhiteList { get; set; }
 
+    [MaxLength(1000)]
     public string DrawingExclusionList { get; set; } = "";
 
+    [MaxLength(100)]
     // public Guid PrintSettingsId { get; set; }
     public string PrintSettingsId { get; set; } = "";   // （外键属性）
 
