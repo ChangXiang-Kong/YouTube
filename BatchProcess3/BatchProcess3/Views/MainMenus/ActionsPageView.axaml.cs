@@ -44,7 +44,7 @@ public partial class ActionsPageView : UserControl
             ActionsTabSaveModelView => ActionsPageName.SaveModelAs,
             ActionsTabSaveDrawingView => ActionsPageName.SaveDrawingAs,
             ActionsTabImportFileView => ActionsPageName.ImportFile,
-            ActionsTabDrawingTemplateView => ActionsPageName.DrawingTemplates,
+            ActionsTabDrawingTemplatesView => ActionsPageName.DrawingTemplates,
             ActionsTabMacrosView => ActionsPageName.Macros,
             _ => ActionsPageName.Print
         };

@@ -5,9 +5,9 @@ using BatchProcess3.ViewModels.Actions;
 
 namespace BatchProcess3.Views.Actions;
 
-public partial class ActionsTabDrawingTemplateView : UserControl
+public partial class ActionsTabDrawingTemplatesView : UserControl
 {
-    public ActionsTabDrawingTemplateView()
+    public ActionsTabDrawingTemplatesView()
     {
         InitializeComponent();
     }

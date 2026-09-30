@@ -14,7 +14,6 @@ public partial class ActionsTabFileInfoView : UserControl
 
     private void SelectingItemsControl_OnSelectionChanged(object? sender, SelectionChangedEventArgs e)
     {
-        
         // if (e.AddedItems == null) return;
         // var item = e.AddedItems[0];
         // if (item is ActionsPrintViewModel)

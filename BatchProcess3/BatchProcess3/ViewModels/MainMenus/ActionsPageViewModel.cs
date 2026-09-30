@@ -108,6 +108,40 @@ public partial class ActionsPageViewModel(
     
     public ActionsTabSaveModelViewModel? SelectedSaveModelItem
         => SaveModelList.FirstOrDefault(x => x.Id == SelectedSaveModelItemId);
+
+    public ObservableCollection<string> SaveModelFormats =
+    [
+        "Lib Feat Part (*.sldfp)",
+        "Assembly file to Part (*.sldprt)",
+        "Part Templates (*.prtdot)",
+        "Assembly Templates (*.asmdot)",
+        "Form Tool (*.sldftp)",
+        "Parasolid (*.x_t)",
+        "Parasolid Binary (*.x_b)",
+        "DXF (*.dxf)",
+        "DWG (*.dwg)",
+        "IGES (*.igs)",
+        "STEP (*.step)",
+        "ACIS (*.sat)",
+        "VDAFS (*.vda)",
+        "VRML (*.wrl)",
+        "STL (*.stl)",
+        "eDrawings Part (*.eprt)",
+        "eDrawings Assembly (*.easm)",
+        "Adobe PDF (*.pdf)",
+        "Universal 3D (*.u3d)",
+        "3D XML (*.3dxml)",
+        "Adobe Photoshop (*.psd)",
+        "Adobe Illustrator (*.ai)",
+        "Microsoft XAML (*.xaml)",
+        "Catia Graphics (*.cgr)",
+        "ProE Part (*.prt)",
+        "ProE Assembly (*.asm)",
+        "JPEG (*.jpg)",
+        "HCG (*.hcg)",
+        "HOOPS HSF (*.hsf)",
+        "Tif (*.tif)"
+    ];
     
     #endregion Save Model
     
@@ -125,6 +159,19 @@ public partial class ActionsPageViewModel(
     
     public ActionsTabSaveDrawingViewModel? SelectedSaveDrawingItem
         => SaveDrawingList.FirstOrDefault(x => x.Id == SelectedSaveDrawingItemId);
+    
+    public ObservableCollection<string> SaveDrawingFormats =>
+    [
+        "Detached Drawing (*.slddrw)",
+        "DXF (*.dxf)",
+        "DWG (*.dwg)",
+        "Photoshop File (*.psd)",
+        "Illustrator File (*.ai)",
+        "PDF (*.pdf)",
+        "eDrawing (*.edrw)",
+        "JPEG (*.jpg)",
+        "Tif (*.tif)"
+    ];
     
     #endregion Save Drawing
     
@@ -166,7 +213,7 @@ public partial class ActionsPageViewModel(
     
     [ObservableProperty] 
     [NotifyPropertyChangedFor(nameof(MacrosListHasItems))]
-    private ObservableCollection<ActionsTabMacrosViewModel> _MacrosList = [];
+    private ObservableCollection<ActionsTabMacrosViewModel> _macrosList = [];
     
     public bool MacrosListHasItems => MacrosList.Any();
     
@@ -185,6 +232,12 @@ public partial class ActionsPageViewModel(
     {
         FetchPrintTabList();
         FetchCustomPropertiesList();
+        FetchFileInfoList();
+        FetchSaveModelList();
+        FetchSaveDrawingList();
+        FetchImportFileList();
+        FetchDrawingTemplatesList();
+        FetchMacrosList();
     }
 
     #region Actions Page Methods
@@ -196,7 +249,7 @@ public partial class ActionsPageViewModel(
         {
             case ActionsPageName.Print: FetchPrintTabList(); break;
             case ActionsPageName.CustomProperties: FetchCustomPropertiesList(); break;
-            case ActionsPageName.FileInfo: FetchCustomPropertiesList(); break;
+            case ActionsPageName.FileInfo: FetchFileInfoList(); break;
             case ActionsPageName.SaveModelAs: FetchSaveModelList(); break;
             case ActionsPageName.SaveDrawingAs: FetchSaveDrawingList(); break;
             case ActionsPageName.ImportFile: FetchImportFileList(); break;
@@ -225,7 +278,7 @@ public partial class ActionsPageViewModel(
         // Update PrintTabsListHasItems when collection changes
         PrintTabsList.CollectionChanged += (_, _) => OnPropertyChanged(nameof(PrintTabsListHasItems));
 
-        if (PrintTabsList.Count < 0)
+        if (PrintTabsList.Count <= 0)
             return;
         
         // Select first item
@@ -578,7 +631,7 @@ public partial class ActionsPageViewModel(
         // Update CustomPropertiesListHasItems when collection changes
         CustomPropertiesList.CollectionChanged += (_, _) => OnPropertyChanged(nameof(CustomPropertiesListHasItems));
 
-        if (CustomPropertiesList.Count < 0)
+        if (CustomPropertiesList.Count <= 0)
             return;
         
         // Select first item
@@ -592,9 +645,6 @@ public partial class ActionsPageViewModel(
     [RelayCommand]
     private void AddNewCustomPropertyItem()
     {
-        // Fetch print Settings
-        var customProperties = databaseService.GetCustomProperties();
-        
         // Crate a new item
         var newItem = new ActionsTabCustomPropertyViewModel()
         {
@@ -717,7 +767,7 @@ public partial class ActionsPageViewModel(
         // Update FileInfoListHasItems when collection changes
         FileInfoList.CollectionChanged += (_, _) => OnPropertyChanged(nameof(FileInfoListHasItems));
 
-        if (FileInfoList.Count < 0)
+        if (FileInfoList.Count <= 0)
             return;
         
         // Select first item
@@ -731,9 +781,6 @@ public partial class ActionsPageViewModel(
     [RelayCommand]
     private void AddNewFileInfoItem()
     {
-        // Fetch print Settings
-        var fileInfo = databaseService.GetFileInfo();
-        
         // Crate a new item
         var newItem = new ActionsTabFileInfoViewModel()
         {
@@ -856,7 +903,7 @@ public partial class ActionsPageViewModel(
         // Update SaveModelListHasItems when collection changes
         SaveModelList.CollectionChanged += (_, _) => OnPropertyChanged(nameof(SaveModelListHasItems));
 
-        if (SaveModelList.Count < 0)
+        if (SaveModelList.Count <= 0)
             return;
         
         // Select first item
@@ -992,7 +1039,7 @@ public partial class ActionsPageViewModel(
         // Update SaveDrawingListHasItems when collection changes
         SaveDrawingList.CollectionChanged += (_, _) => OnPropertyChanged(nameof(SaveDrawingListHasItems));
 
-        if (SaveDrawingList.Count < 0)
+        if (SaveDrawingList.Count <= 0)
             return;
         
         // Select first item
@@ -1128,7 +1175,7 @@ public partial class ActionsPageViewModel(
         // Update ImportFileListHasItems when collection changes
         ImportFileList.CollectionChanged += (_, _) => OnPropertyChanged(nameof(ImportFileListHasItems));
 
-        if (ImportFileList.Count < 0)
+        if (ImportFileList.Count <= 0)
             return;
         
         // Select first item
@@ -1254,17 +1301,17 @@ public partial class ActionsPageViewModel(
     [RelayCommand]
     private void FetchDrawingTemplatesList()
     {
-        var drawingTemplatess = databaseService.GetDrawingTemplates();
+        var drawingTemplates = databaseService.GetDrawingTemplates();
         
         // TODO: Move this logic to a service / provider
-        DrawingTemplatesList = new ObservableCollection<ActionsTabDrawingTemplatesViewModel>(drawingTemplatess
+        DrawingTemplatesList = new ObservableCollection<ActionsTabDrawingTemplatesViewModel>(drawingTemplates
             .OrderBy(x => x.JobName)
             .Select(x => x.ToViewModel()));
         
         // Update DrawingTemplatesListHasItems when collection changes
         DrawingTemplatesList.CollectionChanged += (_, _) => OnPropertyChanged(nameof(DrawingTemplatesListHasItems));
 
-        if (DrawingTemplatesList.Count < 0)
+        if (DrawingTemplatesList.Count <= 0)
             return;
         
         // Select first item
@@ -1400,7 +1447,7 @@ public partial class ActionsPageViewModel(
         // Update MacrosListHasItems when collection changes
         MacrosList.CollectionChanged += (_, _) => OnPropertyChanged(nameof(MacrosListHasItems));
 
-        if (MacrosList.Count < 0)
+        if (MacrosList.Count <= 0)
             return;
         
         // Select first item

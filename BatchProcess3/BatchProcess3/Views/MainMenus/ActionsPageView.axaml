@@ -56,7 +56,7 @@
         </TabItem>
 
         <TabItem Header="Drawing Templates">
-          <actions:ActionsTabDrawingTemplateView />
+          <actions:ActionsTabDrawingTemplatesView />
         </TabItem>
 
         <TabItem Header="Macros">

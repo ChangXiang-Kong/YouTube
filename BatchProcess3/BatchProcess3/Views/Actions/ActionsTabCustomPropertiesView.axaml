@@ -88,10 +88,12 @@
         <Label Grid.Row="0" Classes="h2" Content="General Settings" />
         <TextBlock Grid.Row="2" Margin="0,-10,0,0" Text="Set the main properties of the custom property job." />
         <Grid Grid.Row="4" ColumnDefinitions="130, 10, *" RowDefinitions="Auto, 10, Auto">
+          <!--  Job Name  -->
           <Label Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Content="Job Name" />
           <TextBox Name="TextBox_JobName" Grid.Row="0" Grid.Column="2"
                    Text="{Binding SelectedCustomPropertyItem.JobName}"
                    ToolTip.Tip="{Binding SelectedCustomPropertyItem.JobName}" />
+          <!--  Description  -->
           <Label Grid.Row="2" Grid.Column="0" VerticalAlignment="Top" Content="Description" />
           <TextBox Grid.Row="2" Grid.Column="2" Height="90"
                    AcceptsReturn="True"
@@ -104,12 +106,13 @@
         <TextBlock Grid.Row="8" Margin="0,-10,0,0" Text="Select the type of action and then the appropriate fields for that type." TextWrapping="Wrap" />
 
         <Grid Grid.Row="10" ColumnDefinitions="130, 10, *" RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, Auto">
+          <!--  Rule Type  -->
           <Label Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Content="Rule Type" />
           <ComboBox Grid.Row="0" Grid.Column="2" Margin="0,5"
                     HorizontalAlignment="Stretch"
                     ItemsSource="{Binding CustomPropertyRuleTypes}"
                     SelectedItem="{Binding SelectedCustomPropertyItem.RuleType}" />
-
+          <!--  Field Name  -->
           <Label Grid.Row="1" Grid.Column="0" VerticalAlignment="Center"
                  Content="Field Name"
                  IsVisible="{Binding SelectedCustomPropertyItem.FieldNameIsVisible}" />
@@ -117,7 +120,7 @@
                    HorizontalAlignment="Stretch"
                    IsVisible="{Binding SelectedCustomPropertyItem.FieldNameIsVisible}"
                    Text="{Binding SelectedCustomPropertyItem.FieldName}" />
-
+          <!--  Field Type  -->
           <Label Grid.Row="2" Grid.Column="0" VerticalAlignment="Center"
                  Content="Field Type"
                  IsVisible="{Binding SelectedCustomPropertyItem.FieldTypeIsVisible}" />
@@ -126,7 +129,7 @@
                     IsVisible="{Binding SelectedCustomPropertyItem.FieldTypeIsVisible}"
                     ItemsSource="{Binding CustomPropertyFieldTypes}"
                     SelectedItem="{Binding SelectedCustomPropertyItem.FieldType}" />
-
+          <!--  Change Name To  -->
           <Label Grid.Row="3" Grid.Column="0" VerticalAlignment="Center"
                  Content="Change Name To"
                  IsVisible="{Binding SelectedCustomPropertyItem.ChangeNameToIsVisible}" />
@@ -134,7 +137,7 @@
                    HorizontalAlignment="Stretch"
                    IsVisible="{Binding SelectedCustomPropertyItem.ChangeNameToIsVisible}"
                    Text="{Binding SelectedCustomPropertyItem.ChangeNameTo}" />
-
+          <!--  Value Rule  -->
           <Label Grid.Row="4" Grid.Column="0" VerticalAlignment="Center"
                  Content="Value Rule"
                  IsVisible="{Binding SelectedCustomPropertyItem.ValueRuleIsVisible}" />
@@ -142,7 +145,7 @@
                    HorizontalAlignment="Stretch"
                    IsVisible="{Binding SelectedCustomPropertyItem.ValueRuleIsVisible}"
                    Text="{Binding SelectedCustomPropertyItem.ValueRule}" />
-
+          <!--  Copy From Config  -->
           <Label Grid.Row="5" Grid.Column="0" VerticalAlignment="Center"
                  Content="Copy From Config"
                  IsVisible="{Binding SelectedCustomPropertyItem.CopyFromConfigurationIsVisible}" />
@@ -150,7 +153,7 @@
                    HorizontalAlignment="Stretch"
                    IsVisible="{Binding SelectedCustomPropertyItem.CopyFromConfigurationIsVisible}"
                    Text="{Binding SelectedCustomPropertyItem.CopyFromConfiguration}" />
-
+          <!--  Copy To Field  -->
           <Label Grid.Row="6" Grid.Column="0" VerticalAlignment="Center"
                  Content="Copy To Field"
                  IsVisible="{Binding SelectedCustomPropertyItem.CopyToFieldIsVisible}" />

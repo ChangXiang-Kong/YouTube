@@ -88,15 +88,49 @@
         <Label Grid.Row="0" Classes="h2" Content="General Settings" />
         <TextBlock Grid.Row="2" Margin="0,-10,0,0" Text="Set the main properties of the File Info job." />
         <Grid Grid.Row="4" ColumnDefinitions="130, 10, *" RowDefinitions="Auto, 10, Auto">
+          <!--  Job Name  -->
           <Label Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Content="Job Name" />
           <TextBox Name="TextBox_JobName" Grid.Row="0" Grid.Column="2"
                    Text="{Binding SelectedFileInfoItem.JobName}"
                    ToolTip.Tip="{Binding SelectedFileInfoItem.JobName}" />
+          <!--  Description  -->
           <Label Grid.Row="2" Grid.Column="0" VerticalAlignment="Top" Content="Description" />
           <TextBox Grid.Row="2" Grid.Column="2" Height="90"
                    AcceptsReturn="True"
                    Text="{Binding SelectedFileInfoItem.Description}"
                    TextWrapping="Wrap" />
+        </Grid>
+
+        <!--  Details  -->
+        <Label Grid.Row="6" Classes="h2" Content="Details" />
+        <TextBlock Grid.Row="8" Margin="0,-10,0,0" Text="Specify the additional details." TextWrapping="Wrap" />
+        <Grid Grid.Row="10" ColumnDefinitions="130, 10, *" RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, Auto">
+          <!--  Title  -->
+          <Label Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Content="Title" />
+          <TextBox Grid.Row="0" Grid.Column="2" Margin="0,5"
+                   Text="{Binding SelectedFileInfoItem.Title}"
+                   ToolTip.Tip="{Binding SelectedFileInfoItem.Title}" />
+          <!--  Subject  -->
+          <Label Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Content="Subject" />
+          <TextBox Grid.Row="1" Grid.Column="2" Margin="0,5"
+                   Text="{Binding SelectedFileInfoItem.Subject}"
+                   ToolTip.Tip="{Binding SelectedFileInfoItem.Subject}" />
+          <!--  Author  -->
+          <Label Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Content="Author" />
+          <TextBox Grid.Row="2" Grid.Column="2" Margin="0,5"
+                   Text="{Binding SelectedFileInfoItem.Author}"
+                   ToolTip.Tip="{Binding SelectedFileInfoItem.Author}" />
+          <!--  Keywords  -->
+          <Label Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" Content="Keywords" />
+          <TextBox Grid.Row="3" Grid.Column="2" Margin="0,5"
+                   Text="{Binding SelectedFileInfoItem.Keywords}"
+                   ToolTip.Tip="{Binding SelectedFileInfoItem.Keywords}" />
+          <!--  Comments  -->
+          <Label Grid.Row="4" Grid.Column="0" VerticalAlignment="Top" Content="Comments" />
+          <TextBox Grid.Row="4" Grid.Column="2" Height="90"
+                   Margin="0,5" AcceptsReturn="True"
+                   Text="{Binding SelectedFileInfoItem.Comments}"
+                   ToolTip.Tip="{Binding SelectedFileInfoItem.Comments}" />
         </Grid>
       </Grid>
 

@@ -31,7 +31,7 @@ public partial class ActionsTabSaveDrawingViewModel : ViewModelBase
     
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(HasChanged))]
-    private ObservableCollection<string> _sheetsFilter = [];
+    private string _sheetsFilter = "";
     
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(HasChanged))]
@@ -67,7 +67,7 @@ public static class ActionsTabSaveDrawingViewModelExtensions
         FileName = viewModel.FileName,
         SaveLocation = viewModel.SaveLocation,
         ExportFormats = viewModel.ExportFormats.ToList(),
-        SheetsFilter = viewModel.SheetsFilter.ToList(),
+        SheetsFilter = viewModel.SheetsFilter,
         SingleDwgDxf = viewModel.SingleDwgDxf,
         SingleEDrawing = viewModel.SingleEDrawing,
         SinglePdf = viewModel.SinglePdf
@@ -81,7 +81,7 @@ public static class ActionsTabSaveDrawingViewModelExtensions
         FileName = entity.FileName,
         SaveLocation = entity.SaveLocation,
         ExportFormats = new(entity.ExportFormats),
-        SheetsFilter = new(entity.SheetsFilter),
+        SheetsFilter = entity.SheetsFilter,
         SingleDwgDxf = entity.SingleDwgDxf,
         SingleEDrawing = entity.SingleEDrawing,
         SinglePdf = entity.SinglePdf

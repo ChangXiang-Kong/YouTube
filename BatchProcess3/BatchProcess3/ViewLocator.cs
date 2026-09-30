@@ -3,14 +3,8 @@ using Avalonia.Controls.Templates;
 using BatchProcess3.ViewModels;
 using BatchProcess3.Views;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using BatchProcess3;
-using BatchProcess3.ViewModels;
 
 namespace BatchProcess3
 {
@@ -37,17 +31,17 @@ namespace BatchProcess3
                 // 尝试查找 ErrorPageView
                 var assembly = Assembly.GetExecutingAssembly(); // 获取当前应用程序的程序集
                 var projName = assembly.GetName().Name; // 或者 var projName = assembly.FullName;
-                var errorViewName = $"{projName}.Views.ErrorPageView";
+                var errorViewName = $"{projName}.Views.{nameof(ErrorView)}";
                 var type = Type.GetType(errorViewName);
                 if (type is null)
                 {
                     // 输出调试信息
-                    Debug.WriteLine($"Not found view: {errorViewName}");
+                    Debug.WriteLine($"===== Not found view: {errorViewName}");
                     return null;
                 }
 
-                var controlErrorPageView = (Control)Activator.CreateInstance(type)!;
-                return controlErrorPageView;
+                var controlErrorView = (Control)Activator.CreateInstance(type)!;
+                return controlErrorView;
             }
         }
 

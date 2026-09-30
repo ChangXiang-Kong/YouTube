@@ -33,8 +33,7 @@ public partial class ActionsTabSaveModelViewModel : ViewModelBase
     [ObservableProperty] private bool _isNewItem;
 
     [JsonIgnore]
-    public new bool HasChanged =>
-        IsNewItem || (SavedState != "" && SavedState != JsonSerializer.Serialize(this, JsonSerializerOptions));
+    public new bool HasChanged => IsNewItem || (SavedState != "" && SavedState != JsonSerializer.Serialize(this, JsonSerializerOptions));
 
 }
 

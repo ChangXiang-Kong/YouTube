@@ -1,4 +1,4 @@
-<UserControl x:Class="BatchProcess3.Views.Actions.ActionsTabDrawingTemplateView"
+<UserControl x:Class="BatchProcess3.Views.Actions.ActionsTabDrawingTemplatesView"
              xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:ava="clr-namespace:Avalonia.Controls;assembly=Avalonia.Controls"
@@ -28,7 +28,7 @@
               Content="New Drawing Template Action" />
       <!--  绑定Model中的Id而不是Model本身  -->
       <ListBox Grid.Row="6"
-               ItemsSource="{Binding CustomPropertiesList}"
+               ItemsSource="{Binding DrawingTemplatesList}"
                SelectedValue="{Binding SelectedDrawingTemplatesItemId}"
                SelectedValueBinding="{Binding Id}"
                SelectionChanged="SelectingItemsControl_OnSelectionChanged">
@@ -55,7 +55,7 @@
     </Grid>
 
     <StackPanel Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center"
-                Opacity="{Binding !CustomPropertiesListHasItems}"
+                Opacity="{Binding !DrawingTemplatesListHasItems}"
                 Spacing="10">
       <StackPanel.Styles>
         <Style Selector="StackPanel">
@@ -69,10 +69,10 @@
 
       <TextBlock HorizontalAlignment="Center" Text="Drawing Template actions can be used to update, set or replace the sheet templates of a drawing." />
       <TextBlock HorizontalAlignment="Center" Text="To get started, create a new Drawing Template Action." />
-      <Button Margin="10" HorizontalAlignment="Center" Command="{Binding AddNewDrawingTemplatesItemCommand}" Content="ew Drawing Template Action" />
+      <Button Margin="10" HorizontalAlignment="Center" Command="{Binding AddNewDrawingTemplatesItemCommand}" Content="New Drawing Template Action" />
     </StackPanel>
 
-    <Grid Column="2" ColumnDefinitions="*, 30, *" Opacity="{Binding CustomPropertiesListHasItems}">
+    <Grid Column="2" ColumnDefinitions="*, 30, *" Opacity="{Binding DrawingTemplatesListHasItems}">
       <Grid.Styles>
         <Style Selector="Grid">
           <Setter Property="Transitions">
