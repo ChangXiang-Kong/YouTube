@@ -60,11 +60,25 @@
 
   <Style Selector="Label.icon-only">
     <Setter Property="Margin" Value="0" />
-    <Setter Property="FontSize" Value="{DynamicResource FontSize_18}"/>
+    <Setter Property="FontSize" Value="{DynamicResource FontSize_18}" />
   </Style>
 
   <Style Selector="Label.icon-outline">
     <Setter Property="FontFamily" Value="{DynamicResource Phosphor}" />
+  </Style>
+
+  <Style Selector="Label.subtle-hover">
+    <Setter Property="Transitions">
+      <Transitions>
+        <BrushTransition Property="Foreground" Duration="0:0:0.1" />
+      </Transitions>
+    </Setter>
+
+    <Setter Property="Foreground" Value="{DynamicResource PrimaryHoverForeground}" />
+
+    <Style Selector="^:pointerover">
+      <Setter Property="Foreground" Value="{DynamicResource PrimaryForeground}" />
+    </Style>
   </Style>
 
 

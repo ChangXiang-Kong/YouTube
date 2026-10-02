@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -1034,7 +1035,7 @@ public partial class ActionsPageViewModel(
         // TODO: Move this logic to a service / provider
         SaveDrawingList = new ObservableCollection<ActionsTabSaveDrawingViewModel>(saveDrawings
             .OrderBy(x => x.JobName)
-            .Select(x => x.ToViewModel()));
+            .Select(x => x.ToViewModel(SaveDrawingFormats)));
         
         // Update SaveDrawingListHasItems when collection changes
         SaveDrawingList.CollectionChanged += (_, _) => OnPropertyChanged(nameof(SaveDrawingListHasItems));
@@ -1059,6 +1060,7 @@ public partial class ActionsPageViewModel(
             Id = Guid.CreateVersion7().ToString(),
             JobName = "New Save Drawing Job",
             Description = "New Save Drawing Job",
+            ExportFormats = new ObservableCollection<ObservableKeyValuePair<string, bool>>(SaveDrawingFormats.Select(x => new ObservableKeyValuePair<string, bool>(x, false))),
             IsNewItem = true,
         };
 
