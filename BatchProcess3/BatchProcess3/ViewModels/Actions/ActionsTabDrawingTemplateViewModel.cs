@@ -6,7 +6,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace BatchProcess3.ViewModels.Actions;
 
-public partial class ActionsTabDrawingTemplatesViewModel : ViewModelBase
+public partial class ActionsTabDrawingTemplateViewModel : ViewModelBase
 {
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(HasChanged))]
@@ -21,19 +21,25 @@ public partial class ActionsTabDrawingTemplatesViewModel : ViewModelBase
     private string _description = "";
     
     [ObservableProperty]
-    private bool _isNewItem;
-    
-    [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(HasChanged))]
+    [NotifyPropertyChangedFor(nameof(CurrentTemplatePathIsVisible))]
+    [NotifyPropertyChangedFor(nameof(NewTemplatePathIsVisible))]
     private DrawingTemplateOperation _operation;
     
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(HasChanged))]
-    private string _currentTemplatePath = "";
+    private string? _currentTemplatePath;
+
+    public bool CurrentTemplatePathIsVisible => Operation is DrawingTemplateOperation.Replace;
     
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(HasChanged))]
-    private string _newTemplatePath = "";
+    private string? _newTemplatePath;
+    
+    public bool NewTemplatePathIsVisible => Operation is not DrawingTemplateOperation.Reload;
+    
+    [ObservableProperty]
+    private bool _isNewItem;
     
     [JsonIgnore]
     public new bool HasChanged => IsNewItem || (SavedState != "" && SavedState != JsonSerializer.Serialize(this, JsonSerializerOptions));
@@ -42,7 +48,7 @@ public partial class ActionsTabDrawingTemplatesViewModel : ViewModelBase
 
 public static class ActionsTabDrawingTemplateViewModelExtensions
 {
-    public static ActionsTabDrawingTemplateEntity ToEntity(this ActionsTabDrawingTemplatesViewModel viewModel) => new()
+    public static ActionsTabDrawingTemplateEntity ToEntity(this ActionsTabDrawingTemplateViewModel viewModel) => new()
     {
         Id = viewModel.Id,
         Description = viewModel.Description,
@@ -52,7 +58,7 @@ public static class ActionsTabDrawingTemplateViewModelExtensions
         NewTemplatePath = viewModel.NewTemplatePath
     };
 
-    public static ActionsTabDrawingTemplatesViewModel ToViewModel(this ActionsTabDrawingTemplateEntity entity) => new()
+    public static ActionsTabDrawingTemplateViewModel ToViewModel(this ActionsTabDrawingTemplateEntity entity) => new()
     {
         Id = entity.Id,
         Description = entity.Description,

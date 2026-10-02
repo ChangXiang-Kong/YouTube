@@ -35,7 +35,10 @@
         <ListBox.ItemTemplate>
           <DataTemplate x:DataType="vmActions:ActionsTabMacrosViewModel">
             <Grid ColumnDefinitions="*, Auto">
-              <Label Grid.Column="0" VerticalAlignment="Center" Content="{Binding JobName}" FontWeight="{Binding HasChanged, Converter={StaticResource BoolToBoldFontConverter}}" />
+              <Label Grid.Column="0" VerticalAlignment="Center" Background="Transparent"
+                     Content="{Binding JobName}"
+                     FontWeight="{Binding HasChanged, Converter={StaticResource BoolToBoldFontConverter}}"
+                     ToolTip.Tip="{Binding JobName}" />
               <Button Grid.Column="1" Margin="0,0,-8,0" Padding="0"
                       VerticalAlignment="Center" ava:ToolTip.Tip="Delete" Classes="smaller danger"
                       Command="{Binding $parent[ListBox].((mainMenus:ActionsPageViewModel)DataContext).DeleteMacrosItemCommand}"
@@ -87,16 +90,44 @@
       <Grid Grid.Column="0" RowDefinitions="Auto, 10, Auto, 10, Auto, 10, Auto, 10, Auto, 10, Auto, 10, *">
         <Label Grid.Row="0" Classes="h2" Content="General Settings" />
         <TextBlock Grid.Row="2" Margin="0,-10,0,0" Text="Set the main properties of the Macros job." />
-        <Grid Grid.Row="4" ColumnDefinitions="130, 10, *" RowDefinitions="Auto, 10, Auto">
+        <Grid Grid.Row="4" ColumnDefinitions="120, 10, 25, 5, *" RowDefinitions="Auto, 10, Auto, 10, Auto, 10, Auto, 10, Auto, Auto, Auto">
+          <!--  Job Name  -->
           <Label Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Content="Job Name" />
-          <TextBox Name="TextBox_JobName" Grid.Row="0" Grid.Column="2"
+          <TextBox Name="TextBox_JobName" Grid.Row="0" Grid.Column="4"
                    Text="{Binding SelectedMacrosItem.JobName}"
                    ToolTip.Tip="{Binding SelectedMacrosItem.JobName}" />
+          <!--  Description  -->
           <Label Grid.Row="2" Grid.Column="0" VerticalAlignment="Top" Content="Description" />
-          <TextBox Grid.Row="2" Grid.Column="2" Height="90"
+          <TextBox Grid.Row="2" Grid.Column="4" Height="90"
                    AcceptsReturn="True"
                    Text="{Binding SelectedMacrosItem.Description}"
                    TextWrapping="Wrap" />
+
+          <!--  Macro Path  -->
+          <Label Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" Content="Macro Path" />
+          <TextBox Grid.Row="4" Grid.Column="4" Text="{Binding SelectedMacrosItem.MacroPath}" />
+
+          <!--  Module Name  -->
+          <Label Grid.Row="6" Grid.Column="0" VerticalAlignment="Center" Content="Module Name" />
+          <TextBox Grid.Row="6" Grid.Column="4" Text="{Binding SelectedMacrosItem.ModuleName}" />
+
+          <!--  Exclude Parts  -->
+          <Label Grid.Row="8" Grid.Column="2" VerticalAlignment="Center"
+                 Classes="icon-only icon-outline subtle-hover" Content="&#xE3E8;"
+                 ToolTip.Tip="Exclude Parts" />
+          <CheckBox Grid.Row="8" Grid.Column="4" Content="Exclude Parts" IsChecked="{Binding SelectedMacrosItem.ExcludeParts}" />
+
+          <!--  Exclude Drawings  -->
+          <Label Grid.Row="9" Grid.Column="2" VerticalAlignment="Center"
+                 Classes="icon-only icon-outline subtle-hover" Content="&#xE3E8;"
+                 ToolTip.Tip="Exclude Drawings" />
+          <CheckBox Grid.Row="9" Grid.Column="4" Content="Exclude Drawings" IsChecked="{Binding SelectedMacrosItem.ExcludeDrawings}" />
+
+          <!--  Exclude Assemblies  -->
+          <Label Grid.Row="10" Grid.Column="2" VerticalAlignment="Center"
+                 Classes="icon-only icon-outline subtle-hover" Content="&#xE3E8;"
+                 ToolTip.Tip="Exclude Assemblies" />
+          <CheckBox Grid.Row="10" Grid.Column="4" Content="Exclude Assemblies" IsChecked="{Binding SelectedMacrosItem.ExcludeAssemblies}" />
         </Grid>
       </Grid>
 

@@ -74,7 +74,9 @@
       <ListBox.ItemTemplate>
         <DataTemplate x:DataType="x:String">
           <Grid ColumnDefinitions="*, Auto">
-            <Label Grid.Column="0" VerticalAlignment="Center" Content="{Binding}" />
+            <Label Grid.Column="0" VerticalAlignment="Center" Background="Transparent"
+                   Content="{Binding}"
+                   ToolTip.Tip="{Binding}" />
             <Button Grid.Column="1" Margin="0,-4,-4,-6" Padding="0"
                     VerticalAlignment="Center" ava:ToolTip.Tip="Delete" Classes="smaller danger"
                     Command="{Binding $parent[ListBox].((vm:SettingsPageViewModel)DataContext).DeleteLocationPathCommand}"

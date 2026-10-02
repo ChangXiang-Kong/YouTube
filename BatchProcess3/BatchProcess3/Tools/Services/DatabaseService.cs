@@ -427,18 +427,18 @@ public class DatabaseService(AppDbContext dbContext) : IDisposable
     #endregion Import File
 
     #region Drawing Templates
-    public List<ActionsTabDrawingTemplateEntity> GetDrawingTemplates()
+    public List<ActionsTabDrawingTemplateEntity> GetDrawingTemplate()
     {
         return _dbContext.ActionsTabDrawingTemplate.ToList();
     }
 
-    public bool AddDrawingTemplates(ActionsTabDrawingTemplateEntity entity)
+    public bool AddDrawingTemplate(ActionsTabDrawingTemplateEntity entity)
     {
         _dbContext.ActionsTabDrawingTemplate.Add(entity);
         return _dbContext.SaveChanges() > 0;
     }
 
-    public bool DeleteDrawingTemplates(string id)
+    public bool DeleteDrawingTemplate(string id)
     {
         // if (!Guid.TryParse(id, out Guid guid))
         //     throw  new ArgumentException("Invalid print tab id");
@@ -452,14 +452,53 @@ public class DatabaseService(AppDbContext dbContext) : IDisposable
         return _dbContext.SaveChanges() > 0;
     }
 
-    public bool UpdateDrawingTemplates(ActionsTabDrawingTemplateEntity entity)
+    public bool UpdateDrawingTemplate(ActionsTabDrawingTemplateEntity entity)
     {
         // Remove existing
-        if (!DeleteDrawingTemplates(entity.Id))
+        if (!DeleteDrawingTemplate(entity.Id))
             return false;
         
         // Add new
-        return AddDrawingTemplates(entity);
+        return AddDrawingTemplate(entity);
+    }
+
+    public void AddDrawingTemplatePaths(string[] paths)
+    {
+        // Ignore empty
+        if (paths.Length == 0)
+            return;
+        
+        var settings = GetSettings();
+        // Get existing paths
+        var existingPaths = settings.DrawingTemplatePaths;
+        
+        // Add if not already in the list
+        foreach (var path in paths)
+        {
+            if (!existingPaths.Any(x => string.Equals(x, path, StringComparison.OrdinalIgnoreCase)))
+                existingPaths.Add(path);
+        }
+        
+        // Sort alphabetically
+        settings.DrawingTemplatePaths = existingPaths.Order().ToList();
+        
+        // Update and Save settings
+        UpdateSettings(settings);
+    }
+
+    public void DeleteDrawingTemplatePaths(string[] paths)
+    {
+        // Get settings
+        var settings = GetSettings();
+        
+        // Get paths to keep
+        var filteredPathsToKeep = settings.DrawingTemplatePaths.Where(x => paths.All(f => !string.Equals(x, f, StringComparison.InvariantCultureIgnoreCase)));
+        
+        // Update paths
+        settings.DrawingTemplatePaths = filteredPathsToKeep.Order().ToList();
+        
+        // Save
+        UpdateSettings(settings);
     }
     #endregion Drawing Templates
 

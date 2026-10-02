@@ -21,7 +21,7 @@ public class SettingsEntity : BaseEntity
     public List<string> LocationPathsList { get; set; } = [];
     
     [MaxLength(100000)]
-    public List<string> DrawingTemplateSearchPaths { get; set; } = [];
+    public List<string> DrawingTemplatePaths { get; set; } = [];
 
     [MaxLength(100)]
     public string SolidWorksHost { get; set; } = "";    // 全部都要有默认值

@@ -42,7 +42,7 @@ public partial class ActionsTabSaveDrawingViewModel : ViewModelBase
     /// </summary>
     public ObservableCollection<ObservableKeyValuePair<string, bool>> ExportFormats
     {
-        get => field ?? [];
+        get => field ??= [];
         /*set
         {
             if (field == value)

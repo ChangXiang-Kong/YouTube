@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Controls;
+using Avalonia.Platform.Storage;
 using BatchProcess3.Data;
 using BatchProcess3.EntityFramework;
 using BatchProcess3.Tools.Services;
@@ -196,18 +197,24 @@ public partial class ActionsPageViewModel(
     #region Drawing Templates
     
     [ObservableProperty] 
-    [NotifyPropertyChangedFor(nameof(DrawingTemplatesListHasItems))]
-    private ObservableCollection<ActionsTabDrawingTemplatesViewModel> _drawingTemplatesList = [];
+    [NotifyPropertyChangedFor(nameof(DrawingTemplateListHasItems))]
+    private ObservableCollection<ActionsTabDrawingTemplateViewModel> _drawingTemplateList = [];
     
-    public bool DrawingTemplatesListHasItems => DrawingTemplatesList.Any();
+    public bool DrawingTemplateListHasItems => DrawingTemplateList.Any();
     
     [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(SelectedDrawingTemplatesItem))]
-    private string _selectedDrawingTemplatesItemId = "";
+    [NotifyPropertyChangedFor(nameof(SelectedDrawingTemplateItem))]
+    private string _selectedDrawingTemplateItemId = "";
     
-    public ActionsTabDrawingTemplatesViewModel? SelectedDrawingTemplatesItem
-        => DrawingTemplatesList.FirstOrDefault(x => x.Id == SelectedDrawingTemplatesItemId);
+    public ActionsTabDrawingTemplateViewModel? SelectedDrawingTemplateItem
+        => DrawingTemplateList.FirstOrDefault(x => x.Id == SelectedDrawingTemplateItemId);
     
+    public ObservableCollection<DrawingTemplateOperation> DrawingTemplateOperations => new(Enum.GetValues<DrawingTemplateOperation>());
+
+    [ObservableProperty]
+    private ObservableCollection<string> _drawingTemplateSelectedPaths = [];
+
+    public ObservableCollection<string> DrawingTemplatePaths => new(databaseService.GetSettings().DrawingTemplatePaths);
     #endregion Drawing Templates
     
     #region Macros
@@ -237,7 +244,7 @@ public partial class ActionsPageViewModel(
         FetchSaveModelList();
         FetchSaveDrawingList();
         FetchImportFileList();
-        FetchDrawingTemplatesList();
+        FetchDrawingTemplateList();
         FetchMacrosList();
     }
 
@@ -254,7 +261,7 @@ public partial class ActionsPageViewModel(
             case ActionsPageName.SaveModelAs: FetchSaveModelList(); break;
             case ActionsPageName.SaveDrawingAs: FetchSaveDrawingList(); break;
             case ActionsPageName.ImportFile: FetchImportFileList(); break;
-            case ActionsPageName.DrawingTemplates: FetchDrawingTemplatesList(); break;
+            case ActionsPageName.DrawingTemplates: FetchDrawingTemplateList(); break;
             case ActionsPageName.Macros: FetchMacrosList(); break;
         }
     }
@@ -899,7 +906,7 @@ public partial class ActionsPageViewModel(
         // TODO: Move this logic to a service / provider
         SaveModelList = new ObservableCollection<ActionsTabSaveModelViewModel>(saveModels
             .OrderBy(x => x.JobName)
-            .Select(x => x.ToViewModel()));
+            .Select(x => x.ToViewModel(SaveModelFormats)));
         
         // Update SaveModelListHasItems when collection changes
         SaveModelList.CollectionChanged += (_, _) => OnPropertyChanged(nameof(SaveModelListHasItems));
@@ -1301,34 +1308,34 @@ public partial class ActionsPageViewModel(
     #region Drawing Templates Methods 
     
     [RelayCommand]
-    private void FetchDrawingTemplatesList()
+    private void FetchDrawingTemplateList()
     {
-        var drawingTemplates = databaseService.GetDrawingTemplates();
+        var drawingTemplate = databaseService.GetDrawingTemplate();
         
         // TODO: Move this logic to a service / provider
-        DrawingTemplatesList = new ObservableCollection<ActionsTabDrawingTemplatesViewModel>(drawingTemplates
+        DrawingTemplateList = new ObservableCollection<ActionsTabDrawingTemplateViewModel>(drawingTemplate
             .OrderBy(x => x.JobName)
             .Select(x => x.ToViewModel()));
         
-        // Update DrawingTemplatesListHasItems when collection changes
-        DrawingTemplatesList.CollectionChanged += (_, _) => OnPropertyChanged(nameof(DrawingTemplatesListHasItems));
+        // Update DrawingTemplateListHasItems when collection changes
+        DrawingTemplateList.CollectionChanged += (_, _) => OnPropertyChanged(nameof(DrawingTemplateListHasItems));
 
-        if (DrawingTemplatesList.Count <= 0)
+        if (DrawingTemplateList.Count <= 0)
             return;
         
         // Select first item
-        SelectedDrawingTemplatesItemId = DrawingTemplatesList.First().Id;
+        SelectedDrawingTemplateItemId = DrawingTemplateList.First().Id;
 
         // Store last fetched database save states
-        foreach (var item in DrawingTemplatesList)
+        foreach (var item in DrawingTemplateList)
             item.SetSaveState();
     }
 
     [RelayCommand]
-    private void AddNewDrawingTemplatesItem()
+    private void AddNewDrawingTemplateItem()
     {
         // Crate a new item
-        var newItem = new ActionsTabDrawingTemplatesViewModel()
+        var newItem = new ActionsTabDrawingTemplateViewModel()
         {
             Id = Guid.CreateVersion7().ToString(),
             JobName = "New Drawing Templates Job",
@@ -1337,63 +1344,63 @@ public partial class ActionsPageViewModel(
         };
 
         // Add to the print list
-        DrawingTemplatesList.Add(newItem);
+        DrawingTemplateList.Add(newItem);
 
         // Select item
-        SelectedDrawingTemplatesItemId = newItem.Id;
+        SelectedDrawingTemplateItemId = newItem.Id;
     }
 
     [RelayCommand]
-    private async Task SaveDrawingTemplatesItemAsync()
+    private async Task SaveDrawingTemplateItemAsync()
     {
         // Ignore if no selection
-        if (SelectedDrawingTemplatesItem == null)
+        if (SelectedDrawingTemplateItem == null)
             return;
         
         // If the selected item is new
-        if (SelectedDrawingTemplatesItem.IsNewItem)
-            databaseService.AddDrawingTemplates(SelectedDrawingTemplatesItem.ToEntity());
+        if (SelectedDrawingTemplateItem.IsNewItem)
+            databaseService.AddDrawingTemplate(SelectedDrawingTemplateItem.ToEntity());
         else
-            databaseService.UpdateDrawingTemplates(SelectedDrawingTemplatesItem.ToEntity());
+            databaseService.UpdateDrawingTemplate(SelectedDrawingTemplateItem.ToEntity());
 
         // Flag new item as not new
-        SelectedDrawingTemplatesItem.IsNewItem = false;
+        SelectedDrawingTemplateItem.IsNewItem = false;
         // 保存状态以隐藏 Save 按钮
-        SelectedDrawingTemplatesItem.SetSaveState();
+        SelectedDrawingTemplateItem.SetSaveState();
     }
 
     [RelayCommand]
-    private async Task CancelDrawingTemplatesItemAsync()
+    private async Task CancelDrawingTemplateItemAsync()
     {
         // Ignore if nothing is selected
-        if (SelectedDrawingTemplatesItem == null)
+        if (SelectedDrawingTemplateItem == null)
             return;
 
         // If the selected item is new, delete it
         // Otherwise, restore from save state
-        if (SelectedDrawingTemplatesItem.IsNewItem)
-            await DeleteDrawingTemplatesItemFromUIAsync(SelectedDrawingTemplatesItem.Id, false);
+        if (SelectedDrawingTemplateItem.IsNewItem)
+            await DeleteDrawingTemplateItemFromUIAsync(SelectedDrawingTemplateItem.Id, false);
         else
-            SelectedDrawingTemplatesItem.RestoreState();
+            SelectedDrawingTemplateItem.RestoreState();
     }
 
     [RelayCommand]
-    private async Task DeleteDrawingTemplatesItemAsync(string id)
+    private async Task DeleteDrawingTemplateItemAsync(string id)
     {
-        if (DrawingTemplatesList.Count(x => x.Id == id) != 1)
+        if (DrawingTemplateList.Count(x => x.Id == id) != 1)
             // TODO: Throw/Warn?
             return;
 
         // If user selected to remove from UI (via confirm dialog)
-        if (await DeleteDrawingTemplatesItemFromUIAsync(id))
+        if (await DeleteDrawingTemplateItemFromUIAsync(id))
             // Delete from database
-            databaseService.DeleteDrawingTemplates(id);
+            databaseService.DeleteDrawingTemplate(id);
     }
 
     // ReSharper disable once InconsistentNaming
-    private async Task<bool> DeleteDrawingTemplatesItemFromUIAsync(string id, bool popupDialog = true)
+    private async Task<bool> DeleteDrawingTemplateItemFromUIAsync(string id, bool popupDialog = true)
     {
-        var index = DrawingTemplatesList.IndexOf(DrawingTemplatesList.First(x => x.Id == id));
+        var index = DrawingTemplateList.IndexOf(DrawingTemplateList.First(x => x.Id == id));
         if (index == -1)
             return false;
         
@@ -1408,7 +1415,7 @@ public partial class ActionsPageViewModel(
                 // IconForeground = "#fc8800";
                 // IconGeometry = StreamGeometry.Parse("M943.644188 827.215696l-351.176649-608.204749c-42.945473-74.36249-113.147387-74.36249-156.092861 0l-351.176649 608.204749c-42.946498 74.431167-7.811716 135.14955 78.012605 135.14955l702.420949 0C951.455904 962.36422 986.555836 901.645838 943.644188 827.215696zM466.187532 391.579035c12.621133-13.644108 28.66175-20.466675 48.233578-20.466675 19.580028 0 35.612444 6.75389 48.241778 20.194018 12.544256 13.473954 18.820484 30.325365 18.820484 50.587035 0 17.430551-26.19759 145.621205-34.929778 238.882082l-63.105666 0c-7.666162-93.259852-36.090106-221.450507-36.090106-238.882082C447.358847 421.938226 453.643275 405.155491 466.187532 391.579035zM561.76804 835.026386c-13.268949 12.928641-29.062535 19.375023-47.345906 19.375023-18.275171 0-34.076957-6.447407-47.346931-19.375023-13.235123-12.89379-19.818859-28.517221-19.818859-46.869269 0-18.249546 6.583736-34.043131 19.818859-47.278254 13.268949-13.235123 29.07176-19.852685 47.346931-19.852685 18.283371 0 34.076957 6.617562 47.345906 19.852685 13.235123 13.235123 19.827059 29.028709 19.827059 47.278254C581.595099 806.51019 575.003163 822.132597 561.76804 835.026386z");
                 Title = $"Delete Drawing Templates Item?",
-                Message = $"Are you sure you want to delete {DrawingTemplatesList[index].JobName}?",
+                Message = $"Are you sure you want to delete {DrawingTemplateList[index].JobName}?",
                 DialogWidth = 500,
             };
             
@@ -1421,15 +1428,46 @@ public partial class ActionsPageViewModel(
         }
         
         // Remove item
-        DrawingTemplatesList.RemoveAt(index);
+        DrawingTemplateList.RemoveAt(index);
 
         // Select the item before the deleted one
         if (index > 0)
             index--;
-        if (DrawingTemplatesList.Count > 0)
-            SelectedDrawingTemplatesItemId = DrawingTemplatesList[index].Id;
+        if (DrawingTemplateList.Count > 0)
+            SelectedDrawingTemplateItemId = DrawingTemplateList[index].Id;
 
         return true;
+    }
+    
+    [RelayCommand]
+    private async Task AddDrawingTemplatePaths()
+    {
+        var paths = await dialogService.ShowSelectFileDialogAsync(
+            title: "Select a drawing template", 
+            allowMultiple: true,
+            fileTypes: [
+                new FilePickerFileType("Drawing Template") { Patterns = ["*.slddrt"] }
+            ]);
+        
+        // Add to database
+        databaseService.AddDrawingTemplatePaths(paths);
+        
+        // Let the UI know the paths have changed
+        OnPropertyChanged(nameof(DrawingTemplatePaths));
+    }
+
+    [RelayCommand]
+    private void DeleteDrawingTemplatePaths()
+    {
+        // Ignore empty list
+        if (DrawingTemplateSelectedPaths.Count == 0)
+            return;
+        
+        // Delete from database
+        databaseService.DeleteDrawingTemplatePaths(DrawingTemplateSelectedPaths.ToArray());
+        
+        // Let the UI know the paths have changed
+        OnPropertyChanged(nameof(DrawingTemplatePaths));
     }
     
     #endregion Drawing Templates Methods

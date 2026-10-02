@@ -42,7 +42,7 @@ namespace BatchProcess3.ViewModels.MainMenus
         [ObservableProperty] private bool _skipNoActionFiles;
         [ObservableProperty] private bool _allowDuplicateEntries;
         [ObservableProperty] private ObservableCollection<string> _locationPathsList = [];
-        [ObservableProperty] private ObservableCollection<string> _drawingTemplateSearchPaths = [];
+        [ObservableProperty] private ObservableCollection<string> _drawingTemplatePaths = [];
         [ObservableProperty] private string _solidWorksHost = "";
         // TODO: Fetch from network pings
         [ObservableProperty] private ObservableCollection<string> _solidWorksHostsList = [ "localhost", "127.0.0.1", "192.168.0.10" ];
@@ -73,14 +73,19 @@ namespace BatchProcess3.ViewModels.MainMenus
         [RelayCommand]
         private async Task AddLocationPath()
         {
-            var res = await _dialogService.ShowSelectFolderDialogAsync();
+            var res = await _dialogService.ShowSelectFolderDialogAsync(
+                title: "Select a Folder", 
+                allowMultiple: true);
             
             // Dot not add if duplicate or cancelled
-            if (res == null || LocationPathsList.Any(x => string.Equals(x, res, StringComparison.InvariantCultureIgnoreCase)))
+            var newPaths = res.Where(path => !LocationPathsList.Any(x => string.Equals(x, path, StringComparison.InvariantCultureIgnoreCase))).ToList();
+    
+            if (newPaths.Count == 0)
                 return;
-            
+
             // Add to locations
-            LocationPathsList.Add(res);
+            foreach (var path in newPaths)
+                LocationPathsList.Add(path);
             
             // Sort alphabetically
             LocationPathsList = new ObservableCollection<string>(LocationPathsList.Order());
@@ -128,7 +133,7 @@ namespace BatchProcess3.ViewModels.MainMenus
             SkipNoActionFiles = SkipNoActionFiles,
             AllowDuplicateEntries = AllowDuplicateEntries,
             LocationPathsList = LocationPathsList.ToList(),
-            DrawingTemplateSearchPaths = DrawingTemplateSearchPaths.ToList(),
+            DrawingTemplatePaths = DrawingTemplatePaths.ToList(),
             SolidWorksHost = SolidWorksHost,
             PdmeVaultName = PdmeVaultName,
             PdmeUserName = PdmeUserName,

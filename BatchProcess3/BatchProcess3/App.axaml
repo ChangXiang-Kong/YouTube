@@ -56,6 +56,7 @@
     <cvt:BoolOrMultiConverter x:Key="BoolOrMultiConverter" />
     <cvt:BoolToBoldFontConverter x:Key="BoolToBoldFontConverter" />
     <cvt:StreamGeometryConverter x:Key="StreamGeometryConverter" />
+    <cvt:FileNameConverter x:Key="FileNameConverter" />
 
     <Thickness x:Key="BorderThickness_09">0.9</Thickness>
     <Thickness x:Key="BorderThickness_1">1</Thickness>

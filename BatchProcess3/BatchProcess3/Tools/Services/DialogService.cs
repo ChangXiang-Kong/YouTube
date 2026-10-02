@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Controls;
@@ -67,24 +68,68 @@ public class DialogService(Func<TopLevel?> topLevelProvider)
         await dialogViewModel.WaitAsync();
     }
 
-    public async Task<string?> ShowSelectFolderDialogAsync()
+    /// <summary>
+    ///
+    /// <code>
+    /// 示例：
+    ///     var paths = await dialogService.ShowSelectFileDialogAsync(
+    ///         title: "Select a drawing template", 
+    ///         allowMultiple: true,
+    ///         fileTypes: [
+    ///             new FilePickerFileType("Drawing Template") { Patterns = ["*.slddrt"] }
+    ///         ]);
+    /// </code>
+    /// </summary>
+    /// <param name="title"></param>
+    /// <param name="allowMultiple"></param>
+    /// <param name="fileTypes"></param>
+    /// <returns></returns>
+    public async Task<string[]> ShowSelectFileDialogAsync(string title = "Select a File", bool allowMultiple = false, List<FilePickerFileType>? fileTypes = null)
     {
+        fileTypes ??= [FilePickerFileTypes.All];
+        
         var toplevel = topLevelProvider();
         if (toplevel == null)
-            return null;
+            return [];
 
-        var folders = await toplevel.StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions()
+        var files = await toplevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions()
         {
-            Title =  "Select a Folder",
-            AllowMultiple = false,
-            // SuggestedFileName =  "Folder",
+            Title =  title,
+            AllowMultiple = allowMultiple,
+            FileTypeFilter = fileTypes,
+            // SuggestedFileName =  "File",
             // SuggestedStartLocation = null,
         });
 
-        var pathUri = folders.FirstOrDefault()?.Path;
-        if (pathUri == null)
-            return null;
+        return files.Select(file => file.Path.IsAbsoluteUri ? file.Path.LocalPath : file.Path.OriginalString).ToArray();
+    }
 
-        return pathUri.IsAbsoluteUri ? pathUri.LocalPath : pathUri.OriginalString;
+    /// <summary>
+    /// 
+    /// <code>
+    /// 示例：
+    ///     var res = await _dialogService.ShowSelectFolderDialogAsync(
+    ///         title: "Select a Folder", 
+    ///         allowMultiple: false);
+    /// </code>
+    /// </summary>
+    /// <param name="title"></param>
+    /// <param name="allowMultiple"></param>
+    /// <returns></returns>
+    public async Task<string[]> ShowSelectFolderDialogAsync(string title = "Select a Folder", bool allowMultiple = false)
+    {
+        var toplevel = topLevelProvider();
+        if (toplevel == null)
+            return [];
+
+        var folders = await toplevel.StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions()
+        {
+            Title =  title,
+            AllowMultiple = allowMultiple,
+            // SuggestedFileName =  "Folder",
+            // SuggestedStartLocation = null,
+        });
+        
+        return folders.Select(folder => folder.Path.IsAbsoluteUri ? folder.Path.LocalPath : folder.Path.OriginalString).ToArray();
     }
 }

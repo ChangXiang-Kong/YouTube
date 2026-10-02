@@ -35,7 +35,10 @@
         <ListBox.ItemTemplate>
           <DataTemplate x:DataType="vmActions:ActionsTabSaveDrawingViewModel">
             <Grid ColumnDefinitions="*, Auto">
-              <Label Grid.Column="0" VerticalAlignment="Center" Content="{Binding JobName}" FontWeight="{Binding HasChanged, Converter={StaticResource BoolToBoldFontConverter}}" />
+              <Label Grid.Column="0" VerticalAlignment="Center" Background="Transparent"
+                     Content="{Binding JobName}"
+                     FontWeight="{Binding HasChanged, Converter={StaticResource BoolToBoldFontConverter}}"
+                     ToolTip.Tip="{Binding JobName}" />
               <Button Grid.Column="1" Margin="0,0,-8,0" Padding="0"
                       VerticalAlignment="Center" ava:ToolTip.Tip="Delete" Classes="smaller danger"
                       Command="{Binding $parent[ListBox].((mainMenus:ActionsPageViewModel)DataContext).DeleteSaveDrawingItemCommand}"
@@ -87,26 +90,60 @@
       <Grid Grid.Column="0" RowDefinitions="Auto, 10, Auto, 10, Auto, 10, Auto, 10, Auto, 10, Auto, 10, *">
         <Label Grid.Row="0" Classes="h2" Content="General Settings" />
         <TextBlock Grid.Row="2" Margin="0,-10,0,0" Text="Set the main properties of the Save Drawing job." />
-        <Grid Grid.Row="4" ColumnDefinitions="130, 10, *" RowDefinitions="Auto, 10, Auto">
+        <Grid Grid.Row="4" ColumnDefinitions="120, 10, 25, 5, *" RowDefinitions="Auto, 10, Auto, 10, Auto, 10, Auto, 10, Auto, 10, Auto, Auto, Auto">
+          <!--  Job Name  -->
           <Label Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Content="Job Name" />
-          <TextBox Name="TextBox_JobName" Grid.Row="0" Grid.Column="2"
+          <TextBox Name="TextBox_JobName" Grid.Row="0" Grid.Column="4"
                    Text="{Binding SelectedSaveDrawingItem.JobName}"
                    ToolTip.Tip="{Binding SelectedSaveDrawingItem.JobName}" />
+          <!--  Description  -->
           <Label Grid.Row="2" Grid.Column="0" VerticalAlignment="Top" Content="Description" />
-          <TextBox Grid.Row="2" Grid.Column="2" Height="90"
+          <TextBox Grid.Row="2" Grid.Column="4" Height="90"
                    AcceptsReturn="True"
                    Text="{Binding SelectedSaveDrawingItem.Description}"
                    TextWrapping="Wrap" />
+          <!--  Filename  -->
+          <Label Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" Content="Filename" />
+          <TextBox Grid.Row="4" Grid.Column="4" Text="{Binding SelectedSaveDrawingItem.FileName}" />
+          <!--  Save Location  -->
+          <Label Grid.Row="6" Grid.Column="0" VerticalAlignment="Center" Content="Save Location" />
+          <TextBox Grid.Row="6" Grid.Column="4" Text="{Binding SelectedSaveDrawingItem.SaveLocation}" />
+          <!--  Sheets Filter  -->
+          <Label Grid.Row="8" Grid.Column="0" VerticalAlignment="Center" Content="Sheets Filter" />
+          <TextBox Grid.Row="8" Grid.Column="4" Text="{Binding SelectedSaveDrawingItem.SheetsFilter}" />
+          <!--  Single PDF  -->
+          <Label Grid.Row="10" Grid.Column="2" VerticalAlignment="Center"
+                 Classes="icon-only icon-outline subtle-hover" Content="&#xE3E8;"
+                 ToolTip.Tip="When saving a PDF save all sheets to a single PDF" />
+          <CheckBox Grid.Row="10" Grid.Column="4" Content="Single PDF" IsChecked="{Binding SelectedSaveDrawingItem.SinglePdf}" />
+          <!--  Single eDrawing  -->
+          <Label Grid.Row="11" Grid.Column="2" VerticalAlignment="Center"
+                 Classes="icon-only icon-outline subtle-hover" Content="&#xE3E8;"
+                 ToolTip.Tip="When saving an eDrawing save all sheets to a single eDrawing" />
+          <CheckBox Grid.Row="11" Grid.Column="4" Content="Single Drawing" IsChecked="{Binding SelectedSaveDrawingItem.SingleEDrawing}" />
+          <!--  Single DWG/DF  -->
+          <Label Grid.Row="12" Grid.Column="2" VerticalAlignment="Center"
+                 Classes="icon-only icon-outline subtle-hover" Content="&#xE3E8;"
+                 ToolTip.Tip="When saving a DWG or DXF save all sheets to a single file" />
+          <CheckBox Grid.Row="12" Grid.Column="4" Content="Single DWG/DXF" IsChecked="{Binding SelectedSaveDrawingItem.SingleDwgDxf}" />
         </Grid>
       </Grid>
 
       <!--  Details Column  -->
-      <Grid Grid.Column="2" RowDefinitions="Auto, 10, Auto, 10, Auto, 10, *">
-        <Label Grid.Row="0" Classes="h2" Content="Details" />
-        <TextBlock Grid.Row="2" Margin="0,-10,0,0" Text="Specify the additional details." TextWrapping="Wrap" />
+      <Grid Grid.Column="2" RowDefinitions="Auto, 10, Auto, 10, *, 10, 40">
+        <Label Grid.Row="0" Classes="h2" Content="Save As Formats" />
+        <TextBlock Grid.Row="2" Margin="0,-10,0,0" Text="Select all the formats you wish to export the drawing files to." TextWrapping="Wrap" />
 
-        <!--  Extra details here  -->
-        <StackPanel Grid.Row="4" />
+        <!--  Export Formats  -->
+        <ScrollViewer Grid.Row="4">
+          <ItemsControl ItemsSource="{Binding SelectedSaveDrawingItem.ExportFormats}">
+            <ItemsControl.ItemTemplate>
+              <DataTemplate>
+                <CheckBox Content="{Binding Key}" IsChecked="{Binding Value}" />
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+        </ScrollViewer>
 
         <!--  Save and Cancel state Button  -->
         <StackPanel Grid.Row="6" HorizontalAlignment="Right" VerticalAlignment="Bottom"

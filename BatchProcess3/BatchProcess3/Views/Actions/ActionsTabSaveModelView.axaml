@@ -35,7 +35,10 @@
         <ListBox.ItemTemplate>
           <DataTemplate x:DataType="vmActions:ActionsTabSaveModelViewModel">
             <Grid ColumnDefinitions="*, Auto">
-              <Label Grid.Column="0" VerticalAlignment="Center" Content="{Binding JobName}" FontWeight="{Binding HasChanged, Converter={StaticResource BoolToBoldFontConverter}}" />
+              <Label Grid.Column="0" VerticalAlignment="Center" Background="Transparent"
+                     Content="{Binding JobName}"
+                     FontWeight="{Binding HasChanged, Converter={StaticResource BoolToBoldFontConverter}}"
+                     ToolTip.Tip="{Binding JobName}" />
               <Button Grid.Column="1" Margin="0,0,-8,0" Padding="0"
                       VerticalAlignment="Center" ava:ToolTip.Tip="Delete" Classes="smaller danger"
                       Command="{Binding $parent[ListBox].((mainMenus:ActionsPageViewModel)DataContext).DeleteSaveModelItemCommand}"
@@ -87,26 +90,50 @@
       <Grid Grid.Column="0" RowDefinitions="Auto, 10, Auto, 10, Auto, 10, Auto, 10, Auto, 10, Auto, 10, *">
         <Label Grid.Row="0" Classes="h2" Content="General Settings" />
         <TextBlock Grid.Row="2" Margin="0,-10,0,0" Text="Set the main properties of the Save Model job." />
-        <Grid Grid.Row="4" ColumnDefinitions="130, 10, *" RowDefinitions="Auto, 10, Auto">
+        <Grid Grid.Row="4" ColumnDefinitions="120, 10, 25, 5, *" RowDefinitions="Auto, 10, Auto, 10, Auto, 10, Auto, 10, Auto, 10, Auto, 10, Auto, 10, Auto">
+          <!--  Job Name  -->
           <Label Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Content="Job Name" />
-          <TextBox Name="TextBox_JobName" Grid.Row="0" Grid.Column="2"
+          <TextBox Name="TextBox_JobName" Grid.Row="0" Grid.Column="4"
                    Text="{Binding SelectedSaveModelItem.JobName}"
                    ToolTip.Tip="{Binding SelectedSaveModelItem.JobName}" />
+          <!--  Description  -->
           <Label Grid.Row="2" Grid.Column="0" VerticalAlignment="Top" Content="Description" />
-          <TextBox Grid.Row="2" Grid.Column="2" Height="90"
+          <TextBox Grid.Row="2" Grid.Column="4" Height="90"
                    AcceptsReturn="True"
                    Text="{Binding SelectedSaveModelItem.Description}"
                    TextWrapping="Wrap" />
+
+          <!--  Filename  -->
+          <Label Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" Content="Filename" />
+          <TextBox Grid.Row="4" Grid.Column="4" Text="{Binding SelectedSaveModelItem.FileName}" />
+
+          <!--  Save Location  -->
+          <Label Grid.Row="6" Grid.Column="0" VerticalAlignment="Center" Content="Save Location" />
+          <TextBox Grid.Row="6" Grid.Column="4" Text="{Binding SelectedSaveModelItem.SaveLocation}" />
+
+          <!--  Save All Configurations  -->
+          <Label Grid.Row="8" Grid.Column="2" VerticalAlignment="Center"
+                 Classes="icon-only icon-outline subtle-hover" Content="&#xE3E8;"
+                 ToolTip.Tip="Saves the model for every configuration as a separate file." />
+          <CheckBox Grid.Row="8" Grid.Column="4" Content="Save All Configs" IsChecked="{Binding SelectedSaveModelItem.SaveAllConfigurations}" />
         </Grid>
       </Grid>
 
       <!--  Details Column  -->
-      <Grid Grid.Column="2" RowDefinitions="Auto, 10, Auto, 10, Auto, 10, *">
-        <Label Grid.Row="0" Classes="h2" Content="Details" />
-        <TextBlock Grid.Row="2" Margin="0,-10,0,0" Text="Specify the additional details." TextWrapping="Wrap" />
+      <Grid Grid.Column="2" RowDefinitions="Auto, 10, Auto, 10, *, 10, 40">
+        <Label Grid.Row="0" Classes="h2" Content="Save As Formats" />
+        <TextBlock Grid.Row="2" Margin="0,-10,0,0" Text="Select all the formats you wish to export the model files to." TextWrapping="Wrap" />
 
-        <!--  Extra details here  -->
-        <StackPanel Grid.Row="4" />
+        <!--  Export Formats  -->
+        <ScrollViewer Grid.Row="4">
+          <ItemsControl ItemsSource="{Binding SelectedSaveModelItem.ExportFormats}">
+            <ItemsControl.ItemTemplate>
+              <DataTemplate>
+                <CheckBox Content="{Binding Key}" IsChecked="{Binding Value}" />
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+        </ScrollViewer>
 
         <!--  Save and Cancel state Button  -->
         <StackPanel Grid.Row="6" HorizontalAlignment="Right" VerticalAlignment="Bottom"

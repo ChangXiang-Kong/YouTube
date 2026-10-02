@@ -35,7 +35,10 @@
         <ListBox.ItemTemplate>
           <DataTemplate x:DataType="vmActions:ActionsTabPrintViewModel">
             <Grid ColumnDefinitions="*, Auto">
-              <Label Grid.Column="0" VerticalAlignment="Center" Content="{Binding JobName}" FontWeight="{Binding HasChanged, Converter={StaticResource BoolToBoldFontConverter}}" />
+              <Label Grid.Column="0" VerticalAlignment="Center" Background="Transparent"
+                     Content="{Binding JobName}"
+                     FontWeight="{Binding HasChanged, Converter={StaticResource BoolToBoldFontConverter}}"
+                     ToolTip.Tip="{Binding JobName}" />
               <Button Grid.Column="1" Margin="0,0,-8,0" Padding="0"
                       VerticalAlignment="Center" ava:ToolTip.Tip="Delete" Classes="smaller danger"
                       Command="{Binding $parent[ListBox].((mainMenus:ActionsPageViewModel)DataContext).DeletePrintTabItemCommand}"
@@ -89,14 +92,16 @@
         <Label Grid.Row="0" Classes="h2" Content="General Settings" />
         <TextBlock Grid.Row="2" Margin="0,-10,0,0" Text="Set the main properties of the print job." />
         <Grid Grid.Row="4" ColumnDefinitions="130, 10, *" RowDefinitions="Auto, 10, Auto, 10 Auto">
+          <!--  Job Name  -->
           <Label Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Content="Job Name" />
           <TextBox Name="TextBox_JobName" Grid.Row="0" Grid.Column="2" Text="{Binding SelectedPrintTabItem.JobName}" />
+          <!--  Description  -->
           <Label Grid.Row="2" Grid.Column="0" VerticalAlignment="Top" Content="Description" />
           <TextBox Grid.Row="2" Grid.Column="2" Height="90"
                    AcceptsReturn="True"
                    Text="{Binding SelectedPrintTabItem.Description}"
                    TextWrapping="Wrap" />
-
+          <!--  Print  -->
           <Label Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" Content="Print" />
           <StackPanel Grid.Row="4" Grid.Column="2" Orientation="Horizontal" Spacing="10">
             <CheckBox Content="Models" IsChecked="{Binding SelectedPrintTabItem.PrintModels}" />
@@ -116,7 +121,7 @@
           <ListBox.ItemTemplate>
             <DataTemplate x:DataType="vmActions:ActionsPrintSettingsViewModel">
               <Grid ColumnDefinitions="*, Auto">
-                <StackPanel>
+                <StackPanel Background="Transparent" ToolTip.Tip="{Binding Description}">
                   <TextBlock FontWeight="Black" Text="{Binding Name}" />
                   <TextBlock Text="{Binding Description}" />
                 </StackPanel>
@@ -163,9 +168,10 @@
         <Label Grid.Row="0" Classes="h2" Content="Drawings" />
         <TextBlock Grid.Row="2" Margin="0,-10,0,0" Text="Set the properties that apply only to drawings." />
         <Grid Grid.Row="4" ColumnDefinitions="130, 10, *" RowDefinitions="Auto, 10, Auto, 10, Auto">
+          <!--  Print Range  -->
           <Label Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Content="Print Range" />
           <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding SelectedPrintTabItem.PrintDrawingRange}" />
-
+          <!--  White / Black List  -->
           <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal">
             <!--  方式一 使用 ToggleButton 的 样式1  -->
             <!-- <ToggleButton VerticalAlignment="Top" Content="{Binding SelectedPrintListItem.DrawingExclusionListTitle}" IsChecked="{Binding SelectedPrintListItem.DrawingExclusionIsWhiteList}" /> -->

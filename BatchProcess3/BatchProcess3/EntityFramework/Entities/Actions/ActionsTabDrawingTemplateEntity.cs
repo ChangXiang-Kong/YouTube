@@ -22,9 +22,9 @@ public class ActionsTabDrawingTemplateEntity : BaseEntity
     public DrawingTemplateOperation Operation { get; set; }
     
     [MaxLength(1000)]
-    public string CurrentTemplatePath { get; set; } = "";
+    public string? CurrentTemplatePath { get; set; }
     
     [MaxLength(1000)]
-    public string NewTemplatePath { get; set; } = "";
+    public string? NewTemplatePath { get; set; }
 
 }

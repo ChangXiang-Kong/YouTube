@@ -14,7 +14,6 @@ public partial class ActionsTabDrawingTemplatesView : UserControl
 
     private void SelectingItemsControl_OnSelectionChanged(object? sender, SelectionChangedEventArgs e)
     {
-        
         // if (e.AddedItems == null) return;
         // var item = e.AddedItems[0];
         // if (item is ActionsPrintViewModel)
@@ -36,7 +35,7 @@ public partial class ActionsTabDrawingTemplatesView : UserControl
             对象?[索引]	    对象不为 null 才访问索引器
          */
         // if (e.AddedItems?.Count > 0 && e.AddedItems?[0] is ActionsPrintViewModel { IsNewItem: true } viewModel)
-        if (e.AddedItems?.Count > 0 && e.AddedItems?[0] is ActionsTabDrawingTemplatesViewModel viewModel)
+        if (e.AddedItems?.Count > 0 && e.AddedItems?[0] is ActionsTabDrawingTemplateViewModel viewModel)
         {
             // When it is newly crated item
             if (viewModel.IsNewItem)
