@@ -82,7 +82,7 @@ public partial class ActionsSaveDrawingViewModel : ActionViewModel
     
 }
 
-public static class ActionsTabSaveDrawingViewModelExtensions
+public static class ActionsSaveDrawingViewModelExtensions
 {
     public static ActionsSaveDrawingEntity ToEntity(this ActionsSaveDrawingViewModel viewModel) => new()
     {

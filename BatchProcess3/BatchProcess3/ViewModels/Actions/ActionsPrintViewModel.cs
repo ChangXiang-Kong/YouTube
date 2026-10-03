@@ -38,7 +38,7 @@ public partial class ActionsPrintViewModel : ActionViewModel
 
 }
 
-public static class ActionsTabPrintViewModelExtensions
+public static class ActionsPrintViewModelExtensions
 {
     public static ActionsPrintEntity ToEntity(this ActionsPrintViewModel viewModel) => new()
     {

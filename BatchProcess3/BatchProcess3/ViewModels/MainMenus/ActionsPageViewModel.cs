@@ -328,11 +328,11 @@ public partial class ActionsPageViewModel(
     }
 
     [RelayCommand]
-    private async Task SavePrintTabItemAsync()
+    private Task SavePrintTabItemAsync()
     {
         // Ignore if no selection
         if (SelectedPrintTabItem == null)
-            return;
+            return Task.CompletedTask;
         
         // If the selected item is new
         if (SelectedPrintTabItem.IsNewItem)
@@ -344,6 +344,7 @@ public partial class ActionsPageViewModel(
         SelectedPrintTabItem.IsNewItem = false;
         // 保存状态以隐藏 Save 按钮
         SelectedPrintTabItem.SetSaveState();
+        return Task.CompletedTask;
     }
 
     [RelayCommand]
@@ -677,11 +678,11 @@ public partial class ActionsPageViewModel(
     }
 
     [RelayCommand]
-    private async Task SaveCustomPropertyItemAsync()
+    private Task SaveCustomPropertyItemAsync()
     {
         // Ignore if no selection
         if (SelectedCustomPropertyItem == null)
-            return;
+            return Task.CompletedTask;
         
         // If the selected item is new
         if (SelectedCustomPropertyItem.IsNewItem)
@@ -693,6 +694,7 @@ public partial class ActionsPageViewModel(
         SelectedCustomPropertyItem.IsNewItem = false;
         // 保存状态以隐藏 Save 按钮
         SelectedCustomPropertyItem.SetSaveState();
+        return Task.CompletedTask;
     }
 
     [RelayCommand]
@@ -813,11 +815,11 @@ public partial class ActionsPageViewModel(
     }
 
     [RelayCommand]
-    private async Task SaveFileInfoItemAsync()
+    private Task SaveFileInfoItemAsync()
     {
         // Ignore if no selection
         if (SelectedFileInfoItem == null)
-            return;
+            return Task.CompletedTask;
         
         // If the selected item is new
         if (SelectedFileInfoItem.IsNewItem)
@@ -829,6 +831,7 @@ public partial class ActionsPageViewModel(
         SelectedFileInfoItem.IsNewItem = false;
         // 保存状态以隐藏 Save 按钮
         SelectedFileInfoItem.SetSaveState();
+        return Task.CompletedTask;
     }
 
     [RelayCommand]
@@ -949,11 +952,11 @@ public partial class ActionsPageViewModel(
     }
 
     [RelayCommand]
-    private async Task SaveSaveModelItemAsync()
+    private Task SaveSaveModelItemAsync()
     {
         // Ignore if no selection
         if (SelectedSaveModelItem == null)
-            return;
+            return Task.CompletedTask;
         
         // If the selected item is new
         if (SelectedSaveModelItem.IsNewItem)
@@ -965,6 +968,7 @@ public partial class ActionsPageViewModel(
         SelectedSaveModelItem.IsNewItem = false;
         // 保存状态以隐藏 Save 按钮
         SelectedSaveModelItem.SetSaveState();
+        return Task.CompletedTask;
     }
 
     [RelayCommand]
@@ -1086,11 +1090,11 @@ public partial class ActionsPageViewModel(
     }
 
     [RelayCommand]
-    private async Task SaveSaveDrawingItemAsync()
+    private Task SaveSaveDrawingItemAsync()
     {
         // Ignore if no selection
         if (SelectedSaveDrawingItem == null)
-            return;
+            return Task.CompletedTask;
         
         // If the selected item is new
         if (SelectedSaveDrawingItem.IsNewItem)
@@ -1102,6 +1106,7 @@ public partial class ActionsPageViewModel(
         SelectedSaveDrawingItem.IsNewItem = false;
         // 保存状态以隐藏 Save 按钮
         SelectedSaveDrawingItem.SetSaveState();
+        return Task.CompletedTask;
     }
 
     [RelayCommand]
@@ -1222,11 +1227,11 @@ public partial class ActionsPageViewModel(
     }
 
     [RelayCommand]
-    private async Task SaveImportFileItemAsync()
+    private Task SaveImportFileItemAsync()
     {
         // Ignore if no selection
         if (SelectedImportFileItem == null)
-            return;
+            return Task.CompletedTask;
         
         // If the selected item is new
         if (SelectedImportFileItem.IsNewItem)
@@ -1238,6 +1243,7 @@ public partial class ActionsPageViewModel(
         SelectedImportFileItem.IsNewItem = false;
         // 保存状态以隐藏 Save 按钮
         SelectedImportFileItem.SetSaveState();
+        return Task.CompletedTask;
     }
 
     [RelayCommand]
@@ -1358,11 +1364,11 @@ public partial class ActionsPageViewModel(
     }
 
     [RelayCommand]
-    private async Task SaveDrawingTemplateItemAsync()
+    private Task SaveDrawingTemplateItemAsync()
     {
         // Ignore if no selection
         if (SelectedDrawingTemplateItem == null)
-            return;
+            return Task.CompletedTask;
         
         // If the selected item is new
         if (SelectedDrawingTemplateItem.IsNewItem)
@@ -1374,6 +1380,7 @@ public partial class ActionsPageViewModel(
         SelectedDrawingTemplateItem.IsNewItem = false;
         // 保存状态以隐藏 Save 按钮
         SelectedDrawingTemplateItem.SetSaveState();
+        return Task.CompletedTask;
     }
 
     [RelayCommand]
@@ -1525,11 +1532,11 @@ public partial class ActionsPageViewModel(
     }
 
     [RelayCommand]
-    private async Task SaveMacrosItemAsync()
+    private Task SaveMacrosItemAsync()
     {
         // Ignore if no selection
         if (SelectedMacrosItem == null)
-            return;
+            return Task.CompletedTask;
         
         // If the selected item is new
         if (SelectedMacrosItem.IsNewItem)
@@ -1541,6 +1548,7 @@ public partial class ActionsPageViewModel(
         SelectedMacrosItem.IsNewItem = false;
         // 保存状态以隐藏 Save 按钮
         SelectedMacrosItem.SetSaveState();
+        return Task.CompletedTask;
     }
 
     [RelayCommand]

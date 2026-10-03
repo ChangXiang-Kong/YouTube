@@ -29,7 +29,7 @@ public partial class ActionsMacrosViewModel : ActionViewModel
 
 }
 
-public static class ActionsTabMacrosViewModelExtensions
+public static class ActionsMacrosViewModelExtensions
 {
     public static ActionsMacrosEntity ToEntity(this ActionsMacrosViewModel viewModel) => new()
     {

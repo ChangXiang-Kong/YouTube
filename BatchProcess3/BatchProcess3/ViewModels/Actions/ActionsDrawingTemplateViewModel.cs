@@ -28,7 +28,7 @@ public partial class ActionsDrawingTemplateViewModel : ActionViewModel
 
 }
 
-public static class ActionsTabDrawingTemplateViewModelExtensions
+public static class ActionsDrawingTemplateViewModelExtensions
 {
     public static ActionsDrawingTemplateEntity ToEntity(this ActionsDrawingTemplateViewModel viewModel) => new()
     {

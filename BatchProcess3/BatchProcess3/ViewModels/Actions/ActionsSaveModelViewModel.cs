@@ -27,7 +27,7 @@ public partial class ActionsSaveModelViewModel : ActionViewModel
 
 }
 
-public static class ActionsTabSaveModelViewModelExtensions
+public static class ActionsSaveModelViewModelExtensions
 {
     public static ActionsSaveModelEntity ToEntity(this ActionsSaveModelViewModel viewModel) => new()
     {

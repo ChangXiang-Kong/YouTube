@@ -21,7 +21,7 @@ public partial class ActionsImportFileViewModel : ActionViewModel
     
 }
 
-public static class ActionsTabImportFileViewModelExtensions
+public static class ActionsImportFileViewModelExtensions
 {
     public static ActionsImportFileEntity ToEntity(this ActionsImportFileViewModel viewModel) => new()
     {

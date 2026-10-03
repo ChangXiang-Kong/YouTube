@@ -91,7 +91,7 @@ public partial class ActionsCustomPropertyViewModel : ActionViewModel
 
 }
 
-public static class ActionsTabCustomPropertiesViewModelExtensions
+public static class ActionsCustomPropertiesViewModelExtensions
 {
     public static ActionsCustomPropertiesEntity ToEntity(this ActionsCustomPropertyViewModel viewModel) => new()
     {
