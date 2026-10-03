@@ -74,7 +74,7 @@ namespace BatchProcess3.ViewModels
         private PageViewModel _currentPage;
 
         [ObservableProperty]
-        private DialogViewModel _dialog;
+        private DialogViewModel? _dialog;
 
 
 
@@ -96,7 +96,7 @@ namespace BatchProcess3.ViewModels
                 "ReporterPage" => _pageFactory0.GetPageViewModel(ApplicationPageName.Reporter),
                 "HistoryPage" => _pageFactory0.GetPageViewModel(ApplicationPageName.History),
                 "SettingsPage" => _pageFactory0.GetPageViewModel(ApplicationPageName.Settings),
-                // _ => _pageFactory.GetPageViewModel(ApplicationPageName.Unknown),
+                _ => throw new ArgumentException($"Unsupported ApplicationPageName param: {pageName}")
             };
         }
         [RelayCommand]
@@ -111,7 +111,7 @@ namespace BatchProcess3.ViewModels
                 ApplicationPageName.Reporter => _pageFactory1.GetPageViewModel(ApplicationPageName.Reporter),
                 ApplicationPageName.History => _pageFactory1.GetPageViewModel(ApplicationPageName.History),
                 ApplicationPageName.Settings => _pageFactory1.GetPageViewModel(ApplicationPageName.Settings),
-                // _ => _pageFactory.GetPageViewModel(ApplicationPageName.Unknown),
+                _ => throw new ArgumentException($"Unsupported ApplicationPageName param: {pageName}")
             };
         }
         [RelayCommand]
@@ -127,7 +127,7 @@ namespace BatchProcess3.ViewModels
                 ApplicationPageName.Reporter => _pageFactory.GetPageViewModel<MainMenus.ReporterPageViewModel>(),
                 ApplicationPageName.History => _pageFactory.GetPageViewModel<MainMenus.HistoryPageViewModel>(),
                 ApplicationPageName.Settings => _pageFactory.GetPageViewModel<MainMenus.SettingsPageViewModel>(),
-                // _ => _pageFactory.GetPageViewModel(ApplicationPageName.Unknown),
+                _ => throw new ArgumentException($"Unsupported ApplicationPageName param: {pageName}")
             };
         }
 

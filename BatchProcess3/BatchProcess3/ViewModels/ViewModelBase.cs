@@ -37,6 +37,7 @@ public partial class ViewModelBase : ObservableObject
     
     // TODO: 使用 Guid 类型 还是 string 类型？
     [ObservableProperty] 
+    [NotifyPropertyChangedFor(nameof(HasChanged))]
     public virtual partial string Id { get; set; } = Guid.CreateVersion7().ToString();
 
     /* [JsonIgnore] 与 [property: JsonIgnore] 的区别
@@ -56,7 +57,7 @@ public partial class ViewModelBase : ObservableObject
             public string SavedState { get; set; }
      */
     [property: JsonIgnore]
-    public string SavedState { get; set; } = "";
+    protected string SavedState { get; set; } = "";
 
     [JsonIgnore]
     public virtual bool HasChanged => SavedState != "" && SavedState != JsonSerializer.Serialize(this, JsonSerializerOptions);

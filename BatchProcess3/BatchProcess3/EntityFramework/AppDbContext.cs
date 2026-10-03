@@ -13,18 +13,19 @@ public class AppDbContext : DbContext
 {
     // 每个 DbSet 会映射一张表到数据库中，属性名为表名
     public DbSet<SettingsEntity> Settings { get; set; }
+    public DbSet<ProcessEntity> Process { get; set; }
     
     // Actions
-    public DbSet<ActionsTabPrintEntity> ActionsTabPrint { get; set; }
+    public DbSet<ActionsPrintEntity> ActionsPrint { get; set; }
     public DbSet<ActionsPrintSettingsEntity> ActionsPrintSettings { get; set; }
     public DbSet<ActionsPrintSettingsProfileEntity> ActionsPrintSettingsProfile { get; set; }
-    public DbSet<ActionsTabCustomPropertiesEntity> ActionsTabCustomProperties { get; set; }
-    public DbSet<ActionsTabFileInfoEntity> ActionsTabFileInfo { get; set; }
-    public DbSet<ActionsTabSaveModelEntity> ActionsTabSaveModel { get; set; }
-    public DbSet<ActionsTabSaveDrawingEntity> ActionsTabSaveDrawing { get; set; }
-    public DbSet<ActionsTabImportFileEntity> ActionsTabImportFile { get; set; }
-    public DbSet<ActionsTabDrawingTemplateEntity> ActionsTabDrawingTemplate { get; set; }
-    public DbSet<ActionsTabMacrosEntity> ActionsTabMacros { get; set; }
+    public DbSet<ActionsCustomPropertiesEntity> ActionsCustomProperties { get; set; }
+    public DbSet<ActionsFileInfoEntity> ActionsFileInfo { get; set; }
+    public DbSet<ActionsSaveModelEntity> ActionsSaveModel { get; set; }
+    public DbSet<ActionsSaveDrawingEntity> ActionsSaveDrawing { get; set; }
+    public DbSet<ActionsImportFileEntity> ActionsImportFile { get; set; }
+    public DbSet<ActionsDrawingTemplateEntity> ActionsDrawingTemplate { get; set; }
+    public DbSet<ActionsMacrosEntity> ActionsMacros { get; set; }
     
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -85,18 +86,14 @@ public class AppDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder);     // 调用与否没有影响
 
-        // SettingsEntity
-        // modelBuilder.Entity<SettingsEntity>().HasKey(x => x.Id);    // 显式标记 主键 为 Id。若 xxxEntity 已添加 名为 Id 的 属性，EFCore会自动将其识别为 主键，这里就不需要了
-        
-        // PrintTabEntity
-        // modelBuilder.Entity<PrintTabEntity>().HasKey(x => x.Id);    // 显式标记 主键 为 Id。若 xxxEntity 已添加 名为 Id 的 属性，EFCore会自动将其识别为 主键，这里就不需要了
+        // BaseEntity
+        modelBuilder.Entity<EntityBase>().HasKey(x => x.Id);    // 显式标记 主键 为 Id。若 xxxEntity 已添加 名为 Id 的 属性，EFCore会自动将其识别为 主键，这里就不需要了
         
         // TODO: 以下代码需要查资料，搞明白 HasMany、WithOne、HasOne、WithMany 等如何用，Cascade 与 ClientCascade 的区别
         // PrintSettingsEntity
-        // modelBuilder.Entity<PrintSettingsEntity>().HasKey(x => x.Id);    // 显式标记 主键 为 Id。若 xxxEntity 已添加 名为 Id 的 属性，EFCore会自动将其识别为 主键，这里就不需要了
         modelBuilder.Entity<ActionsPrintSettingsEntity>()
             .HasMany(x => x.PrintTabsList)
-            .WithOne(x => x.ActionsPrintSettings)
+            .WithOne(x => x.ActionsPrintSettingsEntity)
             .HasForeignKey(x => x.PrintSettingsId)
             .OnDelete(DeleteBehavior.ClientCascade);
         
@@ -158,33 +155,11 @@ public class AppDbContext : DbContext
         */
         
         // PrintSettingsProfileEntity
-        // modelBuilder.Entity<PrintSettingsProfileEntity>().HasKey(x => x.Id);    // 显式标记 主键 为 Id。若 xxxEntity 已添加 名为 Id 的 属性，EFCore会自动将其识别为 主键，这里就不需要了
         modelBuilder.Entity<ActionsPrintSettingsProfileEntity>()
-            .HasOne(x => x.ActionsPrintSettings)
+            .HasOne(x => x.ActionsPrintSettingsEntity)
             .WithMany(x => x.PrintSettingsProfilesList)
             .HasForeignKey(x => x.PrintSettingsId)
             .OnDelete(DeleteBehavior.ClientCascade);
-        
-        // ActionsTabCustomPropertiesEntity
-        // modelBuilder.Entity<ActionsTabCustomPropertiesEntity>().HasKey(x => x.Id);    // 显式标记 主键 为 Id。若 xxxEntity 已添加 名为 Id 的 属性，EFCore会自动将其识别为 主键，这里就不需要了
-    
-        // ActionsTabFileInfoEntity
-        // modelBuilder.Entity<ActionsTabFileInfoEntity>().HasKey(x => x.Id);    // 显式标记 主键 为 Id。若 xxxEntity 已添加 名为 Id 的 属性，EFCore会自动将其识别为 主键，这里就不需要了
-        
-        // ActionsTabSaveModelEntity
-        // modelBuilder.Entity<ActionsTabSaveModelEntity>().HasKey(x => x.Id);    // 显式标记 主键 为 Id。若 xxxEntity 已添加 名为 Id 的 属性，EFCore会自动将其识别为 主键，这里就不需要了
-        
-        // ActionsTabSaveDrawingEntity
-        // modelBuilder.Entity<ActionsTabSaveDrawingEntity>().HasKey(x => x.Id);    // 显式标记 主键 为 Id。若 xxxEntity 已添加 名为 Id 的 属性，EFCore会自动将其识别为 主键，这里就不需要了
-        
-        // ActionsTabImportFileEntity
-        // modelBuilder.Entity<ActionsTabImportFileEntity>().HasKey(x => x.Id);    // 显式标记 主键 为 Id。若 xxxEntity 已添加 名为 Id 的 属性，EFCore会自动将其识别为 主键，这里就不需要了
-        
-        // ActionsTabDrawingTemplateEntity
-        // modelBuilder.Entity<ActionsTabDrawingTemplateEntity>().HasKey(x => x.Id);    // 显式标记 主键 为 Id。若 xxxEntity 已添加 名为 Id 的 属性，EFCore会自动将其识别为 主键，这里就不需要了
-        
-        // ActionsTabMacrosEntity
-        // modelBuilder.Entity<ActionsTabMacrosEntity>().HasKey(x => x.Id);    // 显式标记 主键 为 Id。若 xxxEntity 已添加 名为 Id 的 属性，EFCore会自动将其识别为 主键，这里就不需要了
         
     }
 
@@ -198,7 +173,7 @@ public class AppDbContext : DbContext
     // 同步保存时的额外逻辑（同步保存时自动调用SaveChanges()）
     public override int SaveChanges()
     {
-        var entries = ChangeTracker.Entries<BaseEntity>();
+        var entries = ChangeTracker.Entries<EntityBase>();
         foreach (var entry in entries)
         {
             var now = DateTimeOffset.Now;
@@ -222,7 +197,7 @@ public class AppDbContext : DbContext
     /// 异步保存时的额外逻辑（异步保存时自动调用SaveChangesAsync()）
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
-        var entries = ChangeTracker.Entries<BaseEntity>();
+        var entries = ChangeTracker.Entries<EntityBase>();
         foreach (var entry in entries)
         {
             var now = DateTimeOffset.Now;

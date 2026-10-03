@@ -112,9 +112,13 @@
                      Background="Transparent" BorderBrush="Transparent" BorderThickness="0"
                      Foreground="{TemplateBinding Foreground}"
                      IsVisible="{TemplateBinding IsEditable}"
+                     PlaceholderText="{TemplateBinding PlaceholderText}"
                      Text="{TemplateBinding Text,
-                                            Mode=TwoWay}"
-                     Watermark="{TemplateBinding PlaceholderText}">
+                                            Mode=TwoWay}">
+              <!--
+                Watermark="{TemplateBinding PlaceholderText}"> 警告：
+                Property 'Avalonia.Controls.TextBox.Watermark()' is obsolete: 'Use PlaceholderText instead.'
+              -->
               <TextBox.Resources>
                 <SolidColorBrush x:Key="TextControlBackgroundFocused">Transparent</SolidColorBrush>
                 <SolidColorBrush x:Key="TextControlBackgroundPointerOver">Transparent</SolidColorBrush>

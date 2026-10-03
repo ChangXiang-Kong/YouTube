@@ -16,7 +16,6 @@ using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Threading;
-using BatchProcess3.Data;
 using BatchProcess3.EntityFramework;
 using BatchProcess3.Tools.Extensions;
 using BatchProcess3.Tools.Services;

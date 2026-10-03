@@ -10,28 +10,20 @@ namespace BatchProcess3.EntityFramework.Entities.Actions;
 ///         否则在执行 xxx.SaveChanges() 时报错，如：SQLite Error 19: 'NOT NULL constraint failed: ActionsPrintSettings.Name'.<br/>
 ///     2、
 /// </summary>
-[Table("ActionsTabPrintSettings")]
-public class ActionsPrintSettingsEntity : BaseEntity
+[Table("ActionsPrintSettings")]
+public class ActionsPrintSettingsEntity : ActionEntityBase
 {
-    [MaxLength(200)]
-    public string JobName { get; set; } = "";
-
-    [MaxLength(5000)]
-    public string Description { get; set; } = "";
-    
     public int Copies { get; set; } = 1;
 
     // 一对多：一个 PrintSettingsEntity 对应 多个 PrintSettingsProfileEntity
     // 不能 new()
     // https://www.youtube.com/watch?v=ZV4-4PgnGKY&list=PLrW43fNmjaQWwIdZxjZrx5FSXcNzaucOO    37:00
-    // public List<PrintSettingsProfileEntity> PrintSettingsProfilesList = []; // 不要 new()
-    public List<ActionsPrintSettingsProfileEntity> PrintSettingsProfilesList { get; set; } // 不要 new()
+    public List<ActionsPrintSettingsProfileEntity> PrintSettingsProfilesList { get; set; } = [];
     
     // 一对多：一个 PrintSettingsEntity 对应 多个 PrintTabEntity
     // 不能 new()
     // https://www.youtube.com/watch?v=ZV4-4PgnGKY&list=PLrW43fNmjaQWwIdZxjZrx5FSXcNzaucOO    37:00
-    // public List<PrintTabEntity> PrintTabsList = []; // 不要 new()
-    public List<ActionsTabPrintEntity> PrintTabsList { get; set; } // 不要 new()
+    public List<ActionsPrintEntity> PrintTabsList { get; set; } = [];
 
     public bool CanEdit { get; set; }
     

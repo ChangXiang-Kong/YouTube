@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BatchProcess3.Data;
 
 namespace BatchProcess3.ViewModels
 {

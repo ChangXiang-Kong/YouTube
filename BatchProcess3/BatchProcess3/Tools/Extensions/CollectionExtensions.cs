@@ -65,18 +65,18 @@ public static class CollectionExtensions
             }
         
             // TODO: 将 null 改成真正的对象
-            propertyChangedEventHandler(null, null);
+            propertyChangedEventHandler(null, null!);
         }
         
         // 当集合的 内部元素 调用 PropertyChanged 时，调用 ChangedDelegate() 
-        foreach (var property in properties)
+        foreach (var property in existingCollection.OfType<ViewModelBase>())
             property.PropertyChanged += propertyChangedEventHandler;
         
         // 当集合变更时，调用 ChangedDelegate() 
         existingCollection.CollectionChanged += NotifyCollectionChangedEventHandler;
         
         // TODO: 将 null 改成真正的对象
-        propertyChangedEventHandler(null, null);
+        propertyChangedEventHandler(null, null!);
 
         return true;
     }

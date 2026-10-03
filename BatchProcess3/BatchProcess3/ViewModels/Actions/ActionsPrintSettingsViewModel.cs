@@ -30,10 +30,10 @@ public partial class ActionsPrintSettingsViewModel : ConfirmDialogViewModel
     }
     
     [ObservableProperty]
-    private string _name;
+    private string _name = "";
     
     [ObservableProperty]
-    private string _description;
+    private string _description = "";
     
     [ObservableProperty]
     private int _copies = 1;
@@ -45,7 +45,7 @@ public partial class ActionsPrintSettingsViewModel : ConfirmDialogViewModel
     private bool _canDelete = true;
     
     [ObservableProperty]
-    private ObservableCollection<ActionsPrintSettingsProfileViewModel> _printSettingsProfilesList;
+    private ObservableCollection<ActionsPrintSettingsProfileViewModel> _printSettingsProfilesList = [];
 
     protected override void OnDesignTimeConstructor()
     {
@@ -84,18 +84,18 @@ public static class PrintSettingsViewModelExtensions
         // return viewModel.Select(x => x.ToEntity()).ToList();
     }
 
-    public static ActionsPrintSettingsViewModel ToViewModel(this ActionsPrintSettingsEntity entity)
+    public static ActionsPrintSettingsViewModel ToViewModel(this ActionsPrintSettingsEntity printSettingsEntity)
     {
         return new ActionsPrintSettingsViewModel()
         {
-            Id = entity.Id,
-            Name = entity.JobName,
-            Description = entity.Description,
-            Copies = entity.Copies,
-            CanEdit = entity.CanEdit,
-            CanDelete = entity.CanDelete,
+            Id = printSettingsEntity.Id,
+            Name = printSettingsEntity.JobName,
+            Description = printSettingsEntity.Description,
+            Copies = printSettingsEntity.Copies,
+            CanEdit = printSettingsEntity.CanEdit,
+            CanDelete = printSettingsEntity.CanDelete,
             PrintSettingsProfilesList = new ObservableCollection<ActionsPrintSettingsProfileViewModel>(
-                entity.PrintSettingsProfilesList
+                printSettingsEntity.PrintSettingsProfilesList
                     .OrderBy(profile => profile.Type)
                     .Select(profile => new ActionsPrintSettingsProfileViewModel()
                     {

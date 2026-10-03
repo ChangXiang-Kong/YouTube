@@ -1,0 +1,53 @@
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using BatchProcess3.EntityFramework.Entities.Actions;
+using BatchProcess3.Tools.Extensions;
+using CommunityToolkit.Mvvm.ComponentModel;
+
+namespace BatchProcess3.ViewModels.Actions;
+
+public partial class ActionsSaveModelViewModel : ActionViewModel
+{
+    [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
+    private string _fileName = "";
+
+    public ObservableCollection<ObservableKeyValuePair<string, bool>> ExportFormats
+    {
+        get => field ??= [];
+        set => this.SetAndObserveEverything(ref field, value, [nameof(HasChanged)]);
+    }
+
+    [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
+    private bool _saveAllConfigurations;
+
+    [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
+    private string _saveLocation = "";
+
+}
+
+public static class ActionsTabSaveModelViewModelExtensions
+{
+    public static ActionsSaveModelEntity ToEntity(this ActionsSaveModelViewModel viewModel) => new()
+    {
+        Id = viewModel.Id,
+        Description = viewModel.Description,
+        JobName = viewModel.JobName,
+        SaveLocation = viewModel.SaveLocation,
+        ExportFormats = viewModel.ExportFormats.Where(x => x.Value).Select(x => x.Key).ToList(),
+        FileName = viewModel.FileName,
+        SaveAllConfigurations = viewModel.SaveAllConfigurations
+    };
+
+    public static ActionsSaveModelViewModel ToViewModel(this ActionsSaveModelEntity saveModelEntity, ObservableCollection<string> exportFormats) => new()
+    {
+        Id = saveModelEntity.Id,
+        Description = saveModelEntity.Description,
+        JobName = saveModelEntity.JobName,
+        SaveLocation = saveModelEntity.SaveLocation,
+        ExportFormats = new(exportFormats.Select(x => new ObservableKeyValuePair<string, bool>(x, saveModelEntity.ExportFormats.Any(f => f == x)))),
+        FileName = saveModelEntity.FileName,
+        SaveAllConfigurations = saveModelEntity.SaveAllConfigurations
+    };
+}

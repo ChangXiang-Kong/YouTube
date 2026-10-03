@@ -38,14 +38,14 @@ public partial class ActionsPageView : UserControl
         // Convert to ActionsPageName
         var actionsPageName = selectedPage switch
         {
-            ActionsTabPrintView => ActionsPageName.Print,
-            ActionsTabCustomPropertiesView => ActionsPageName.CustomProperties,
-            ActionsTabFileInfoView => ActionsPageName.FileInfo,
-            ActionsTabSaveModelView => ActionsPageName.SaveModelAs,
-            ActionsTabSaveDrawingView => ActionsPageName.SaveDrawingAs,
-            ActionsTabImportFileView => ActionsPageName.ImportFile,
-            ActionsTabDrawingTemplatesView => ActionsPageName.DrawingTemplates,
-            ActionsTabMacrosView => ActionsPageName.Macros,
+            ActionsPrintView => ActionsPageName.Print,
+            ActionsCustomPropertiesView => ActionsPageName.CustomProperties,
+            ActionsFileInfoView => ActionsPageName.FileInfo,
+            ActionsSaveModelView => ActionsPageName.SaveModelAs,
+            ActionsSaveDrawingView => ActionsPageName.SaveDrawingAs,
+            ActionsImportFileView => ActionsPageName.ImportFile,
+            ActionsDrawingTemplatesView => ActionsPageName.DrawingTemplates,
+            ActionsMacrosView => ActionsPageName.Macros,
             _ => ActionsPageName.Print
         };
 

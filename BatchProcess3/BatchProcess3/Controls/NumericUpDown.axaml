@@ -71,8 +71,11 @@
                      PlaceholderText="{TemplateBinding PlaceholderText}"
                      Text="{TemplateBinding Text}"
                      TextAlignment="{TemplateBinding TextAlignment}"
-                     TextWrapping="NoWrap"
-                     Watermark="{TemplateBinding Watermark}" />
+                     TextWrapping="NoWrap" />
+            <!--
+              Watermark="{TemplateBinding PlaceholderText}"> 警告：
+              Property 'Avalonia.Controls.TextBox.Watermark()' is obsolete: 'Use PlaceholderText instead.'
+            -->
           </ButtonSpinner>
         </DataValidationErrors>
       </ControlTemplate>

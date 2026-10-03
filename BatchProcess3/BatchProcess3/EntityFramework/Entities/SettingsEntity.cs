@@ -11,7 +11,7 @@ namespace BatchProcess3.EntityFramework.Entities;
 ///     2、
 /// </summary>
 [Table("Settings")]
-public class SettingsEntity : BaseEntity
+public class SettingsEntity : EntityBase
 {
     public bool SkipNoActionFiles { get; set; }
     
