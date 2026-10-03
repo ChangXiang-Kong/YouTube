@@ -3,17 +3,17 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:actions="clr-namespace:BatchProcess3.Views.Actions"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mainMenus="clr-namespace:BatchProcess3.ViewModels.MainMenus"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:BatchProcess3.ViewModels"
+             xmlns:vmMainMenus="clr-namespace:BatchProcess3.ViewModels.MainMenus"
              d:DesignHeight="900"
              d:DesignWidth="1100"
-             x:DataType="mainMenus:ActionsPageViewModel"
+             x:DataType="vmMainMenus:ActionsPageViewModel"
              Background="{DynamicResource PrimaryBackground}"
              Foreground="{DynamicResource PrimaryForeground}"
              mc:Ignorable="d">
   <Design.DataContext>
-    <mainMenus:ActionsPageViewModel />
+    <vmMainMenus:ActionsPageViewModel />
   </Design.DataContext>
 
   <Grid ColumnDefinitions="*" RowDefinitions="Auto, *">

@@ -19,6 +19,6 @@ public class ProcessEntity : EntityBase
     
     [MaxLength(5000)]
     public string Description { get; set; } = "";
-    
+
     public List<ActionEntityBase> Actions { get; set; } = [];
 }

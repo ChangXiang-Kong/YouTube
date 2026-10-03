@@ -3,18 +3,18 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:ava="clr-namespace:Avalonia.Controls;assembly=Avalonia.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mainMenus="clr-namespace:BatchProcess3.ViewModels.MainMenus"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:BatchProcess3.ViewModels"
              xmlns:vmActions="clr-namespace:BatchProcess3.ViewModels.Actions"
+             xmlns:vmMainMenus="clr-namespace:BatchProcess3.ViewModels.MainMenus"
              d:DesignHeight="620"
              d:DesignWidth="1000"
-             x:DataType="mainMenus:ActionsPageViewModel"
+             x:DataType="vmMainMenus:ActionsPageViewModel"
              Background="{DynamicResource PrimaryBackground}"
              Foreground="{DynamicResource PrimaryForeground}"
              mc:Ignorable="d">
   <Design.DataContext>
-    <mainMenus:ActionsPageViewModel />
+    <vmMainMenus:ActionsPageViewModel />
   </Design.DataContext>
 
   <Grid ColumnDefinitions="*, 30, 3*">
@@ -41,7 +41,7 @@
                      ToolTip.Tip="{Binding JobName}" />
               <Button Grid.Column="1" Margin="0,0,-8,0" Padding="0"
                       VerticalAlignment="Center" ava:ToolTip.Tip="Delete" Classes="smaller danger"
-                      Command="{Binding $parent[ListBox].((mainMenus:ActionsPageViewModel)DataContext).DeletePrintTabItemCommand}"
+                      Command="{Binding $parent[ListBox].((vmMainMenus:ActionsPageViewModel)DataContext).DeletePrintTabItemCommand}"
                       CommandParameter="{Binding Id}">
                 <Button.IsVisible>
                   <MultiBinding Converter="{StaticResource BoolOrMultiConverter}">
@@ -58,9 +58,11 @@
     </Grid>
 
     <!--  New Print Action button when PrintTabsList is empty  -->
-    <StackPanel Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center"
+    <StackPanel Name="StackPanel_NewAction" Grid.Column="2" HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                IsVisible="{Binding #StackPanel_NewAction.Opacity}"
                 Opacity="{Binding !PrintTabsListHasItems}"
-                Spacing="10">
+                Spacing="10" ZIndex="10">
       <StackPanel.Styles>
         <Style Selector="StackPanel">
           <Setter Property="Transitions">
@@ -73,7 +75,10 @@
 
       <TextBlock HorizontalAlignment="Center" Text="Print actions can be used to print drawings and models with specific printer settings." />
       <TextBlock HorizontalAlignment="Center" Text="To get started, creat a new Print Action." />
-      <Button Margin="10" HorizontalAlignment="Center" Command="{Binding AddNewPrintTabItemCommand}" Content="New Print Action" />
+      <Button Width="350" Margin="10" HorizontalAlignment="Center"
+              HorizontalContentAlignment="Center"
+              Command="{Binding AddNewPrintTabItemCommand}"
+              Content="New Print Action" />
     </StackPanel>
 
     <Grid Column="2" ColumnDefinitions="*, 30, *" Opacity="{Binding PrintTabsListHasItems}">
@@ -130,7 +135,7 @@
                   <Panel IsVisible="{Binding CanEdit}">
                     <Button Margin="0,0,5,0" Padding="0" VerticalAlignment="Center"
                             ava:ToolTip.Tip="Edit" Classes="smaller alert"
-                            Command="{Binding $parent[ListBox].((mainMenus:ActionsPageViewModel)DataContext).EditPrintSettingsCommand}"
+                            Command="{Binding $parent[ListBox].((vmMainMenus:ActionsPageViewModel)DataContext).EditPrintSettingsCommand}"
                             CommandParameter="{Binding Id}">
                       <Button.IsVisible>
                         <MultiBinding Converter="{StaticResource BoolOrMultiConverter}">
@@ -145,7 +150,7 @@
                   <Panel IsVisible="{Binding CanDelete}">
                     <Button Margin="0,0,-8,0" Padding="0" VerticalAlignment="Center"
                             ava:ToolTip.Tip="Delete" Classes="smaller danger"
-                            Command="{Binding $parent[ListBox].((mainMenus:ActionsPageViewModel)DataContext).DeletePrintSettingsCommand}"
+                            Command="{Binding $parent[ListBox].((vmMainMenus:ActionsPageViewModel)DataContext).DeletePrintSettingsCommand}"
                             CommandParameter="{Binding Id}">
                       <Button.IsVisible>
                         <MultiBinding Converter="{StaticResource BoolOrMultiConverter}">

@@ -9,5 +9,7 @@ public class ActionEntityBase : EntityBase
     
     [MaxLength(5000)]
     public string Description { get; set; } = "";
+
+    public int SortOrder { get; set; }
     
 }

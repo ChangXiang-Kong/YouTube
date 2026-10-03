@@ -2,16 +2,34 @@
              xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mainMenus="clr-namespace:BatchProcess3.ViewModels.MainMenus"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:BatchProcess3.ViewModels"
+             xmlns:vmMainMenus="clr-namespace:BatchProcess3.ViewModels.MainMenus"
              d:DesignHeight="450"
              d:DesignWidth="800"
-             x:DataType="mainMenus:ReporterPageViewModel"
+             x:DataType="vmMainMenus:ReporterPageViewModel"
+             Background="{DynamicResource PrimaryBackground}"
+             Foreground="{DynamicResource PrimaryForeground}"
              mc:Ignorable="d">
   <Design.DataContext>
-    <mainMenus:ReporterPageViewModel />
+    <vmMainMenus:ReporterPageViewModel />
   </Design.DataContext>
 
-  <Label Content="{Binding Test}" FontSize="24" Foreground="Red" />
+  <Grid ColumnDefinitions="*" RowDefinitions="Auto, *">
+    <!--  Header  -->
+    <Grid Name="HeaderGrid">
+      <StackPanel Height="100" ClipToBounds="True">
+        <Image Source="{SvgImage /Assets/Images/background-actions.svg}" Stretch="UniformToFill" />
+      </StackPanel>
+      <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+        <Label HorizontalAlignment="Center" Classes="h1" Content="Reporter" />
+        <Label HorizontalAlignment="Center" Classes="sub2" Content="Create and manage all actions that can be used in a process" />
+      </StackPanel>
+    </Grid>
+
+    <!--  Main TabControl Content  -->
+    <Border Grid.Row="1" Padding="25">
+      <Label Content="{Binding Test}" FontSize="24" Foreground="Red" />
+    </Border>
+  </Grid>
 </UserControl>

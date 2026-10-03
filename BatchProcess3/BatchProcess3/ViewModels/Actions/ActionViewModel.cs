@@ -20,6 +20,10 @@ public partial class ActionViewModel : ViewModelBase
     private string _description = "";
     
     [ObservableProperty] 
+    [NotifyPropertyChangedFor(nameof(HasChanged))]
+    private int _sortOrder;
+    
+    [ObservableProperty] 
     private bool _isNewItem;
 
     [JsonIgnore]
@@ -35,12 +39,14 @@ public static class ActionViewModelExtensions
         Id = viewModel.Id,
         Description = viewModel.Description,
         JobName = viewModel.JobName,
+        SortOrder = viewModel.SortOrder,
     };
     
     public static ActionViewModel ToViewModel(this ActionEntityBase entity) => new()
     {
         Id = entity.Id,
         JobName = entity.JobName,
-        Description = entity.Description
+        Description = entity.Description,
+        SortOrder = entity.SortOrder,
     };
 }

@@ -3,18 +3,18 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:ava="clr-namespace:Avalonia.Controls;assembly=Avalonia.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mainMenus="clr-namespace:BatchProcess3.ViewModels.MainMenus"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:BatchProcess3.ViewModels"
              xmlns:vmActions="clr-namespace:BatchProcess3.ViewModels.Actions"
+             xmlns:vmMainMenus="clr-namespace:BatchProcess3.ViewModels.MainMenus"
              d:DesignHeight="620"
              d:DesignWidth="1000"
-             x:DataType="mainMenus:ActionsPageViewModel"
+             x:DataType="vmMainMenus:ActionsPageViewModel"
              Background="{DynamicResource PrimaryBackground}"
              Foreground="{DynamicResource PrimaryForeground}"
              mc:Ignorable="d">
   <Design.DataContext>
-    <mainMenus:ActionsPageViewModel />
+    <vmMainMenus:ActionsPageViewModel />
   </Design.DataContext>
 
   <Grid ColumnDefinitions="*, 30, 3*">
@@ -41,7 +41,7 @@
                      ToolTip.Tip="{Binding JobName}" />
               <Button Grid.Column="1" Margin="0,0,-8,0" Padding="0"
                       VerticalAlignment="Center" ava:ToolTip.Tip="Delete" Classes="smaller danger"
-                      Command="{Binding $parent[ListBox].((mainMenus:ActionsPageViewModel)DataContext).DeleteSaveDrawingItemCommand}"
+                      Command="{Binding $parent[ListBox].((vmMainMenus:ActionsPageViewModel)DataContext).DeleteSaveDrawingItemCommand}"
                       CommandParameter="{Binding Id}">
                 <Button.IsVisible>
                   <MultiBinding Converter="{StaticResource BoolOrMultiConverter}">
@@ -57,9 +57,11 @@
       </ListBox>
     </Grid>
 
-    <StackPanel Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center"
+    <StackPanel Name="StackPanel_NewAction" Grid.Column="2" HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                IsVisible="{Binding #StackPanel_NewAction.Opacity}"
                 Opacity="{Binding !SaveDrawingListHasItems}"
-                Spacing="10">
+                Spacing="10" ZIndex="10">
       <StackPanel.Styles>
         <Style Selector="StackPanel">
           <Setter Property="Transitions">
@@ -72,7 +74,10 @@
 
       <TextBlock HorizontalAlignment="Center" Text="Save Drawing actions can be used to export drawings in various formats." />
       <TextBlock HorizontalAlignment="Center" Text="To get started, create a new Save Drawing Action." />
-      <Button Margin="10" HorizontalAlignment="Center" Command="{Binding AddNewSaveDrawingItemCommand}" Content="New Save Drawing Action" />
+      <Button Width="350" Margin="10" HorizontalAlignment="Center"
+              HorizontalContentAlignment="Center"
+              Command="{Binding AddNewSaveDrawingItemCommand}"
+              Content="New Save Drawing Action" />
     </StackPanel>
 
     <Grid Column="2" ColumnDefinitions="*, 30, *" Opacity="{Binding SaveDrawingListHasItems}">
