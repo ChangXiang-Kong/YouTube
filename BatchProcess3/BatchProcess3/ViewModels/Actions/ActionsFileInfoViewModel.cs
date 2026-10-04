@@ -5,7 +5,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace BatchProcess3.ViewModels.Actions;
 
-public partial class ActionsFileInfoViewModel : ActionViewModel
+public partial class ActionsFileInfoViewModel : ActionViewModel, ISelectableItemsListViewModel
 {
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
     private string _keywords = "";
