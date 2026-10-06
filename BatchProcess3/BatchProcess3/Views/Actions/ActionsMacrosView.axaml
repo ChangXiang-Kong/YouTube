@@ -24,12 +24,12 @@
       <TextBlock Grid.Row="2" Margin="0,-10,0,0" Text="Macros actions can be used to run macros on parts, drawings and assemblies." TextWrapping="Wrap" />
       <Button Grid.Row="4" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"
               Classes="small outline"
-              Command="{Binding AddNewMacrosItemCommand}"
+              Command="{Binding MacrosList.AddNewItemCommand}"
               Content="New Macros Action" />
       <!--  绑定Model中的Id而不是Model本身  -->
       <ListBox Grid.Row="6"
-               ItemsSource="{Binding MacrosList}"
-               SelectedValue="{Binding SelectedMacrosItemId}"
+               ItemsSource="{Binding MacrosList.ItemsList}"
+               SelectedValue="{Binding MacrosList.SelectedItemId}"
                SelectedValueBinding="{Binding Id}"
                SelectionChanged="SelectingItemsControl_OnSelectionChanged">
         <ListBox.ItemTemplate>
@@ -41,7 +41,7 @@
                      ToolTip.Tip="{Binding JobName}" />
               <Button Grid.Column="1" Margin="0,0,-8,0" Padding="0"
                       VerticalAlignment="Center" ava:ToolTip.Tip="Delete" Classes="smaller danger"
-                      Command="{Binding $parent[ListBox].((vmMainMenus:ActionsPageViewModel)DataContext).DeleteMacrosItemCommand}"
+                      Command="{Binding $parent[ListBox].((vmMainMenus:ActionsPageViewModel)DataContext).MacrosList.DeleteItemCommand}"
                       CommandParameter="{Binding Id}">
                 <Button.IsVisible>
                   <MultiBinding Converter="{StaticResource BoolOrMultiConverter}">
@@ -60,7 +60,7 @@
     <StackPanel Name="StackPanel_NewAction" Grid.Column="2" HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 IsVisible="{Binding #StackPanel_NewAction.Opacity}"
-                Opacity="{Binding !MacrosListHasItems}"
+                Opacity="{Binding !MacrosList.ListHasItems}"
                 Spacing="10" ZIndex="10">
       <StackPanel.Styles>
         <Style Selector="StackPanel">
@@ -76,11 +76,11 @@
       <TextBlock HorizontalAlignment="Center" Text="To get started, create a new Macros Action." />
       <Button Width="350" Margin="10" HorizontalAlignment="Center"
               HorizontalContentAlignment="Center"
-              Command="{Binding AddNewMacrosItemCommand}"
+              Command="{Binding MacrosList.AddNewItemCommand}"
               Content="New Macros Action" />
     </StackPanel>
 
-    <Grid Column="2" ColumnDefinitions="*, 30, *" Opacity="{Binding MacrosListHasItems}">
+    <Grid Column="2" ColumnDefinitions="*, 30, *" Opacity="{Binding MacrosList.ListHasItems}">
       <Grid.Styles>
         <Style Selector="Grid">
           <Setter Property="Transitions">
@@ -99,40 +99,40 @@
           <!--  Job Name  -->
           <Label Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Content="Job Name" />
           <TextBox Name="TextBox_JobName" Grid.Row="0" Grid.Column="4"
-                   Text="{Binding SelectedMacrosItem.JobName}"
-                   ToolTip.Tip="{Binding SelectedMacrosItem.JobName}" />
+                   Text="{Binding MacrosList.SelectedItem.JobName}"
+                   ToolTip.Tip="{Binding MacrosList.SelectedItem.JobName}" />
           <!--  Description  -->
           <Label Grid.Row="2" Grid.Column="0" VerticalAlignment="Top" Content="Description" />
           <TextBox Grid.Row="2" Grid.Column="4" Height="90"
                    AcceptsReturn="True"
-                   Text="{Binding SelectedMacrosItem.Description}"
+                   Text="{Binding MacrosList.SelectedItem.Description}"
                    TextWrapping="Wrap" />
 
           <!--  Macro Path  -->
           <Label Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" Content="Macro Path" />
-          <TextBox Grid.Row="4" Grid.Column="4" Text="{Binding SelectedMacrosItem.MacroPath}" />
+          <TextBox Grid.Row="4" Grid.Column="4" Text="{Binding MacrosList.SelectedItem.MacroPath}" />
 
           <!--  Module Name  -->
           <Label Grid.Row="6" Grid.Column="0" VerticalAlignment="Center" Content="Module Name" />
-          <TextBox Grid.Row="6" Grid.Column="4" Text="{Binding SelectedMacrosItem.ModuleName}" />
+          <TextBox Grid.Row="6" Grid.Column="4" Text="{Binding MacrosList.SelectedItem.ModuleName}" />
 
           <!--  Exclude Parts  -->
           <Label Grid.Row="8" Grid.Column="2" VerticalAlignment="Center"
                  Classes="icon-only icon-outline subtle-hover" Content="&#xE3E8;"
                  ToolTip.Tip="Exclude Parts" />
-          <CheckBox Grid.Row="8" Grid.Column="4" Content="Exclude Parts" IsChecked="{Binding SelectedMacrosItem.ExcludeParts}" />
+          <CheckBox Grid.Row="8" Grid.Column="4" Content="Exclude Parts" IsChecked="{Binding MacrosList.SelectedItem.ExcludeParts}" />
 
           <!--  Exclude Drawings  -->
           <Label Grid.Row="9" Grid.Column="2" VerticalAlignment="Center"
                  Classes="icon-only icon-outline subtle-hover" Content="&#xE3E8;"
                  ToolTip.Tip="Exclude Drawings" />
-          <CheckBox Grid.Row="9" Grid.Column="4" Content="Exclude Drawings" IsChecked="{Binding SelectedMacrosItem.ExcludeDrawings}" />
+          <CheckBox Grid.Row="9" Grid.Column="4" Content="Exclude Drawings" IsChecked="{Binding MacrosList.SelectedItem.ExcludeDrawings}" />
 
           <!--  Exclude Assemblies  -->
           <Label Grid.Row="10" Grid.Column="2" VerticalAlignment="Center"
                  Classes="icon-only icon-outline subtle-hover" Content="&#xE3E8;"
                  ToolTip.Tip="Exclude Assemblies" />
-          <CheckBox Grid.Row="10" Grid.Column="4" Content="Exclude Assemblies" IsChecked="{Binding SelectedMacrosItem.ExcludeAssemblies}" />
+          <CheckBox Grid.Row="10" Grid.Column="4" Content="Exclude Assemblies" IsChecked="{Binding MacrosList.SelectedItem.ExcludeAssemblies}" />
         </Grid>
       </Grid>
 
@@ -146,7 +146,7 @@
 
         <!--  Save and Cancel state Button  -->
         <StackPanel Grid.Row="6" HorizontalAlignment="Right" VerticalAlignment="Bottom"
-                    Opacity="{Binding SelectedMacrosItem.HasChanged, FallbackValue=0}"
+                    Opacity="{Binding MacrosList.SelectedItem.HasChanged, FallbackValue=0}"
                     Orientation="Horizontal" Spacing="10">
           <!--
             FallbackValue = 绑定失败时的 “备胎值” ，当绑定找不到对象、找不到值、或者值为 null 时 → 自动使用 FallbackValue 指定的值。
@@ -165,10 +165,10 @@
             </Style>
           </StackPanel.Styles>
           <Button Width="70" HorizontalContentAlignment="Center" Classes="success"
-                  Command="{Binding SaveMacrosItemCommand}"
+                  Command="{Binding MacrosList.SaveItemCommand}"
                   Content="Save" />
           <Button Width="70" HorizontalContentAlignment="Center" Classes="outline"
-                  Command="{Binding CancelMacrosItemCommand}"
+                  Command="{Binding MacrosList.CancelItemCommand}"
                   Content="Cancel" />
         </StackPanel>
       </Grid>

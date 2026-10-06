@@ -92,7 +92,7 @@ public class AppDbContext : DbContext
         // TODO: 以下代码需要查资料，搞明白 HasMany、WithOne、HasOne、WithMany 等如何用，Cascade 与 ClientCascade 的区别
         // PrintSettingsEntity
         modelBuilder.Entity<ActionsPrintSettingsEntity>()
-            .HasMany(x => x.PrintTabsList)
+            .HasMany(x => x.PrintList)
             .WithOne(x => x.ActionsPrintSettingsEntity)
             .HasForeignKey(x => x.PrintSettingsId)
             .OnDelete(DeleteBehavior.ClientCascade);
@@ -132,14 +132,14 @@ public class AppDbContext : DbContext
                     Cascade（数据库级联）：.OnDelete(DeleteBehavior.Cascade);
                         - 数据库建表时，外键约束带上 `ON DELETE CASCADE`
                         - 代码：`_dbContext.Remove(parentPrintSettings); _dbContext.SaveChanges();`
-                        - 哪怕**不 Include 加载 PrintTabsList**，数据库收到删除父记录 SQL，自动把子表对应的 PrintTab 全部删掉。
+                        - 哪怕**不 Include 加载 PrintList**，数据库收到删除父记录 SQL，自动把子表对应的 Print 全部删掉。
                         
                     ClientCascade（客户端级联）：.OnDelete(DeleteBehavior.ClientCascade);
                         - 数据库外键**没有 ON DELETE CASCADE**
                         - 如果只删除父实体，**没有 Include 加载子实体**：子实体保留在数据库，不会删除！
                         - 必须写：
                             var parent = _dbContext.PrintSettings
-                                .Include(x => x.PrintTabsList)
+                                .Include(x => x.PrintList)
                                 .Include(x => x.PrintSettingsProfilesList)
                                 .First(...);
                             _dbContext.Remove(parent);

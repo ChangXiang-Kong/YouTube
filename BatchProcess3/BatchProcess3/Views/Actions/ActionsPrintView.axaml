@@ -24,12 +24,12 @@
       <TextBlock Grid.Row="2" Margin="0,-10,0,0" Text="Print actions can be used to print drawings or models to specific printers with specific settings." TextWrapping="Wrap" />
       <Button Grid.Row="4" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"
               Classes="small outline"
-              Command="{Binding AddNewPrintTabItemCommand}"
+              Command="{Binding PrintList.AddNewItemCommand}"
               Content="New Print Action" />
       <!--  绑定Model中的Id而不是Model本身  -->
       <ListBox Grid.Row="6"
-               ItemsSource="{Binding PrintTabsList}"
-               SelectedValue="{Binding SelectedPrintTabItemId}"
+               ItemsSource="{Binding PrintList.ItemsList}"
+               SelectedValue="{Binding PrintList.SelectedItemId}"
                SelectedValueBinding="{Binding Id}"
                SelectionChanged="SelectingItemsControl_OnSelectionChanged">
         <ListBox.ItemTemplate>
@@ -41,7 +41,7 @@
                      ToolTip.Tip="{Binding JobName}" />
               <Button Grid.Column="1" Margin="0,0,-8,0" Padding="0"
                       VerticalAlignment="Center" ava:ToolTip.Tip="Delete" Classes="smaller danger"
-                      Command="{Binding $parent[ListBox].((vmMainMenus:ActionsPageViewModel)DataContext).DeletePrintTabItemCommand}"
+                      Command="{Binding $parent[ListBox].((vmMainMenus:ActionsPageViewModel)DataContext).PrintList.DeleteItemCommand}"
                       CommandParameter="{Binding Id}">
                 <Button.IsVisible>
                   <MultiBinding Converter="{StaticResource BoolOrMultiConverter}">
@@ -57,11 +57,11 @@
       </ListBox>
     </Grid>
 
-    <!--  New Print Action button when PrintTabsList is empty  -->
+    <!--  New Print Action button when PrintList is empty  -->
     <StackPanel Name="StackPanel_NewAction" Grid.Column="2" HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 IsVisible="{Binding #StackPanel_NewAction.Opacity}"
-                Opacity="{Binding !PrintTabsListHasItems}"
+                Opacity="{Binding !PrintList.ListHasItems}"
                 Spacing="10" ZIndex="10">
       <StackPanel.Styles>
         <Style Selector="StackPanel">
@@ -77,11 +77,11 @@
       <TextBlock HorizontalAlignment="Center" Text="To get started, creat a new Print Action." />
       <Button Width="350" Margin="10" HorizontalAlignment="Center"
               HorizontalContentAlignment="Center"
-              Command="{Binding AddNewPrintTabItemCommand}"
+              Command="{Binding PrintList.AddNewItemCommand}"
               Content="New Print Action" />
     </StackPanel>
 
-    <Grid Column="2" ColumnDefinitions="*, 30, *" Opacity="{Binding PrintTabsListHasItems}">
+    <Grid Column="2" ColumnDefinitions="*, 30, *" Opacity="{Binding PrintList.ListHasItems}">
       <Grid.Styles>
         <Style Selector="Grid">
           <Setter Property="Transitions">
@@ -99,18 +99,18 @@
         <Grid Grid.Row="4" ColumnDefinitions="130, 10, *" RowDefinitions="Auto, 10, Auto, 10 Auto">
           <!--  Job Name  -->
           <Label Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Content="Job Name" />
-          <TextBox Name="TextBox_JobName" Grid.Row="0" Grid.Column="2" Text="{Binding SelectedPrintTabItem.JobName}" />
+          <TextBox Name="TextBox_JobName" Grid.Row="0" Grid.Column="2" Text="{Binding PrintList.SelectedItem.JobName}" />
           <!--  Description  -->
           <Label Grid.Row="2" Grid.Column="0" VerticalAlignment="Top" Content="Description" />
           <TextBox Grid.Row="2" Grid.Column="2" Height="90"
                    AcceptsReturn="True"
-                   Text="{Binding SelectedPrintTabItem.Description}"
+                   Text="{Binding PrintList.SelectedItem.Description}"
                    TextWrapping="Wrap" />
           <!--  Print  -->
           <Label Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" Content="Print" />
           <StackPanel Grid.Row="4" Grid.Column="2" Orientation="Horizontal" Spacing="10">
-            <CheckBox Content="Models" IsChecked="{Binding SelectedPrintTabItem.PrintModels}" />
-            <CheckBox Content="Drawings" IsChecked="{Binding SelectedPrintTabItem.PrintDrawings}" />
+            <CheckBox Content="Models" IsChecked="{Binding PrintList.SelectedItem.PrintModels}" />
+            <CheckBox Content="Drawings" IsChecked="{Binding PrintList.SelectedItem.PrintDrawings}" />
           </StackPanel>
         </Grid>
 
@@ -122,7 +122,7 @@
                 Command="{Binding AddNewPrintSettingsCommand}"
                 Content="New Printer Settings" />
         <!--  绑定Model中的Id而不是Model本身  -->
-        <ListBox Grid.Row="12" ItemsSource="{Binding PrintSettingsList}" SelectedValue="{Binding SelectedPrintTabItem.PrintSettingsId}" SelectedValueBinding="{Binding Id}">
+        <ListBox Grid.Row="12" ItemsSource="{Binding PrintSettingsList}" SelectedValue="{Binding PrintList.SelectedItem.PrintSettingsId}" SelectedValueBinding="{Binding Id}">
           <ListBox.ItemTemplate>
             <DataTemplate x:DataType="vmActions:ActionsPrintSettingsViewModel">
               <Grid ColumnDefinitions="*, Auto">
@@ -175,25 +175,25 @@
         <Grid Grid.Row="4" ColumnDefinitions="130, 10, *" RowDefinitions="Auto, 10, Auto, 10, Auto">
           <!--  Print Range  -->
           <Label Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Content="Print Range" />
-          <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding SelectedPrintTabItem.PrintDrawingRange}" />
+          <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding PrintList.SelectedItem.PrintDrawingRange}" />
           <!--  White / Black List  -->
           <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal">
             <!--  方式一 使用 ToggleButton 的 样式1  -->
             <!-- <ToggleButton VerticalAlignment="Top" Content="{Binding SelectedPrintListItem.DrawingExclusionListTitle}" IsChecked="{Binding SelectedPrintListItem.DrawingExclusionIsWhiteList}" /> -->
             <!--  方式二 使用 ToggleSwitch  -->
             <ToggleSwitch VerticalAlignment="Top" FontSize="14" FontWeight="Normal"
-                          IsChecked="{Binding SelectedPrintTabItem.DrawingExclusionIsWhiteList}"
+                          IsChecked="{Binding PrintList.SelectedItem.DrawingExclusionIsWhiteList}"
                           OffContent="Black List" OnContent="White List" />
           </StackPanel>
           <TextBox Grid.Row="2" Grid.Column="2" Height="90"
                    AcceptsReturn="True"
-                   Text="{Binding SelectedPrintTabItem.DrawingExclusionList}"
+                   Text="{Binding PrintList.SelectedItem.DrawingExclusionList}"
                    TextWrapping="Wrap" />
         </Grid>
 
         <!--  Save and Cancel state Button  -->
         <StackPanel Grid.Row="6" HorizontalAlignment="Right" VerticalAlignment="Bottom"
-                    Opacity="{Binding SelectedPrintTabItem.HasChanged, FallbackValue=0}"
+                    Opacity="{Binding PrintList.SelectedItem.HasChanged, FallbackValue=0}"
                     Orientation="Horizontal" Spacing="10">
           <!--
             FallbackValue = 绑定失败时的 “备胎值” ，当绑定找不到对象、找不到值、或者值为 null 时 → 自动使用 FallbackValue 指定的值。
@@ -212,10 +212,10 @@
             </Style>
           </StackPanel.Styles>
           <Button Width="70" HorizontalContentAlignment="Center" Classes="success"
-                  Command="{Binding SavePrintTabItemCommand}"
+                  Command="{Binding PrintList.SaveItemCommand}"
                   Content="Save" />
           <Button Width="70" HorizontalContentAlignment="Center" Classes="outline"
-                  Command="{Binding CancelPrintTabItemCommand}"
+                  Command="{Binding PrintList.CancelItemCommand}"
                   Content="Cancel" />
         </StackPanel>
       </Grid>

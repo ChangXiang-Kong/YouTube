@@ -125,7 +125,7 @@ namespace BatchProcess3.ViewModels.MainMenus
         private bool SaveSettings()
         {
             using var dbContext = _databaseFactory.GetDatabaseService();
-            return dbContext.AddSettings(ToEntity());
+            return dbContext.AddSettingsItem(ToEntity());
         }
 
         private SettingsEntity ToEntity() => new()

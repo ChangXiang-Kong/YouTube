@@ -9,10 +9,6 @@ public partial class ActionViewModel : ViewModelBase
 {
     [ObservableProperty] 
     [NotifyPropertyChangedFor(nameof(HasChanged))]
-    private string _id = "";
-    
-    [ObservableProperty] 
-    [NotifyPropertyChangedFor(nameof(HasChanged))]
     private string _jobName = "";
 
     [ObservableProperty] 

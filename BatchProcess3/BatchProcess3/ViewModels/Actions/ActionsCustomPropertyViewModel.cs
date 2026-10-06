@@ -7,7 +7,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace BatchProcess3.ViewModels.Actions;
 
-public partial class ActionsCustomPropertyViewModel : ActionViewModel
+public partial class ActionsCustomPropertyViewModel : ActionViewModel, ISelectableItemsListViewModel
 {
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(HasChanged))]

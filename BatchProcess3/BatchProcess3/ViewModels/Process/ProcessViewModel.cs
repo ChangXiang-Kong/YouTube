@@ -9,12 +9,8 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace BatchProcess3.ViewModels.Process;
 
-public partial class ProcessViewModel : ViewModelBase
+public partial class ProcessViewModel : ViewModelBase, ISelectableItemsListViewModel
 {
-    [ObservableProperty] 
-    [NotifyPropertyChangedFor(nameof(HasChanged))]
-    private string _id = "";
-    
     [ObservableProperty] 
     [NotifyPropertyChangedFor(nameof(HasChanged))]
     private string _jobName = "";
@@ -24,7 +20,7 @@ public partial class ProcessViewModel : ViewModelBase
     private string _description = "";
 
     [ObservableProperty]
-    private ObservableCollection<Actions.ActionViewModel> _actions = [];
+    private ObservableCollection<ActionViewModel> _actions = [];
     
     [ObservableProperty] private bool _isNewItem;
     

@@ -59,7 +59,7 @@ public partial class ProcessPageViewModel : PageViewModel
 
     private void FetchProcesses()
     {
-        var processes = _databaseService.GetProcesses();
+        var processes = _databaseService.GetProcessesList();
         
         ProcessList = new ObservableCollection<ProcessViewModel>(processes
             .OrderBy(x => x.JobName)
@@ -85,7 +85,7 @@ public partial class ProcessPageViewModel : PageViewModel
         // Create a new item
         var newItem = new ProcessViewModel()
         {
-            Id = Guid.CreateVersion7().ToString(),
+            // Id = Guid.CreateVersion7().ToString(),
             JobName = "New Process",
             Description = "New Process",
             IsNewItem = true,
@@ -108,9 +108,9 @@ public partial class ProcessPageViewModel : PageViewModel
         
         // If the selected item is new
         if (SelectedProcessListItem.IsNewItem)
-            _databaseService.AddProcess(SelectedProcessListItem.ToEntity());
+            _databaseService.AddProcessItem(SelectedProcessListItem.ToEntity());
         else
-            _databaseService.UpdateProcess(SelectedProcessListItem.ToEntity());
+            _databaseService.UpdateProcessItem(SelectedProcessListItem.ToEntity());
 
         // Flag new item as not new
         SelectedProcessListItem.IsNewItem = false;
@@ -144,7 +144,7 @@ public partial class ProcessPageViewModel : PageViewModel
         // If user selected to remove from UI (via confirm dialog)
         if (await DeleteProcessItemFromUIAsync(id))
             // Delete from database
-            _databaseService.DeleteProcess(id);
+            _databaseService.DeleteProcessItem(id);
     }
 
     // ReSharper disable once InconsistentNaming

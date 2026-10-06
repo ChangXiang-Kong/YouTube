@@ -34,12 +34,12 @@ public partial class SelectableItemsListViewModel<TViewModel>(
     Action<TViewModel> updateItem) : ViewModelBase
     where TViewModel : class, ISelectableItemsListViewModel
 {
-    // 使用 [] 进行初始化以消除警告，当误写 PrintTabsList = null; 时会提示 Cannot convert null literal to non-nullable reference type
+    // 使用 [] 进行初始化以消除警告，当误写 PrintList = null; 时会提示 Cannot convert null literal to non-nullable reference type
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(ListHasItems))]
     private ObservableCollection<TViewModel> _itemsList = [];
     
-    // 因为 PrintTabsList 是 ObservableCollection 类型，
-    // 需要添加 PrintTabsList.CollectionChanged += (_, _) => OnPropertyChanged(nameof(PrintTabsListHasItems)); 才能生效
+    // 因为 PrintList 是 ObservableCollection 类型，
+    // 需要添加 PrintList.CollectionChanged += (_, _) => OnPropertyChanged(nameof(PrintListHasItems)); 才能生效
     public bool ListHasItems => ItemsList.Any();
     
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(SelectedItem))]
@@ -136,7 +136,7 @@ public partial class SelectableItemsListViewModel<TViewModel>(
     }
 
     [RelayCommand]
-    private Task SaveItemAsync()
+    public Task SaveItemAsync()
     {
         // Ignore if no selection
         if (SelectedItem == null)
