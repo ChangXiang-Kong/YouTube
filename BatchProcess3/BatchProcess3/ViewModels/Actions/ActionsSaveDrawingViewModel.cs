@@ -30,43 +30,43 @@ public partial class ActionsSaveDrawingViewModel : ActionViewModel, ISelectableI
     /// </summary>
     public ObservableCollection<ObservableKeyValuePair<string, bool>> ExportFormats
     {
-        get => field ??= [];
+        get => field;
         /*set
         {
             if (field == value)
                 return;
-            
+
             field = value;
-        
+
             PropertyChangedEventHandler propertyChangedEventHandler = (s, e) =>
             {
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(HasChanged));
             };
-        
+
             void NotifyCollectionChangedEventHandler(object? s, NotifyCollectionChangedEventArgs e)
             {
-                // 当集合的 内部元素 调用 PropertyChanged 时，调用 ChangedDelegate() 
+                // 当集合的 内部元素 调用 PropertyChanged 时，调用 ChangedDelegate()
                 foreach (var property in field.OfType<ViewModelBase>())
                 {
                     // 防止重复事件
                     property.PropertyChanged -= propertyChangedEventHandler;
                     property.PropertyChanged += propertyChangedEventHandler;
                 }
-        
+
                 propertyChangedEventHandler(this, new PropertyChangedEventArgs(nameof(ExportFormats)));
             }
-        
-            // 当集合的 内部元素 调用 PropertyChanged 时，调用 ChangedDelegate() 
+
+            // 当集合的 内部元素 调用 PropertyChanged 时，调用 ChangedDelegate()
             foreach (var property in field.OfType<ViewModelBase>())
                 property.PropertyChanged += propertyChangedEventHandler;
-        
-            // 当集合变更时，调用 ChangedDelegate() 
+
+            // 当集合变更时，调用 ChangedDelegate()
             field.CollectionChanged += NotifyCollectionChangedEventHandler;
         }*/
         // 上 等于 下
         set => this.SetAndObserveEverything(ref field, value, [nameof(HasChanged)]);
-    }
+    } = [];
     
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(HasChanged))]

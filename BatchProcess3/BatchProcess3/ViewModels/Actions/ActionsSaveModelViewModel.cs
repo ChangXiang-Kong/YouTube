@@ -15,9 +15,9 @@ public partial class ActionsSaveModelViewModel : ActionViewModel, ISelectableIte
 
     public ObservableCollection<ObservableKeyValuePair<string, bool>> ExportFormats
     {
-        get => field ??= [];
+        get => field;
         set => this.SetAndObserveEverything(ref field, value, [nameof(HasChanged)]);
-    }
+    } = [];
 
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
     private bool _saveAllConfigurations;

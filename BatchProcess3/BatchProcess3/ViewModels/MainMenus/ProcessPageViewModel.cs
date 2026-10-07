@@ -41,6 +41,7 @@ public partial class ProcessPageViewModel(
     
     #endregion Members
 
+    // 也可以使用 OnViewLoaded() 代替
     [RelayCommand]
     private void Initialize()
     {
@@ -120,5 +121,21 @@ public partial class ProcessPageViewModel(
         if (action != null)
             ProcessList.SelectedItem.Actions.Remove(action);
     }
-    
+
+    [RelayCommand]
+    private void AddActionToActionsList(AvailableActionItemViewModel item)
+    {
+        if (ProcessList?.SelectedItem == null)
+            return;
+        if (item.ActionViewModel == null)
+            return;
+
+        var copy = new AvailableActionItemViewModel();
+        copy.RestoreState(item.GetState());
+        // Make the Id start with the process Id
+        if (copy.ActionViewModel != null)
+            copy.ActionViewModel.Id = $"{ProcessList.SelectedItemId}:{item.ActionViewModel.Id}";
+        
+        ProcessList.SelectedItem.Actions.Add(item.ActionViewModel);
+    }
 }

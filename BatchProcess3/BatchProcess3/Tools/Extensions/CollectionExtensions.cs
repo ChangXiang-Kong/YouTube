@@ -27,13 +27,11 @@ public static class CollectionExtensions
     /// <returns>True if the collection reference was replaced and observers were attached; false if the existing and new
     /// collection are considered equal.</returns>
     public static bool SetAndObserveEverything<T>(this ViewModelBase parent, 
-        ref ObservableCollection<T>? existingCollection,
+        ref ObservableCollection<T> existingCollection,
         ObservableCollection<T> value, 
         string[]? propertyChangedNames = null,
         [CallerMemberName] string propertyName = "")
     {
-        existingCollection ??= [];
-        
         // if (EqualityComparer<T>.Default.Equals(existingCollection, newCollection))  // 报错 Cannot access static method 'Equals' in non-static context
         if (EqualityComparer<T>.Equals(existingCollection, value))
             return false;

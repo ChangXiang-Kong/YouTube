@@ -4,6 +4,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using BatchProcess3.EntityFramework.Entities;
 using BatchProcess3.EntityFramework.Entities.Actions;
+using BatchProcess3.Tools.Extensions;
 using BatchProcess3.ViewModels.Actions;
 using CommunityToolkit.Mvvm.ComponentModel;
 
@@ -19,8 +20,11 @@ public partial class ProcessViewModel : ViewModelBase, ISelectableItemsListViewM
     [NotifyPropertyChangedFor(nameof(HasChanged))]
     private string _description = "";
 
-    [ObservableProperty]
-    private ObservableCollection<ActionViewModel> _actions = [];
+    public ObservableCollection<ActionViewModel> Actions
+    {
+        get => field;
+        set => this.SetAndObserveEverything(ref field, value, [nameof(HasChanged)]);
+    } = [];
     
     [ObservableProperty] private bool _isNewItem;
     

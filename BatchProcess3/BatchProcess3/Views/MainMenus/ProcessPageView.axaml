@@ -127,18 +127,18 @@
             <Label Grid.Row="6" Classes="h2" Content="Actions List" />
             <TextBlock Grid.Row="8" Margin="0,-10,0,0" Text="Select the actions to be used in this process." TextWrapping="Wrap" />
             <!--  绑定Model中的Id而不是Model本身  -->
-            <ListBox Grid.Row="10" ItemsSource="{Binding ProcessList.SelectedItem.Actions}" SelectedValue="{Binding ProcessList.SelectedItemId}" SelectedValueBinding="{Binding Id}">
+            <ListBox Grid.Row="10" ItemsSource="{Binding ProcessList.SelectedItem.Actions}" SelectedValue="{Binding ProcessList.SelectedItem.Id}" SelectedValueBinding="{Binding Id}">
               <ListBox.ItemTemplate>
                 <DataTemplate x:DataType="vmActions:ActionViewModel">
                   <Grid ColumnDefinitions="*, Auto">
-                    <TextBlock Background="Transparent" FontWeight="Black" Text="{Binding JobName}" ToolTip.Tip="{Binding Description}" />
+                    <TextBlock Background="Transparent" Text="{Binding JobName}" ToolTip.Tip="{Binding Description}" />
                     <StackPanel Grid.Column="1" Orientation="Horizontal">
                       <!--  Delete  -->
                       <Panel>
                         <Button Margin="0,0,-8,0" Padding="0" VerticalAlignment="Center"
                                 ava:ToolTip.Tip="Delete" Classes="smaller danger"
+                                Command="{Binding $parent[ListBox].((vmMainMenus:ProcessPageViewModel)DataContext).DeleteSelectedProcessActionItemCommand}"
                                 CommandParameter="{Binding SortOrder}">
-                          <!--  Command="{Binding $parent[ListBox].((vmMainMenus:ProcessPageViewModel)DataContext).DeleteSelectedProcessActionItemCommand}"  -->
                           <Button.IsVisible>
                             <MultiBinding Converter="{StaticResource BoolMultivaluedOrOperationConverter}">
                               <Binding Path="$parent[ListBoxItem].IsPointerOver" />
@@ -181,7 +181,9 @@
                                Text="{Binding ActionViewModel.JobName}"
                                ToolTip.Tip="{Binding ActionViewModel.JobName}" />
                     <Button Grid.Column="3" Margin="0,0,12,0" Classes="smaller success"
-                            Content="+" ToolTip.Tip="Add to Actions List">
+                            Command="{Binding $parent[ListBox].((vmMainMenus:ProcessPageViewModel)DataContext).AddActionToActionsListCommand}"
+                            CommandParameter="{Binding}"
+                            Content="+" ToolTip.Tip="Add to Actions List" ZIndex="10">
                       <Button.IsVisible>
                         <MultiBinding Converter="{StaticResource BoolMultivaluedOrOperationConverter}">
                           <Binding Path="$parent[ListBoxItem].IsPointerOver" />
