@@ -53,7 +53,7 @@
       </ResourceDictionary.MergedDictionaries>
     </ResourceDictionary>
 
-    <cvt:BoolOrMultiConverter x:Key="BoolOrMultiConverter" />
+    <cvt:BoolMultivaluedOrOperationConverter x:Key="BoolMultivaluedOrOperationConverter" />
     <cvt:BoolToBoldFontConverter x:Key="BoolToBoldFontConverter" />
     <cvt:StreamGeometryConverter x:Key="StreamGeometryConverter" />
     <cvt:FileNameConverter x:Key="FileNameConverter" />

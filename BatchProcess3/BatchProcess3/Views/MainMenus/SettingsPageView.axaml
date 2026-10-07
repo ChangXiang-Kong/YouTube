@@ -82,7 +82,7 @@
                     Command="{Binding $parent[ListBox].((vm:SettingsPageViewModel)DataContext).DeleteLocationPathCommand}"
                     CommandParameter="{Binding}">
               <Button.IsVisible>
-                <MultiBinding Converter="{StaticResource BoolOrMultiConverter}">
+                <MultiBinding Converter="{StaticResource BoolMultivaluedOrOperationConverter}">
                   <Binding Path="$parent[ListBoxItem].IsPointerOver" />
                   <Binding Path="$parent[ListBoxItem].IsSelected" />
                 </MultiBinding>

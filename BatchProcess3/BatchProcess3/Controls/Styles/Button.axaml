@@ -69,7 +69,7 @@
   <Style Selector=":is(Button).smaller">
     <Setter Property="FontSize" Value="{DynamicResource FontSize_12}" />
     <Setter Property="CornerRadius" Value="{DynamicResource CornerRadius_5}" />
-    <Setter Property="Padding" Value="6 3 " />
+    <Setter Property="Padding" Value="6 2 " />
   </Style>
 
   <!--  Normal Button  -->

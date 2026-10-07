@@ -1,4 +1,6 @@
 ﻿using Avalonia.Controls;
+using Avalonia.Interactivity;
+using BatchProcess3.ViewModels.MainMenus;
 using BatchProcess3.ViewModels.Process;
 
 namespace BatchProcess3.Views.MainMenus;
@@ -8,6 +10,12 @@ public partial class ProcessPageView : UserControl
     public ProcessPageView()
     {
         InitializeComponent();
+        Loaded += OnLoaded;
+    }
+
+    private void OnLoaded(object? sender, RoutedEventArgs e)
+    {
+        ((ProcessPageViewModel)DataContext).InitializeCommand.Execute(null);
     }
 
     private void SelectingItemsControl_OnSelectionChanged(object? sender, SelectionChangedEventArgs e)

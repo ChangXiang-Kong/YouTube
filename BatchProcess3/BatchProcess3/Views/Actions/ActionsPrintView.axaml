@@ -44,7 +44,7 @@
                       Command="{Binding $parent[ListBox].((vmMainMenus:ActionsPageViewModel)DataContext).PrintList.DeleteItemCommand}"
                       CommandParameter="{Binding Id}">
                 <Button.IsVisible>
-                  <MultiBinding Converter="{StaticResource BoolOrMultiConverter}">
+                  <MultiBinding Converter="{StaticResource BoolMultivaluedOrOperationConverter}">
                     <Binding Path="$parent[ListBoxItem].IsPointerOver" />
                     <Binding Path="$parent[ListBoxItem].IsSelected" />
                   </MultiBinding>
@@ -138,7 +138,7 @@
                             Command="{Binding $parent[ListBox].((vmMainMenus:ActionsPageViewModel)DataContext).EditPrintSettingsCommand}"
                             CommandParameter="{Binding Id}">
                       <Button.IsVisible>
-                        <MultiBinding Converter="{StaticResource BoolOrMultiConverter}">
+                        <MultiBinding Converter="{StaticResource BoolMultivaluedOrOperationConverter}">
                           <Binding Path="$parent[ListBoxItem].IsPointerOver" />
                           <Binding Path="$parent[ListBoxItem].IsSelected" />
                         </MultiBinding>
@@ -153,7 +153,7 @@
                             Command="{Binding $parent[ListBox].((vmMainMenus:ActionsPageViewModel)DataContext).DeletePrintSettingsCommand}"
                             CommandParameter="{Binding Id}">
                       <Button.IsVisible>
-                        <MultiBinding Converter="{StaticResource BoolOrMultiConverter}">
+                        <MultiBinding Converter="{StaticResource BoolMultivaluedOrOperationConverter}">
                           <Binding Path="$parent[ListBoxItem].IsPointerOver" />
                           <Binding Path="$parent[ListBoxItem].IsSelected" />
                         </MultiBinding>

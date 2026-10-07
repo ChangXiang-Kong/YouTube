@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using BatchProcess3.Data;
@@ -42,8 +43,44 @@ public partial class SelectableItemsListViewModel<TViewModel>(
     // 需要添加 PrintList.CollectionChanged += (_, _) => OnPropertyChanged(nameof(PrintListHasItems)); 才能生效
     public bool ListHasItems => ItemsList.Any();
     
-    [ObservableProperty] [NotifyPropertyChangedFor(nameof(SelectedItem))]
-    private string _selectedItemId = "";
+    // TODO: 以下代码存在一个诡异的问题，如下所述
+    // [ObservableProperty] [NotifyPropertyChangedFor(nameof(SelectedItem))]
+    // private string _selectedItemId = "";
+    public string SelectedItemId
+    {
+        get => field;
+        set
+        {
+            if (value == null) return;
+            // TODO:
+            // 以上代码是用来解决一个诡异的问题：
+            //     1、当在 ProcessPaveView.axaml中 点击【New Process】按钮添加新 ProcessViewModel 项时触发 setter，
+            //          此时 value 值正常，value=01a115e4-9b60-7650-b1a3-dbd9dfa331df，
+            //          按下 F5 跳过断点，此时会诡异的进入第二次断点，且 value=null ！！！
+            //     2、当 ProcessPageView.axaml 中的 ListBox 中存在多个对象时，选中某一项时无法通过获取 Id 选中该项
+            //     Actions 中的其他 ViewModel 不存在这个问题！！！
+            /* 问题复现过程：
+                初次点击页面中的 【New Process】 按钮后，执行 AddNewItem() 中的 SelectedItemId = newItem.Id; 此时 value=01a115e4-9b60-7650-b1a3-dbd9dfa331df，
+                【Debug】 的 【Threads & Variables】 中的内容如下：
+                    void SelectableltemsListViewModel<ProcessViewModel».set SelectedItemId(string value) in BatchProcess3.ViewModels, BatchProcess3.dll
+                    void SelectableltemsListViewModel<ProcessViewModel>.AddNewltem() in BatchProcess3.ViewModels, BatchProcess3.dll
+                        [External code: 31 frames]
+                    void Program.Main(string[] args) in BatchProcess3.Desktop, BatchProcess3.Desktop.dll
+
+                按下 F5 跳过断点，此时会诡异的进入第二次断点，且 value=null ！！！
+                【Debug】 的 【Threads & Variables】 中的内容如下：
+                    void SelectableltemsListViewModel<ProcessViewModel».set SelectedItemId(string value) in BatchProcess3.ViewModels, BatchProcess3.dll [2]
+                    void ViewModelBase.OnPropertyChanged(string propertyName) in BatchProcess3.ViewModels, BatchProcess3.dll
+                        [External code: 55 frames]
+                    void SelectableltemsListViewModel<ProcessViewModel».set SelectedItemId(string value) in BatchProcess3.ViewModels, BatchProcess3.dll [1]
+                    void SelectableltemsListViewModel<ProcessViewModel>.AddNewltem() in BatchProcess3.ViewModels, BatchProcess3.dll
+                        [External code: 31 frames]
+                    void Program.Main(string[] args) in BatchProcess3.Desktop, BatchProcess3.Desktop.dll
+             */
+            if (SetProperty(ref field, value))
+                OnPropertyChanged(nameof(SelectedItem));
+        }
+    } = "";
     
     public TViewModel? SelectedItem => ItemsList.FirstOrDefault(x => x.Id == SelectedItemId);
     
@@ -73,12 +110,16 @@ public partial class SelectableItemsListViewModel<TViewModel>(
     {
         // Crate a new item
         var newItem = createItem();
-
+        // Debug.WriteLine($"====== [BEFORE] newItem.Id = '{newItem.Id}' (is null: {newItem.Id is null})");
+        // Debug.WriteLine($"====== [BEFORE] SelectedItemId = '{SelectedItemId}'");
+        
         // Add to the print list
         ItemsList.Add(newItem);
-
+        
         // Select item
         SelectedItemId = newItem.Id;
+        // Debug.WriteLine($"====== [AFTER]  newItem.Id = '{newItem.Id}'");
+        // Debug.WriteLine($"====== [AFTER]  SelectedItemId = '{SelectedItemId}' (is null: {SelectedItemId is null})");
     }
 
     [RelayCommand]

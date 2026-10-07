@@ -10,7 +10,7 @@ namespace BatchProcess3.Tools.Converters;
 /// 多个 bool 值中的任意一个为 true，则返回 true。<br/>
 /// 用于实现 IsVisible="{Binding $parent[ListBoxItem].IsPointerOver || $parent[ListBoxItem].IsSelected}" 效果
 /// </summary>
-public class BoolOrMultiConverter: IMultiValueConverter
+public class BoolMultivaluedOrOperationConverter: IMultiValueConverter
 {
     public object? Convert(IList<object?> values, Type targetType, object? parameter, CultureInfo culture)
     {
