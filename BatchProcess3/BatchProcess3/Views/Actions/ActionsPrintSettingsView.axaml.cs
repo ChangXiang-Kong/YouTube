@@ -2,6 +2,7 @@
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Threading;
+using BatchProcess3.Tools.Dialog;
 using BatchProcess3.ViewModels;
 
 namespace BatchProcess3.Views.Actions;

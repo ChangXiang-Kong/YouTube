@@ -5,6 +5,7 @@ using BatchProcess3.Views;
 using System;
 using System.Diagnostics;
 using System.Reflection;
+using BatchProcess3.Tools.Dialog;
 
 namespace BatchProcess3
 {

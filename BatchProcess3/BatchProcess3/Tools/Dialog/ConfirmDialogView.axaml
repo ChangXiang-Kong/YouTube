@@ -1,7 +1,8 @@
-﻿<UserControl x:Class="BatchProcess3.Views.ConfirmDialogView"
+﻿<UserControl x:Class="BatchProcess3.Tools.Dialog.ConfirmDialogView"
              xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:dialog="clr-namespace:BatchProcess3.Tools.Dialog"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:BatchProcess3.ViewModels"
              Width="{Binding DialogWidth}"
@@ -10,12 +11,12 @@
              MinHeight="{Binding MinHeight}"
              MaxWidth="{Binding MaxWidth}"
              MaxHeight="{Binding MaxHeight}"
-             x:DataType="vm:ConfirmDialogViewModel"
+             x:DataType="dialog:ConfirmDialogViewModel"
              Background="Transparent"
              Foreground="{DynamicResource PrimaryForeground}"
              mc:Ignorable="d">
   <Design.DataContext>
-    <vm:ConfirmDialogViewModel />
+    <dialog:ConfirmDialogViewModel />
   </Design.DataContext>
 
   <!--  Main Dialog Window  -->

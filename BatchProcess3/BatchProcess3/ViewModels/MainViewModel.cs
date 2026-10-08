@@ -73,7 +73,7 @@ namespace BatchProcess3.ViewModels
         private PageViewModel _currentPage;
 
         [ObservableProperty]
-        private DialogViewModel? _dialog;
+        private Tools.Dialog.DialogViewModel? _dialog;
 
 
 

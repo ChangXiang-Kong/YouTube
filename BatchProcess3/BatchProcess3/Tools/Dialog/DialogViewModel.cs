@@ -1,7 +1,8 @@
 ﻿using System.Threading.Tasks;
+using BatchProcess3.ViewModels;
 using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace BatchProcess3.ViewModels;
+namespace BatchProcess3.Tools.Dialog;
 
 public partial class DialogViewModel : ViewModelBase
 {

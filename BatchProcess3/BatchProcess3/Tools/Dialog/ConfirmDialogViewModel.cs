@@ -1,21 +1,16 @@
 ﻿using System;
-using System.ComponentModel;
-using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Avalonia;
-using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
-using Avalonia.Markup.Xaml.MarkupExtensions;
 using Avalonia.Media;
 using BatchProcess3.Data;
 using BatchProcess3.Tools.Extensions;
 using BatchProcess3.Tools.Helper;
-using BatchProcess3.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
-namespace BatchProcess3.ViewModels;
+namespace BatchProcess3.Tools.Dialog;
 
 // 参考视频：https://www.youtube.com/watch?v=suipJSELnrk&list=PLrW43fNmjaQWwIdZxjZrx5FSXcNzaucOO&index=29
 // ttf图标来源：https://phosphoricons.com/

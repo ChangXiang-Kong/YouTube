@@ -13,6 +13,12 @@ namespace BatchProcess3.EntityFramework.Entities.Process;
 [Table("ProcessAction")]
 public class ProcessActionEntity : ActionEntity
 {
+    /// <summary>
+    /// The underlying action Id
+    /// </summary>
+    [MaxLength(100)] 
+    public string ActionId { get; init; } = "";
+    
     [MaxLength(100)]
     // public Guid PrintSettingsId { get; set; }
     public string ProcessId { get; set; } = "";   // （外键属性）

@@ -131,8 +131,10 @@
               <!--  SelectedValue="{Binding ProcessList.SelectedItem.Id}"  不能绑定 Id，否则会出现一个Bug：选中 某一项后，点击 Delete Button 无法删除  -->
               <ListBox.ItemTemplate>
                 <DataTemplate x:DataType="vmActions:ActionViewModel">
+                <!-- <DataTemplate x:DataType="vmProcess:ProcessActionViewModel"> -->
                   <Grid ColumnDefinitions="*, Auto">
                     <TextBlock Background="Transparent" Text="{Binding JobName}" ToolTip.Tip="{Binding Description}" />
+                    <!-- <TextBlock Background="Transparent" Text="{Binding TestString}" ToolTip.Tip="{Binding Description}" /> -->
                     <!--  Delete  -->
                     <Panel Grid.Column="1">
                       <Button Margin="0,0,-8,0" Padding="0" VerticalAlignment="Center"

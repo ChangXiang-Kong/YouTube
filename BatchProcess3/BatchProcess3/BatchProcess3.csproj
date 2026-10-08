@@ -79,5 +79,9 @@
         <DependentUpon>PrintProfileView.axaml</DependentUpon>
         <SubType>Code</SubType>
       </Compile>
+      <Compile Update="Tools\Dialog\ConfirmDialogView.axaml.cs">
+        <DependentUpon>ConfirmDialogView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
     </ItemGroup>
 </Project>

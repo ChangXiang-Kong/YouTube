@@ -23,19 +23,8 @@ using BatchProcess3.Tools.Printer;
 using BatchProcess3.ViewModels.Actions;
 using BatchProcess3.ViewModels.MainMenus;
 using BatchProcess3.Views.Actions;
+using BatchProcess3.Views.MainMenus;
 using ClassicDiagnostics.Avalonia;
-using ActionsPageView = BatchProcess3.Views.MainMenus.ActionsPageView;
-using ActionsPageViewModel = BatchProcess3.ViewModels.MainMenus.ActionsPageViewModel;
-using HistoryPageView = BatchProcess3.Views.MainMenus.HistoryPageView;
-using HistoryPageViewModel = BatchProcess3.ViewModels.MainMenus.HistoryPageViewModel;
-using HomePageView = BatchProcess3.Views.MainMenus.HomePageView;
-using MacrosPageView = BatchProcess3.Views.MainMenus.MacrosPageView;
-using MacrosPageViewModel = BatchProcess3.ViewModels.MainMenus.MacrosPageViewModel;
-using ProcessPageView = BatchProcess3.Views.MainMenus.ProcessPageView;
-using ReporterPageView = BatchProcess3.Views.MainMenus.ReporterPageView;
-using ReporterPageViewModel = BatchProcess3.ViewModels.MainMenus.ReporterPageViewModel;
-using SettingsPageView = BatchProcess3.Views.MainMenus.SettingsPageView;
-using SettingsPageViewModel = BatchProcess3.ViewModels.MainMenus.SettingsPageViewModel;
 
 // 自定义 XML Namespace 参考链接：https://docs.avaloniaui.net/docs/guides/custom-controls/how-to-create-a-custom-controls-library#xml-namespace-definitions
 // 参考视频：https://www.youtube.com/watch?v=M3CFj0x-tts&list=PLrW43fNmjaQWwIdZxjZrx5FSXcNzaucOO&index=7

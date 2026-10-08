@@ -143,7 +143,7 @@ public partial class SelectableItemsListViewModel<TViewModel>(
         
         if (popupDialog)
         {
-            var confirmDialogViewModel = new ConfirmDialogViewModel
+            var confirmDialogViewModel = new Tools.Dialog.ConfirmDialogViewModel
             {
                 // 图标方式一：
                 GeometryIcon = GeometryIcon.Warning,

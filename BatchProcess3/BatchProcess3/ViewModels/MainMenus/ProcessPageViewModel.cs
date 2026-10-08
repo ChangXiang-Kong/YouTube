@@ -86,13 +86,6 @@ public partial class ProcessPageViewModel(
                 Category = category,
             }));
             
-            // Edit all the Id's  视频链接：https://www.youtube.com/watch?v=QxZ7v6OwMrE&list=PLrW43fNmjaQWwIdZxjZrx5FSXcNzaucOO&index=54  18:00
-            ret.ForEach(x =>
-            {
-                if (x.ProcessActionViewModel != null) 
-                    x.ProcessActionViewModel.Id = $"{x.ProcessActionViewModel.SortOrder}:{x.ProcessActionViewModel.Id}";
-            });
-            
             return ret;
         }
 
@@ -124,7 +117,9 @@ public partial class ProcessPageViewModel(
     }
 
     [RelayCommand]
-    private void AddActionToProcess(ProcessAvailableActionItemViewModel item)
+    private void AddActionToProcess(ProcessAvailableActionItemViewModel item) => InsertActionToProcess(item, -1);
+    
+    private void InsertActionToProcess(ProcessAvailableActionItemViewModel item, int index)
     {
         if (ProcessList?.SelectedItem == null)
             return;
@@ -135,10 +130,35 @@ public partial class ProcessPageViewModel(
         var copy = new ProcessAvailableActionItemViewModel();
         copy.RestoreState(item.GetState());
         
-        // Make the Id start with the process Id
-        if (copy.ProcessActionViewModel != null)
-            copy.ProcessActionViewModel.Id = $"{ProcessList.SelectedItemId}:{item.ProcessActionViewModel.Id}";
+        // Give the copy a new unique ID
+        // 不使用 ViewModelBase 原来的 Id 值，而是获取一个新的 Id，
+        // 用于解决在 Process 页面时，添加两个相同的 Available Actions 项 到 Actions List 后，点击 Save 按钮后报错的问题
+        // 报错内容：System.InvalidOperationException: The instance of entity type 'ProcessActionEntity' cannot be tracked because another instance with the key value '{Id: 01a11b09-dfa1-7d87-85e1-55419f63eb31}' is already being tracked. When attaching existing entities, ensure that only one entity instance with a given key value is attached.
+        copy.ProcessActionViewModel!.Id = Guid.CreateVersion7().ToString();
         
-        ProcessList.SelectedItem.ProcessActions.Add(copy.ProcessActionViewModel!);
+        if (index <= -1  || ProcessList.SelectedItem.ProcessActions.Count == 0 || index > ProcessList.SelectedItem.ProcessActions.Count)
+            ProcessList.SelectedItem.ProcessActions.Add(copy.ProcessActionViewModel!);
+        else
+            ProcessList.SelectedItem.ProcessActions.Insert(index, copy.ProcessActionViewModel!);
+        
+        // Update sort order
+        UpdateActionSortOrder();
     }
+
+    // 视频链接：https://www.youtube.com/watch?v=zmsrQumi_Zo&list=PLrW43fNmjaQWwIdZxjZrx5FSXcNzaucOO&index=56    20:00
+    private void UpdateActionSortOrder()
+    {
+        if (ProcessList?.SelectedItem == null)
+            return;
+
+        foreach (var (action, index) in ProcessList.SelectedItem.ProcessActions.Select((x, idx) => (x, idx)))
+        {
+            // Sort order should match position in list
+            action.SortOrder = index;
+            
+            // Update the Id（多余的，不需要，这里的 Id 不重要，因为有 SortOrder）
+            // action.Id = $"{ProcessList.SelectedItemId}:{action.SortOrder}:{action.ActionId}";
+        }
+    }
+    
 }

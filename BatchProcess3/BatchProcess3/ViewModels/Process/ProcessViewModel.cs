@@ -56,6 +56,8 @@ public static class ProcessViewModelBaseExtensions
         Id = entity.Id,
         JobName = entity.JobName,
         Description = entity.Description,
-        ProcessActions = new(entity.ProcessActions.Select(f => f.ToViewModel())),
+        ProcessActions = new(entity.ProcessActions
+            .Select(x => x.ToViewModel())
+            .OrderBy(x => x.SortOrder)),
     };
 }
