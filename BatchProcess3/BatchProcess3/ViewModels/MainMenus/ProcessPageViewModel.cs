@@ -66,8 +66,11 @@ public partial class ProcessPageViewModel(
             },
             deleteItem: (id) => databaseService.DeleteProcessItem(id),
             addItem: item => databaseService.AddProcessItem(item.ToEntity()),
-            updateItem: item => databaseService.UpdateProcessItem(item.ToEntity())
-        );
+            updateItem: item =>
+            {
+                UpdateActionSortOrder();
+                databaseService.UpdateProcessItem(item.ToEntity());
+            });
         
         ProcessList.FetchList();
 
@@ -146,6 +149,7 @@ public partial class ProcessPageViewModel(
     }
 
     // 视频链接：https://www.youtube.com/watch?v=zmsrQumi_Zo&list=PLrW43fNmjaQWwIdZxjZrx5FSXcNzaucOO&index=56    20:00
+    [RelayCommand]
     private void UpdateActionSortOrder()
     {
         if (ProcessList?.SelectedItem == null)

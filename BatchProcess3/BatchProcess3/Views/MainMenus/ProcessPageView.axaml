@@ -123,15 +123,24 @@
                        TextWrapping="Wrap" />
             </Grid>
 
+            <Label Name="Label_Test" Grid.Row="6" HorizontalAlignment="Right"
+                   HorizontalContentAlignment="Right" Content="Label_Test" />
             <!--  Actions List  -->
             <Label Grid.Row="6" Classes="h2" Content="Actions List" />
             <TextBlock Grid.Row="8" Margin="0,-10,0,0" Text="Select the actions to be used in this process." TextWrapping="Wrap" />
             <!--  绑定Model中的Id而不是Model本身  -->
-            <ListBox Grid.Row="10" ItemsSource="{Binding ProcessList.SelectedItem.ProcessActions}" SelectedValueBinding="{Binding Id}">
+            <ListBox Grid.Row="10" Classes="draggableListBox_Vertical" ItemsSource="{Binding ProcessList.SelectedItem.ProcessActions}" SelectedValueBinding="{Binding Id}">
               <!--  SelectedValue="{Binding ProcessList.SelectedItem.Id}"  不能绑定 Id，否则会出现一个Bug：选中 某一项后，点击 Delete Button 无法删除  -->
+              <Interaction.Behaviors>
+                <CollectionChangedTrigger Collection="{Binding ProcessList.SelectedItem.ProcessActions}">
+                  <!-- <ChangePropertyAction PropertyName="Content" TargetObject="Label_Test" Value="Label_Test.Moved" /> -->
+                  <InvokeCommandAction Command="{Binding UpdateActionSortOrderCommand}" />
+                </CollectionChangedTrigger>
+              </Interaction.Behaviors>
+
               <ListBox.ItemTemplate>
                 <DataTemplate x:DataType="vmActions:ActionViewModel">
-                <!-- <DataTemplate x:DataType="vmProcess:ProcessActionViewModel"> -->
+                  <!-- <DataTemplate x:DataType="vmProcess:ProcessActionViewModel"> -->
                   <Grid ColumnDefinitions="*, Auto">
                     <TextBlock Background="Transparent" Text="{Binding JobName}" ToolTip.Tip="{Binding Description}" />
                     <!-- <TextBlock Background="Transparent" Text="{Binding TestString}" ToolTip.Tip="{Binding Description}" /> -->
