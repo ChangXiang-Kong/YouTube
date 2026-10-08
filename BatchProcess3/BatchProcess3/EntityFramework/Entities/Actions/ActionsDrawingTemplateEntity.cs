@@ -11,7 +11,7 @@ namespace BatchProcess3.EntityFramework.Entities.Actions;
 ///     2、
 /// </summary>
 [Table("ActionsDrawingTemplate")]
-public class ActionsDrawingTemplateEntity : ActionEntityBase
+public class ActionsDrawingTemplateEntity : ActionEntity
 {
     public DrawingTemplateOperation Operation { get; set; }
     

@@ -11,7 +11,7 @@ namespace BatchProcess3.EntityFramework.Entities.Actions;
 ///     2、
 /// </summary>
 [Table("ActionsPrintSettings")]
-public class ActionsPrintSettingsEntity : ActionEntityBase
+public class ActionsPrintSettingsEntity : ActionEntity
 {
     public int Copies { get; set; } = 1;
 

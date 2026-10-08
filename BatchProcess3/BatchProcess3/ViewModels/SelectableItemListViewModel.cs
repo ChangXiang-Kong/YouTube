@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using BatchProcess3.Data;
-using BatchProcess3.Tools.Services;
+using BatchProcess3.Tools.Dialog;
 using BatchProcess3.ViewModels.Actions;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;

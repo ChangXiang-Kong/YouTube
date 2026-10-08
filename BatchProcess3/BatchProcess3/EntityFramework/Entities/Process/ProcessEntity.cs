@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using BatchProcess3.EntityFramework.Entities.Actions;
 
-namespace BatchProcess3.EntityFramework.Entities;
+namespace BatchProcess3.EntityFramework.Entities.Process;
 
 /// <summary>
 /// 注意：<br/>
@@ -20,5 +19,5 @@ public class ProcessEntity : EntityBase
     [MaxLength(5000)]
     public string Description { get; set; } = "";
 
-    public List<ActionEntityBase> Actions { get; set; } = [];
+    public List<ProcessActionEntity> ProcessActions { get; set; } = [];
 }

@@ -7,7 +7,8 @@ using Avalonia.Controls;
 using Avalonia.Platform.Storage;
 using BatchProcess3.Data;
 using BatchProcess3.EntityFramework;
-using BatchProcess3.Tools.Services;
+using BatchProcess3.Tools.Dialog;
+using BatchProcess3.Tools.Printer;
 using BatchProcess3.ViewModels.Actions;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -363,9 +364,10 @@ public partial class ActionsPageViewModel(
         switch (actionsPageName)
         {
             case ActionsPageName.Print: 
-                PrintList.FetchList(); 
                 // Fetch print settings
                 FetchPrintSettings();
+                // 注意 上 下 的顺序不能错，否则初次进入 Action 页面时，print tab 会错误地出现 Save 与 Cancel Button
+                PrintList.FetchList(); 
                 break;
             case ActionsPageName.CustomProperties: CustomPropertiesList.FetchList(); break;
             case ActionsPageName.FileInfo: FileInfoList.FetchList(); break;

@@ -7,7 +7,7 @@ using Avalonia.Controls;
 using BatchProcess3.Data;
 using BatchProcess3.EntityFramework;
 using BatchProcess3.EntityFramework.Entities.Actions;
-using BatchProcess3.Tools.Services;
+using BatchProcess3.Tools.Dialog;
 using BatchProcess3.ViewModels.Actions;
 using BatchProcess3.ViewModels.Process;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -37,7 +37,7 @@ public partial class ProcessPageViewModel(
     private SelectableItemsListViewModel<ProcessViewModel>? _processList;
 
     [ObservableProperty] 
-    private ObservableCollection<AvailableActionItemViewModel>? _availableActionsList;
+    private ObservableCollection<ProcessAvailableActionItemViewModel>? _availableActionsList;
     
     #endregion Members
 
@@ -71,20 +71,27 @@ public partial class ProcessPageViewModel(
         
         ProcessList.FetchList();
 
-        List<AvailableActionItemViewModel> ToAvailableActionItemViewModelList<T>(string category, List<T> list)
-            where T : ActionEntityBase
+        List<ProcessAvailableActionItemViewModel> ToAvailableActionItemViewModelList<T>(string category, List<T> list)
+            where T : ActionEntity
         {
-            var ret = new List<AvailableActionItemViewModel> {
+            var ret = new List<ProcessAvailableActionItemViewModel> {
                 // Add header
-                new AvailableActionItemViewModel() { Category = category }
+                new ProcessAvailableActionItemViewModel() { Category = category }
             };
 
             // Add items
-            ret.AddRange(list.Select(x => new AvailableActionItemViewModel()
+            ret.AddRange(list.Select(x => new ProcessAvailableActionItemViewModel()
             {
-                ActionViewModel = x.ToViewModel(),
+                ProcessActionViewModel = x.ToProcessActionViewModel(),
                 Category = category,
             }));
+            
+            // Edit all the Id's  视频链接：https://www.youtube.com/watch?v=QxZ7v6OwMrE&list=PLrW43fNmjaQWwIdZxjZrx5FSXcNzaucOO&index=54  18:00
+            ret.ForEach(x =>
+            {
+                if (x.ProcessActionViewModel != null) 
+                    x.ProcessActionViewModel.Id = $"{x.ProcessActionViewModel.SortOrder}:{x.ProcessActionViewModel.Id}";
+            });
             
             return ret;
         }
@@ -98,7 +105,7 @@ public partial class ProcessPageViewModel(
         var drawingTemplates = ToAvailableActionItemViewModelList("Drawing Template", databaseService.GetDrawingTemplateList());
         var macros = ToAvailableActionItemViewModelList("Macros", databaseService.GetMacrosList());
 
-        AvailableActionsList = new ObservableCollection<AvailableActionItemViewModel>(
+        AvailableActionsList = new ObservableCollection<ProcessAvailableActionItemViewModel>(
             prints
                 .Concat(customProperties)
                 .Concat(fileInfos)
@@ -111,31 +118,27 @@ public partial class ProcessPageViewModel(
     }
 
     [RelayCommand]
-    private void DeleteSelectedProcessActionItem(int sortOrder)
+    private void DeleteActionFromProcess(ProcessActionViewModel item)
     {
-        if (ProcessList?.SelectedItem == null)
-            // TODO: Throw/Warn?
-            return;
-
-        var action = ProcessList.SelectedItem.Actions.FirstOrDefault(x => x.SortOrder == sortOrder);
-        if (action != null)
-            ProcessList.SelectedItem.Actions.Remove(action);
+        ProcessList?.SelectedItem?.ProcessActions.Remove(item);
     }
 
     [RelayCommand]
-    private void AddActionToActionsList(AvailableActionItemViewModel item)
+    private void AddActionToProcess(ProcessAvailableActionItemViewModel item)
     {
         if (ProcessList?.SelectedItem == null)
             return;
-        if (item.ActionViewModel == null)
+        if (item.ProcessActionViewModel == null)
             return;
 
-        var copy = new AvailableActionItemViewModel();
+        // 视频链接：https://www.youtube.com/watch?v=QxZ7v6OwMrE&list=PLrW43fNmjaQWwIdZxjZrx5FSXcNzaucOO&index=54  18:20
+        var copy = new ProcessAvailableActionItemViewModel();
         copy.RestoreState(item.GetState());
-        // Make the Id start with the process Id
-        if (copy.ActionViewModel != null)
-            copy.ActionViewModel.Id = $"{ProcessList.SelectedItemId}:{item.ActionViewModel.Id}";
         
-        ProcessList.SelectedItem.Actions.Add(item.ActionViewModel);
+        // Make the Id start with the process Id
+        if (copy.ProcessActionViewModel != null)
+            copy.ProcessActionViewModel.Id = $"{ProcessList.SelectedItemId}:{item.ProcessActionViewModel.Id}";
+        
+        ProcessList.SelectedItem.ProcessActions.Add(copy.ProcessActionViewModel!);
     }
 }

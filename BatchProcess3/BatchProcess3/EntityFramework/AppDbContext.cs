@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using BatchProcess3.Data;
 using BatchProcess3.EntityFramework.Entities;
 using BatchProcess3.EntityFramework.Entities.Actions;
+using BatchProcess3.EntityFramework.Entities.Process;
 using Microsoft.EntityFrameworkCore;
 
 namespace BatchProcess3.EntityFramework;
@@ -86,8 +87,10 @@ public class AppDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder);     // 调用与否没有影响
 
-        // BaseEntity
-        modelBuilder.Entity<EntityBase>().HasKey(x => x.Id);    // 显式标记 主键 为 Id。若 xxxEntity 已添加 名为 Id 的 属性，EFCore会自动将其识别为 主键，这里就不需要了
+        // EntityBase
+        modelBuilder.Entity<EntityBase>()
+            .UseTpcMappingStrategy()    // Concrete type，参考链接：https://learn.microsoft.com/en-us/ef/core/modeling/inheritance
+            .HasKey(x => x.Id);    // 显式标记 主键 为 Id。若 xxxEntity 已添加 名为 Id 的 属性，EFCore会自动将其识别为 主键，这里就不需要了
         
         // TODO: 以下代码需要查资料，搞明白 HasMany、WithOne、HasOne、WithMany 等如何用，Cascade 与 ClientCascade 的区别
         // PrintSettingsEntity
@@ -161,6 +164,13 @@ public class AppDbContext : DbContext
             .HasForeignKey(x => x.PrintSettingsId)
             .OnDelete(DeleteBehavior.ClientCascade);
         
+        // ProcessEntity
+        modelBuilder.Entity<ProcessEntity>()
+            .HasMany(x => x.ProcessActions)
+            .WithOne(x => x.Process)
+            .HasForeignKey(x => x.ProcessId)
+            .OnDelete(DeleteBehavior.ClientCascade);
+            
     }
 
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)

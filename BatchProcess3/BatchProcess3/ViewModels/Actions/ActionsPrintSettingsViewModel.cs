@@ -3,7 +3,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using BatchProcess3.Data;
 using BatchProcess3.EntityFramework.Entities.Actions;
-using BatchProcess3.Tools.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace BatchProcess3.ViewModels.Actions;

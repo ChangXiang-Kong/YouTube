@@ -3,7 +3,6 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using Avalonia.Metadata;
 using BatchProcess3.Data;
-using BatchProcess3.Tools.Factories;
 using BatchProcess3.ViewModels;
 using BatchProcess3.Views;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,8 +16,10 @@ using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Threading;
 using BatchProcess3.EntityFramework;
+using BatchProcess3.Tools;
+using BatchProcess3.Tools.Dialog;
 using BatchProcess3.Tools.Extensions;
-using BatchProcess3.Tools.Services;
+using BatchProcess3.Tools.Printer;
 using BatchProcess3.ViewModels.Actions;
 using BatchProcess3.ViewModels.MainMenus;
 using BatchProcess3.Views.Actions;
@@ -303,7 +304,7 @@ public partial class App : Application
     // UI线程未捕获异常处理事件
     private void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
     {
-        var logContent = LogException(e.Exception.InnerException ?? e.Exception);
+        var logContent = LogException(e.Exception);
         ShowCrashMessageInErrorWindow(e.Exception, logContent);
         //NLogger.Logger.AddFatal(e.Exception, "UI线程未处理异常");
         //Logger.AddFatal(e.Exception, "UI线程未处理异常");
@@ -322,7 +323,7 @@ public partial class App : Application
     // Task线程内未捕获异常处理事件
     private void TaskScheduler_UnobservedTaskException(object? sender, UnobservedTaskExceptionEventArgs e)
     {
-        var logContent = LogException(e.Exception.InnerException ?? e.Exception);
+        var logContent = LogException(e.Exception);
         ShowCrashMessageInErrorWindow(e.Exception, logContent);
         e.SetObserved();    // e.SetObserved() 表示异常已处理，避免程序崩溃。设置该异常已察觉（这样处理后就不会引起程序崩溃）
     }
@@ -387,6 +388,9 @@ public partial class App : Application
         var logFileName = $"CrashLog_{now:yyyyMMdd_HHmmssffff}.log";
         var logFilePath = Path.Combine(logDirectory, logFileName);
 
+        if (ex.InnerException != null)
+            ex = ex.InnerException;
+        
         var logContent = $"CrashTime: {now:yyyy-MM-dd HH:mm:ss:ffff}{Environment.NewLine}" +
                          $"Exception Type: {ex.GetType().Name}{Environment.NewLine}" +
                          $"Exception Message: {ex.Message}{Environment.NewLine}" +

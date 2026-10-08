@@ -10,6 +10,11 @@ namespace BatchProcess3.ViewModels.Actions;
 
 public partial class ActionsSaveModelViewModel : ActionViewModel, ISelectableItemsListViewModel
 {
+    public ActionsSaveModelViewModel()
+    {
+        ExportFormats = [];     // 2、可以在构造函数中设置一个值，这样就会调用 SetAndObserveEverything() 方法，
+    }
+    
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
     private string _fileName = "";
 
@@ -17,7 +22,8 @@ public partial class ActionsSaveModelViewModel : ActionViewModel, ISelectableIte
     {
         get => field;
         set => this.SetAndObserveEverything(ref field, value, [nameof(HasChanged)]);
-    } = [];
+    // } = [];      // 1、不能使用默认值，因为设置默认值不会触发 SetAndObserveEverything() 方法，导致没有调用内部事件
+    }
 
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
     private bool _saveAllConfigurations;

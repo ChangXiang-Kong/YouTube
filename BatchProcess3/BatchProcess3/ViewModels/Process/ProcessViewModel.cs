@@ -4,6 +4,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using BatchProcess3.EntityFramework.Entities;
 using BatchProcess3.EntityFramework.Entities.Actions;
+using BatchProcess3.EntityFramework.Entities.Process;
 using BatchProcess3.Tools.Extensions;
 using BatchProcess3.ViewModels.Actions;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -12,6 +13,11 @@ namespace BatchProcess3.ViewModels.Process;
 
 public partial class ProcessViewModel : ViewModelBase, ISelectableItemsListViewModel
 {
+    public ProcessViewModel()
+    {
+        ProcessActions = [];    // 2、可以在构造函数中设置一个值，这样就会调用 SetAndObserveEverything() 方法，
+    }
+    
     [ObservableProperty] 
     [NotifyPropertyChangedFor(nameof(HasChanged))]
     private string _jobName = "";
@@ -20,11 +26,12 @@ public partial class ProcessViewModel : ViewModelBase, ISelectableItemsListViewM
     [NotifyPropertyChangedFor(nameof(HasChanged))]
     private string _description = "";
 
-    public ObservableCollection<ActionViewModel> Actions
+    public ObservableCollection<ProcessActionViewModel> ProcessActions
     {
         get => field;
         set => this.SetAndObserveEverything(ref field, value, [nameof(HasChanged)]);
-    } = [];
+    // } = [];      // 1、不能使用默认值，因为设置默认值不会触发 SetAndObserveEverything() 方法，导致没有调用内部事件
+    }
     
     [ObservableProperty] private bool _isNewItem;
     
@@ -41,7 +48,7 @@ public static class ProcessViewModelBaseExtensions
         Id = viewModel.Id,
         Description = viewModel.Description,
         JobName = viewModel.JobName,
-        Actions = viewModel.Actions.Select(f => f.ToEntity()).ToList()
+        ProcessActions = viewModel.ProcessActions.Select(f => f.ToEntity()).ToList()
     };
     
     public static ProcessViewModel ToViewModel(this ProcessEntity entity) => new()
@@ -49,6 +56,6 @@ public static class ProcessViewModelBaseExtensions
         Id = entity.Id,
         JobName = entity.JobName,
         Description = entity.Description,
-        Actions = new(entity.Actions.Select(f => f.ToViewModel())),
+        ProcessActions = new(entity.ProcessActions.Select(f => f.ToViewModel())),
     };
 }

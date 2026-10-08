@@ -1,12 +1,8 @@
-﻿using BatchProcess3.Data;
+﻿using System;
+using BatchProcess3.Data;
 using BatchProcess3.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace BatchProcess3.Tools.Factories;
+namespace BatchProcess3.Tools;
 
 // 方式一：基本写法
 public class PageFactory0

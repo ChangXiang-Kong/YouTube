@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using BatchProcess3.EntityFramework;
 using BatchProcess3.EntityFramework.Entities;
 using BatchProcess3.EntityFramework.Entities.Actions;
+using BatchProcess3.EntityFramework.Entities.Process;
 using Microsoft.EntityFrameworkCore;
 
-namespace BatchProcess3.Tools.Services;
+namespace BatchProcess3.EntityFramework;
 
 public class DatabaseService(AppDbContext dbContext) : IDisposable
 {
@@ -111,9 +111,9 @@ public class DatabaseService(AppDbContext dbContext) : IDisposable
         return res;
     }
 
-    public bool AddPrintListItem(ActionsPrintEntity printEntity)
+    public bool AddPrintListItem(ActionsPrintEntity entity)
     {
-        _dbContext.ActionsPrint.Add(printEntity);
+        _dbContext.ActionsPrint.Add(entity);
         return _dbContext.SaveChanges() > 0;
     }
 
@@ -547,7 +547,9 @@ public class DatabaseService(AppDbContext dbContext) : IDisposable
     
     public List<ProcessEntity> GetProcessesList()
     {
-        return _dbContext.Process.ToList();
+        return _dbContext.Process
+            .Include(x => x.ProcessActions)
+            .ToList();
     }
 
     public bool AddProcessItem(ProcessEntity entity)

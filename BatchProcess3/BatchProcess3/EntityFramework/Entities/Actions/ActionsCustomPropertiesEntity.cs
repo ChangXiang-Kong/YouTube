@@ -11,7 +11,7 @@ namespace BatchProcess3.EntityFramework.Entities.Actions;
 ///     2、
 /// </summary>
 [Table("ActionsCustomProperties")]
-public class ActionsCustomPropertiesEntity : ActionEntityBase
+public class ActionsCustomPropertiesEntity : ActionEntity
 {
     public CustomPropertyRuleType RuleType { get; set; }
 

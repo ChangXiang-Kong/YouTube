@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Drawing.Printing;
-using BatchProcess3.ViewModels;
 using BatchProcess3.ViewModels.Actions;
 
-namespace BatchProcess3.Tools.Services;
+namespace BatchProcess3.Tools.Printer;
 
 public class PrinterService
 {

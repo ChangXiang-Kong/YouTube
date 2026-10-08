@@ -11,7 +11,7 @@ namespace BatchProcess3.EntityFramework.Entities.Actions;
 ///     2、
 /// </summary>
 [Table("ActionsImportFile")]
-public class ActionsImportFileEntity : ActionEntityBase
+public class ActionsImportFileEntity : ActionEntity
 {
     [MaxLength(1000)]
     public string FileName { get; set; } = "";

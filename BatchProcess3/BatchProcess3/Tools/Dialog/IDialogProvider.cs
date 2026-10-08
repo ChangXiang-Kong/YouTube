@@ -1,6 +1,6 @@
 ﻿using BatchProcess3.ViewModels;
 
-namespace BatchProcess3.Tools.Interfaces;
+namespace BatchProcess3.Tools.Dialog;
 
 public interface IDialogProvider
 {

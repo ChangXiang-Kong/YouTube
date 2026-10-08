@@ -5,8 +5,7 @@ using System.Threading.Tasks;
 using BatchProcess3.Data;
 using BatchProcess3.EntityFramework;
 using BatchProcess3.EntityFramework.Entities;
-using BatchProcess3.Tools.Factories;
-using BatchProcess3.Tools.Services;
+using BatchProcess3.Tools.Dialog;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 

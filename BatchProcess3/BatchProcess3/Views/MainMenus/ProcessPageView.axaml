@@ -127,28 +127,27 @@
             <Label Grid.Row="6" Classes="h2" Content="Actions List" />
             <TextBlock Grid.Row="8" Margin="0,-10,0,0" Text="Select the actions to be used in this process." TextWrapping="Wrap" />
             <!--  绑定Model中的Id而不是Model本身  -->
-            <ListBox Grid.Row="10" ItemsSource="{Binding ProcessList.SelectedItem.Actions}" SelectedValue="{Binding ProcessList.SelectedItem.Id}" SelectedValueBinding="{Binding Id}">
+            <ListBox Grid.Row="10" ItemsSource="{Binding ProcessList.SelectedItem.ProcessActions}" SelectedValueBinding="{Binding Id}">
+              <!--  SelectedValue="{Binding ProcessList.SelectedItem.Id}"  不能绑定 Id，否则会出现一个Bug：选中 某一项后，点击 Delete Button 无法删除  -->
               <ListBox.ItemTemplate>
                 <DataTemplate x:DataType="vmActions:ActionViewModel">
                   <Grid ColumnDefinitions="*, Auto">
                     <TextBlock Background="Transparent" Text="{Binding JobName}" ToolTip.Tip="{Binding Description}" />
-                    <StackPanel Grid.Column="1" Orientation="Horizontal">
-                      <!--  Delete  -->
-                      <Panel>
-                        <Button Margin="0,0,-8,0" Padding="0" VerticalAlignment="Center"
-                                ava:ToolTip.Tip="Delete" Classes="smaller danger"
-                                Command="{Binding $parent[ListBox].((vmMainMenus:ProcessPageViewModel)DataContext).DeleteSelectedProcessActionItemCommand}"
-                                CommandParameter="{Binding SortOrder}">
-                          <Button.IsVisible>
-                            <MultiBinding Converter="{StaticResource BoolMultivaluedOrOperationConverter}">
-                              <Binding Path="$parent[ListBoxItem].IsPointerOver" />
-                              <Binding Path="$parent[ListBoxItem].IsSelected" />
-                            </MultiBinding>
-                          </Button.IsVisible>
-                          <Label Classes="icon-only icon-outline" Content="&#xe4a6;" />
-                        </Button>
-                      </Panel>
-                    </StackPanel>
+                    <!--  Delete  -->
+                    <Panel Grid.Column="1">
+                      <Button Margin="0,0,-8,0" Padding="0" VerticalAlignment="Center"
+                              ava:ToolTip.Tip="Delete" Classes="smaller danger"
+                              Command="{Binding $parent[ListBox].((vmMainMenus:ProcessPageViewModel)DataContext).DeleteActionFromProcessCommand}"
+                              CommandParameter="{Binding}">
+                        <Button.IsVisible>
+                          <MultiBinding Converter="{StaticResource BoolMultivaluedOrOperationConverter}">
+                            <Binding Path="$parent[ListBoxItem].IsPointerOver" />
+                            <Binding Path="$parent[ListBoxItem].IsSelected" />
+                          </MultiBinding>
+                        </Button.IsVisible>
+                        <Label Classes="icon-only icon-outline" Content="&#xe4a6;" />
+                      </Button>
+                    </Panel>
                   </Grid>
                 </DataTemplate>
               </ListBox.ItemTemplate>
@@ -162,7 +161,7 @@
 
             <ListBox Grid.Row="4" ItemsSource="{Binding AvailableActionsList}">
               <ListBox.ItemContainerTheme>
-                <ControlTheme x:DataType="vm:AvailableActionItemViewModel" BasedOn="{StaticResource {x:Type ListBoxItem}}" TargetType="ListBoxItem">
+                <ControlTheme x:DataType="vmProcess:ProcessAvailableActionItemViewModel" BasedOn="{StaticResource {x:Type ListBoxItem}}" TargetType="ListBoxItem">
                   <Setter Property="IsEnabled" Value="{Binding IsSelectable}" />
                   <Setter Property="Padding" Value="{Binding Padding}" />
                 </ControlTheme>
@@ -173,15 +172,15 @@
                     <TextBlock Grid.Column="0" Margin="3,0,0,0" VerticalAlignment="Center"
                                FontWeight="Black"
                                Foreground="{StaticResource ActiveHoverGradient}"
-                               IsVisible="{Binding ActionViewModel, Converter={x:Static ObjectConverters.IsNull}}"
+                               IsVisible="{Binding ProcessActionViewModel, Converter={x:Static ObjectConverters.IsNull}}"
                                Text="{Binding Category}" />
                     <TextBlock Grid.Column="2" Padding="5" VerticalAlignment="Center"
                                Background="Transparent"
-                               IsVisible="{Binding ActionViewModel, Converter={x:Static ObjectConverters.IsNotNull}}"
-                               Text="{Binding ActionViewModel.JobName}"
-                               ToolTip.Tip="{Binding ActionViewModel.JobName}" />
+                               IsVisible="{Binding ProcessActionViewModel, Converter={x:Static ObjectConverters.IsNotNull}}"
+                               Text="{Binding ProcessActionViewModel.JobName}"
+                               ToolTip.Tip="{Binding ProcessActionViewModel.JobName}" />
                     <Button Grid.Column="3" Margin="0,0,12,0" Classes="smaller success"
-                            Command="{Binding $parent[ListBox].((vmMainMenus:ProcessPageViewModel)DataContext).AddActionToActionsListCommand}"
+                            Command="{Binding $parent[ListBox].((vmMainMenus:ProcessPageViewModel)DataContext).AddActionToProcessCommand}"
                             CommandParameter="{Binding}"
                             Content="+" ToolTip.Tip="Add to Actions List" ZIndex="10">
                       <Button.IsVisible>

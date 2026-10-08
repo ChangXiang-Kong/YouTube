@@ -30,7 +30,7 @@ public partial class ActionViewModel : ViewModelBase
 
 public static class ActionViewModelExtensions
 {
-    public static ActionEntityBase ToEntity(this ActionViewModel viewModel) => new()
+    public static ActionEntity ToEntity(this ActionViewModel viewModel) => new()
     {
         Id = viewModel.Id,
         Description = viewModel.Description,
@@ -38,7 +38,7 @@ public static class ActionViewModelExtensions
         SortOrder = viewModel.SortOrder,
     };
     
-    public static ActionViewModel ToViewModel(this ActionEntityBase entity) => new()
+    public static ActionViewModel ToViewModel(this ActionEntity entity) => new()
     {
         Id = entity.Id,
         JobName = entity.JobName,

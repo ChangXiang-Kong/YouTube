@@ -11,7 +11,7 @@ namespace BatchProcess3.EntityFramework.Entities.Actions;
 ///     2、
 /// </summary>
 [Table("ActionsFileInfo")]
-public class ActionsFileInfoEntity : ActionEntityBase
+public class ActionsFileInfoEntity : ActionEntity
 {
     [MaxLength(1000)]
     public string Title { get; set; } = "";

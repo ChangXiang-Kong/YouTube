@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BatchProcess3.EntityFramework.Entities;
 
@@ -15,6 +16,7 @@ public class EntityBase
     /// 用于需要拼接 Id 时的可选项字段，如（父Id|子Id）<br/>
     /// 当使用 Guid 类型的 Id 时，无法拼接字符串，这时就可以使用该字段了
     /// </summary>
+    [MaxLength(200)]
     public string? ConcatenatedId { get; set; }
     
     /// <summary> 删除标记，主要用于伪删除 </summary>

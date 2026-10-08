@@ -11,7 +11,7 @@ namespace BatchProcess3.EntityFramework.Entities.Actions;
 ///     2、
 /// </summary>
 [Table("ActionsMacros")]
-public class ActionsMacrosEntity : ActionEntityBase
+public class ActionsMacrosEntity : ActionEntity
 {
     [MaxLength(1000)]
     public string MacroPath { get; set; } = "";

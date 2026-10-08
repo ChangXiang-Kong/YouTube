@@ -1,15 +1,14 @@
 ﻿using Avalonia;
-using BatchProcess3.ViewModels.Actions;
 using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace BatchProcess3.ViewModels;
+namespace BatchProcess3.ViewModels.Process;
 
-public partial class AvailableActionItemViewModel : ViewModelBase
+public partial class ProcessAvailableActionItemViewModel : ViewModelBase
 {
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(IsSelectable))]
     [NotifyPropertyChangedFor(nameof(Padding))]
-    private ActionViewModel? _actionViewModel;
+    private ProcessActionViewModel? _processActionViewModel;
     
     [ObservableProperty]
     private string? _category;
@@ -17,7 +16,7 @@ public partial class AvailableActionItemViewModel : ViewModelBase
     [ObservableProperty]
     private string? _iconPath;
     
-    public bool IsSelectable => ActionViewModel != null;
+    public bool IsSelectable => ProcessActionViewModel != null;
     
     public Thickness Padding => IsSelectable ? new Thickness(5) : new Thickness(5, 5, 5, 2);
 }

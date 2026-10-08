@@ -1,6 +1,5 @@
 ﻿using Avalonia.Svg.Skia;
 using BatchProcess3.Data;
-using BatchProcess3.Tools.Factories;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
@@ -9,8 +8,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BatchProcess3.EntityFramework;
-using BatchProcess3.Tools.Interfaces;
-using BatchProcess3.Tools.Services;
+using BatchProcess3.Tools;
+using BatchProcess3.Tools.Dialog;
 using BatchProcess3.ViewModels.MainMenus;
 
 namespace BatchProcess3.ViewModels

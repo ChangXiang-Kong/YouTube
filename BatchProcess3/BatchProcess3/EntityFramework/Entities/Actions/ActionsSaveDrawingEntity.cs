@@ -12,7 +12,7 @@ namespace BatchProcess3.EntityFramework.Entities.Actions;
 ///     2、
 /// </summary>
 [Table("ActionsSaveDrawing")]
-public class ActionsSaveDrawingEntity : ActionEntityBase
+public class ActionsSaveDrawingEntity : ActionEntity
 {
     [MaxLength(1000)]
     public string FileName { get; set; } = "";

@@ -4,10 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Platform.Storage;
-using BatchProcess3.Tools.Interfaces;
 using BatchProcess3.ViewModels;
 
-namespace BatchProcess3.Tools.Services;
+namespace BatchProcess3.Tools.Dialog;
 
 public class DialogService(Func<TopLevel?> topLevelProvider)
 {
