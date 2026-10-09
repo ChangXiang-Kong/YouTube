@@ -1,7 +1,12 @@
-﻿using Avalonia.Controls;
+﻿using System.Collections.Generic;
+using Avalonia.Controls;
+using Avalonia.Controls.Primitives;
+using Avalonia.Input;
 using Avalonia.Interactivity;
+using BatchProcess3.Tools.Extensions;
 using BatchProcess3.ViewModels.MainMenus;
 using BatchProcess3.ViewModels.Process;
+using CommunityToolkit.Mvvm.Messaging;
 
 namespace BatchProcess3.Views.MainMenus;
 
@@ -11,11 +16,32 @@ public partial class ProcessPageView : UserControl
     {
         InitializeComponent();
         Loaded += OnLoaded;
+        Unloaded += OnUnloaded;
     }
 
     private void OnLoaded(object? sender, RoutedEventArgs e)
     {
+        /*
+         说明：该方式只是提供一个额外的思路
+             使用如下方式时，隐藏 Flyout 的方法
+                 <Interaction.Behaviors>
+                   <TappedEventTrigger>
+                     <InvokeCommandAction Command="{Binding $parent[ListBox].((vmMainMenus:ProcessPageViewModel)DataContext).AddActionToProcessCommand}" CommandParameter="{Binding}" />
+                   </TappedEventTrigger>
+                 </Interaction.Behaviors>
+         */
+        WeakReferenceMessenger.Default.Register<Dictionary<string, ProcessAvailableActionItemViewModel>>(this, (recipient, msg) =>
+        {
+            if (msg.TryGetValue(nameof(HideListBox_ActionsListContextMenu), out var itemViewModel))
+                HideListBox_ActionsListContextMenu(itemViewModel);
+        });
+        
         ((ProcessPageViewModel)DataContext).InitializeCommand.Execute(null);
+    }
+
+    private void OnUnloaded(object? sender, RoutedEventArgs e)
+    {
+        WeakReferenceMessenger.Default.UnregisterAll(this);
     }
 
     private void SelectingItemsControl_OnSelectionChanged(object? sender, SelectionChangedEventArgs e)
@@ -50,5 +76,46 @@ public partial class ProcessPageView : UserControl
                 TextBox_JobName.Focus();
             }
         }
+    }
+
+    private void ListBox_ActionsList_OnPointerReleased(object? sender, PointerReleasedEventArgs e)
+    {
+        if (sender is Control control && e.InitialPressMouseButton == MouseButton.Right)
+        {
+            FlyoutBase.ShowAttachedFlyout(control);
+        }
+    }
+
+    private void Border_ActionContextMenu_OnPointerReleased(object? sender, PointerReleasedEventArgs e)
+    {
+        if (e.InitialPressMouseButton == MouseButton.Left
+            && DataContext is ProcessPageViewModel viewModel
+            && sender is Control control
+            && control.DataContext is ProcessAvailableActionItemViewModel itemViewModel)
+        {
+            viewModel.InsertActionToProcess(itemViewModel, ++ListBox_ActionsListContextMenu.SelectedIndex);
+            FlyoutBase.GetAttachedFlyout(ListBox_ActionsListContextMenu)?.Hide();
+        }
+    }
+
+    /*
+     说明：该方式只是提供一个额外的思路
+         使用如下方式时，隐藏 Flyout 的方法
+             <Interaction.Behaviors>
+               <TappedEventTrigger>
+                 <InvokeCommandAction Command="{Binding $parent[ListBox].((vmMainMenus:ProcessPageViewModel)DataContext).AddActionToProcessCommand}" CommandParameter="{Binding}" />
+               </TappedEventTrigger>
+             </Interaction.Behaviors>
+     */
+    public void HideListBox_ActionsListContextMenu(ProcessAvailableActionItemViewModel itemViewModel)
+    {
+        ((ProcessPageViewModel)DataContext).InsertActionToProcess(itemViewModel, ++ListBox_ActionsListContextMenu.SelectedIndex);
+        
+        // 这是一个妥协的方法，因为 InvokeCommandAction 调用 AddActionToProcessCommand 后，
+        // 会先在需末尾添加一个元素，之后再调用 WeakReferenceMessenger.Default.Send() 方法，
+        // 从而调用本方法的 InsertActionToProcess() 方法，将元素插入到指定位置
+        ((ProcessPageViewModel)DataContext).ProcessList.SelectedItem.ProcessActions.RemoveAtRelative(-1);
+        
+        FlyoutBase.GetAttachedFlyout(ListBox_ActionsListContextMenu)?.Hide();
     }
 }

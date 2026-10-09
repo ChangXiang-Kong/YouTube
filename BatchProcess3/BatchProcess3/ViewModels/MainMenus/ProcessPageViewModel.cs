@@ -12,33 +12,32 @@ using BatchProcess3.ViewModels.Actions;
 using BatchProcess3.ViewModels.Process;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 
 namespace BatchProcess3.ViewModels.MainMenus;
 
 public partial class ProcessPageViewModel(
-    MainViewModel mainViewModel, 
-    DialogService dialogService, 
+    MainViewModel mainViewModel,
+    DialogService dialogService,
     DatabaseService databaseService) : PageViewModel(ApplicationPageName.Process)
 {
     // Design time only
-    public ProcessPageViewModel() : this(new MainViewModel(), 
+    public ProcessPageViewModel() : this(new MainViewModel(),
         new DialogService(new Func<TopLevel?>(() => null)),
         new DatabaseService(new AppDbContext()))
     {
-        if (!Avalonia.Controls.Design.IsDesignMode) 
+        if (!Avalonia.Controls.Design.IsDesignMode)
             throw new InvalidOperationException("Parameterless constructor is only for design time use");
     }
-    
+
     #region Members
 
     public string? Test { get; set; } = "Test Process";
 
-    [ObservableProperty] 
-    private SelectableItemsListViewModel<ProcessViewModel>? _processList;
+    [ObservableProperty] private SelectableItemsListViewModel<ProcessViewModel>? _processList;
 
-    [ObservableProperty] 
-    private ObservableCollection<ProcessAvailableActionItemViewModel>? _availableActionsList;
-    
+    [ObservableProperty] private ObservableCollection<ProcessAvailableActionItemViewModel>? _availableActionsList;
+
     #endregion Members
 
     // 也可以使用 OnViewLoaded() 代替
@@ -52,7 +51,7 @@ public partial class ProcessPageViewModel(
             getList: () =>
             {
                 var list = databaseService.GetProcessesList();
-        
+
                 return new ObservableCollection<ProcessViewModel>(list
                     .OrderBy(x => x.JobName)
                     .Select(x => x.ToViewModel()));
@@ -71,13 +70,14 @@ public partial class ProcessPageViewModel(
                 UpdateActionSortOrder();
                 databaseService.UpdateProcessItem(item.ToEntity());
             });
-        
+
         ProcessList.FetchList();
 
         List<ProcessAvailableActionItemViewModel> ToAvailableActionItemViewModelList<T>(string category, List<T> list)
             where T : ActionEntity
         {
-            var ret = new List<ProcessAvailableActionItemViewModel> {
+            var ret = new List<ProcessAvailableActionItemViewModel>
+            {
                 // Add header
                 new ProcessAvailableActionItemViewModel() { Category = category }
             };
@@ -88,17 +88,19 @@ public partial class ProcessPageViewModel(
                 ProcessActionViewModel = x.ToProcessActionViewModel(),
                 Category = category,
             }));
-            
+
             return ret;
         }
 
         var prints = ToAvailableActionItemViewModelList("Print", databaseService.GetPrintList());
-        var customProperties = ToAvailableActionItemViewModelList("Custom Properties", databaseService.GetCustomPropertiesList());
+        var customProperties =
+            ToAvailableActionItemViewModelList("Custom Properties", databaseService.GetCustomPropertiesList());
         var fileInfos = ToAvailableActionItemViewModelList("File Info", databaseService.GetFileInfoList());
         var saveModels = ToAvailableActionItemViewModelList("Save Model", databaseService.GetSaveModelList());
         var saveDrawings = ToAvailableActionItemViewModelList("Save Drawing", databaseService.GetSaveDrawingList());
         var importFiles = ToAvailableActionItemViewModelList("Import File", databaseService.GetImportFileList());
-        var drawingTemplates = ToAvailableActionItemViewModelList("Drawing Template", databaseService.GetDrawingTemplateList());
+        var drawingTemplates =
+            ToAvailableActionItemViewModelList("Drawing Template", databaseService.GetDrawingTemplateList());
         var macros = ToAvailableActionItemViewModelList("Macros", databaseService.GetMacrosList());
 
         AvailableActionsList = new ObservableCollection<ProcessAvailableActionItemViewModel>(
@@ -120,9 +122,24 @@ public partial class ProcessPageViewModel(
     }
 
     [RelayCommand]
-    private void AddActionToProcess(ProcessAvailableActionItemViewModel item) => InsertActionToProcess(item, -1);
+    private void AddActionToProcess(ProcessAvailableActionItemViewModel item)
+    {
+        InsertActionToProcess(item, -1);
+        
+        /*
+         说明：该方式只是提供一个额外的思路
+             使用如下方式时，隐藏 Flyout 的方法
+                 <Interaction.Behaviors>
+                   <TappedEventTrigger>
+                     <InvokeCommandAction Command="{Binding $parent[ListBox].((vmMainMenus:ProcessPageViewModel)DataContext).AddActionToProcessCommand}" CommandParameter="{Binding}" />
+                   </TappedEventTrigger>
+                 </Interaction.Behaviors>
+         */
+        // 发送消息，通知View关闭Flyout
+        // WeakReferenceMessenger.Default.Send(new Dictionary<string, ProcessAvailableActionItemViewModel>() {{"HideListBox_ActionsListContextMenu", item}});
+    }
     
-    private void InsertActionToProcess(ProcessAvailableActionItemViewModel item, int index)
+    public void InsertActionToProcess(ProcessAvailableActionItemViewModel item, int index)
     {
         if (ProcessList?.SelectedItem == null)
             return;

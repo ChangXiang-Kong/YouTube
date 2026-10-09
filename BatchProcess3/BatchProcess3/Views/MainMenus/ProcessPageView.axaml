@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:ava="clr-namespace:Avalonia.Controls;assembly=Avalonia.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:BatchProcess3.Views.MainMenus"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:BatchProcess3.ViewModels"
              xmlns:vmActions="clr-namespace:BatchProcess3.ViewModels.Actions"
@@ -17,6 +18,15 @@
   <Design.DataContext>
     <vmMainMenus:ProcessPageViewModel />
   </Design.DataContext>
+
+  <UserControl.Styles>
+    <Styles>
+      <Style Selector="FlyoutPresenter">
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Background" Value="Transparent" />
+      </Style>
+    </Styles>
+  </UserControl.Styles>
 
   <Grid ColumnDefinitions="*" RowDefinitions="Auto, *">
     <!--  Header  -->
@@ -129,14 +139,69 @@
             <Label Grid.Row="6" Classes="h2" Content="Actions List" />
             <TextBlock Grid.Row="8" Margin="0,-10,0,0" Text="Select the actions to be used in this process." TextWrapping="Wrap" />
             <!--  绑定Model中的Id而不是Model本身  -->
-            <ListBox Grid.Row="10" Classes="draggableListBox_Vertical" ItemsSource="{Binding ProcessList.SelectedItem.ProcessActions}" SelectedValueBinding="{Binding Id}">
+            <ListBox x:Name="ListBox_ActionsListContextMenu" Grid.Row="10" Classes="draggableListBox_Vertical"
+                     ItemsSource="{Binding ProcessList.SelectedItem.ProcessActions}"
+                     PointerReleased="ListBox_ActionsList_OnPointerReleased"
+                     SelectedValueBinding="{Binding Id}">
               <!--  SelectedValue="{Binding ProcessList.SelectedItem.Id}"  不能绑定 Id，否则会出现一个Bug：选中 某一项后，点击 Delete Button 无法删除  -->
+
+              <!--  文档：https://wieslawsoltes.github.io/Xaml.Behaviors/articles/intro.html  -->
               <Interaction.Behaviors>
                 <CollectionChangedTrigger Collection="{Binding ProcessList.SelectedItem.ProcessActions}">
                   <!-- <ChangePropertyAction PropertyName="Content" TargetObject="Label_Test" Value="Label_Test.Moved" /> -->
                   <InvokeCommandAction Command="{Binding UpdateActionSortOrderCommand}" />
                 </CollectionChangedTrigger>
               </Interaction.Behaviors>
+
+              <FlyoutBase.AttachedFlyout>
+                <Flyout Placement="Pointer">
+                  <ListBox Padding="10" BorderThickness="0" ItemsSource="{Binding AvailableActionsList}">
+                    <ListBox.ItemContainerTheme>
+                      <ControlTheme x:DataType="vmProcess:ProcessAvailableActionItemViewModel" BasedOn="{StaticResource {x:Type ListBoxItem}}" TargetType="ListBoxItem">
+                        <Setter Property="IsEnabled" Value="{Binding IsSelectable}" />
+                        <Setter Property="Padding" Value="0" />
+                        <!-- <Setter Property="Padding" Value="{Binding Padding}" /> -->
+                      </ControlTheme>
+                    </ListBox.ItemContainerTheme>
+                    <ListBox.ItemTemplate>
+                      <DataTemplate>
+                        <!-- <Border Padding="5" Background="Transparent"> -->
+                        <Border Padding="5" Background="Transparent" PointerReleased="Border_ActionContextMenu_OnPointerReleased">
+                          <!--
+                            使用 PointerReleased 而不是 TappedEventTrigger的原因：
+                            · 对比 ProcessPageView.axaml.cs 中的 Border_ActionContextMenu_OnPointerReleased() 与 HideListBox_ActionsListContextMenu()，显然前者更优
+                            ` 这里的 TappedEventTrigger 方式只是提供一个额外的思路
+                            
+                            使用 PointerReleased 与 TappedEventTrigger 的区别：
+                            · 使用 PointerReleased 时，当左键点击 ContextMenu 中的某一项时，按住左键并移动到其他地方，之后松开左键，也会添加该项
+                            · 使用 TappedEventTrigger 时则不会添加
+                          -->
+
+                          <!--  文档：https://wieslawsoltes.github.io/Xaml.Behaviors/articles/intro.html  -->
+                          <!-- <Interaction.Behaviors> -->
+                          <!--   <TappedEventTrigger> -->
+                          <!--     <InvokeCommandAction Command="{Binding $parent[ListBox].((vmMainMenus:ProcessPageViewModel)DataContext).AddActionToProcessCommand}" CommandParameter="{Binding}" /> -->
+                          <!--   </TappedEventTrigger> -->
+                          <!-- </Interaction.Behaviors> -->
+
+                          <Grid ColumnDefinitions="Auto, 10, *, Auto">
+                            <TextBlock Grid.Column="0" Margin="3,0,0,0" VerticalAlignment="Center"
+                                       FontWeight="Black"
+                                       Foreground="{StaticResource ActiveHoverGradient}"
+                                       IsVisible="{Binding ProcessActionViewModel, Converter={x:Static ObjectConverters.IsNull}}"
+                                       Text="{Binding Category}" />
+                            <TextBlock Grid.Column="2" Padding="5,5,30,5" VerticalAlignment="Center"
+                                       Background="Transparent"
+                                       IsVisible="{Binding ProcessActionViewModel, Converter={x:Static ObjectConverters.IsNotNull}}"
+                                       Text="{Binding ProcessActionViewModel.JobName}"
+                                       ToolTip.Tip="{Binding ProcessActionViewModel.JobName}" />
+                          </Grid>
+                        </Border>
+                      </DataTemplate>
+                    </ListBox.ItemTemplate>
+                  </ListBox>
+                </Flyout>
+              </FlyoutBase.AttachedFlyout>
 
               <ListBox.ItemTemplate>
                 <DataTemplate x:DataType="vmActions:ActionViewModel">

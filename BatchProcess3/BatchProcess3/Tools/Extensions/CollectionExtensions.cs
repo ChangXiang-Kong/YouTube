@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -77,5 +78,31 @@ public static class CollectionExtensions
         propertyChangedEventHandler(null, null!);
 
         return true;
+    }
+
+    /// <summary>
+    /// A Python-style extension method for List.<br/>
+    /// Removes the element at the specified index from the list; a negative index is interpreted as an offset from the end.
+    /// </summary>
+    /// <remarks>If index is negative, the actual index is computed as list.Count + index. If the computed
+    /// index is outside the range [0, list.Count - 1], RemoveAt will throw ArgumentOutOfRangeException.</remarks>
+    /// <code>
+    /// Example:
+    ///     list.RemoveAtRelative(0);   // Remove the first element
+    ///     list.RemoveAtRelative(-1);  // Remove the last element
+    ///     list.RemoveAtRelative(-2);  // Remove the second-to-last element
+    /// </code>
+    /// <typeparam name="T">The type of elements in the list.</typeparam>
+    /// <param name="list">The list to remove the element from.</param>
+    /// <param name="index">The zero-based index of the element to remove; a negative value denotes an offset from the end (for example, -1
+    /// removes the last element).</param>
+    /// <exception cref="InvalidOperationException">Thrown when the list is empty.</exception>
+    public static void RemoveAtRelative<T>(this IList<T> list, int index)
+    {
+        if (list.Count == 0)
+            throw new InvalidOperationException("The list is empty");
+
+        int realIndex = index < 0 ? list.Count + index : index;
+        list.RemoveAt(realIndex);
     }
 }
