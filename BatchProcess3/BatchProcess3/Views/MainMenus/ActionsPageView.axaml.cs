@@ -1,7 +1,7 @@
 ﻿using Avalonia.Controls;
 using BatchProcess3.Data;
+using BatchProcess3.ViewModels.MainMenus;
 using BatchProcess3.Views.Actions;
-using ActionsPageViewModel = BatchProcess3.ViewModels.MainMenus.ActionsPageViewModel;
 
 namespace BatchProcess3.Views.MainMenus;
 

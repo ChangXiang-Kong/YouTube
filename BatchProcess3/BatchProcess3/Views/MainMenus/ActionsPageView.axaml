@@ -28,7 +28,7 @@
       </StackPanel>
     </Grid>
 
-    <!--  Main TabControl Content  -->
+    <!--  Main Content  -->
     <Border Grid.Row="1" Padding="25">
       <TabControl x:Name="TabControl_Actions" Padding="0,5,0,0" SelectionChanged="ActionsTab_OnSelectionChanged">
         <TabItem Header="Print" IsSelected="True">

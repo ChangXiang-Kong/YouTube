@@ -17,6 +17,7 @@ using Avalonia.Controls;
 using Avalonia.Threading;
 using BatchProcess3.EntityFramework;
 using BatchProcess3.Tools;
+using BatchProcess3.Tools.Actions;
 using BatchProcess3.Tools.Dialog;
 using BatchProcess3.Tools.Extensions;
 using BatchProcess3.Tools.Printer;
@@ -287,6 +288,8 @@ public partial class App : Application
                 _ => null
             };
         });
+        
+        services.AddTransient<ActionService>();
 
     }
 

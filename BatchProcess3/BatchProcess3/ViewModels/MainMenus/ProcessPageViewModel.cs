@@ -7,6 +7,7 @@ using Avalonia.Controls;
 using BatchProcess3.Data;
 using BatchProcess3.EntityFramework;
 using BatchProcess3.EntityFramework.Entities.Actions;
+using BatchProcess3.Tools.Actions;
 using BatchProcess3.Tools.Dialog;
 using BatchProcess3.ViewModels.Actions;
 using BatchProcess3.ViewModels.Process;
@@ -19,12 +20,14 @@ namespace BatchProcess3.ViewModels.MainMenus;
 public partial class ProcessPageViewModel(
     MainViewModel mainViewModel,
     DialogService dialogService,
-    DatabaseService databaseService) : PageViewModel(ApplicationPageName.Process)
+    DatabaseService databaseService,
+    ActionService actionService) : PageViewModel(ApplicationPageName.Process)
 {
     // Design time only
     public ProcessPageViewModel() : this(new MainViewModel(),
         new DialogService(new Func<TopLevel?>(() => null)),
-        new DatabaseService(new AppDbContext()))
+        new DatabaseService(new AppDbContext()),
+        new ActionService(new DatabaseService(new  AppDbContext())))
     {
         if (!Avalonia.Controls.Design.IsDesignMode)
             throw new InvalidOperationException("Parameterless constructor is only for design time use");
@@ -71,48 +74,9 @@ public partial class ProcessPageViewModel(
                 databaseService.UpdateProcessItem(item.ToEntity());
             });
 
+        AvailableActionsList = actionService.GetAvailableActionsList();
+
         ProcessList.FetchList();
-
-        List<ProcessAvailableActionItemViewModel> ToAvailableActionItemViewModelList<T>(string category, List<T> list)
-            where T : ActionEntity
-        {
-            var ret = new List<ProcessAvailableActionItemViewModel>
-            {
-                // Add header
-                new ProcessAvailableActionItemViewModel() { Category = category }
-            };
-
-            // Add items
-            ret.AddRange(list.Select(x => new ProcessAvailableActionItemViewModel()
-            {
-                ProcessActionViewModel = x.ToProcessActionViewModel(),
-                Category = category,
-            }));
-
-            return ret;
-        }
-
-        var prints = ToAvailableActionItemViewModelList("Print", databaseService.GetPrintList());
-        var customProperties =
-            ToAvailableActionItemViewModelList("Custom Properties", databaseService.GetCustomPropertiesList());
-        var fileInfos = ToAvailableActionItemViewModelList("File Info", databaseService.GetFileInfoList());
-        var saveModels = ToAvailableActionItemViewModelList("Save Model", databaseService.GetSaveModelList());
-        var saveDrawings = ToAvailableActionItemViewModelList("Save Drawing", databaseService.GetSaveDrawingList());
-        var importFiles = ToAvailableActionItemViewModelList("Import File", databaseService.GetImportFileList());
-        var drawingTemplates =
-            ToAvailableActionItemViewModelList("Drawing Template", databaseService.GetDrawingTemplateList());
-        var macros = ToAvailableActionItemViewModelList("Macros", databaseService.GetMacrosList());
-
-        AvailableActionsList = new ObservableCollection<ProcessAvailableActionItemViewModel>(
-            prints
-                .Concat(customProperties)
-                .Concat(fileInfos)
-                .Concat(saveModels)
-                .Concat(saveDrawings)
-                .Concat(importFiles)
-                .Concat(drawingTemplates)
-                .Concat(macros)
-        );
     }
 
     [RelayCommand]

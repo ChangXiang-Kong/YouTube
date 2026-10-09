@@ -9,8 +9,8 @@
              xmlns:vmActions="clr-namespace:BatchProcess3.ViewModels.Actions"
              xmlns:vmMainMenus="clr-namespace:BatchProcess3.ViewModels.MainMenus"
              xmlns:vmProcess="clr-namespace:BatchProcess3.ViewModels.Process"
-             d:DesignHeight="620"
-             d:DesignWidth="1000"
+             d:DesignHeight="900"
+             d:DesignWidth="1100"
              x:DataType="vmMainMenus:ProcessPageViewModel"
              Background="{DynamicResource PrimaryBackground}"
              Foreground="{DynamicResource PrimaryForeground}"
@@ -21,6 +21,7 @@
 
   <UserControl.Styles>
     <Styles>
+      <!--  Remove padding from flyout  -->
       <Style Selector="FlyoutPresenter">
         <Setter Property="Padding" Value="0" />
         <Setter Property="Background" Value="Transparent" />
@@ -40,7 +41,7 @@
       </StackPanel>
     </Grid>
 
-    <!--  Main TabControl Content  -->
+    <!--  Main Content  -->
     <Border Grid.Row="1" Padding="25">
       <Grid ColumnDefinitions="*, 30, 3*">
         <!--  Print Tabs List Column  -->
@@ -242,6 +243,7 @@
                   <Setter Property="Padding" Value="{Binding Padding}" />
                 </ControlTheme>
               </ListBox.ItemContainerTheme>
+
               <ListBox.ItemTemplate>
                 <DataTemplate>
                   <Grid ColumnDefinitions="Auto, 10, *, Auto">
