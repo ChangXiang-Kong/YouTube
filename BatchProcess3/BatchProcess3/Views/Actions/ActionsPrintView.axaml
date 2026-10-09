@@ -39,8 +39,8 @@
                      Content="{Binding JobName}"
                      FontWeight="{Binding HasChanged, Converter={StaticResource BoolToBoldFontConverter}}"
                      ToolTip.Tip="{Binding JobName}" />
-              <Button Grid.Column="1" Margin="0,0,-8,0" Padding="0"
-                      VerticalAlignment="Center" ava:ToolTip.Tip="Delete" Classes="smaller danger"
+              <Button Grid.Column="1" Margin="0,0,-8,0" VerticalAlignment="Center"
+                      ava:ToolTip.Tip="Delete" Classes="smaller danger"
                       Command="{Binding $parent[ListBox].((vmMainMenus:ActionsPageViewModel)DataContext).PrintList.DeleteItemCommand}"
                       CommandParameter="{Binding Id}">
                 <Button.IsVisible>
@@ -133,8 +133,8 @@
                 <!--  Edit  -->
                 <StackPanel Grid.Column="1" Orientation="Horizontal">
                   <Panel IsVisible="{Binding CanEdit}">
-                    <Button Margin="0,0,5,0" Padding="0" VerticalAlignment="Center"
-                            ava:ToolTip.Tip="Edit" Classes="smaller alert"
+                    <Button Margin="0,0,5,0" VerticalAlignment="Center" ava:ToolTip.Tip="Edit"
+                            Classes="smaller alert"
                             Command="{Binding $parent[ListBox].((vmMainMenus:ActionsPageViewModel)DataContext).EditPrintSettingsCommand}"
                             CommandParameter="{Binding Id}">
                       <Button.IsVisible>
@@ -148,8 +148,8 @@
                   </Panel>
                   <!--  Delete  -->
                   <Panel IsVisible="{Binding CanDelete}">
-                    <Button Margin="0,0,-8,0" Padding="0" VerticalAlignment="Center"
-                            ava:ToolTip.Tip="Delete" Classes="smaller danger"
+                    <Button Margin="0,0,-8,0" VerticalAlignment="Center" ava:ToolTip.Tip="Delete"
+                            Classes="smaller danger"
                             Command="{Binding $parent[ListBox].((vmMainMenus:ActionsPageViewModel)DataContext).DeletePrintSettingsCommand}"
                             CommandParameter="{Binding Id}">
                       <Button.IsVisible>

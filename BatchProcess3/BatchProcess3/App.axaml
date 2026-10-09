@@ -23,12 +23,11 @@
 
     <!-- <StyleInclude Source="avares://IconPacks.Avalonia/Icons.axaml" /> -->
     <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml" />
-    <StyleInclude Source="/Controls/Styles/General.axaml" />
-    <StyleInclude Source="/Controls/Styles/Button.axaml" />
     <StyleInclude Source="/Controls/Styles/Labels.axaml" />
     <StyleInclude Source="/Controls/Styles/ListBox.axaml" />
     <StyleInclude Source="/Controls/Styles/TextBlock.axaml" />
     <StyleInclude Source="/Controls/Styles/TextBox.axaml" />
+    <StyleInclude Source="/Controls/Styles/General.axaml" />
   </Application.Styles>
 
   <Application.Resources>
@@ -38,6 +37,7 @@
         <!-- <ResourceInclude Source="avares://AtomX_Avalonia/UserControls/Themes/Styles.axaml" /> -->
         <MergeResourceInclude Source="/Controls/Styles/Basic/Fonts.axaml" />
         <MergeResourceInclude Source="/Controls/Styles/Basic/Geometries.axaml" />
+        <MergeResourceInclude Source="/Controls/Button.axaml" />
         <MergeResourceInclude Source="/Controls/IconButton.axaml" />
         <MergeResourceInclude Source="/Controls/ButtonSpinner.axaml" />
         <MergeResourceInclude Source="/Controls/CheckBox.axaml" />
@@ -140,11 +140,24 @@
       <GradientStop Offset="1" Color="#ff4444" />
     </LinearGradientBrush>
 
-    <FontFamily x:Key="DefaultFontFamily">/Assets/Fonts/NotoSansJP.tff</FontFamily>
+    <!--  ====================  -->
+    <!--  Font Resources  -->
+    <!--  ====================  -->
+
     <!--  图标来源：https://phosphoricons.com/  -->
     <FontFamily x:Key="Phosphor">/Assets/Fonts/Phosphor.ttf#Phosphor</FontFamily>
     <FontFamily x:Key="PhosphorFill">/Assets/Fonts/Phosphor-Fill.ttf#Phosphor-Fill</FontFamily>
 
+    <FontFamily x:Key="DefaultFontFamily">/Assets/Fonts/NotoSansJP-Regular.ttf#Noto Sans JP</FontFamily>
+    <FontFamily x:Key="NotoSansJP-Black">/Assets/Fonts/NotoSansJP-Black.ttf#Noto Sans JP</FontFamily>
+    <FontFamily x:Key="NotoSansJP-Bold">/Assets/Fonts/NotoSansJP-Bold.ttf#Noto Sans JP</FontFamily>
+    <FontFamily x:Key="NotoSansJP-ExtraBold">/Assets/Fonts/NotoSansJP-ExtraBold.ttf#Noto Sans JP</FontFamily>
+    <FontFamily x:Key="NotoSansJP-Extralight">/Assets/Fonts/NotoSansJP-Extralight.ttf#Noto Sans JP</FontFamily>
+    <FontFamily x:Key="NotoSansJP-Light">/Assets/Fonts/NotoSansJP-Light.ttf#Noto Sans JP</FontFamily>
+    <FontFamily x:Key="NotoSansJP-Medium">/Assets/Fonts/NotoSansJP-Medium.ttf#Noto Sans JP</FontFamily>
+    <FontFamily x:Key="NotoSansJP-Regular">/Assets/Fonts/NotoSansJP-Regular.ttf#Noto Sans JP</FontFamily>
+    <FontFamily x:Key="NotoSansJP-Semibold">/Assets/Fonts/NotoSansJP-Semibold.ttf#Noto Sans JP</FontFamily>
+    <FontFamily x:Key="NotoSansJP-Thin">/Assets/Fonts/NotoSansJP-Thin.ttf#Noto Sans JP</FontFamily>
 
   </Application.Resources>
 

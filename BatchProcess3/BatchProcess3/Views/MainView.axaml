@@ -28,7 +28,8 @@
           <Image Width="220" IsVisible="{Binding SideMenuExpanded}" PointerPressed="Image_PointerPressed" Source="{SvgImage /Assets/Images/logo.svg}" />
           <Image Width="40" IsVisible="{Binding !SideMenuExpanded}" PointerPressed="Image_PointerPressed" Source="{SvgImage /Assets/Images/icon.svg}" />
 
-          <IconButton HorizontalAlignment="Stretch" ava:ToolTip.Tip="Home" Classes="subtle"
+          <IconButton HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" ava:ToolTip.Tip="Home"
+                      Classes="subtle"
                       Classes.active="{Binding HomePageIsActive}"
                       Command="{Binding GoToPageCommand}"
                       CommandParameter="{x:Static data:ApplicationPageName.Home}"
@@ -38,7 +39,8 @@
             <Label Content="Home" IsVisible="{Binding SideMenuExpanded}" />
           </IconButton>
 
-          <IconButton HorizontalAlignment="Stretch" ava:ToolTip.Tip="Process" Classes="subtle"
+          <IconButton HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" ava:ToolTip.Tip="Process"
+                      Classes="subtle"
                       Classes.active="{Binding ProcessPageIsActive}"
                       Command="{Binding GoToPageCommand}"
                       CommandParameter="{x:Static data:ApplicationPageName.Process}"
@@ -48,7 +50,8 @@
             <Label Content="Process" IsVisible="{Binding SideMenuExpanded}" />
           </IconButton>
 
-          <IconButton HorizontalAlignment="Stretch" ava:ToolTip.Tip="Actions" Classes="subtle"
+          <IconButton HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" ava:ToolTip.Tip="Actions"
+                      Classes="subtle"
                       Classes.active="{Binding ActionsPageIsActive}"
                       Command="{Binding GoToPageCommand}"
                       CommandParameter="{x:Static data:ApplicationPageName.Actions}"
@@ -58,7 +61,8 @@
             <Label Content="Actions" IsVisible="{Binding SideMenuExpanded}" />
           </IconButton>
 
-          <IconButton HorizontalAlignment="Stretch" ava:ToolTip.Tip="Macros" Classes="subtle"
+          <IconButton HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" ava:ToolTip.Tip="Macros"
+                      Classes="subtle"
                       Classes.active="{Binding MacrosPageIsActive}"
                       Command="{Binding GoToPageCommand}"
                       CommandParameter="{x:Static data:ApplicationPageName.Macros}"
@@ -68,7 +72,8 @@
             <Label Content="Macros" IsVisible="{Binding SideMenuExpanded}" />
           </IconButton>
 
-          <IconButton HorizontalAlignment="Stretch" ava:ToolTip.Tip="Reporter" Classes="subtle"
+          <IconButton HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" ava:ToolTip.Tip="Reporter"
+                      Classes="subtle"
                       Classes.active="{Binding ReporterPageIsActive}"
                       Command="{Binding GoToPageCommand}"
                       CommandParameter="{x:Static data:ApplicationPageName.Reporter}"
@@ -78,7 +83,8 @@
             <Label Content="Reporter" IsVisible="{Binding SideMenuExpanded}" />
           </IconButton>
 
-          <IconButton HorizontalAlignment="Stretch" ava:ToolTip.Tip="History" Classes="subtle"
+          <IconButton HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" ava:ToolTip.Tip="History"
+                      Classes="subtle"
                       Classes.active="{Binding HistoryPageIsActive}"
                       Command="{Binding GoToPageCommand}"
                       CommandParameter="{x:Static data:ApplicationPageName.History}"

@@ -87,13 +87,15 @@
 
                 <RepeatButton Name="PART_IncreaseButton" MinWidth="34" VerticalAlignment="Stretch"
                               VerticalContentAlignment="Center" CornerRadius="6 3 3 6"
-                              IsTabStop="{TemplateBinding IsTabStop}">
+                              IsTabStop="{TemplateBinding IsTabStop}"
+                              Theme="{DynamicResource {x:Type Button}}">
                   <PathIcon Width="16" Height="8" Data="{StaticResource ButtonSpinnerIncreaseButtonIcon}" />
                 </RepeatButton>
 
                 <RepeatButton Name="PART_DecreaseButton" MinWidth="34" VerticalAlignment="Stretch"
                               VerticalContentAlignment="Center" CornerRadius="3 6 6 3"
-                              IsTabStop="{TemplateBinding IsTabStop}">
+                              IsTabStop="{TemplateBinding IsTabStop}"
+                              Theme="{DynamicResource {x:Type Button}}">
                   <PathIcon Width="16" Height="8" Data="{StaticResource ButtonSpinnerDecreaseButtonIcon}" />
                 </RepeatButton>
 
