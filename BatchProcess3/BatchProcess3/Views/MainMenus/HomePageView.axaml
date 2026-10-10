@@ -54,12 +54,57 @@
 
     <!--  Main Content  -->
     <Border Grid.Row="1" Padding="25">
-      <Grid ColumnDefinitions="3*, 15, 3*" ShowGridLines="False">
+      <Grid ColumnDefinitions="3*, 15, 2.8*" ShowGridLines="False">
+
         <!--  SolidWorks List  -->
         <Grid RowDefinitions="Auto, 10, Auto, 10, Auto, 10, *">
           <!--  Title and Description  -->
           <Label Classes="h2" Content="SolidWorks Files" />
           <TextBlock Grid.Row="2" Margin="0,-10,0,0" Text="Select and edit the list below of all SolidWorks files you want to run the actions on." TextWrapping="Wrap" />
+
+          <StackPanel Grid.Row="4" Orientation="Horizontal">
+            <StackPanel.Styles>
+              <!--  All Buttons  -->
+              <Style Selector="StackPanel &gt; Button">
+                <Setter Property="IsVisible" Value="True" />
+                <Setter Property="CornerRadius" Value="0" />
+              </Style>
+              <!--  First Button  -->
+              <Style Selector="StackPanel &gt; Button:nth-child(1)">
+                <Setter Property="IsVisible" Value="True" />
+                <Setter Property="CornerRadius" Value="5 0 0 5" />
+              </Style>
+              <!--  Last Button  -->
+              <Style Selector="StackPanel &gt; Button:nth-last-child(1)">
+                <Setter Property="IsVisible" Value="True" />
+                <Setter Property="CornerRadius" Value="0 5 5 0" />
+              </Style>
+            </StackPanel.Styles>
+            <Button ToolTip.Tip="Open File">
+              <Image Source="/Assets/Images/home-context-openfile.png" />
+            </Button>
+            <Button ToolTip.Tip="Open Drawing">
+              <Image Source="/Assets/Images/home-context-drawing.png" />
+            </Button>
+            <Button ToolTip.Tip="Open Folder">
+              <Image Source="/Assets/Images/home-context-folder.png" />
+            </Button>
+            <Button ToolTip.Tip="Open Preview">
+              <Image Source="/Assets/Images/home-context-preview.png" />
+            </Button>
+            <Button ToolTip.Tip="Open Delete">
+              <Image Source="/Assets/Images/home-context-delete.png" />
+            </Button>
+            <Button ToolTip.Tip="Open Print">
+              <Image Source="/Assets/Images/home-context-print.png" />
+            </Button>
+            <Button ToolTip.Tip="Open File Ref">
+              <Image Source="/Assets/Images/home-context-fileref.png" />
+            </Button>
+            <Button ToolTip.Tip="Open Drawing Link">
+              <Image Source="/Assets/Images/home-context-drawinglink.png" />
+            </Button>
+          </StackPanel>
 
           <!--  SolidWorks Files List  -->
           <ListBox Grid.Row="6">

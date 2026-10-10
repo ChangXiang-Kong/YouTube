@@ -35,6 +35,64 @@ namespace BatchProcess3;
 
 public partial class App : Application
 {
+    /*
+        cmd命令 => $ dotnet new install Avalonia.Templates        // 安装或更新 Avalonia.Templates
+            将安装以下模板包:
+               Avalonia.Templates
+
+            已安装 Avalonia.Templates (版本 11.3.12)，它将替换为 最新版本。
+            已成功卸载 Avalonia.Templates@11.3.12。
+            成功: Avalonia.Templates@12.1.4 已安装以下模板:
+            模板名                             短名称                     语言     标记
+            ---------------------------------  -------------------------  -------  ------------------------------------------------
+            Avalonia .NET App                  avalonia.app               [C#],F#  Desktop/Xaml/Avalonia/Windows/Linux/macOS
+            Avalonia .NET MVVM App             avalonia.mvvm              [C#],F#  Desktop/Xaml/Avalonia/Windows/Linux/macOS
+            Avalonia ContentPage               avalonia.contentpage       [C#],F#  Desktop/Xaml/Avalonia/Windows/Linux/macOS
+            Avalonia Cross Platform Applic...  avalonia.xplat             [C#],F#  Desktop/Xaml/Avalonia/Browser/Mobile/Android/iOS
+            Avalonia DrawerPage                avalonia.drawerpage        [C#],F#  Desktop/Xaml/Avalonia/Windows/Linux/macOS
+            Avalonia NavigationPage            avalonia.navigationpage    [C#],F#  Desktop/Xaml/Avalonia/Windows/Linux/macOS
+            Avalonia Resource Dictionary       avalonia.resource                   Desktop/Xaml/Avalonia/Windows/Linux/macOS
+            Avalonia Styles                    avalonia.styles                     Desktop/Xaml/Avalonia/Windows/Linux/macOS
+            Avalonia TabbedPage                avalonia.tabbedpage        [C#],F#  Desktop/Xaml/Avalonia/Windows/Linux/macOS
+            Avalonia TemplatedControl          avalonia.templatedcontrol  [C#],F#  Desktop/Xaml/Avalonia/Windows/Linux/macOS
+            Avalonia UserControl               avalonia.usercontrol       [C#],F#  Desktop/Xaml/Avalonia/Windows/Linux/macOS
+            Avalonia Window                    avalonia.window            [C#],F#  Desktop/Xaml/Avalonia/Windows/Linux/macOS
+
+            以下模板可能不起作用，因为不满足它们的约束:
+            Avalonia ContentPage (avalonia.contentpage) C#(identity: Avalonia.ContentPage)
+               项目功能: 在以下路径找不到项目: C:\Users\38287。 只能在项目内创建此模板。
+            Avalonia DrawerPage (avalonia.drawerpage) C#(identity: Avalonia.DrawerPage)
+               项目功能: 在以下路径找不到项目: C:\Users\38287。 只能在项目内创建此模板。
+            Avalonia NavigationPage (avalonia.navigationpage) C#(identity: Avalonia.NavigationPage)
+               项目功能: 在以下路径找不到项目: C:\Users\38287。 只能在项目内创建此模板。
+            Avalonia TabbedPage (avalonia.tabbedpage) C#(identity: Avalonia.TabbedPage)
+               项目功能: 在以下路径找不到项目: C:\Users\38287。 只能在项目内创建此模板。
+            Avalonia TemplatedControl (avalonia.templatedcontrol) C#(identity: Avalonia.TemplatedControl)
+               项目功能: 在以下路径找不到项目: C:\Users\38287。 只能在项目内创建此模板。
+            Avalonia UserControl (avalonia.usercontrol) C#(identity: Avalonia.UserControl)
+               项目功能: 在以下路径找不到项目: C:\Users\38287。 只能在项目内创建此模板。
+            Avalonia Window (avalonia.window) C#(identity: Avalonia.Window)
+               项目功能: 在以下路径找不到项目: C:\Users\38287。 只能在项目内创建此模板。
+            Avalonia ContentPage (avalonia.contentpage) F#(identity: Avalonia.ContentPage.FSharp)
+               项目功能: 在以下路径找不到项目: C:\Users\38287。 只能在项目内创建此模板。
+            Avalonia DrawerPage (avalonia.drawerpage) F#(identity: Avalonia.DrawerPage.FSharp)
+               项目功能: 在以下路径找不到项目: C:\Users\38287。 只能在项目内创建此模板。
+            Avalonia NavigationPage (avalonia.navigationpage) F#(identity: Avalonia.NavigationPage.FSharp)
+               项目功能: 在以下路径找不到项目: C:\Users\38287。 只能在项目内创建此模板。
+            Avalonia TabbedPage (avalonia.tabbedpage) F#(identity: Avalonia.TabbedPage.FSharp)
+               项目功能: 在以下路径找不到项目: C:\Users\38287。 只能在项目内创建此模板。
+            Avalonia TemplatedControl (avalonia.templatedcontrol) F#(identity: Avalonia.TemplatedControl.FSharp)
+               项目功能: 在以下路径找不到项目: C:\Users\38287。 只能在项目内创建此模板。
+            Avalonia UserControl (avalonia.usercontrol) F#(identity: Avalonia.UserControl.FSharp)
+               项目功能: 在以下路径找不到项目: C:\Users\38287。 只能在项目内创建此模板。
+            Avalonia Window (avalonia.window) F#(identity: Avalonia.Window.FSharp)
+               项目功能: 在以下路径找不到项目: C:\Users\38287。 只能在项目内创建此模板。
+            Avalonia Resource Dictionary (avalonia.resource)
+               项目功能: 在以下路径找不到项目: C:\Users\38287。 只能在项目内创建此模板。
+            Avalonia Styles (avalonia.styles)
+               项目功能: 在以下路径找不到项目: C:\Users\38287。 只能在项目内创建此模板。
+     */
+    
     public new static App? Current => Application.Current as App;
     /* 详解以上代码中 new 关键字的作用
     这段代码里的 new 是 C# 中的【隐藏（Hide）】关键字（也叫 “遮蔽”），核心作用是【显式覆盖基类 / 父类中同名的 Current 成员】，告诉编译器 “我故意用子类的这个静态属性覆盖基类的同名成员，不是无意冲突”。

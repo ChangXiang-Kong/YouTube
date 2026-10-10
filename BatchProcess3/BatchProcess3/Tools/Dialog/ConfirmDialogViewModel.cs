@@ -105,10 +105,10 @@ public partial class ConfirmDialogViewModel : DialogViewModel
     [property: JsonIgnore] [ObservableProperty] private string _confirmText = "Yes";
     [property: JsonIgnore] [ObservableProperty] private string _cancelText = "No";
     [property: JsonIgnore] [ObservableProperty] private string _applyText = "Apply";
-    [property: JsonIgnore] [ObservableProperty] [NotifyPropertyChangedFor(nameof(ButtonGroupColumn))] private bool _confirmIsVisible = true;
-    [property: JsonIgnore] [ObservableProperty] [NotifyPropertyChangedFor(nameof(ButtonGroupColumn))] private bool _cancelIsVisible = true;
-    [property: JsonIgnore] [ObservableProperty] [NotifyPropertyChangedFor(nameof(ButtonGroupColumn))] private bool _applyIsVisible = false;
-    [property: JsonIgnore] public int ButtonGroupColumn
+    [property: JsonIgnore] [ObservableProperty] [NotifyPropertyChangedFor(nameof(ButtonGroupColumns))] private bool _confirmIsVisible = true;
+    [property: JsonIgnore] [ObservableProperty] [NotifyPropertyChangedFor(nameof(ButtonGroupColumns))] private bool _cancelIsVisible = true;
+    [property: JsonIgnore] [ObservableProperty] [NotifyPropertyChangedFor(nameof(ButtonGroupColumns))] private bool _applyIsVisible = false;
+    [property: JsonIgnore] public int ButtonGroupColumns
     {
         get => new[] { ConfirmIsVisible, CancelIsVisible, ApplyIsVisible }.Count(x => x);
         // get
