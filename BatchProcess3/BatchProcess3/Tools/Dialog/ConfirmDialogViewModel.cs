@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Avalonia;
@@ -104,9 +105,23 @@ public partial class ConfirmDialogViewModel : DialogViewModel
     [property: JsonIgnore] [ObservableProperty] private string _confirmText = "Yes";
     [property: JsonIgnore] [ObservableProperty] private string _cancelText = "No";
     [property: JsonIgnore] [ObservableProperty] private string _applyText = "Apply";
-    [property: JsonIgnore] [ObservableProperty] private bool _confirmIsVisible = true;
-    [property: JsonIgnore] [ObservableProperty] private bool _cancelIsVisible = true;
-    [property: JsonIgnore] [ObservableProperty] private bool _applyIsVisible = false;
+    [property: JsonIgnore] [ObservableProperty] [NotifyPropertyChangedFor(nameof(ButtonGroupColumn))] private bool _confirmIsVisible = true;
+    [property: JsonIgnore] [ObservableProperty] [NotifyPropertyChangedFor(nameof(ButtonGroupColumn))] private bool _cancelIsVisible = true;
+    [property: JsonIgnore] [ObservableProperty] [NotifyPropertyChangedFor(nameof(ButtonGroupColumn))] private bool _applyIsVisible = false;
+    [property: JsonIgnore] public int ButtonGroupColumn
+    {
+        get => new[] { ConfirmIsVisible, CancelIsVisible, ApplyIsVisible }.Count(x => x);
+        // get
+        // {
+        //     int count = 0;
+        //     if (ConfirmIsVisible) count++;
+        //     if (CancelIsVisible) count++;
+        //     if (ApplyIsVisible) count++;
+        //     return count;
+        // }
+    }
+
+
     
     [ObservableProperty] [NotifyCanExecuteChangedFor(nameof(CancelCommand))] private bool _isBusy = false;
     [ObservableProperty] private double _progressValue = 0;

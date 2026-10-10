@@ -15,7 +15,7 @@ public partial class ProcessViewModel : ViewModelBase, ISelectableItemsListViewM
 {
     public ProcessViewModel()
     {
-        ProcessActions = [];    // 2、可以在构造函数中设置一个值，这样就会调用 SetAndObserveEverything() 方法，
+        ProcessActionsList = [];    // 2、可以在构造函数中设置一个值，这样就会调用 SetAndObserveEverything() 方法，
     }
     
     [ObservableProperty] 
@@ -26,7 +26,7 @@ public partial class ProcessViewModel : ViewModelBase, ISelectableItemsListViewM
     [NotifyPropertyChangedFor(nameof(HasChanged))]
     private string _description = "";
 
-    public ObservableCollection<ProcessActionViewModel> ProcessActions
+    public ObservableCollection<ProcessActionViewModel> ProcessActionsList
     {
         get => field;
         set => this.SetAndObserveEverything(ref field, value, [nameof(HasChanged)]);
@@ -38,7 +38,9 @@ public partial class ProcessViewModel : ViewModelBase, ISelectableItemsListViewM
     [JsonIgnore]
     public override bool HasChanged 
         => IsNewItem || (SavedState != "" && SavedState != JsonSerializer.Serialize(this, GetType(), JsonSerializerOptions));
-    
+
+    // 用于方便调试时直观看到该 ProcessViewModel 的内容
+    // public override string ToString() => $"{JobName} ({Description})";
 }
 
 public static class ProcessViewModelBaseExtensions
@@ -48,7 +50,7 @@ public static class ProcessViewModelBaseExtensions
         Id = viewModel.Id,
         Description = viewModel.Description,
         JobName = viewModel.JobName,
-        ProcessActions = viewModel.ProcessActions.Select(f => f.ToEntity()).ToList()
+        ProcessActions = viewModel.ProcessActionsList.Select(f => f.ToEntity()).ToList()
     };
     
     public static ProcessViewModel ToViewModel(this ProcessEntity entity) => new()
@@ -56,7 +58,7 @@ public static class ProcessViewModelBaseExtensions
         Id = entity.Id,
         JobName = entity.JobName,
         Description = entity.Description,
-        ProcessActions = new(entity.ProcessActions
+        ProcessActionsList = new(entity.ProcessActions
             .Select(x => x.ToViewModel())
             .OrderBy(x => x.SortOrder)),
     };

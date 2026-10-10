@@ -27,7 +27,7 @@ public partial class ProcessPageViewModel(
     public ProcessPageViewModel() : this(new MainViewModel(),
         new DialogService(new Func<TopLevel?>(() => null)),
         new DatabaseService(new AppDbContext()),
-        new ActionService(new DatabaseService(new  AppDbContext())))
+        new ActionService(new DatabaseFactory(() => new DatabaseService(new AppDbContext()))))
     {
         if (!Avalonia.Controls.Design.IsDesignMode)
             throw new InvalidOperationException("Parameterless constructor is only for design time use");
@@ -84,7 +84,7 @@ public partial class ProcessPageViewModel(
     [RelayCommand]
     private void DeleteActionFromProcess(ProcessActionViewModel item)
     {
-        ProcessList?.SelectedItem?.ProcessActions.Remove(item);
+        ProcessList?.SelectedItem?.ProcessActionsList.Remove(item);
     }
 
     [RelayCommand]
@@ -122,10 +122,10 @@ public partial class ProcessPageViewModel(
         // 报错内容：System.InvalidOperationException: The instance of entity type 'ProcessActionEntity' cannot be tracked because another instance with the key value '{Id: 01a11b09-dfa1-7d87-85e1-55419f63eb31}' is already being tracked. When attaching existing entities, ensure that only one entity instance with a given key value is attached.
         copy.ProcessActionViewModel!.Id = Guid.CreateVersion7().ToString();
         
-        if (index <= -1  || ProcessList.SelectedItem.ProcessActions.Count == 0 || index > ProcessList.SelectedItem.ProcessActions.Count)
-            ProcessList.SelectedItem.ProcessActions.Add(copy.ProcessActionViewModel!);
+        if (index <= -1  || ProcessList.SelectedItem.ProcessActionsList.Count == 0 || index > ProcessList.SelectedItem.ProcessActionsList.Count)
+            ProcessList.SelectedItem.ProcessActionsList.Add(copy.ProcessActionViewModel!);
         else
-            ProcessList.SelectedItem.ProcessActions.Insert(index, copy.ProcessActionViewModel!);
+            ProcessList.SelectedItem.ProcessActionsList.Insert(index, copy.ProcessActionViewModel!);
         
         // Update sort order
         UpdateActionSortOrder();
@@ -138,7 +138,7 @@ public partial class ProcessPageViewModel(
         if (ProcessList?.SelectedItem == null)
             return;
 
-        foreach (var (action, index) in ProcessList.SelectedItem.ProcessActions.Select((x, idx) => (x, idx)))
+        foreach (var (action, index) in ProcessList.SelectedItem.ProcessActionsList.Select((x, idx) => (x, idx)))
         {
             // Sort order should match position in list
             action.SortOrder = index;

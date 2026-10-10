@@ -94,20 +94,25 @@
                    TextWrapping="Wrap" />
 
         <!--  Yes/No Buttons  -->
-        <StackPanel HorizontalAlignment="Right" IsVisible="{Binding !IsBusy}" Orientation="Horizontal" Spacing="10">
-          <Button MinWidth="70" HorizontalContentAlignment="Center" Classes="success"
+        <!-- <StackPanel HorizontalAlignment="Right" IsVisible="{Binding !IsBusy}" Orientation="Horizontal" Spacing="10"> -->
+        <UniformGrid ColumnSpacing="5" Columns="{Binding ButtonGroupColumn}" IsVisible="{Binding !IsBusy}">
+          <Button MinWidth="100" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"
+                  Classes="success"
                   Command="{Binding ConfirmCommand}"
                   Content="{Binding ConfirmText}"
                   IsVisible="{Binding ConfirmIsVisible}" />
-          <Button MinWidth="70" HorizontalContentAlignment="Center" Classes="outline danger"
+          <Button MinWidth="100" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"
+                  Classes="outline danger"
                   Command="{Binding CancelCommand}"
                   Content="{Binding CancelText}"
                   IsVisible="{Binding CancelIsVisible}" />
-          <Button MinWidth="70" HorizontalContentAlignment="Center" Classes="outline"
+          <Button MinWidth="100" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"
+                  Classes="outline"
                   Command="{Binding ApplyCommand}"
                   Content="{Binding ApplyText}"
                   IsVisible="{Binding ApplyIsVisible}" />
-        </StackPanel>
+        </UniformGrid>
+        <!-- </StackPanel> -->
 
         <!--  ProgressText  -->
         <StackPanel IsVisible="{Binding IsBusy}">

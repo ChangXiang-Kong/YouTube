@@ -1,8 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using Avalonia.Controls;
+using Avalonia.Controls.Presenters;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using BatchProcess3.Tools.Dialog;
 using BatchProcess3.ViewModels.MainMenus;
 using BatchProcess3.ViewModels.Process;
 
@@ -44,6 +48,18 @@ public partial class HomePageView : UserControl
         {
             viewModel.InsertAction(itemViewModel, ++ListBox_ActionsListContextMenu.SelectedIndex);
             FlyoutBase.GetAttachedFlyout(ListBox_ActionsListContextMenu)?.Hide();
+        }
+    }
+
+    private async void ProcessListItem_OnPointerReleased(object? sender, PointerReleasedEventArgs e)
+    {
+        // Get selected item
+        if (sender is ListBox { DataContext: HomePageViewModel viewModel, SelectedItem: ProcessViewModel processViewModel })
+        {
+            // Hide flyout
+            Button_LoadProcess.Flyout?.Hide();
+            
+            await viewModel.ReplaceProcessAvailableActionsList(processViewModel.ProcessActionsList);
         }
     }
 }

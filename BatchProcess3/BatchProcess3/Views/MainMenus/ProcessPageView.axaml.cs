@@ -114,7 +114,7 @@ public partial class ProcessPageView : UserControl
         // 这是一个妥协的方法，因为 InvokeCommandAction 调用 AddActionToProcessCommand 后，
         // 会先在需末尾添加一个元素，之后再调用 WeakReferenceMessenger.Default.Send() 方法，
         // 从而调用本方法的 InsertActionToProcess() 方法，将元素插入到指定位置
-        ((ProcessPageViewModel)DataContext).ProcessList.SelectedItem.ProcessActions.RemoveAtRelative(-1);
+        ((ProcessPageViewModel)DataContext).ProcessList.SelectedItem.ProcessActionsList.RemoveAtRelative(-1);
         
         FlyoutBase.GetAttachedFlyout(ListBox_ActionsListContextMenu)?.Hide();
     }

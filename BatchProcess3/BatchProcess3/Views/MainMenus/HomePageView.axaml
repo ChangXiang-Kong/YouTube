@@ -75,8 +75,21 @@
             <TextBlock Margin="0,-10,0,0" Text="Select the actions and order in which to run them on the Solidworks Files." TextWrapping="Wrap" />
           </StackPanel>
 
-          <IconButton Grid.Row="0" Grid.Column="2" VerticalAlignment="Center"
-                      Classes="icon-outline small" Content="Load" IconText="&#xe2f8;" />
+          <IconButton x:Name="Button_LoadProcess" Grid.Row="0" Grid.Column="2"
+                      VerticalAlignment="Center" Classes="icon-outline small" Content="Load"
+                      IconText="&#xe2f8;">
+            <Button.Flyout>
+              <Flyout Placement="LeftEdgeAlignedTop">
+                <ListBox ItemsSource="{Binding ProcessList}" PointerReleased="ProcessListItem_OnPointerReleased">
+                  <ListBox.ItemTemplate>
+                    <DataTemplate>
+                      <TextBlock Background="Transparent" Text="{Binding JobName}" ToolTip.Tip="{Binding Description}" />
+                    </DataTemplate>
+                  </ListBox.ItemTemplate>
+                </ListBox>
+              </Flyout>
+            </Button.Flyout>
+          </IconButton>
 
           <!--  Actions List  -->
           <ListBox x:Name="ListBox_ActionsListContextMenu" Grid.Row="2" Grid.Column="0"

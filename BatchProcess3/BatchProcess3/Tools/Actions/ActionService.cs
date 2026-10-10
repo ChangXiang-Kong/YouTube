@@ -7,7 +7,7 @@ using BatchProcess3.ViewModels.Process;
 
 namespace BatchProcess3.Tools.Actions;
 
-public class ActionService(DatabaseService databaseService)
+public class ActionService(DatabaseFactory databaseFactory)
 {
     public ObservableCollection<ProcessAvailableActionItemViewModel> GetAvailableActionsList()
     {
@@ -30,16 +30,16 @@ public class ActionService(DatabaseService databaseService)
             return ret;
         }
 
-        var prints = ToAvailableActionItemViewModelList("Print", databaseService.GetPrintList());
-        var customProperties =
-            ToAvailableActionItemViewModelList("Custom Properties", databaseService.GetCustomPropertiesList());
-        var fileInfos = ToAvailableActionItemViewModelList("File Info", databaseService.GetFileInfoList());
-        var saveModels = ToAvailableActionItemViewModelList("Save Model", databaseService.GetSaveModelList());
-        var saveDrawings = ToAvailableActionItemViewModelList("Save Drawing", databaseService.GetSaveDrawingList());
-        var importFiles = ToAvailableActionItemViewModelList("Import File", databaseService.GetImportFileList());
+        using var dbContext = databaseFactory.GetDatabaseService();
+        var prints = ToAvailableActionItemViewModelList("Print", dbContext.GetPrintList());
+        var customProperties = ToAvailableActionItemViewModelList("Custom Properties", dbContext.GetCustomPropertiesList());
+        var fileInfos = ToAvailableActionItemViewModelList("File Info", dbContext.GetFileInfoList());
+        var saveModels = ToAvailableActionItemViewModelList("Save Model", dbContext.GetSaveModelList());
+        var saveDrawings = ToAvailableActionItemViewModelList("Save Drawing", dbContext.GetSaveDrawingList());
+        var importFiles = ToAvailableActionItemViewModelList("Import File", dbContext.GetImportFileList());
         var drawingTemplates =
-            ToAvailableActionItemViewModelList("Drawing Template", databaseService.GetDrawingTemplateList());
-        var macros = ToAvailableActionItemViewModelList("Macros", databaseService.GetMacrosList());
+            ToAvailableActionItemViewModelList("Drawing Template", dbContext.GetDrawingTemplateList());
+        var macros = ToAvailableActionItemViewModelList("Macros", dbContext.GetMacrosList());
 
         return new ObservableCollection<ProcessAvailableActionItemViewModel>(
             prints
