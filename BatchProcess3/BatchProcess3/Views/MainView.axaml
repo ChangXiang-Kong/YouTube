@@ -28,77 +28,72 @@
           <Image Width="220" IsVisible="{Binding SideMenuExpanded}" PointerPressed="Image_PointerPressed" Source="{SvgImage /Assets/Images/logo.svg}" />
           <Image Width="40" IsVisible="{Binding !SideMenuExpanded}" PointerPressed="Image_PointerPressed" Source="{SvgImage /Assets/Images/icon.svg}" />
 
-          <IconButton HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" ava:ToolTip.Tip="Home"
-                      Classes="subtle"
+          <IconButton HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Classes="subtle"
                       Classes.active="{Binding HomePageIsActive}"
                       Command="{Binding GoToPageCommand}"
                       CommandParameter="{x:Static data:ApplicationPageName.Home}"
                       FontSize="{DynamicResource FontSize_18}"
-                      IconText="&#xe2c2;">
+                      IconText="&#xe2c2;" ToolTip.Tip="Home">
             <!--  CommandParameter="HomePage"  -->
             <Label Content="Home" IsVisible="{Binding SideMenuExpanded}" />
           </IconButton>
 
-          <IconButton HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" ava:ToolTip.Tip="Process"
-                      Classes="subtle"
+          <IconButton HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Classes="subtle"
                       Classes.active="{Binding ProcessPageIsActive}"
                       Command="{Binding GoToPageCommand}"
                       CommandParameter="{x:Static data:ApplicationPageName.Process}"
                       FontSize="{DynamicResource FontSize_18}"
-                      IconText="&#xe346;">
+                      IconText="&#xe346;" ToolTip.Tip="Process">
             <!--  CommandParameter="ProcessPage"  -->
             <Label Content="Process" IsVisible="{Binding SideMenuExpanded}" />
           </IconButton>
 
-          <IconButton HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" ava:ToolTip.Tip="Actions"
-                      Classes="subtle"
+          <IconButton HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Classes="subtle"
                       Classes.active="{Binding ActionsPageIsActive}"
                       Command="{Binding GoToPageCommand}"
                       CommandParameter="{x:Static data:ApplicationPageName.Actions}"
                       FontSize="{DynamicResource FontSize_18}"
-                      IconText="&#xe7f2;">
+                      IconText="&#xe7f2;" ToolTip.Tip="Actions">
             <!--  CommandParameter="ActionsPage"  -->
             <Label Content="Actions" IsVisible="{Binding SideMenuExpanded}" />
           </IconButton>
 
-          <IconButton HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" ava:ToolTip.Tip="Macros"
-                      Classes="subtle"
+          <IconButton HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Classes="subtle"
                       Classes.active="{Binding MacrosPageIsActive}"
                       Command="{Binding GoToPageCommand}"
                       CommandParameter="{x:Static data:ApplicationPageName.Macros}"
                       FontSize="{DynamicResource FontSize_18}"
-                      IconText="&#xe3ee;">
+                      IconText="&#xe3ee;" ToolTip.Tip="Macros">
             <!--  CommandParameter="MacrosPage"  -->
             <Label Content="Macros" IsVisible="{Binding SideMenuExpanded}" />
           </IconButton>
 
-          <IconButton HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" ava:ToolTip.Tip="Reporter"
-                      Classes="subtle"
+          <IconButton HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Classes="subtle"
                       Classes.active="{Binding ReporterPageIsActive}"
                       Command="{Binding GoToPageCommand}"
                       CommandParameter="{x:Static data:ApplicationPageName.Reporter}"
                       FontSize="{DynamicResource FontSize_18}"
-                      IconText="&#xeb7a;">
+                      IconText="&#xeb7a;" ToolTip.Tip="Reporter">
             <!--  CommandParameter="ReporterPage"  -->
             <Label Content="Reporter" IsVisible="{Binding SideMenuExpanded}" />
           </IconButton>
 
-          <IconButton HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" ava:ToolTip.Tip="History"
-                      Classes="subtle"
+          <IconButton HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Classes="subtle"
                       Classes.active="{Binding HistoryPageIsActive}"
                       Command="{Binding GoToPageCommand}"
                       CommandParameter="{x:Static data:ApplicationPageName.History}"
                       FontSize="{DynamicResource FontSize_18}"
-                      IconText="&#xe03a;">
+                      IconText="&#xe03a;" ToolTip.Tip="History">
             <!--  CommandParameter="HistoryPage"  -->
             <Label Content="History" IsVisible="{Binding SideMenuExpanded}" />
           </IconButton>
         </StackPanel>
 
-        <Button Grid.Row="1" ava:ToolTip.Tip="Settings" Classes="transparent subtle"
+        <Button Grid.Row="1" Classes="transparent subtle"
                 Classes.active="{Binding SettingsPageIsActive}"
                 Command="{Binding GoToPageCommand}"
-                CommandParameter="{x:Static data:ApplicationPageName.Settings}">
+                CommandParameter="{x:Static data:ApplicationPageName.Settings}"
+                ToolTip.Tip="Settings">
           <!--  CommandParameter="SettingsPage"  -->
           <Label Classes="icon-only" Content="&#xe272;" />
         </Button>

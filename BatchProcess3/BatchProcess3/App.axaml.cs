@@ -220,7 +220,7 @@ public partial class App : Application
     {
         // Menu 相关
         services.AddSingletonViewModel<MainView, MainViewModel>();
-        services.AddTransientViewModel<HomePageView, HomePageViewModel>();
+        services.AddSingletonViewModel<HomePageView, HomePageViewModel>();
         services.AddTransientViewModel<ProcessPageView, ProcessPageViewModel>();
         services.AddTransientViewModel<ActionsPageView, ActionsPageViewModel>();
         services.AddTransientViewModel<MacrosPageView, MacrosPageViewModel>();

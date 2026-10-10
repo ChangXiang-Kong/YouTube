@@ -40,9 +40,10 @@
                      FontWeight="{Binding HasChanged, Converter={StaticResource BoolToBoldFontConverter}}"
                      ToolTip.Tip="{Binding JobName}" />
               <Button Grid.Column="1" Margin="0,0,-8,0" VerticalAlignment="Center"
-                      ava:ToolTip.Tip="Delete" Classes="smaller danger"
+                      Classes="smaller danger"
                       Command="{Binding $parent[ListBox].((vmMainMenus:ActionsPageViewModel)DataContext).CustomPropertiesList.DeleteItemCommand}"
-                      CommandParameter="{Binding Id}">
+                      CommandParameter="{Binding Id}"
+                      ToolTip.Tip="Delete">
                 <Button.IsVisible>
                   <MultiBinding Converter="{StaticResource BoolMultivaluedOrOperationConverter}">
                     <Binding Path="$parent[ListBoxItem].IsPointerOver" />

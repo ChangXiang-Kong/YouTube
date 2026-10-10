@@ -55,6 +55,8 @@ public partial class ProcessPageViewModel(
             {
                 var list = databaseService.GetProcessesList();
 
+                // TODO: Update job name and descriptions for each action as they will be out of date
+                
                 return new ObservableCollection<ProcessViewModel>(list
                     .OrderBy(x => x.JobName)
                     .Select(x => x.ToViewModel()));

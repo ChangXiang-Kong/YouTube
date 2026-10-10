@@ -16,6 +16,20 @@
     <vmMainMenus:HomePageViewModel />
   </Design.DataContext>
 
+  <!--
+    可使用
+      private void OnLoaded(object? sender, RoutedEventArgs e)
+      {
+          ((HomePageViewModel)DataContext).InitializeCommand.Execute(null);
+      }
+      或者
+      <Interaction.Behaviors>
+        <LoadedTrigger>
+          <InvokeCommandAction Command="{Binding InitializeCommand}"  />
+        </LoadedTrigger>
+      </Interaction.Behaviors>
+  -->
+
   <UserControl.Styles>
     <Styles>
       <!--  Remove padding from flyout  -->
@@ -61,30 +75,106 @@
             <TextBlock Margin="0,-10,0,0" Text="Select the actions and order in which to run them on the Solidworks Files." TextWrapping="Wrap" />
           </StackPanel>
 
-          <IconButton Grid.Row="0" Grid.Column="2" VerticalAlignment="Center" Classes="icon-outline" />
+          <IconButton Grid.Row="0" Grid.Column="2" VerticalAlignment="Center"
+                      Classes="icon-outline small" Content="Load" IconText="&#xe2f8;" />
 
           <!--  Actions List  -->
-          <ListBox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" ItemsSource="{Binding AvailableActionsList}">
-            <ListBox.ItemContainerTheme>
-              <ControlTheme x:DataType="vmProcess:ProcessAvailableActionItemViewModel" BasedOn="{StaticResource {x:Type ListBoxItem}}" TargetType="ListBoxItem">
-                <Setter Property="IsEnabled" Value="{Binding IsSelectable}" />
-                <Setter Property="Padding" Value="{Binding Padding}" />
-              </ControlTheme>
-            </ListBox.ItemContainerTheme>
+          <ListBox x:Name="ListBox_ActionsListContextMenu" Grid.Row="2" Grid.Column="0"
+                   Grid.ColumnSpan="3" Classes="draggableListBox_Vertical"
+                   ItemsSource="{Binding ProcessActionsList}"
+                   PointerReleased="ListBox_ActionsList_OnPointerReleased"
+                   SelectedValueBinding="{Binding Id}">
+            <!--  SelectedValue="{Binding ProcessList.SelectedItem.Id}"  不能绑定 Id，否则会出现一个Bug：选中 某一项后，点击 Delete Button 无法删除  -->
+
+            <!--  文档：https://wieslawsoltes.github.io/Xaml.Behaviors/articles/intro.html  -->
+            <Interaction.Behaviors>
+              <CollectionChangedTrigger Collection="{Binding ProcessActionsList}">
+                <!-- <ChangePropertyAction PropertyName="Content" TargetObject="Label_Test" Value="Label_Test.Moved" /> -->
+                <InvokeCommandAction Command="{Binding UpdateActionSortOrderCommand}" />
+              </CollectionChangedTrigger>
+            </Interaction.Behaviors>
+
+            <FlyoutBase.AttachedFlyout>
+              <Flyout Placement="Pointer">
+                <ListBox Padding="10" BorderThickness="0" ItemsSource="{Binding AvailableActionsList}">
+                  <ListBox.ItemContainerTheme>
+                    <ControlTheme x:DataType="vmProcess:ProcessAvailableActionItemViewModel" BasedOn="{StaticResource {x:Type ListBoxItem}}" TargetType="ListBoxItem">
+                      <Setter Property="IsEnabled" Value="{Binding IsSelectable}" />
+                      <Setter Property="Padding" Value="0" />
+                      <!-- <Setter Property="Padding" Value="{Binding Padding}" /> -->
+                    </ControlTheme>
+                  </ListBox.ItemContainerTheme>
+                  <ListBox.ItemTemplate>
+                    <DataTemplate>
+                      <!-- <Border Padding="5" Background="Transparent"> -->
+                      <Border Padding="5" Background="Transparent" PointerReleased="Border_ActionContextMenu_OnPointerReleased">
+                        <!--
+                          使用 PointerReleased 而不是 TappedEventTrigger的原因：
+                          · 对比 ProcessPageView.axaml.cs 中的 Border_ActionContextMenu_OnPointerReleased() 与 HideListBox_ActionsListContextMenu()，显然前者更优
+                          ` 这里的 TappedEventTrigger 方式只是提供一个额外的思路
+                          
+                          使用 PointerReleased 与 TappedEventTrigger 的区别：
+                          · 使用 PointerReleased 时，当左键点击 ContextMenu 中的某一项时，按住左键并移动到其他地方，之后松开左键，也会添加该项
+                          · 使用 TappedEventTrigger 时则不会添加
+                        -->
+
+                        <!--  文档：https://wieslawsoltes.github.io/Xaml.Behaviors/articles/intro.html  -->
+                        <!-- <Interaction.Behaviors> -->
+                        <!--   <TappedEventTrigger> -->
+                        <!--     <InvokeCommandAction Command="{Binding $parent[ListBox].((vmMainMenus:ProcessPageViewModel)DataContext).AddActionCommand}" CommandParameter="{Binding}" /> -->
+                        <!--   </TappedEventTrigger> -->
+                        <!-- </Interaction.Behaviors> -->
+
+                        <Grid ColumnDefinitions="Auto, 10, *, Auto">
+                          <TextBlock Grid.Column="0" Margin="3,0,0,0" VerticalAlignment="Center"
+                                     FontWeight="Black"
+                                     Foreground="{StaticResource ActiveHoverGradient}"
+                                     IsVisible="{Binding ProcessActionViewModel, Converter={x:Static ObjectConverters.IsNull}}"
+                                     Text="{Binding Category}" />
+                          <TextBlock Grid.Column="2" Padding="5,5,30,5" VerticalAlignment="Center"
+                                     Background="Transparent"
+                                     IsVisible="{Binding ProcessActionViewModel, Converter={x:Static ObjectConverters.IsNotNull}}"
+                                     Text="{Binding ProcessActionViewModel.JobName}"
+                                     ToolTip.Tip="{Binding ProcessActionViewModel.JobName}" />
+                        </Grid>
+                      </Border>
+                    </DataTemplate>
+                  </ListBox.ItemTemplate>
+                </ListBox>
+              </Flyout>
+            </FlyoutBase.AttachedFlyout>
 
             <ListBox.ItemTemplate>
-              <DataTemplate>
+              <DataTemplate x:DataType="vmProcess:ProcessActionViewModel">
                 <Grid ColumnDefinitions="Auto, 10, *, Auto">
-                  <TextBlock Grid.Column="0" Margin="3,0,0,0" VerticalAlignment="Center"
-                             FontWeight="Black"
-                             Foreground="{StaticResource ActiveHoverGradient}"
-                             IsVisible="{Binding ProcessActionViewModel, Converter={x:Static ObjectConverters.IsNull}}"
-                             Text="{Binding Category}" />
-                  <TextBlock Grid.Column="2" Padding="5" VerticalAlignment="Center"
-                             Background="Transparent"
-                             IsVisible="{Binding ProcessActionViewModel, Converter={x:Static ObjectConverters.IsNotNull}}"
-                             Text="{Binding ProcessActionViewModel.JobName}"
-                             ToolTip.Tip="{Binding ProcessActionViewModel.JobName}" />
+                  <!--
+                    StringFormat 说明：
+                    - `00`：强制 2 位，不足前面补 0；末尾加字面量 `.`
+                    - `{}` 放在最前面，**转义花括号**，Avalonia 必须加，否则解析报错
+                  -->
+                  <TextBlock VerticalAlignment="Center" FontSize="20" Text="{Binding SortOrder, StringFormat={}{0:00}.}" />
+
+                  <StackPanel Grid.Column="2" Background="Transparent" ToolTip.Tip="{Binding Description}">
+                    <TextBlock Text="{Binding JobName}" />
+                    <!-- <TextBlock Background="Transparent" Text="{Binding TestString}" ToolTip.Tip="{Binding Description}" /> -->
+                    <TextBlock Foreground="{DynamicResource PrimaryForegroundSubtle}" Text="{Binding Description}" />
+                  </StackPanel>
+
+                  <!--  Delete  -->
+                  <Panel Grid.Column="3">
+                    <Button Margin="0,0,-8,0" VerticalAlignment="Center" Classes="smaller danger"
+                            Command="{Binding $parent[ListBox].((vmMainMenus:HomePageViewModel)DataContext).DeleteActionCommand}"
+                            CommandParameter="{Binding}"
+                            ToolTip.Tip="Delete">
+                      <Button.IsVisible>
+                        <MultiBinding Converter="{StaticResource BoolMultivaluedOrOperationConverter}">
+                          <Binding Path="$parent[ListBoxItem].IsPointerOver" />
+                          <Binding Path="$parent[ListBoxItem].IsSelected" />
+                        </MultiBinding>
+                      </Button.IsVisible>
+                      <Label Classes="icon-only icon-outline" Content="&#xe4a6;" />
+                    </Button>
+                  </Panel>
                 </Grid>
               </DataTemplate>
             </ListBox.ItemTemplate>

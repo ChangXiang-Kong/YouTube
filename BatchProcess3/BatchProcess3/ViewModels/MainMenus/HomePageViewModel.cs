@@ -92,10 +92,10 @@ public partial class HomePageViewModel : PageViewModel
     
     #region Members
     
-    private MainViewModel _mainViewModel;
-    private DialogService _dialogService;
-    private DatabaseService _databaseService;
-    private ActionService _actionService;
+    private readonly MainViewModel _mainViewModel;
+    private readonly DialogService _dialogService;
+    private readonly DatabaseService _databaseService;
+    private readonly ActionService _actionService;
     
     public string? Test { get; set; } = "Test Home";
 
@@ -117,8 +117,51 @@ public partial class HomePageViewModel : PageViewModel
     {
         AvailableActionsList = _actionService.GetAvailableActionsList();
     }
-    
 
+    [RelayCommand]
+    private void DeleteAction(ProcessActionViewModel item)
+    {
+        ProcessActionsList.Remove(item);
+    }
+
+    public void InsertAction(ProcessAvailableActionItemViewModel item, int index)
+    {
+        if (item.ProcessActionViewModel == null)
+            return;
+
+        // 视频链接：https://www.youtube.com/watch?v=QxZ7v6OwMrE&list=PLrW43fNmjaQWwIdZxjZrx5FSXcNzaucOO&index=54  18:20
+        var copy = new ProcessAvailableActionItemViewModel();
+        copy.RestoreState(item.GetState());
+        
+        // Give the copy a new unique ID
+        // 不使用 ViewModelBase 原来的 Id 值，而是获取一个新的 Id，
+        // 用于解决在 Process 页面时，添加两个相同的 Available Actions 项 到 Actions List 后，点击 Save 按钮后报错的问题
+        // 报错内容：System.InvalidOperationException: The instance of entity type 'ProcessActionEntity' cannot be tracked because another instance with the key value '{Id: 01a11b09-dfa1-7d87-85e1-55419f63eb31}' is already being tracked. When attaching existing entities, ensure that only one entity instance with a given key value is attached.
+        copy.ProcessActionViewModel!.Id = Guid.CreateVersion7().ToString();
+        
+        if (index <= -1  || ProcessActionsList.Count == 0 || index > ProcessActionsList.Count)
+            ProcessActionsList.Add(copy.ProcessActionViewModel!);
+        else
+            ProcessActionsList.Insert(index, copy.ProcessActionViewModel!);
+        
+        // Update sort order
+        UpdateActionSortOrder();
+    }
+
+    // 视频链接：https://www.youtube.com/watch?v=zmsrQumi_Zo&list=PLrW43fNmjaQWwIdZxjZrx5FSXcNzaucOO&index=56    20:00
+    [RelayCommand]
+    private void UpdateActionSortOrder()
+    {
+        foreach (var (action, index) in ProcessActionsList.Select((x, idx) => (x, idx)))
+        {
+            // Sort order should match position in list
+            action.SortOrder = index;
+            
+            // Update the Id（多余的，不需要，这里的 Id 不重要，因为有 SortOrder）
+            // action.Id = $"{ProcessList.SelectedItemId}:{action.SortOrder}:{action.ActionId}";
+        }
+    }
+    
 
 
 

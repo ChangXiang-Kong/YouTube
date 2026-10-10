@@ -52,7 +52,7 @@
     视频：https://www.youtube.com/watch?v=3q-ajrNg-O8&list=PLrW43fNmjaQWwIdZxjZrx5FSXcNzaucOO&index=58
     文档：https://wieslawsoltes.github.io/Xaml.Behaviors/articles/intro.html
   -->
-  <Style Selector=":is(ListBox).draggableListBox_Vertical &gt; :is(ListBoxItem)">
+  <Style Selector=":is(ListBox).draggableListBox_Vertical > :is(ListBoxItem)">
     <Setter Property="ZIndex" Value="0" />
     <Setter Property="(Interaction.Behaviors)">
       <BehaviorCollectionTemplate>
@@ -62,7 +62,7 @@
       </BehaviorCollectionTemplate>
     </Setter>
   </Style>
-  <Style Selector=":is(ListBox).draggableListBox_Horizontal &gt; :is(ListBoxItem)">
+  <Style Selector=":is(ListBox).draggableListBox_Horizontal > :is(ListBoxItem)">
     <Setter Property="ZIndex" Value="0" />
     <Setter Property="(Interaction.Behaviors)">
       <BehaviorCollectionTemplate>

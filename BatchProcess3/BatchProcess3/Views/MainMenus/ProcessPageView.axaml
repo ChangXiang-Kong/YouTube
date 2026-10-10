@@ -19,6 +19,20 @@
     <vmMainMenus:ProcessPageViewModel />
   </Design.DataContext>
 
+  <!--
+    可使用
+      private void OnLoaded(object? sender, RoutedEventArgs e)
+      {
+          ((ProcessPageViewModel)DataContext).InitializeCommand.Execute(null);
+      }
+      或者
+      <Interaction.Behaviors>
+        <InitializedTrigger>
+          <InvokeCommandAction Command="{Binding InitializeCommand}"  />
+        </InitializedTrigger>
+      </Interaction.Behaviors>
+  -->
+
   <UserControl.Styles>
     <Styles>
       <!--  Remove padding from flyout  -->
@@ -66,9 +80,10 @@
                          FontWeight="{Binding HasChanged, Converter={StaticResource BoolToBoldFontConverter}}"
                          ToolTip.Tip="{Binding JobName}" />
                   <Button Grid.Column="1" Margin="0,0,-8,0" VerticalAlignment="Center"
-                          ava:ToolTip.Tip="Delete" Classes="smaller danger"
+                          Classes="smaller danger"
                           Command="{Binding $parent[ListBox].((vmMainMenus:ProcessPageViewModel)DataContext).ProcessList.DeleteItemCommand}"
-                          CommandParameter="{Binding Id}">
+                          CommandParameter="{Binding Id}"
+                          ToolTip.Tip="Delete">
                     <Button.IsVisible>
                       <MultiBinding Converter="{StaticResource BoolMultivaluedOrOperationConverter}">
                         <Binding Path="$parent[ListBoxItem].IsPointerOver" />
@@ -205,17 +220,27 @@
               </FlyoutBase.AttachedFlyout>
 
               <ListBox.ItemTemplate>
-                <DataTemplate x:DataType="vmActions:ActionViewModel">
-                  <!-- <DataTemplate x:DataType="vmProcess:ProcessActionViewModel"> -->
-                  <Grid ColumnDefinitions="*, Auto">
-                    <TextBlock Background="Transparent" Text="{Binding JobName}" ToolTip.Tip="{Binding Description}" />
-                    <!-- <TextBlock Background="Transparent" Text="{Binding TestString}" ToolTip.Tip="{Binding Description}" /> -->
+                <DataTemplate x:DataType="vmProcess:ProcessActionViewModel">
+                  <Grid ColumnDefinitions="Auto, 10, *, Auto">
+                    <!--
+                      StringFormat 说明：
+                      - `00`：强制 2 位，不足前面补 0；末尾加字面量 `.`
+                      - `{}` 放在最前面，**转义花括号**，Avalonia 必须加，否则解析报错
+                    -->
+                    <TextBlock VerticalAlignment="Center" FontSize="20" Text="{Binding SortOrder, StringFormat={}{0:00}.}" />
+
+                    <StackPanel Grid.Column="2" Background="Transparent" ToolTip.Tip="{Binding Description}">
+                      <TextBlock Text="{Binding JobName}" />
+                      <!-- <TextBlock Background="Transparent" Text="{Binding TestString}" ToolTip.Tip="{Binding Description}" /> -->
+                      <TextBlock Foreground="{DynamicResource PrimaryForegroundSubtle}" Text="{Binding Description}" />
+                    </StackPanel>
+
                     <!--  Delete  -->
-                    <Panel Grid.Column="1">
-                      <Button Margin="0,0,-8,0" VerticalAlignment="Center" ava:ToolTip.Tip="Delete"
-                              Classes="smaller danger"
+                    <Panel Grid.Column="3">
+                      <Button Margin="0,0,-8,0" VerticalAlignment="Center" Classes="smaller danger"
                               Command="{Binding $parent[ListBox].((vmMainMenus:ProcessPageViewModel)DataContext).DeleteActionFromProcessCommand}"
-                              CommandParameter="{Binding}">
+                              CommandParameter="{Binding}"
+                              ToolTip.Tip="Delete">
                         <Button.IsVisible>
                           <MultiBinding Converter="{StaticResource BoolMultivaluedOrOperationConverter}">
                             <Binding Path="$parent[ListBoxItem].IsPointerOver" />
