@@ -4,7 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using BatchProcess3.Core;
 using BatchProcess3.Core.SolidWorksHost;
-using BatchProcess3.Host.SolidWorksHost;
+using BatchProcess3.Host.SolidWorks;
 using BatchProcess3.Host.ViewModels;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -37,7 +37,14 @@ sealed class Program
 
         WebApp = builder.Build();
         
-        WebApp.MapGet("/", ([FromServices] MainViewModel viewModel) => $"Hello! {viewModel.Greeting}");
+        // Existing endpoints
+        WebApp.MapGet("/", ([FromServices] BatchProcessHost host) 
+            => $"BatchProcess Host — {host.GetSolidWorksVersion()}");
+
+        WebApp.MapGet(BatchProcessHostUrls.Ping, () => new { Name = "BatchProcess Host", Version = "3.0.0" });
+        
+        WebApp.MapGet(BatchProcessHostUrls.SolidWorksActiveFileList, ([FromServices] BatchProcessHost host)
+            => host.GetActiveFileReferences());
         
         
         

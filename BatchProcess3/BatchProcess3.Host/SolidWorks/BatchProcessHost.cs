@@ -2,7 +2,7 @@
 using System.Linq;
 using BatchProcess3.Core.SolidWorksHost;
 
-namespace BatchProcess3.Host.SolidWorksHost;
+namespace BatchProcess3.Host.SolidWorks;
 
 public class BatchProcessHost
 {

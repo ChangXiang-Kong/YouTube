@@ -4,12 +4,14 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Controls;
+using BatchProcess3.Core.SolidWorksHost;
 using BatchProcess3.Data;
 using BatchProcess3.EntityFramework;
 using BatchProcess3.EntityFramework.Entities.Actions;
 using BatchProcess3.Tools.Actions;
 using BatchProcess3.Tools.Dialog;
 using BatchProcess3.Tools.Extensions;
+using BatchProcess3.Tools.SolidWorks;
 using BatchProcess3.ViewModels.Process;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -85,12 +87,14 @@ public partial class HomePageViewModel : PageViewModel
                 Singleton	    全局唯一实例	                            全局唯一实例
          */
         DatabaseFactory databaseFactory,
-        ActionService actionService) : base(ApplicationPageName.Home)
+        ActionService actionService,
+        BatchProcessClient batchProcessClient) : base(ApplicationPageName.Home)
     {
         _mainViewModel = mainViewModel;
         _dialogService = dialogService;
         _databaseFactory = databaseFactory;
         _actionService = actionService;
+        _batchProcessClient = batchProcessClient;
     }
     
     // Design time only
@@ -99,7 +103,8 @@ public partial class HomePageViewModel : PageViewModel
     public HomePageViewModel() : this(new MainViewModel(),
         new DialogService(new Func<TopLevel?>(() => null)),
         new DatabaseFactory(() => new DatabaseService(new AppDbContext())),
-        new ActionService(new DatabaseFactory(() => new DatabaseService(new AppDbContext()))))
+        new ActionService(new DatabaseFactory(() => new DatabaseService(new AppDbContext()))),
+        new BatchProcessClient())
     {
         if (!Avalonia.Controls.Design.IsDesignMode)
             throw new InvalidOperationException("Parameterless constructor is only for design time use");
@@ -115,6 +120,7 @@ public partial class HomePageViewModel : PageViewModel
     private readonly DialogService _dialogService;
     private readonly DatabaseFactory _databaseFactory;
     private readonly ActionService _actionService;
+    private readonly BatchProcessClient _batchProcessClient;
     
     public string? Test { get; set; } = "Test Home";
 
@@ -129,11 +135,13 @@ public partial class HomePageViewModel : PageViewModel
     
     [ObservableProperty] private ObservableCollection<ProcessViewModel> _processList = [];
     
+    [ObservableProperty] private ObservableCollection<SolidWorksFileDetails> _solidWorksFileList = [];
+    
     #endregion Members
 
     // 也可以使用 OnViewLoaded() 代替
     [RelayCommand]
-    private void Initialize()
+    private async Task Initialize()
     {
         /*
             注意：使用 ProcessActionsList ??= []; 而不是 ProcessActionsList = [];
@@ -148,7 +156,11 @@ public partial class HomePageViewModel : PageViewModel
         ProcessList = new ObservableCollection<ProcessViewModel>(dbContext.GetProcessesList()
             .OrderBy(x => x.JobName)
             .Select(x => x.ToViewModel()));
-
+        
+        // Get SolidWorks file list from remote host
+        // _batchProcessClient.Connect(dbContext.GetSettings().SolidWorksHost);
+        _batchProcessClient.Connect($"http://localhost:{BatchProcessHostUrls.DefaultPort}");
+        SolidWorksFileList = new ObservableCollection<SolidWorksFileDetails>(await _batchProcessClient.GetActiveFileReferencesAsync());
     }
 
     [RelayCommand]

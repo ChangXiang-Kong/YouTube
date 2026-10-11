@@ -85,4 +85,8 @@
         <SubType>Code</SubType>
       </Compile>
     </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\BatchProcess3.Core\BatchProcess3.Core.csproj" />
+    </ItemGroup>
 </Project>

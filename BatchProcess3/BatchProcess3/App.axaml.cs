@@ -21,6 +21,7 @@ using BatchProcess3.Tools.Actions;
 using BatchProcess3.Tools.Dialog;
 using BatchProcess3.Tools.Extensions;
 using BatchProcess3.Tools.Printer;
+using BatchProcess3.Tools.SolidWorks;
 using BatchProcess3.ViewModels.Actions;
 using BatchProcess3.ViewModels.MainMenus;
 using BatchProcess3.Views.Actions;
@@ -348,6 +349,8 @@ public partial class App : Application
         });
         
         services.AddTransient<ActionService>();
+        
+        services.AddSingleton<BatchProcessClient>();
 
     }
 
