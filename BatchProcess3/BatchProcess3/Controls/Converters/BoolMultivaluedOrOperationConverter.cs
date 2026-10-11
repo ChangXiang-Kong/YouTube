@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Linq;
 using Avalonia.Data.Converters;
 
-namespace BatchProcess3.Tools.Converters;
+namespace BatchProcess3.Controls.Converters;
 
 /// <summary>
 /// 多个 bool 值中的任意一个为 true，则返回 true。<br/>

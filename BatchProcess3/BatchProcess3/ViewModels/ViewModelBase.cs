@@ -7,7 +7,6 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
-using BatchProcess3.Tools.Converters;
 using BatchProcess3.ViewModels.Actions;
 
 namespace BatchProcess3.ViewModels;

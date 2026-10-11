@@ -287,8 +287,8 @@ public partial class App : Application
         services.AddTransientViewModel<HistoryPageView, HistoryPageViewModel>();
         services.AddTransientViewModel<SettingsPageView, SettingsPageViewModel>();
         // Dialog
-        services.AddTransientViewModel<ConfirmDialogView, ConfirmDialogViewModel>();
-        services.AddTransientViewModel<ActionsPrintSettingsView, ActionsPrintSettingsViewModel>();
+        services.AddTransientViewModel<ConfirmDialogView, ConfirmDialogViewModel>();                // Yes/No型 Dialog
+        services.AddTransientViewModel<ActionsPrintSettingsView, ActionsPrintSettingsViewModel>();  // 自定义型 Dialog
     }
 
     private void RegisterServices(IServiceCollection services)

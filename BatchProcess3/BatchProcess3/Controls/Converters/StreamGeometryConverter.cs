@@ -2,9 +2,8 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Avalonia.Media;
-using BatchProcess3.Tools.Extensions;
 
-namespace BatchProcess3.Tools.Converters;
+namespace BatchProcess3.Controls.Converters;
 
 /// <summary>
 /// JsonConverter 示例。

@@ -3,7 +3,7 @@ using System.Globalization;
 using System.IO;
 using Avalonia.Data.Converters;
 
-namespace BatchProcess3.Tools.Converters;
+namespace BatchProcess3.Controls.Converters;
 
 public class FileNameConverter : IValueConverter
 {

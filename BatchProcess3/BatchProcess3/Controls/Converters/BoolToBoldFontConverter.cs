@@ -3,7 +3,7 @@ using System.Globalization;
 using Avalonia.Data.Converters;
 using Avalonia.Media;
 
-namespace BatchProcess3.Tools.Converters;
+namespace BatchProcess3.Controls.Converters;
 
 public class BoolToBoldFontConverter : IValueConverter
 {
