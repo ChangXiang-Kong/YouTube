@@ -95,7 +95,7 @@
 
         <!--  Yes/No Buttons  -->
         <!-- <StackPanel HorizontalAlignment="Right" IsVisible="{Binding !IsBusy}" Orientation="Horizontal" Spacing="10"> -->
-        <UniformGrid ColumnSpacing="5" Columns="{Binding ButtonGroupColumn}" IsVisible="{Binding !IsBusy}">
+        <UniformGrid ColumnSpacing="5" Columns="{Binding ButtonGroupColumns}" IsVisible="{Binding !IsBusy}">
           <Button MinWidth="100" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"
                   Classes="success"
                   Command="{Binding ConfirmCommand}"

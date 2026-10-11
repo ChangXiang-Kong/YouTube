@@ -1,4 +1,4 @@
-﻿namespace BatchProcess3.Core;
+﻿namespace BatchProcess3.Core.SolidWorksHost;
 
 public static class BatchProcessHostUrls
 {

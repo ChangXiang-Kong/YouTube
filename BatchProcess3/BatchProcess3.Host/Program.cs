@@ -3,8 +3,13 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using BatchProcess3.Core;
+using BatchProcess3.Core.SolidWorksHost;
+using BatchProcess3.Host.SolidWorksHost;
+using BatchProcess3.Host.ViewModels;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 namespace BatchProcess3.Host;
@@ -24,14 +29,15 @@ sealed class Program
         var builder = WebApplication.CreateBuilder(args);
 
         // Inject services
+        builder.Services.AddSingleton<MainViewModel>();
+        builder.Services.AddSingleton<BatchProcessHost>();
         
         
-        
-        builder.WebHost.UseUrls($"http://0.0.0.0:{BatchProcessHostUrls.DefaultPort}");
+        builder.WebHost.UseUrls($"http://localhost:{BatchProcessHostUrls.DefaultPort}");
 
         WebApp = builder.Build();
         
-        WebApp.MapGet("/", () => "Hello World!");
+        WebApp.MapGet("/", ([FromServices] MainViewModel viewModel) => $"Hello! {viewModel.Greeting}");
         
         
         

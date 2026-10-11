@@ -3,6 +3,7 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using BatchProcess3.Host.ViewModels;
 using BatchProcess3.Host.Views;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace BatchProcess3.Host;
 
@@ -19,7 +20,7 @@ public partial class App : Application
         {
             desktop.MainWindow = new MainWindow
             {
-                DataContext = new MainViewModel(),
+                DataContext = Program.WebApp?.Services.GetRequiredService<MainViewModel>(),
             };
         }
 
