@@ -136,6 +136,10 @@ public partial class HomePageViewModel : PageViewModel
     [ObservableProperty] private ObservableCollection<ProcessViewModel> _processList = [];
     
     [ObservableProperty] private ObservableCollection<SolidWorksFileDetails> _solidWorksFileList = [];
+
+    [ObservableProperty] private bool _quickView = true;
+    
+    [ObservableProperty] private bool _saveBeforeClose = true;
     
     #endregion Members
 
@@ -216,7 +220,6 @@ public partial class HomePageViewModel : PageViewModel
         }
     }
 
-
     public async Task ReplaceProcessAvailableActionsList(ObservableCollection<ProcessActionViewModel> processActionsList)
     {
         if (ProcessActionsList.Any())
@@ -237,4 +240,11 @@ public partial class HomePageViewModel : PageViewModel
 
         ProcessActionsList = new ObservableCollection<ProcessActionViewModel>(processActionsList);
     }
+
+    [RelayCommand]
+    private void RunJob()
+    {
+        
+    }
+    
 }

@@ -39,6 +39,16 @@
           </IconButton>
 
           <IconButton HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Classes="subtle"
+                      Classes.active="{Binding HomePageIsActive}"
+                      Command="{Binding GoToPageCommand}"
+                      CommandParameter="{x:Static data:ApplicationPageName.Jobs}"
+                      FontSize="{DynamicResource FontSize_18}"
+                      IconText="&#xe2de;" ToolTip.Tip="Jobs">
+            <!--  CommandParameter="JobPage"  -->
+            <Label Content="Jobs" IsVisible="{Binding SideMenuExpanded}" />
+          </IconButton>
+
+          <IconButton HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Classes="subtle"
                       Classes.active="{Binding ProcessPageIsActive}"
                       Command="{Binding GoToPageCommand}"
                       CommandParameter="{x:Static data:ApplicationPageName.Process}"

@@ -67,6 +67,7 @@ namespace BatchProcess3.ViewModels
         public SvgImage SideMenuImage => new SvgImage { Source = SvgSource.Load($"avares://{nameof(BatchProcess3)}/Assets/Images/{(SideMenuExpanded ? "logo" : "icon")}.svg") };
         public int SomeWidth => SideMenuExpanded ? 220 : 65;
         public bool HomePageIsActive => CurrentPage.PageName == ApplicationPageName.Home;
+        public bool JobPageIsActive => CurrentPage.PageName == ApplicationPageName.Jobs;
         public bool ProcessPageIsActive => CurrentPage.PageName == ApplicationPageName.Process;
         public bool ActionsPageIsActive => CurrentPage.PageName == ApplicationPageName.Actions;
         public bool MacrosPageIsActive => CurrentPage.PageName == ApplicationPageName.Macros;
@@ -84,6 +85,7 @@ namespace BatchProcess3.ViewModels
 
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(HomePageIsActive))]        // 修改时通知目标属性进行更新
+        [NotifyPropertyChangedFor(nameof(JobPageIsActive))]        // 修改时通知目标属性进行更新
         [NotifyPropertyChangedFor(nameof(ProcessPageIsActive))]     // 修改时通知目标属性进行更新
         [NotifyPropertyChangedFor(nameof(ActionsPageIsActive))]     // 修改时通知目标属性进行更新
         [NotifyPropertyChangedFor(nameof(MacrosPageIsActive))]     // 修改时通知目标属性进行更新
@@ -140,6 +142,7 @@ namespace BatchProcess3.ViewModels
             {
                 // 可传入参数
                 ApplicationPageName.Home => _pageFactory.GetPageViewModel<HomePageViewModel>(vm => vm.Test = "Test Home (Parameters can be passed in here)"),
+                ApplicationPageName.Jobs => _pageFactory.GetPageViewModel<JobsPageViewModel>(),
                 ApplicationPageName.Process => _pageFactory.GetPageViewModel<ProcessPageViewModel>(),
                 ApplicationPageName.Actions => _pageFactory.GetPageViewModel<ActionsPageViewModel>(),
                 ApplicationPageName.Macros => _pageFactory.GetPageViewModel<MacrosPageViewModel>(),

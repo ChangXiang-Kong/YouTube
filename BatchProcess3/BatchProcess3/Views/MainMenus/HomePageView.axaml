@@ -54,15 +54,16 @@
 
     <!--  Main Content  -->
     <Border Grid.Row="1" Padding="25">
-      <Grid ColumnDefinitions="3*, 15, 2.8*" ShowGridLines="False">
+      <Grid ColumnDefinitions="3*, 2.8*" ColumnSpacing="15" RowDefinitions="*, Auto"
+            RowSpacing="10" ShowGridLines="False">
 
         <!--  SolidWorks List  -->
-        <Grid RowDefinitions="Auto, 10, Auto, 10, Auto, 10, *">
+        <Grid RowDefinitions="Auto, Auto, Auto, *" RowSpacing="10">
           <!--  Title and Description  -->
           <Label Classes="h2" Content="SolidWorks Files" />
-          <TextBlock Grid.Row="2" Margin="0,-10,0,0" Text="Select and edit the list below of all SolidWorks files you want to run the actions on." TextWrapping="Wrap" />
+          <TextBlock Grid.Row="1" Margin="0,-10,0,0" Text="Select and edit the list below of all SolidWorks files you want to run the actions on." TextWrapping="Wrap" />
 
-          <StackPanel Grid.Row="4" Orientation="Horizontal">
+          <StackPanel Grid.Row="2" Orientation="Horizontal">
             <StackPanel.Styles>
               <!--  All Buttons  -->
               <Style Selector="StackPanel &gt; Button">
@@ -107,7 +108,7 @@
           </StackPanel>
 
           <!--  SolidWorks Files List  -->
-          <ListBox Grid.Row="6" ItemsSource="{Binding SolidWorksFileList}">
+          <ListBox Grid.Row="3" ItemsSource="{Binding SolidWorksFileList}">
             <ListBox.ItemTemplate>
               <DataTemplate>
                 <TextBlock Background="Transparent" Text="{Binding FileName}" ToolTip.Tip="{Binding FilePath}" />
@@ -117,32 +118,37 @@
         </Grid>
 
         <!--  Actions List  -->
-        <Grid Grid.Column="2" ColumnDefinitions="*, 10, Auto" RowDefinitions="Auto, 10, *">
+        <Grid Grid.Column="1" RowDefinitions="Auto, Auto, *" RowSpacing="10">
           <StackPanel Spacing="10">
             <!--  Title and Description  -->
             <Label Classes="h2" Content="Actions List" />
             <TextBlock Margin="0,-10,0,0" Text="Select the actions and order in which to run them on the Solidworks Files." TextWrapping="Wrap" />
           </StackPanel>
 
-          <IconButton x:Name="Button_LoadProcess" Grid.Row="0" Grid.Column="2"
-                      VerticalAlignment="Center" Classes="icon-outline small" Content="Load"
-                      IconText="&#xe2f8;">
-            <Button.Flyout>
-              <Flyout Placement="LeftEdgeAlignedTop">
-                <ListBox ItemsSource="{Binding ProcessList}" PointerReleased="ProcessListItem_OnPointerReleased">
-                  <ListBox.ItemTemplate>
-                    <DataTemplate>
-                      <TextBlock Background="Transparent" Text="{Binding JobName}" ToolTip.Tip="{Binding Description}" />
-                    </DataTemplate>
-                  </ListBox.ItemTemplate>
-                </ListBox>
-              </Flyout>
-            </Button.Flyout>
-          </IconButton>
+          <DockPanel Grid.Row="1" HorizontalSpacing="10">
+            <CheckBox Content="Quick View Mode" IsChecked="{Binding QuickView}"/>
+            <CheckBox Content="Save Before Close" IsChecked="{Binding SaveBeforeClose}"/>
+
+            <!--  Load Button  -->
+            <IconButton x:Name="Button_LoadProcess" Width="100" HorizontalAlignment="Right"
+                        VerticalAlignment="Center" Classes="icon-outline small" Content="Load"
+                        IconText="&#xe2f8;">
+              <Button.Flyout>
+                <Flyout Placement="LeftEdgeAlignedTop">
+                  <ListBox ItemsSource="{Binding ProcessList}" PointerReleased="ProcessListItem_OnPointerReleased">
+                    <ListBox.ItemTemplate>
+                      <DataTemplate>
+                        <TextBlock Background="Transparent" Text="{Binding JobName}" ToolTip.Tip="{Binding Description}" />
+                      </DataTemplate>
+                    </ListBox.ItemTemplate>
+                  </ListBox>
+                </Flyout>
+              </Button.Flyout>
+            </IconButton>
+          </DockPanel>
 
           <!--  Actions List  -->
-          <ListBox x:Name="ListBox_ActionsListContextMenu" Grid.Row="2" Grid.Column="0"
-                   Grid.ColumnSpan="3" Classes="draggableListBox_Vertical"
+          <ListBox x:Name="ListBox_ActionsListContextMenu" Grid.Row="2" Classes="draggableListBox_Vertical"
                    ItemsSource="{Binding ProcessActionsList}"
                    PointerReleased="ListBox_ActionsList_OnPointerReleased"
                    SelectedValueBinding="{Binding Id}">
@@ -243,7 +249,11 @@
           </ListBox>
         </Grid>
 
-
+        <!--  Run Job Button  -->
+        <Button Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                Width="100" HorizontalAlignment="Right" Classes="success"
+                Command="{Binding RunJobCommand}"
+                Content="Run Job" />
 
       </Grid>
     </Border>

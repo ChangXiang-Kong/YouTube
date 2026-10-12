@@ -280,6 +280,7 @@ public partial class App : Application
         // Menu 相关
         services.AddSingletonViewModel<MainView, MainViewModel>();
         services.AddSingletonViewModel<HomePageView, HomePageViewModel>();
+        services.AddSingletonViewModel<JobsPageView, JobsPageViewModel>();
         services.AddTransientViewModel<ProcessPageView, ProcessPageViewModel>();
         services.AddTransientViewModel<ActionsPageView, ActionsPageViewModel>();
         services.AddTransientViewModel<MacrosPageView, MacrosPageViewModel>();
@@ -313,6 +314,7 @@ public partial class App : Application
         {
             // Menu 相关
             _ when type == typeof(HomePageViewModel) => x.GetRequiredService<HomePageViewModel>(),
+            _ when type == typeof(JobsPageViewModel) => x.GetRequiredService<JobsPageViewModel>(),
             _ when type == typeof(ProcessPageViewModel) => x.GetRequiredService<ProcessPageViewModel>(),
             _ when type == typeof(ActionsPageViewModel) => x.GetRequiredService<ActionsPageViewModel>(),
             _ when type == typeof(MacrosPageViewModel) => x.GetRequiredService<MacrosPageViewModel>(),

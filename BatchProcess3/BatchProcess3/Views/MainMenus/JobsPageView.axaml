@@ -1,0 +1,43 @@
+﻿<UserControl x:Class="BatchProcess3.Views.MainMenus.JobPageView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:BatchProcess3.ViewModels"
+             xmlns:vmMainMenus="clr-namespace:BatchProcess3.ViewModels.MainMenus"
+             xmlns:vmProcess="clr-namespace:BatchProcess3.ViewModels.Process"
+             d:DesignHeight="900"
+             d:DesignWidth="1100"
+             x:DataType="vmMainMenus:JobPageViewModel"
+             Background="{DynamicResource PrimaryBackground}"
+             Foreground="{DynamicResource PrimaryForeground}"
+             mc:Ignorable="d">
+
+  <Design.DataContext>
+    <vmMainMenus:JobPageViewModel />
+  </Design.DataContext>
+
+
+
+  <Grid ColumnDefinitions="*" RowDefinitions="Auto, *">
+    <!--  Header  -->
+    <Grid Name="HeaderGrid">
+      <StackPanel Height="100" ClipToBounds="True">
+        <Image Source="{SvgImage /Assets/Images/background-actions.svg}" Stretch="UniformToFill" />
+      </StackPanel>
+      <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+        <Label HorizontalAlignment="Center" Classes="h1" Content="No Connection" />
+        <Label HorizontalAlignment="Center" Classes="sub2" Content="Connect to an instance of SolidWorks to begin" />
+      </StackPanel>
+    </Grid>
+
+    <!--  Main Content  -->
+    <Border Grid.Row="1" Padding="25">
+      <Grid ColumnDefinitions="3*, 2.8*" ColumnSpacing="15" RowDefinitions="*, Auto"
+            RowSpacing="10" ShowGridLines="False">
+
+        <TextBlock />
+      </Grid>
+    </Border>
+  </Grid>
+</UserControl>
