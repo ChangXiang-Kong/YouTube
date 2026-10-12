@@ -160,7 +160,16 @@ public partial class HomePageViewModel : PageViewModel
         // Get SolidWorks file list from remote host
         // _batchProcessClient.Connect(dbContext.GetSettings().SolidWorksHost);
         _batchProcessClient.Connect($"http://localhost:{BatchProcessHostUrls.DefaultPort}");
-        SolidWorksFileList = new ObservableCollection<SolidWorksFileDetails>(await _batchProcessClient.GetActiveFileReferencesAsync());
+        await SetSolidWorksFileList();
+    }
+
+    private async Task SetSolidWorksFileList()
+    {
+        SolidWorksFileList = new ObservableCollection<SolidWorksFileDetails>(
+            (await _batchProcessClient.GetActiveFileReferencesAsync())
+                .OrderByDescending(x => x.IsActiveInSolidWorks)
+                .ThenBy(x => x.FileName)
+        );
     }
 
     [RelayCommand]

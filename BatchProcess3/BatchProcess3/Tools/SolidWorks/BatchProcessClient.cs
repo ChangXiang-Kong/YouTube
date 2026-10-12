@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -10,11 +11,11 @@ namespace BatchProcess3.Tools.SolidWorks;
 
 public class BatchProcessClient
 {
-    public bool GetDummyData { get; set; } = false;
+    public bool GetDummyData { get; set; } = true;
 
     private readonly string _dummyDataPath = Path.Combine(
         Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location)!,
-        "..", "..", "..", "..", "BatchProcess3", "SolidWorks", "SampleFiles");
+        "..", "..", "..", "..", "BatchProcess3", "Tools", "SolidWorks", "SampleFiles");
 
     private readonly JsonSerializerOptions _jsonOptions = new JsonSerializerOptions
     {
@@ -36,7 +37,19 @@ public class BatchProcessClient
         {
             if (GetDummyData)
             {
-                
+                var files = Directory.GetFiles(_dummyDataPath)
+                    .Select(Path.GetFullPath)
+                    .Where(f => !Path.GetFileName(f).StartsWith("~$"))
+                    .Where(f => f.EndsWith(".sldprt", StringComparison.InvariantCultureIgnoreCase)
+                                || f.EndsWith(".sldasm", StringComparison.InvariantCultureIgnoreCase)
+                                || f.EndsWith(".slddrw", StringComparison.InvariantCultureIgnoreCase))
+                    .Select(f => new SolidWorksFileDetails(f)).ToList();
+
+                // By default, make the first *.sldasm the active file
+                files.FirstOrDefault(f => f.FileName.EndsWith(".sldasm", StringComparison.InvariantCultureIgnoreCase))
+                    ?.IsActiveInSolidWorks = true;
+
+                return files;
             }
 
             var httpClient = new HttpClient();

@@ -110,7 +110,7 @@
           <ListBox Grid.Row="6" ItemsSource="{Binding SolidWorksFileList}">
             <ListBox.ItemTemplate>
               <DataTemplate>
-                <TextBlock Text="{Binding FileName}" />
+                <TextBlock Background="Transparent" Text="{Binding FileName}" ToolTip.Tip="{Binding FilePath}" />
               </DataTemplate>
             </ListBox.ItemTemplate>
           </ListBox>
