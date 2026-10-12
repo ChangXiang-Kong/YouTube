@@ -4,6 +4,9 @@ import sys
 from fontTools.ttLib import TTFont
 from fontTools.varLib.instancer import instantiateVariableFont
 
+# 参考视频：Python Helper Functions in Avalonia UI
+#   https://www.youtube.com/watch?v=pGToV96GIMc&list=PLrW43fNmjaQWwIdZxjZrx5FSXcNzaucOO&index=68
+
 def extract_font_instances(variable_font_path, new_font_name, output_dir):
     
     """ Extract all common weight fonts from inside the variable font """

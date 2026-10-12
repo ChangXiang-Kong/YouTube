@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Globalization;
+using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Data.Converters;
 using Avalonia.Media;
 
@@ -11,6 +13,7 @@ public class BoolToBoldFontConverter : IValueConverter
     {
         // return value is bool boolValue && boolValue ? FontWeight.Bold : FontWeight.Normal;
         return value is bool and true ? FontWeight.Bold : FontWeight.Normal;
+        // return value is bool and true ? Application.Current?.FindResource("NotoSansJP-Bold") : Application.Current?.FindResource("NotoSansJP-Regular");
     }
 
     public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)

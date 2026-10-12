@@ -39,6 +39,7 @@
                      Content="{Binding JobName}"
                      FontWeight="{Binding HasChanged, Converter={StaticResource BoolToBoldFontConverter}}"
                      ToolTip.Tip="{Binding JobName}" />
+              <!--  FontFamily="{Binding HasChanged, Converter={StaticResource BoolToBoldFontConverter}}"  -->
               <Button Grid.Column="1" Margin="0,0,-8,0" VerticalAlignment="Center"
                       Classes="smaller danger"
                       Command="{Binding $parent[ListBox].((vmMainMenus:ActionsPageViewModel)DataContext).PrintList.DeleteItemCommand}"
