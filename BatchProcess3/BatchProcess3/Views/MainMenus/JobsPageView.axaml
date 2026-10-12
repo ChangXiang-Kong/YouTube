@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="BatchProcess3.Views.MainMenus.JobPageView"
+﻿<UserControl x:Class="BatchProcess3.Views.MainMenus.JobsPageView"
              xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -8,13 +8,13 @@
              xmlns:vmProcess="clr-namespace:BatchProcess3.ViewModels.Process"
              d:DesignHeight="900"
              d:DesignWidth="1100"
-             x:DataType="vmMainMenus:JobPageViewModel"
+             x:DataType="vmMainMenus:JobsPageViewModel"
              Background="{DynamicResource PrimaryBackground}"
              Foreground="{DynamicResource PrimaryForeground}"
              mc:Ignorable="d">
 
   <Design.DataContext>
-    <vmMainMenus:JobPageViewModel />
+    <vmMainMenus:JobsPageViewModel />
   </Design.DataContext>
 
 

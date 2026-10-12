@@ -126,8 +126,8 @@
           </StackPanel>
 
           <DockPanel Grid.Row="1" HorizontalSpacing="10">
-            <CheckBox Content="Quick View Mode" IsChecked="{Binding QuickView}"/>
-            <CheckBox Content="Save Before Close" IsChecked="{Binding SaveBeforeClose}"/>
+            <CheckBox Content="Quick View Mode" IsChecked="{Binding QuickView}" />
+            <CheckBox Content="Save Before Close" IsChecked="{Binding SaveBeforeClose}" />
 
             <!--  Load Button  -->
             <IconButton x:Name="Button_LoadProcess" Width="100" HorizontalAlignment="Right"
