@@ -17,10 +17,10 @@
   </Design.DataContext>
 
   <Grid ColumnDefinitions="*,*" RowDefinitions="Auto, Auto,*">
-    <!--  Header  -->
+    <!--~1~  Header  @1@
     <Grid Name="HeaderGrid" Grid.ColumnSpan="2">
-      <!--<Image Height="100" Source="{SvgImage /Assets/Images/background-settings.svg}" Stretch="UniformToFill" />-->
-      <!--  TODO: 以上方式存在缩放的问题  -->
+      ~1~<Image Height="100" Source="{SvgImage /Assets/Images/background-settings.svg}" Stretch="UniformToFill" />@1@
+      ~1~  TODO: 以上方式存在缩放的问题  @1@
       <StackPanel Height="100" ClipToBounds="True">
         <Image Source="{SvgImage /Assets/Images/background-settings.svg}" Stretch="UniformToFill" />
       </StackPanel>
@@ -29,7 +29,19 @@
         <Label HorizontalAlignment="Center" Classes="sub1" Content="Version 3.0.0.2 Beta" />
         <Label HorizontalAlignment="Center" Classes="sub2" Content="Compiled Nov 28 2024  03:14" />
       </StackPanel>
-    </Grid>
+    </Grid>-->
+    <!--
+      方式一：
+        引入 xmlns:controls="clr-namespace:BatchProcess3.Controls" 后，
+        使用 <controls:HeaderBanner />
+
+      方式二：
+        在 App.axaml.cs 中引入 [assembly: XmlnsDefinition("https://github.com/avaloniaui", "BatchProcess3.Controls")] 后，
+        使用 <HeaderBanner />
+    -->
+    <HeaderBanner Grid.ColumnSpan="2"
+                  BackgroundImage="{SvgImage /Assets/Images/background-actions.svg}"
+                  Header="Settings" SubHeaderA="Version 3.0.0.2 Beta" SubHeaderB="Compiled Nov 28 2024  03:14" />
 
     <!--  Left Side Content  -->
     <StackPanel Grid.Row="1" Grid.Column="0" Margin="25" Spacing="15">

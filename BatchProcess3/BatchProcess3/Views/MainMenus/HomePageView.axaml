@@ -1,6 +1,7 @@
 ﻿<UserControl x:Class="BatchProcess3.Views.MainMenus.HomePageView"
              xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:BatchProcess3.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:BatchProcess3.ViewModels"
@@ -41,16 +42,16 @@
   </UserControl.Styles>
 
   <Grid ColumnDefinitions="*" RowDefinitions="Auto, *">
-    <!--  Header  -->
-    <Grid Name="HeaderGrid">
-      <StackPanel Height="100" ClipToBounds="True">
-        <Image Source="{SvgImage /Assets/Images/background-actions.svg}" Stretch="UniformToFill" />
-      </StackPanel>
-      <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-        <Label HorizontalAlignment="Center" Classes="h1" Content="No Connection" />
-        <Label HorizontalAlignment="Center" Classes="sub2" Content="Connect to an instance of SolidWorks to begin" />
-      </StackPanel>
-    </Grid>
+    <!--
+      方式一：
+        引入 xmlns:controls="clr-namespace:BatchProcess3.Controls" 后，
+        使用 <controls:HeaderBanner />
+
+      方式二：
+        在 App.axaml.cs 中引入 [assembly: XmlnsDefinition("https://github.com/avaloniaui", "BatchProcess3.Controls")] 后，
+        使用 <HeaderBanner />
+    -->
+    <HeaderBanner BackgroundImage="{SvgImage /Assets/Images/background-actions.svg}" Header="No Connection" SubHeaderB="Connect to an instance of SolidWorks to begin" />
 
     <!--  Main Content  -->
     <Border Grid.Row="1" Padding="25">

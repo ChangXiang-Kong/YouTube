@@ -1,0 +1,34 @@
+﻿<UserControl x:Class="BatchProcess3.Controls.HeaderBanner"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:BatchProcess3.Controls"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             d:DesignHeight="100"
+             d:DesignWidth="800"
+             x:DataType="controls:HeaderBanner"
+             mc:Ignorable="d">
+
+  <!--
+    这种方式不好用，不能设置 Foreground，
+    改成在 HeaderBanner.axaml.cs 的 构造函数中设置
+    <Design.DesignStyle>
+      <Style Selector="Grid">
+        <Setter Property="Background" Value="{DynamicResource PrimaryBackground}" />
+      </Style>
+    </Design.DesignStyle>
+  -->
+
+  <!--  Header  -->
+  <Grid Name="HeaderGrid">
+    <StackPanel Height="100" ClipToBounds="True">
+      <Image Source="{Binding BackgroundImage}" Stretch="UniformToFill" />
+    </StackPanel>
+    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+      <Label HorizontalAlignment="Center" Classes="h1" Content="{Binding Header}" />
+      <Label HorizontalAlignment="Center" Classes="sub1" Content="{Binding SubHeaderA}" />
+      <Label HorizontalAlignment="Center" Classes="sub2" Content="{Binding SubHeaderB}" />
+    </StackPanel>
+  </Grid>
+
+</UserControl>

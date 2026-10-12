@@ -16,16 +16,16 @@
   </Design.DataContext>
 
   <Grid ColumnDefinitions="*" RowDefinitions="Auto, *">
-    <!--  Header  -->
-    <Grid Name="HeaderGrid">
-      <StackPanel Height="100" ClipToBounds="True">
-        <Image Source="{SvgImage /Assets/Images/background-actions.svg}" Stretch="UniformToFill" />
-      </StackPanel>
-      <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-        <Label HorizontalAlignment="Center" Classes="h1" Content="History" />
-        <Label HorizontalAlignment="Center" Classes="sub2" Content="Create and manage all actions that can be used in a process" />
-      </StackPanel>
-    </Grid>
+    <!--
+      方式一：
+        引入 xmlns:controls="clr-namespace:BatchProcess3.Controls" 后，
+        使用 <controls:HeaderBanner />
+
+      方式二：
+        在 App.axaml.cs 中引入 [assembly: XmlnsDefinition("https://github.com/avaloniaui", "BatchProcess3.Controls")] 后，
+        使用 <HeaderBanner />
+    -->
+    <HeaderBanner BackgroundImage="{SvgImage /Assets/Images/background-actions.svg}" Header="History" SubHeaderB="Previously run jobs and details" />
 
     <!--  Main Content  -->
     <Border Grid.Row="1" Padding="25">

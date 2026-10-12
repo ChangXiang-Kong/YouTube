@@ -39,7 +39,7 @@
           </IconButton>
 
           <IconButton HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Classes="subtle"
-                      Classes.active="{Binding HomePageIsActive}"
+                      Classes.active="{Binding JobPageIsActive}"
                       Command="{Binding GoToPageCommand}"
                       CommandParameter="{x:Static data:ApplicationPageName.Jobs}"
                       FontSize="{DynamicResource FontSize_18}"
